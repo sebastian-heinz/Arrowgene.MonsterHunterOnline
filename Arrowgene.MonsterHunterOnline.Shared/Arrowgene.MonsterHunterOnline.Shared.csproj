@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>Arrowgene.MonsterHunterOnline.Shared</RootNamespace>
+        <Title>Monster Hunter Online - Shared</Title>
+        <Product>Arrowgene.MonsterHunterOnline</Product>
+        <Version>$(Version)</Version>
+    </PropertyGroup>
+
+</Project>

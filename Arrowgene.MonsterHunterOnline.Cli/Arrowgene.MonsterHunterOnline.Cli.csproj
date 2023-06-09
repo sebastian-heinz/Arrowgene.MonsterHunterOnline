@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Arrowgene.MonsterHunterOnline.Cli</RootNamespace>
+        <Title>Monster Hunter Online - Cli</Title>
+        <Product>Arrowgene.MonsterHunterOnline</Product>
+        <Version>$(Version)</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Arrowgene.Logging" Version="1.2.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Arrowgene.MonsterHunterOnline.MetaLib\Arrowgene.MonsterHunterOnline.MetaLib.csproj" />
+        <ProjectReference Include="..\Arrowgene.MonsterHunterOnline.Service\Arrowgene.MonsterHunterOnline.Service.csproj" />
+    </ItemGroup>
+
+</Project>
