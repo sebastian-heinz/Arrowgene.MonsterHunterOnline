@@ -5,6 +5,9 @@ Server emulator for the game DMonster Hunter Online.
 # Disclaimer
 The project is intended for educational purpose only.
 
+# Server
+use this parameters: `service start` to start the server
+
 # Client
 All information is based on Version: `2.0.11.942`  
 Launch the client with the following args:  
