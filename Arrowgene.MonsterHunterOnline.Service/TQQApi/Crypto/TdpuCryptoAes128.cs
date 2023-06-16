@@ -16,9 +16,6 @@ public class TdpuCryptoAes128 : TdpuCrypto
 
 
     private readonly Aes _aes;
-
-   // private ICryptoTransform encryptor;
-  //  private ICryptoTransform decryptor;
     private TConnSecEnc _tConnSecEnc;
     private byte[] _key;
     private byte[] _iv;
@@ -38,9 +35,6 @@ public class TdpuCryptoAes128 : TdpuCrypto
         _aes = Aes.Create();
         _aes.Mode = CipherMode.CBC;
         _aes.Padding = PaddingMode.None;
-
-      //  encryptor = _aes.CreateEncryptor(_key, _iv);
-      //  decryptor = _aes.CreateDecryptor(_key, _iv);
     }
 
     public override TConnSecEnc TConnSecEnc => TConnSecEnc.TCONN_SEC_AES;

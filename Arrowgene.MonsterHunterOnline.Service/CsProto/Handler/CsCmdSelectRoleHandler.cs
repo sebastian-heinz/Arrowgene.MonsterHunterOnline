@@ -235,5 +235,42 @@ public class CsCmdSelectRoleHandler : ICsProtoHandler
         resp7.Body = res7.GetAllBytes();
         resp7.Cmd = CsProtoCmd.CS_CMD_ROLEDATA_ERR_RSP;
         //client.SendCsProto(resp7);
+        
+        
+        
+        
+        
+        
+        
+        
+     //   <struct name="CSRoomInitInfo" version="1" desc="玩家进入BS时，重新发送房间必要的信息">
+     //       <entry name="RoomSlotNum" type="int"/>
+     //       <entry name="RoomSlots" type="uint" count="CS_MAX_BSM_CANDIDATE_COUNT" refer="RoomSlotNum"/>
+     //       </struct>
+            
+     IBuffer res8 = new StreamBuffer();
+     res7.WriteInt32(0, Endianness.Big);
+     res7.WriteUInt32(1, Endianness.Big);
+
+     CsProtoPacket resp8 = new CsProtoPacket();
+     resp8.Body = res8.GetAllBytes();
+     resp8.Cmd = CsProtoCmd.CS_CMD_ROOM_INIT_INFO;
+     // client.SendCsProto(resp7);
+     
+     
+     	
+   //<struct name="CSBackToTown" version="1" desc="进入副本失败返回town">
+   //        <entry name="Uin" type="uint" desc="QQ号"/>
+   //        <entry name="RoleID" type="int" desc="角色ID"/>
+   //        </struct>
+     IBuffer res9 = new StreamBuffer();
+     res9.WriteUInt32(1, Endianness.Big);
+     res9.WriteInt32(1, Endianness.Big);
+
+     CsProtoPacket resp9 = new CsProtoPacket();
+     resp9.Body = res9.GetAllBytes();
+     resp9.Cmd = CsProtoCmd.CS_CMD_PLAYER_BACK_TO_TOWN;
+    // client.SendCsProto(resp9);
+
     }
 }
