@@ -121,6 +121,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             byte[] csProtoData;
             try
             {
+                packet.Source = PacketSource.Server;
                 csProtoData = _csProtoPacketFactory.Write(packet);
             }
             catch (Exception ex)

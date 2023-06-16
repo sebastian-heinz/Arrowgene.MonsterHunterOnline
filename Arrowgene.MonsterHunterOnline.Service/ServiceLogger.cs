@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
@@ -9,6 +10,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
     public class ServiceLogger : Logger
     {
         private Setting _setting;
+
+        private static List<CsProtoCmd> _ignore = new List<CsProtoCmd>()
+        {
+          //  CsProtoCmd.CS_CMD_SYSTEM_TRANS_ANTI_DATA
+        };
 
         public override void Initialize(string identity, string name, Action<Log> write)
         {
@@ -89,6 +95,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         public void LogPacket(Client client, CsProtoPacket packet)
         {
+            if (_ignore.Contains(packet.Cmd))
+            {
+                return;
+            }
+
             Write(LogLevel.Info,
                 $"PACKET:{client.Identity}{Environment.NewLine}{packet}",
                 packet

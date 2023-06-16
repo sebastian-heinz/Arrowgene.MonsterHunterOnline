@@ -15,9 +15,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             NoUse = 0;
             Header = Array.Empty<byte>();
             Body = Array.Empty<byte>();
+            Source = PacketSource.Unknown;
         }
 
         public CsProtoCmd Cmd { get; set; }
+        public PacketSource Source { get; set; }
         public ushort HeadLen { get; set; }
         public uint BodyLen { get; set; }
         public uint SeqId { get; set; }
@@ -28,7 +30,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public string PrintHeader()
         {
             return
-                $"Cmd:{Cmd} HeadLen:{HeadLen} BodyLen:{BodyLen} SeqId:{SeqId} NoUse:{NoUse}";
+                $"Source:{Source} Cmd:{Cmd} HeadLen:{HeadLen} BodyLen:{BodyLen} SeqId:{SeqId} NoUse:{NoUse}";
         }
 
         public string PrintData()

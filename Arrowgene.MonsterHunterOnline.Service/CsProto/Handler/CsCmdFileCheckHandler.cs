@@ -1,4 +1,6 @@
 ﻿using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -33,5 +35,20 @@ public class CsCmdFileCheckHandler : ICsProtoHandler
         resp.Body = res.GetAllBytes();
         resp.Cmd = CsProtoCmd.SC_CMD_FILE_CHECK_RLT;
         client.SendCsProto(resp);
+        
+        // File check passed lets send char info
+
+        CsRoleBaseInfo roleBaseInfo = new CsRoleBaseInfo();
+        roleBaseInfo.Name = "ShiBa";
+        roleBaseInfo.RoleID = 1;
+        roleBaseInfo.RoleIndex = 2;
+        
+        CsListRoleRsp roleRsp = new CsListRoleRsp();
+        roleRsp.ErrNo = 0;
+        roleRsp.LastLoinRoleIndex = 0;
+        roleRsp.BanTime = 0;
+        // if role list is empty, client will auto move to char creation
+        roleRsp.Roles.Add(roleBaseInfo);
+        client.SendCsProto(roleRsp.BuildPacket());
     }
 }

@@ -65,6 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
                 if (!_readHeader && _buffer.Size - _buffer.Position >= CsProtoPacket.HeaderLen)
                 {
                     _currentPacket = new CsProtoPacket();
+                    _currentPacket.Source = PacketSource.Client;
                     _currentPacket.Header = _buffer.GetBytes(_buffer.Position, CsProtoPacket.HeaderLen);
                     _currentPacket.Cmd = (CsProtoCmd)_buffer.ReadUInt16(Endianness.Big);
                     _currentPacket.HeadLen = _buffer.ReadUInt16(Endianness.Big);
