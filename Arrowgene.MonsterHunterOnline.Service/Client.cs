@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
 using Arrowgene.Networking.Tcp;
@@ -25,11 +26,14 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _tpduPacketFactory = new TpduPacketFactory(setting);
             _csProtoPacketFactory = new CsProtoPacketFactory(setting);
             _tdpuCrypto = null;
+            State = new PlayerState(this);
         }
 
         public string Identity { get; protected set; }
 
         public DateTime PingTime { get; set; }
+        
+        public PlayerState State { get; set; }
 
         public TConnSecEnc TConnSecEnc => _tdpuCrypto?.TConnSecEnc ?? TConnSecEnc.TCONN_SEC_NONE;
 
@@ -72,7 +76,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
             foreach (TpduPacket packet in packets)
             {
-            //    Logger.LogPacket(this, packet);
+                //    Logger.LogPacket(this, packet);
             }
 
             return packets;
@@ -92,7 +96,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             }
 
             SendRaw(data);
-           // Logger.LogPacket(this, packet);
+            // Logger.LogPacket(this, packet);
         }
 
         public List<CsProtoPacket> ReceiveCsProto(byte[] data)
@@ -114,6 +118,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
             }
 
             return packets;
+        }
+
+        public void SendCsPacket(CsPacket packet)
+        {
+            SendCsProto(packet.BuildPacket());
         }
 
         public void SendCsProto(CsProtoPacket packet)

@@ -12,7 +12,7 @@ public class CsCmdItemReBuildLimitDataHandler : ICsProtoHandler
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-        CsItemRebuildLimitInfo rsp = new CsItemRebuildLimitInfo();
+        ItemRebuildLimitDataNtf rsp = new ItemRebuildLimitDataNtf();
         client.SendCsProto(rsp.BuildPacket());
     }
 }

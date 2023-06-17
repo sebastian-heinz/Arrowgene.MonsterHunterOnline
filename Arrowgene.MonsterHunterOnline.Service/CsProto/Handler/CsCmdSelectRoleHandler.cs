@@ -32,12 +32,7 @@ public class CsCmdSelectRoleHandler : ICsProtoHandler
         resp.Body = res.GetAllBytes();
         resp.Cmd = CsProtoCmd.CS_CMD_SELECT_ROLE_RSP;
         client.SendCsProto(resp);
-        
-        
-        
-        TownSessionStart townSessionStart = new TownSessionStart();
-          client.SendCsProto(townSessionStart.BuildPacket());
-        
-          TEST_RESPONSES.player_init(client);
+
+        client.State.OnRoleSelected();
     }
 }

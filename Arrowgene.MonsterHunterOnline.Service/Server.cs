@@ -56,12 +56,14 @@ namespace Arrowgene.MonsterHunterOnline.Service
                 _setting.SocketSettings
             );
 
+            // OTHER SERVICES - START
+            // For now all other services are not handled, as there seems to be no need to.
+            
             // port 7533/UDP and 7534/TCP are most likely related to Scaleform AMP protocol for client perf analysis.
             //_ampClient = new AmpClient();
             //_ampClient.Start();
-
-
-            // client hits a few web routes but hard to now original content
+            
+            // client hits a few web routes but hard to know original content
             WebSetting webSetting = new WebSetting();
             WebService webService = new WebService(new KestrelWebServer(webSetting));
             webService.AddRoute(new WebRouter());
@@ -80,6 +82,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             iedSocket.ReceivedPacket += IedSocketOnReceivedPacket;
             IPEndPoint iedSocketSocketIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
             //iedSocket.StartListen(iedSocketSocketIpEndPoint);
+            
+            // OTHER SERVICES - END
         }
 
 

@@ -8,11 +8,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 /// </summary>
 public class CsRoleBaseInfo : IStructure
 {
-    /// <summary>
-    /// 捏脸数据最大数量
-    /// </summary>
-    private const int CS_MAX_FACIALINFO_COUNT = 46;
-
     public CsRoleBaseInfo()
     {
         RoleId = 0;
@@ -37,7 +32,7 @@ public class CsRoleBaseInfo : IStructure
         HideHelm = 0;
         HideFashion = 0;
         HideSuite = 0;
-        FacialInfo = new short[CS_MAX_FACIALINFO_COUNT];
+        FacialInfo = new short[CsConstant.CS_MAX_FACIALINFO_COUNT];
         StarLevel = "";
         HRLevel = 0;
         SoulStoneLv = 0;
@@ -207,7 +202,7 @@ public class CsRoleBaseInfo : IStructure
         buffer.WriteByte(HideFashion);
         buffer.WriteByte(HideSuite);
 
-        for (int i = 0; i < CS_MAX_FACIALINFO_COUNT; i++)
+        for (int i = 0; i < CsConstant.CS_MAX_FACIALINFO_COUNT; i++)
         {
             buffer.WriteInt16(FacialInfo[i], Endianness.Big);
         }

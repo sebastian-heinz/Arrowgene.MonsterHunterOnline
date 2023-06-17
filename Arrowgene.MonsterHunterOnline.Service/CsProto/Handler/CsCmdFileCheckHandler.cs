@@ -35,26 +35,7 @@ public class CsCmdFileCheckHandler : ICsProtoHandler
         resp.Body = res.GetAllBytes();
         resp.Cmd = CsProtoCmd.SC_CMD_FILE_CHECK_RLT;
         client.SendCsProto(resp);
-
-        // File check passed lets send char info
-
-
-        // 1
-        TownSessionStart townSessionStart = new TownSessionStart();
-        //  client.SendCsProto(townSessionStart.BuildPacket());
-
-        // 2
-        CsRoleBaseInfo roleBaseInfo = new CsRoleBaseInfo();
-        roleBaseInfo.Name = "ShiBa";
-        roleBaseInfo.RoleId = 1;
-        roleBaseInfo.RoleIndex = 2;
-
-        ListRoleRsp roleRsp = new ListRoleRsp();
-        // if role list is empty, client will auto move to char creation
-        roleRsp.CsListRoleRsp.Roles.Add(roleBaseInfo);
-        client.SendCsProto(roleRsp.BuildPacket());
-
-        // 3
-        //TEST_RESPONSES.player_init(client);
+        
+        client.State.OnReady();
     }
 }
