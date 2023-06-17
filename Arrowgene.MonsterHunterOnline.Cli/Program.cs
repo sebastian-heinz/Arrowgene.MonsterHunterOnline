@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Cli.Command;
-using Arrowgene.MonsterHunterOnline.Shared;
+using Arrowgene.MonsterHunterOnline.Service;
 
 namespace Arrowgene.MonsterHunterOnline.Cli
 {
