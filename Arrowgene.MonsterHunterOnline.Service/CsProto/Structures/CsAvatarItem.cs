@@ -2,7 +2,7 @@
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class CsAvatarItem
+public class CsAvatarItem : IStructure
 {
     //Equip  refer="EquipCount"/
     // <struct name="CSAvatarItem" version="1" desc="角色装备显示物品">

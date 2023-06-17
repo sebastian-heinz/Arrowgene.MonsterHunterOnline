@@ -38,6 +38,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoConsumer.AddHandler(new CsCmdSystemPkgTimerRecordHandler());
             _csProtoConsumer.AddHandler(new CsCmdSelectRoleHandler());
             _csProtoConsumer.AddHandler(new CsCmdSystemTransAntiDataHandler());
+            _csProtoConsumer.AddHandler(new CsCmdDataLoadHandler());
+            _csProtoConsumer.AddHandler(new CsCmdItemReBuildLimitDataHandler());
 
             _tpduConsumer = new TpduConsumer(_setting);
             _tpduConsumer.ClientConnected += ClientConnected;

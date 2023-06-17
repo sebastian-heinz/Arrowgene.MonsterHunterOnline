@@ -6,6 +6,7 @@ public class CsCmdSystemTransAntiDataHandler : ICsProtoHandler
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-
+       //TEST_RESPONSES.send(client);
+       int i = 1;
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
+namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class CsListRoleRsp
+public class CsListRoleRsp : IStructure
 {
     public CsListRoleRsp()
     {
+        ErrNo = 0;
+        BanTime = 0;
+        LastLoinRoleIndex = 0;
         Roles = new List<CsRoleBaseInfo>();
     }
 
@@ -26,23 +28,19 @@ public class CsListRoleRsp
     /// </summary>
     public uint LastLoinRoleIndex { get; set; }
 
-    public List<CsRoleBaseInfo> Roles { get; set; }
+    public List<CsRoleBaseInfo> Roles { get; }
 
-    public CsProtoPacket BuildPacket()
+
+    public void Write(IBuffer buffer)
     {
-        IBuffer buffer = new StreamBuffer();
         buffer.WriteUInt32(ErrNo, Endianness.Big);
         buffer.WriteUInt32(BanTime, Endianness.Big);
         buffer.WriteUInt32(LastLoinRoleIndex, Endianness.Big);
-        buffer.WriteInt16((short)Roles.Count, Endianness.Big);
-        foreach (CsRoleBaseInfo role in Roles)
+        short rolesSize = (short)Roles.Count;
+        buffer.WriteInt16(rolesSize, Endianness.Big);
+        for (int i = 0; i < rolesSize; i++)
         {
-            role.Write(buffer);
+            Roles[i].Write(buffer);
         }
-
-        CsProtoPacket packet = new CsProtoPacket();
-        packet.Body = buffer.GetAllBytes();
-        packet.Cmd = CsProtoCmd.CS_CMD_LIST_ROLE_RSP;
-        return packet;
     }
 }

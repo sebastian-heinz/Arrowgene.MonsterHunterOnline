@@ -13,7 +13,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         private static List<CsProtoCmd> _ignore = new List<CsProtoCmd>()
         {
-          //  CsProtoCmd.CS_CMD_SYSTEM_TRANS_ANTI_DATA
+            CsProtoCmd.CS_CMD_SYSTEM_TRANS_ANTI_DATA,
+            CsProtoCmd.CS_CMD_SYSTEM_PKG_TIMER_RECORD
         };
 
         public override void Initialize(string identity, string name, Action<Log> write)
