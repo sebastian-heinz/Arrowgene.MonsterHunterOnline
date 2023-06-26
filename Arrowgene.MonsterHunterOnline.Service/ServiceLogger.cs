@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.Networking.Tcp;
 
@@ -11,10 +12,10 @@ namespace Arrowgene.MonsterHunterOnline.Service
     {
         private Setting _setting;
 
-        private static List<CsProtoCmd> _ignore = new List<CsProtoCmd>()
+        private static List<CS_CMD_ID> _ignore = new List<CS_CMD_ID>()
         {
-            CsProtoCmd.CS_CMD_SYSTEM_TRANS_ANTI_DATA,
-            CsProtoCmd.CS_CMD_SYSTEM_PKG_TIMER_RECORD
+            CS_CMD_ID.CS_CMD_SYSTEM_TRANS_ANTI_DATA,
+            CS_CMD_ID.CS_CMD_SYSTEM_PKG_TIMER_RECORD
         };
 
         public override void Initialize(string identity, string name, Action<Log> write)

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
 using Arrowgene.Networking.Tcp;
@@ -31,8 +30,10 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         public string Identity { get; protected set; }
 
+        public ITcpSocket Socket => _socket;
+
         public DateTime PingTime { get; set; }
-        
+
         public PlayerState State { get; set; }
 
         public TConnSecEnc TConnSecEnc => _tdpuCrypto?.TConnSecEnc ?? TConnSecEnc.TCONN_SEC_NONE;

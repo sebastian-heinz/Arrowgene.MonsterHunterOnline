@@ -1,12 +1,12 @@
 ﻿using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
 public class CsCmdFileCheckHandler : ICsProtoHandler
 {
-    public CsProtoCmd Cmd => CsProtoCmd.CS_CMD_FILE_CHECK;
+    public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_FILE_CHECK;
 
     public void Handle(Client client, CsProtoPacket packet)
     {
@@ -33,9 +33,9 @@ public class CsCmdFileCheckHandler : ICsProtoHandler
 
         CsProtoPacket resp = new CsProtoPacket();
         resp.Body = res.GetAllBytes();
-        resp.Cmd = CsProtoCmd.SC_CMD_FILE_CHECK_RLT;
+        resp.Cmd = CS_CMD_ID.SC_CMD_FILE_CHECK_RLT;
         client.SendCsProto(resp);
         
-        client.State.OnReady();
+        client.State.OnFileCheckCompleted();
     }
 }

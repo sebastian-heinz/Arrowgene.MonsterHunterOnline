@@ -1,11 +1,12 @@
 ﻿using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
 public class CsCmdSelectRoleHandler : ICsProtoHandler
 {
-    public CsProtoCmd Cmd => CsProtoCmd.CS_CMD_SELECT_ROLE_REQ;
+    public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_SELECT_ROLE_REQ;
 
     public void Handle(Client client, CsProtoPacket packet)
     {
@@ -30,7 +31,7 @@ public class CsCmdSelectRoleHandler : ICsProtoHandler
 
         CsProtoPacket resp = new CsProtoPacket();
         resp.Body = res.GetAllBytes();
-        resp.Cmd = CsProtoCmd.CS_CMD_SELECT_ROLE_RSP;
+        resp.Cmd = CS_CMD_ID.CS_CMD_SELECT_ROLE_RSP;
         client.SendCsProto(resp);
 
         client.State.OnRoleSelected();

@@ -40,7 +40,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
 
         protected override void HandleReceived(ITcpSocket socket, byte[] data)
         {
-            //Logger.Error(Environment.NewLine + Util.HexDump(data));
+            // Logger.Error(Environment.NewLine + Util.HexDump(data));
             if (!socket.IsAlive)
             {
                 return;

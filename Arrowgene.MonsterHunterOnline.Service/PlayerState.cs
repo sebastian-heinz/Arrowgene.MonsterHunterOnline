@@ -1,4 +1,10 @@
-﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading;
+using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service;
@@ -12,48 +18,93 @@ namespace Arrowgene.MonsterHunterOnline.Service;
 /// </summary>
 public class PlayerState
 {
+    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(PlayerState));
+
     private Client _client;
-    private CsRoleBaseInfo _roleBaseInfo;
-    private CsPlayerInitInfo _playerInitInfo;
-    private CsInstanceInitInfo _instanceInitInfo;
-    private CsPlayerLevelInitInfo _playerLevelInitInfo;
+    private CSRoleBaseInfo _roleBaseInfo;
+    private CSPlayerInitInfo _playerInitInfo;
+    private CSInstanceInitInfo _instanceInitInfo;
+    private CSPlayerLevelInitInfo _playerLevelInitInfo;
+    private CSSpawnPlayer _spawnPlayer;
+    private CSTownInstanceVerifyRsp _townInstanceVerifyRsp;
+    private CSEnterInstanceRsp _enterInstanceRsp;
+    private CSInstanceVerifyRsp _verifyRsp;
+    private CSReselectRoleRsp _reselectRoleRsp;
 
 
     public PlayerState(Client client)
     {
         _client = client;
-        _roleBaseInfo = new CsRoleBaseInfo();
-        _roleBaseInfo.RoleId = 1;
+        _roleBaseInfo = new CSRoleBaseInfo();
+        _roleBaseInfo.RoleID = 1;
         _roleBaseInfo.RoleIndex = 1;
         _roleBaseInfo.Name = "Star";
         _roleBaseInfo.Gender = 1;
         _roleBaseInfo.Level = 1;
+        _roleBaseInfo.FaceId = 1;
+        _roleBaseInfo.HairId = 1;
+        _roleBaseInfo.UnderclothesId = 1;
+        _roleBaseInfo.SkinColor = 1;
+        _roleBaseInfo.HairColor = 1;
+        _roleBaseInfo.InnerColor = 1;
+        _roleBaseInfo.EyeBall = 1;
+        _roleBaseInfo.EyeColor = 1;
 
-        _playerInitInfo = new CsPlayerInitInfo();
-        _playerInitInfo.AccountId = 1;
-        _playerInitInfo.NetId = 1;
-        _playerInitInfo.DbId = 1;
-        _playerInitInfo.SessionId = 1;
-        _playerInitInfo.WorldId = 1;
-        _playerInitInfo.ServerId = 1;
-        _playerInitInfo.WorldSvrId = 1;
+        _playerInitInfo = new CSPlayerInitInfo();
+        _playerInitInfo.AccountID = 1;
+        _playerInitInfo.NetID = 1;
+        _playerInitInfo.DBId = 1;
+        _playerInitInfo.SessionID = 1;
+        _playerInitInfo.WorldID = 1;
+        _playerInitInfo.ServerID = 1;
+        _playerInitInfo.WorldSvrID = 1;
         _playerInitInfo.Name = _roleBaseInfo.Name;
         _playerInitInfo.Gender = _roleBaseInfo.Gender;
-        _playerInitInfo.IsGM = 1;
+        _playerInitInfo.IsGM = 0;
+        _playerInitInfo.ParentEntityGUID = 1;
+        _playerInitInfo.RandSeed = 1;
+        _playerInitInfo.CatCuisineID = 1;
+        _playerInitInfo.FirstEnterLevel = 1;
+        _playerInitInfo.FirstEnterMap = 1;
+        _playerInitInfo.PvpPrepareStageState = 1;
 
-        _instanceInitInfo = new CsInstanceInitInfo();
-        _instanceInitInfo.BattleGroundId = 1;
-        _instanceInitInfo.LevelId = 1;
+        _instanceInitInfo = new CSInstanceInitInfo();
+        _instanceInitInfo.BattleGroundID = 1;
+        _instanceInitInfo.LevelID = 1;
         _instanceInitInfo.CreateMaxPlayerCount = 1;
         _instanceInitInfo.GameMode = 1;
         _instanceInitInfo.TimeType = 1;
         _instanceInitInfo.WeatherType = 1;
-        _instanceInitInfo.Time = 0;
+        _instanceInitInfo.time = 0;
         _instanceInitInfo.LevelRandSeed = 1;
         _instanceInitInfo.WarningFlag = 0;
         _instanceInitInfo.CreatePlayerMaxLv = 99;
 
-        _playerLevelInitInfo = new CsPlayerLevelInitInfo();
+        _playerLevelInitInfo = new CSPlayerLevelInitInfo();
+
+        _spawnPlayer = new CSSpawnPlayer();
+        _spawnPlayer.PlayerId = 1;
+        _spawnPlayer.NetObjId = 1;
+        _spawnPlayer.Name = _roleBaseInfo.Name;
+        _spawnPlayer.Gender = _roleBaseInfo.Gender;
+        _spawnPlayer.Scale = 1.0f;
+        _spawnPlayer.NewConnect = 1;
+        _spawnPlayer.SendSrvId = 1;
+
+        _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
+        _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
+        _townInstanceVerifyRsp.LineID = 1;
+        _townInstanceVerifyRsp.LevelEnterType = 1;
+
+        _enterInstanceRsp = new CSEnterInstanceRsp();
+        _enterInstanceRsp.InstanceID = 1;
+        _enterInstanceRsp.Key = "test";
+        _enterInstanceRsp.BattleSvr = "127.0.0.1:8143";
+
+        _verifyRsp = new CSInstanceVerifyRsp();
+        _verifyRsp.ErrNo = 0;
+
+        _reselectRoleRsp = new CSReselectRoleRsp();
     }
 
 
@@ -63,9 +114,12 @@ public class PlayerState
     /// this will cause characters to show up.
     /// if the role list is empty, you will be put into character creation screen.
     /// </summary>
-    public void OnReady()
+    public void OnFileCheckCompleted()
     {
-        SendListRoleRsp();
+           SendTownSessionStart();
+          SendPlayerInitNtf();
+            SendListRoleRsp();
+     //   SendBruteForceT();
     }
 
     /// <summary>
@@ -74,20 +128,170 @@ public class PlayerState
     /// </summary>
     public void OnRoleSelected()
     {
-        SendTownSessionStart();
-        SendPlayerInitNtf();
+        //   SendPlayerInitNtf();
+        // SendEnterInstanceRsp();
+             SendReselectRoleRsp();
 
+  
+
+        // SendPlayerSpawn();
         //  SendPlayerLevelInitNtf();
-        //   SendInstanceInitNtf();
+        //  SendLoadLevelNtf();
     }
 
+    public void OnBattleSvr()
+    {
+        //  SendInstanceVerifyRsp();
+        // SendPlayerInitNtf();
+    }
+
+    public void SendBruteForceT()
+    {
+        Thread bruteForce = new Thread(SendBruteForce);
+        bruteForce.Start();
+    }
+
+    public void SendBruteForce()
+    {
+        Thread.Sleep(3000);
+        
+        List<string> exclude = new List<string>()
+        {
+            "CatTreatureErr",
+            "CatTreatureOpen",
+            "XHunterResultNtf",
+            "CommanderChgNtf",
+            "BattlePunishNtf",
+            "ExcellentPointNtf",
+            "SensitiveVerify",
+            "SensitiveVerifyResult",
+            "CatCuisineUnlockNtf",
+            "C2STalkExec",
+            "C2STalkEnd",
+            "S2CTalkErr",
+            "S2CTalkExec",
+            "EquipPlanUnlockNtf",
+            "EquipPlanEditNtf",
+        };
+        
+        Type type = typeof(NewCsPacket);
+        List<MethodInfo> collectedMethods = new List<MethodInfo>();
+        foreach (MethodInfo mi in type.GetMethods())
+        {
+            if (exclude.Contains(mi.Name))
+            {
+                continue;
+            }
+            if (mi.Name.EndsWith("Req"))
+            {
+                continue;
+            }
+            if (mi.Name.EndsWith("Rsp"))
+            {
+                //collectedMethods.Add(mi);
+                continue;
+            }
+            collectedMethods.Add(mi);
+        }
+
+
+        //LevelIntegrateNtf
+//2023-06-25 05:47:10 - Error - PlayerState: Sending S2CScriptActivityTimeUpdateNtf (28/206)
+
+        int start = 240;
+        int current = 1;
+        int total = collectedMethods.Count;
+        foreach (MethodInfo mi in collectedMethods)
+        {
+            if (current < start)
+            {
+                current++;
+                continue;
+            }
+
+            ParameterInfo[] parameters = mi.GetParameters();
+            if (parameters.Length != 1)
+            {
+                Logger.Error($"parameters.Length != 1 ({mi})");
+                continue;
+            }
+
+            object parameterInstance = CreateInstance(parameters[0].ParameterType);
+            object ret = mi.Invoke(null, new object[] { parameterInstance });
+            if (ret is CsPacket csPacket)
+            {
+                Logger.Error($"Sending {mi.Name} ({current}/{total})");
+                try
+                {
+                    _client.SendCsPacket(csPacket);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Exception(ex);
+                }
+
+                Thread.Sleep(1000);
+                current++;
+            }
+            else
+            {
+                Logger.Error($"ret is NOT CsPacket csPacket({mi})");
+            }
+        }
+    }
+
+    private object CreateInstance(Type type)
+    {
+        if (type.IsInterface)
+        {
+            Type concrete = null;
+            foreach (Type t in Assembly.GetExecutingAssembly().GetExportedTypes())
+            {
+                if (!t.IsInterface && !t.IsAbstract && type.IsAssignableFrom(t))
+                {
+                    concrete = t;
+                    break;
+                }
+            }
+
+            if (concrete == null)
+            {
+                Logger.Error($"Interface ({type}) can not be created, no implementation found");
+                return null;
+            }
+
+            Logger.Info($"Interface ({type}) can not be created, using implementation {concrete}");
+            type = concrete;
+        }
+
+        ConstructorInfo[] cis = type.GetConstructors();
+
+        if (cis.Length <= 0)
+        {
+            return Activator.CreateInstance(type);
+        }
+
+        ParameterInfo[] pis = cis[0].GetParameters();
+        if (pis.Length <= 0)
+        {
+            return Activator.CreateInstance(type);
+        }
+
+        object[] paramInstances = new object[pis.Length];
+        for (int i = 0; i < pis.Length; i++)
+        {
+            paramInstances[i] = CreateInstance(pis[i].ParameterType);
+        }
+
+        return Activator.CreateInstance(type, paramInstances);
+    }
 
     public void SendListRoleRsp()
     {
-        ListRoleRsp roleRsp = new ListRoleRsp();
+        CSListRoleRsp roleRsp = new CSListRoleRsp();
         // if role list is empty, client will auto move to char creation
-        roleRsp.CsListRoleRsp.Roles.Add(_roleBaseInfo);
-        _client.SendCsPacket(roleRsp);
+        roleRsp.RoleList.Role.Add(_roleBaseInfo);
+        _client.SendCsPacket(NewCsPacket.ListRoleRsp(roleRsp));
     }
 
     /// <summary>
@@ -95,35 +299,58 @@ public class PlayerState
     /// </summary>
     public void SendTimeOfDayNtf()
     {
-        TimeOfDayNtf timeOfDayNtf = new TimeOfDayNtf();
-        timeOfDayNtf.Time = 50;
-        _client.SendCsPacket(timeOfDayNtf);
+        CSTimeOfDayNtf timeOfDayNtf = new CSTimeOfDayNtf();
+        timeOfDayNtf.time = 50;
+        _client.SendCsPacket(NewCsPacket.TimeOfDayNtf(timeOfDayNtf));
     }
 
     public void SendTownSessionStart()
     {
-        TownSessionStart townSessionStart = new TownSessionStart();
-        _client.SendCsPacket(townSessionStart);
+        _client.SendCsPacket(NewCsPacket.TownSessionStart(new CSTownSessionStart()));
     }
 
     public void SendPlayerInitNtf()
     {
-        PlayerInitNtf playerInitNtf = new PlayerInitNtf();
-        playerInitNtf.CSPlayerInitInfo = _playerInitInfo;
-        _client.SendCsPacket(playerInitNtf);
+        _client.SendCsPacket(NewCsPacket.PlayerInitNtf(_playerInitInfo));
     }
 
     public void SendInstanceInitNtf()
     {
-        InstanceInitNtf instanceInitNtf = new InstanceInitNtf();
-        instanceInitNtf.CsInstanceInitInfo = _instanceInitInfo;
-        _client.SendCsPacket(instanceInitNtf);
+        _client.SendCsPacket(NewCsPacket.InstanceInitNtf(_instanceInitInfo));
     }
 
     public void SendPlayerLevelInitNtf()
     {
-        PlayerLevelInitNtf playerLevelInitNtf = new PlayerLevelInitNtf();
-        playerLevelInitNtf.CsPlayerLevelInitInfo = _playerLevelInitInfo;
-        _client.SendCsPacket(playerLevelInitNtf);
+        _client.SendCsPacket(NewCsPacket.PlayerLevelInitNtf(_playerLevelInitInfo));
+    }
+
+    public void SendPlayerSpawn()
+    {
+        _client.SendCsPacket(NewCsPacket.SpawnPlayer(_spawnPlayer));
+    }
+
+    public void SendLoadLevelNtf()
+    {
+        _client.SendCsPacket(NewCsPacket.LoadLevelNtf(new CSLoadLevelNtf()));
+    }
+
+    public void SendTownServerInitNtf()
+    {
+        _client.SendCsPacket(NewCsPacket.TownServerInitNtf(_townInstanceVerifyRsp));
+    }
+
+    public void SendEnterInstanceRsp()
+    {
+        _client.SendCsPacket(NewCsPacket.EnterInstanceRsp(_enterInstanceRsp));
+    }
+
+    public void SendInstanceVerifyRsp()
+    {
+        _client.SendCsPacket(NewCsPacket.InstanceVerifyRsp(_verifyRsp));
+    }
+
+    public void SendReselectRoleRsp()
+    {
+        _client.SendCsPacket(NewCsPacket.ReselectRoleRsp(_reselectRoleRsp));
     }
 }

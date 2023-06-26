@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 using Arrowgene.MonsterHunterOnline.Service.ScaleformAmp;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
@@ -22,8 +23,10 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(Server));
 
         private readonly TpduConsumer _tpduConsumer;
-        private readonly CsProtoConsumer _csProtoConsumer;
+        private readonly CsProtoOverTpduConsumer _csProtoOverTpduConsumer;
+        private readonly CsProtoConsumer _battleServerConsumer;
         private readonly AsyncEventServer _server;
+        private readonly AsyncEventServer _battleServer;
         private readonly Setting _setting;
         private readonly AmpClient _ampClient;
 
@@ -31,22 +34,44 @@ namespace Arrowgene.MonsterHunterOnline.Service
         {
             _setting = new Setting(setting);
 
-            _csProtoConsumer = new CsProtoConsumer(_setting);
-            _csProtoConsumer.AddHandler(new CsCmdCheckVersionHandler());
-            _csProtoConsumer.AddHandler(new CsCmdMultiNetIpInfoHandler());
-            _csProtoConsumer.AddHandler(new CsCmdFileCheckHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSystemPkgTimerRecordHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSelectRoleHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSystemTransAntiDataHandler());
-            _csProtoConsumer.AddHandler(new CsCmdDataLoadHandler());
-            _csProtoConsumer.AddHandler(new CsCmdItemReBuildLimitDataHandler());
+            _battleServerConsumer = new CsProtoConsumer(_setting);
+            _csProtoOverTpduConsumer = new CsProtoOverTpduConsumer(_setting);
+            
+            List<ICsProtoHandler> handlers = new List<ICsProtoHandler>();
+            handlers.Add(new C2SCmdActivityAddSecretQuestHandler());
+            handlers.Add(new C2SCmdPetRngHandler());
+            handlers.Add(new C2SCmdSActivityListReqHandler());
+            handlers.Add(new C2SCmdShopRefreshShopsHandler());
+            handlers.Add(new CsCmdBattleActorFifoSyncHandler());
+            handlers.Add(new CsCmdCheckVersionHandler());
+            handlers.Add(new CsCmdClientSendLogHandler());
+            handlers.Add(new CsCmdDataLoadHandler());
+            handlers.Add(new CsCmdDragonBoxDetailReqHandler());
+            handlers.Add(new CsCmdFileCheckHandler());
+            handlers.Add(new CsCmdFriendsOnlineReqHandler());
+            handlers.Add(new CsCmdGiftBagGroupStateReqHandler());
+            handlers.Add(new CsCmdInstanceVerifyReq());
+            handlers.Add(new CsCmdItemReBuildLimitDataHandler());
+            handlers.Add(new CsCmdMartGoodsListReqHandler());
+            handlers.Add(new CsCmdMultiNetIpInfoHandler());
+            handlers.Add(new CsCmdPlayerExtNotifyHandler());
+            handlers.Add(new CsCmdSelectRoleHandler());
+            handlers.Add(new CsCmdSystemEncryptData(_battleServerConsumer));
+            handlers.Add(new CsCmdSystemPkgTimerRecordHandler());
+            handlers.Add(new CsCmdSystemTransAntiDataHandler());
+            handlers.Add(new CsCmdTeamInfoGetReqHandler());
+
+            foreach (ICsProtoHandler handler in handlers)
+            {
+                _battleServerConsumer.AddHandler(handler);
+                _csProtoOverTpduConsumer.AddHandler(handler);
+            }
+            
 
             _tpduConsumer = new TpduConsumer(_setting);
-            _tpduConsumer.ClientConnected += ClientConnected;
-            _tpduConsumer.ClientDisconnected += ClientDisconnected;
             _tpduConsumer.AddHandler(new TpduCmdAuthHandler());
             _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
-            _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoConsumer));
+            _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoOverTpduConsumer));
             _tpduConsumer.AddHandler(new TpduCmdCloseHandler());
 
             _server = new AsyncEventServer(
@@ -56,13 +81,20 @@ namespace Arrowgene.MonsterHunterOnline.Service
                 _setting.SocketSettings
             );
 
+            _battleServer = new AsyncEventServer(
+                _setting.ListenIpAddress,
+                _setting.BattleServerPort,
+                _battleServerConsumer,
+                _setting.SocketSettings
+            );
+
             // OTHER SERVICES - START
             // For now all other services are not handled, as there seems to be no need to.
-            
+
             // port 7533/UDP and 7534/TCP are most likely related to Scaleform AMP protocol for client perf analysis.
             //_ampClient = new AmpClient();
             //_ampClient.Start();
-            
+
             // client hits a few web routes but hard to know original content
             WebSetting webSetting = new WebSetting();
             WebService webService = new WebService(new KestrelWebServer(webSetting));
@@ -82,7 +114,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             iedSocket.ReceivedPacket += IedSocketOnReceivedPacket;
             IPEndPoint iedSocketSocketIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
             //iedSocket.StartListen(iedSocketSocketIpEndPoint);
-            
+
             // OTHER SERVICES - END
         }
 
@@ -120,21 +152,13 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public void Start()
         {
             _server.Start();
+            _battleServer.Start();
         }
 
         public void Stop()
         {
             _server.Stop();
-        }
-
-        private void ClientConnected(Client client)
-        {
-            Logger.Info("Client Connected");
-        }
-
-        private void ClientDisconnected(Client client)
-        {
-            Logger.Info("Client Disconnected");
+            _battleServer.Stop();
         }
     }
 }
