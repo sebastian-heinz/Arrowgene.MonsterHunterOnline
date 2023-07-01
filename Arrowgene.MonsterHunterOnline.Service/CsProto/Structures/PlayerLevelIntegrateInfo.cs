@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class PlayerLevelIntegrateInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerLevelIntegrateInfo));
 
         public PlayerLevelIntegrateInfo()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(HistoryFinalRank, Endianness.Big);
             buffer.WriteUInt32(GainRewardFlag, Endianness.Big);
             buffer.WriteUInt32(LastTm, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            TheBestScore = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadByte();
+            HistoryFinalRank = buffer.ReadUInt32(Endianness.Big);
+            GainRewardFlag = buffer.ReadUInt32(Endianness.Big);
+            LastTm = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

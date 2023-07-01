@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSExpressionLevelupNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExpressionLevelupNtf));
 
         public CSExpressionLevelupNtf()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ExpressionLevel, Endianness.Big);
             buffer.WriteInt32(OwnPoint, Endianness.Big);
             buffer.WriteInt32(NeedPoint, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            result = buffer.ReadInt32(Endianness.Big);
+            ExpressionID = buffer.ReadInt32(Endianness.Big);
+            ExpressionLevel = buffer.ReadInt32(Endianness.Big);
+            OwnPoint = buffer.ReadInt32(Endianness.Big);
+            NeedPoint = buffer.ReadInt32(Endianness.Big);
         }
 
     }

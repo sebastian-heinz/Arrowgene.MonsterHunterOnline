@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPVPInstancePlayerRewardInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPInstancePlayerRewardInfo));
 
         public CSPVPInstancePlayerRewardInfo()
         {
@@ -127,6 +129,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RankScore, Endianness.Big);
             buffer.WriteInt32(MvpScore, Endianness.Big);
             buffer.WriteInt32(AchievenmentScore, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            QQ = buffer.ReadUInt32(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            CampType = buffer.ReadInt32(Endianness.Big);
+            PlayerScore = buffer.ReadInt32(Endianness.Big);
+            KillPlayerCount = buffer.ReadInt32(Endianness.Big);
+            DeadCount = buffer.ReadInt32(Endianness.Big);
+            BaseWinLoseScore = buffer.ReadInt32(Endianness.Big);
+            RankScore = buffer.ReadInt32(Endianness.Big);
+            MvpScore = buffer.ReadInt32(Endianness.Big);
+            AchievenmentScore = buffer.ReadInt32(Endianness.Big);
         }
 
     }

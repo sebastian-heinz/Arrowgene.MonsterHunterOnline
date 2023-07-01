@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSupplyItem : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyItem));
 
         public CSSupplyItem()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ItemNum, Endianness.Big);
             buffer.WriteByte(Share);
             buffer.WriteByte(VIP);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ID = buffer.ReadInt32(Endianness.Big);
+            ItemId = buffer.ReadInt32(Endianness.Big);
+            ItemNum = buffer.ReadInt32(Endianness.Big);
+            Share = buffer.ReadByte();
+            VIP = buffer.ReadByte();
         }
 
     }

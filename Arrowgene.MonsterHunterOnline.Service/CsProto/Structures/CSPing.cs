@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPing : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPing));
 
         public CSPing()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(AverageDelay, Endianness.Big);
             buffer.WriteByte(ServerFps);
             buffer.WriteUInt32(ServerTm, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PingID = buffer.ReadUInt32(Endianness.Big);
+            Delay = buffer.ReadUInt16(Endianness.Big);
+            CurDelay = buffer.ReadUInt16(Endianness.Big);
+            AverageDelay = buffer.ReadUInt16(Endianness.Big);
+            ServerFps = buffer.ReadByte();
+            ServerTm = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

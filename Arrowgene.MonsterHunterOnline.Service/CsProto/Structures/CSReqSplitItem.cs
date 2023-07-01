@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSReqSplitItem : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqSplitItem));
 
         public CSReqSplitItem()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(DstColumn);
             buffer.WriteUInt16(DstIndex, Endianness.Big);
             buffer.WriteUInt16(DstCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SrcColumn = buffer.ReadByte();
+            SrcIndex = buffer.ReadUInt16(Endianness.Big);
+            DstColumn = buffer.ReadByte();
+            DstIndex = buffer.ReadUInt16(Endianness.Big);
+            DstCount = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SActivityMonolopyPayForBlock : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityMonolopyPayForBlock));
 
         public C2SActivityMonolopyPayForBlock()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(type, Endianness.Big);
             buffer.WriteInt32(id, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            type = buffer.ReadInt32(Endianness.Big);
+            id = buffer.ReadInt32(Endianness.Big);
         }
 
     }

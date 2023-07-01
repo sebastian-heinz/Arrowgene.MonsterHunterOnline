@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDragonBoxDetailRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxDetailRsp));
 
         public CSDragonBoxDetailRsp()
         {
@@ -67,6 +69,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < boxCount; i++)
             {
                 buffer.WriteByte(Box[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadInt32(Endianness.Big);
+            Reason = buffer.ReadByte();
+            Box.Clear();
+            int boxCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < boxCount; i++)
+            {
+                byte BoxEntry = buffer.ReadByte();
+                Box.Add(BoxEntry);
             }
         }
 

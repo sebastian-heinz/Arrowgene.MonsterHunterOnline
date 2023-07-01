@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SGuildSortItemReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildSortItemReq));
 
         public C2SGuildSortItemReq()
         {
@@ -74,6 +76,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemLocListCount; i++)
             {
                 ItemLocList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemColumn = buffer.ReadByte();
+            ItemBegGrid = buffer.ReadUInt16(Endianness.Big);
+            ItemEndGrid = buffer.ReadUInt16(Endianness.Big);
+            ItemLocList.Clear();
+            ushort itemLocListCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < itemLocListCount; i++)
+            {
+                CSGuildItemLoc ItemLocListEntry = new CSGuildItemLoc();
+                ItemLocListEntry.Read(buffer);
+                ItemLocList.Add(ItemLocListEntry);
             }
         }
 

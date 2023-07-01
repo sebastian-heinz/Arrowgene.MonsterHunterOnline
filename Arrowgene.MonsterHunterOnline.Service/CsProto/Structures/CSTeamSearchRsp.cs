@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTeamSearchRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamSearchRsp));
 
         public CSTeamSearchRsp()
         {
@@ -60,6 +62,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < teamsCount; i++)
             {
                 Teams[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TotalTeamNum = buffer.ReadUInt32(Endianness.Big);
+            Teams.Clear();
+            uint teamsCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < teamsCount; i++)
+            {
+                TeamInfo TeamsEntry = new TeamInfo();
+                TeamsEntry.Read(buffer);
+                Teams.Add(TeamsEntry);
             }
         }
 

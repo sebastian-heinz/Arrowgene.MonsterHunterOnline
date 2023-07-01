@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendAttrUpdateNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAttrUpdateNtf));
 
         public CSFriendAttrUpdateNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(DBID, Endianness.Big);
             buffer.WriteInt32(Attr, Endianness.Big);
             buffer.WriteInt32(value, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DBID = buffer.ReadUInt64(Endianness.Big);
+            Attr = buffer.ReadInt32(Endianness.Big);
+            value = buffer.ReadInt32(Endianness.Big);
         }
 
     }

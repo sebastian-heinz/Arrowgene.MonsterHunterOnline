@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActorAttachEntity : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorAttachEntity));
 
         public CSActorAttachEntity()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(ParentGUID, Endianness.Big);
             Location.Write(buffer);
             ActorRot.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            ParentGUID = buffer.ReadUInt64(Endianness.Big);
+            Location.Read(buffer);
+            ActorRot.Read(buffer);
         }
 
     }

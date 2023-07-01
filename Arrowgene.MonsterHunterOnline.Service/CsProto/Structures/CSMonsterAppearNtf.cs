@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterAppearNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterAppearNtf));
 
         public CSMonsterAppearNtf()
         {
@@ -173,6 +175,50 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteUInt64(ParentGUID, Endianness.Big);
             buffer.WriteInt32(LastChildID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadInt32(Endianness.Big);
+            SpawnType = buffer.ReadInt16(Endianness.Big);
+            MonsterInfoID = buffer.ReadInt32(Endianness.Big);
+            EntGUID = buffer.ReadUInt64(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            int ClassEntryLen = buffer.ReadInt32(Endianness.Big);
+            Class = buffer.ReadString(ClassEntryLen);
+            Pose.Read(buffer);
+            Faction = buffer.ReadInt32(Endianness.Big);
+            int BTStateEntryLen = buffer.ReadInt32(Endianness.Big);
+            BTState = buffer.ReadString(BTStateEntryLen);
+            BBVars.Read(buffer);
+            Dead = buffer.ReadByte();
+            LcmState.Read(buffer);
+            AttrInit.Clear();
+            short attrInitCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < attrInitCount; i++)
+            {
+                CSAttrData AttrInitEntry = new CSAttrData(null);
+                AttrInitEntry.Read(buffer);
+                AttrInit.Add(AttrInitEntry);
+            }
+            ProjIds.Clear();
+            int projIdsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < projIdsCount; i++)
+            {
+                CSAmmoInfo ProjIdsEntry = new CSAmmoInfo();
+                ProjIdsEntry.Read(buffer);
+                ProjIds.Add(ProjIdsEntry);
+            }
+            Buff.Clear();
+            short buffCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < buffCount; i++)
+            {
+                byte BuffEntry = buffer.ReadByte();
+                Buff.Add(BuffEntry);
+            }
+            ParentGUID = buffer.ReadUInt64(Endianness.Big);
+            LastChildID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

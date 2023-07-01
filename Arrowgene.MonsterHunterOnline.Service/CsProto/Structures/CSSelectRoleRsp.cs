@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSelectRoleRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSelectRoleRsp));
 
         public CSSelectRoleRsp()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(RoleIndex, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadInt32(Endianness.Big);
+            RoleIndex = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetEquipChangeRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetEquipChangeRsp));
 
         public CSPetEquipChangeRsp()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UID, Endianness.Big);
             buffer.WriteInt32(Part, Endianness.Big);
             buffer.WriteInt32(Grid, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            Idx = buffer.ReadInt32(Endianness.Big);
+            UID = buffer.ReadInt32(Endianness.Big);
+            Part = buffer.ReadInt32(Endianness.Big);
+            Grid = buffer.ReadInt32(Endianness.Big);
         }
 
     }

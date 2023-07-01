@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSChatNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatNtf));
 
         public CSChatNtf()
         {
@@ -198,6 +200,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SrcHunterStar.Length + 1, Endianness.Big);
             buffer.WriteCString(SrcHunterStar);
             buffer.WriteInt32(SrcHRLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SourceID = buffer.ReadInt32(Endianness.Big);
+            SrcUin = buffer.ReadUInt32(Endianness.Big);
+            SrcDBID = buffer.ReadUInt64(Endianness.Big);
+            SrcLevelGrpId = buffer.ReadInt32(Endianness.Big);
+            int SourceNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            SourceName = buffer.ReadString(SourceNameEntryLen);
+            SrcVipLevel = buffer.ReadByte();
+            SrcVipCanUse = buffer.ReadByte();
+            QQMask = buffer.ReadInt32(Endianness.Big);
+            ChannelType = buffer.ReadInt32(Endianness.Big);
+            LineID = buffer.ReadInt32(Endianness.Big);
+            WorldSvrID = buffer.ReadInt32(Endianness.Big);
+            ShowTime = buffer.ReadInt32(Endianness.Big);
+            Head.Clear();
+            int headCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < headCount; i++)
+            {
+                byte HeadEntry = buffer.ReadByte();
+                Head.Add(HeadEntry);
+            }
+            int ContentEntryLen = buffer.ReadInt32(Endianness.Big);
+            Content = buffer.ReadString(ContentEntryLen);
+            SendByMe = buffer.ReadByte();
+            ContainBanWords = buffer.ReadByte();
+            Items.Read(buffer);
+            SrcLevel = buffer.ReadInt32(Endianness.Big);
+            int SrcGuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            SrcGuildName = buffer.ReadString(SrcGuildNameEntryLen);
+            int SrcHunterStarEntryLen = buffer.ReadInt32(Endianness.Big);
+            SrcHunterStar = buffer.ReadString(SrcHunterStarEntryLen);
+            SrcHRLevel = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterLocoInfoCmd : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterLocoInfoCmd));
 
         public CSMonsterLocoInfoCmd()
         {
@@ -64,6 +66,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Param, Endianness.Big);
             buffer.WriteInt32(Filter.Length + 1, Endianness.Big);
             buffer.WriteCString(Filter);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Cmd = buffer.ReadInt32(Endianness.Big);
+            Param = buffer.ReadInt32(Endianness.Big);
+            int FilterEntryLen = buffer.ReadInt32(Endianness.Big);
+            Filter = buffer.ReadString(FilterEntryLen);
         }
 
     }

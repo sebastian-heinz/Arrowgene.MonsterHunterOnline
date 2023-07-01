@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CWeaponStyleInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CWeaponStyleInfo));
 
         public S2CWeaponStyleInfo()
         {
@@ -51,6 +53,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.MAX_WEAPOSTYLE_TYPE; i++)
             {
                 buffer.WriteInt32(WeaponStyleData[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            for (int i = 0; i < CsProtoConstant.MAX_WEAPOSTYLE_TYPE; i++)
+            {
+                WeaponStyleData[i] = buffer.ReadInt32(Endianness.Big);
             }
         }
 

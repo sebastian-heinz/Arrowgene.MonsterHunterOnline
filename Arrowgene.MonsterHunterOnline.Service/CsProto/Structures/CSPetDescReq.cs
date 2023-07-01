@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetDescReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetDescReq));
 
         public CSPetDescReq()
         {
@@ -64,6 +66,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UID, Endianness.Big);
             buffer.WriteInt32(Desc.Length + 1, Endianness.Big);
             buffer.WriteCString(Desc);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Idx = buffer.ReadInt32(Endianness.Big);
+            UID = buffer.ReadInt32(Endianness.Big);
+            int DescEntryLen = buffer.ReadInt32(Endianness.Big);
+            Desc = buffer.ReadString(DescEntryLen);
         }
 
     }

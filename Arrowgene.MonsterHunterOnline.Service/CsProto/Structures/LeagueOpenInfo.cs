@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class LeagueOpenInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(LeagueOpenInfo));
 
         public LeagueOpenInfo()
         {
@@ -60,6 +62,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < levelIDsCount; i++)
             {
                 buffer.WriteInt32(LevelIDs[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LeagueID = buffer.ReadInt32(Endianness.Big);
+            LevelIDs.Clear();
+            int levelIDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelIDsCount; i++)
+            {
+                int LevelIDsEntry = buffer.ReadInt32(Endianness.Big);
+                LevelIDs.Add(LevelIDsEntry);
             }
         }
 

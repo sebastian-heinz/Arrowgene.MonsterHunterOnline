@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSBattlePunishInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattlePunishInfo));
 
         public CSBattlePunishInfo()
         {
@@ -68,6 +70,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
             buffer.WriteInt32(Camp, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Behavior = buffer.ReadInt32(Endianness.Big);
+            QQ = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Camp = buffer.ReadInt32(Endianness.Big);
         }
 
     }

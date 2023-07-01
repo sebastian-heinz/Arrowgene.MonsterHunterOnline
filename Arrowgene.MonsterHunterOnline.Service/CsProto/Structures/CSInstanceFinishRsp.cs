@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceFinishRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceFinishRsp));
 
         public CSInstanceFinishRsp()
         {
@@ -119,6 +121,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TimeOut, Endianness.Big);
             buffer.WriteInt32(LastKillPlayerID, Endianness.Big);
             buffer.WriteInt32(LastBeKilledPlayerID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ShowFlag = buffer.ReadInt32(Endianness.Big);
+            LastKillBossID = buffer.ReadInt32(Endianness.Big);
+            LastCaptureBossID = buffer.ReadInt32(Endianness.Big);
+            WinFlag = buffer.ReadInt32(Endianness.Big);
+            WinLoseReason = buffer.ReadInt32(Endianness.Big);
+            EnemyWinFlag = buffer.ReadInt32(Endianness.Big);
+            CountDownSeconds = buffer.ReadInt32(Endianness.Big);
+            PvpLastGetScorePlayerNetID = buffer.ReadInt32(Endianness.Big);
+            TimeOut = buffer.ReadInt32(Endianness.Big);
+            LastKillPlayerID = buffer.ReadInt32(Endianness.Big);
+            LastBeKilledPlayerID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

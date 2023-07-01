@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class FriendInfoPacket : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(FriendInfoPacket));
 
         public FriendInfoPacket()
         {
@@ -107,6 +109,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(HRLevel, Endianness.Big);
             buffer.WriteUInt32(SvrId, Endianness.Big);
             buffer.WriteInt32(AddTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoleDBID = buffer.ReadUInt64(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            GroupID = buffer.ReadByte();
+            Friendly = buffer.ReadUInt32(Endianness.Big);
+            FarmPoint = buffer.ReadInt32(Endianness.Big);
+            FarmCanBeGatheredCount = buffer.ReadInt32(Endianness.Big);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            SvrId = buffer.ReadUInt32(Endianness.Big);
+            AddTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

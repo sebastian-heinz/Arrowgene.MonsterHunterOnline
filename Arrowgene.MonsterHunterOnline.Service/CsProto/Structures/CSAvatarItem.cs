@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAvatarItem : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAvatarItem));
 
         public CSAvatarItem()
         {
@@ -119,6 +121,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(ColorIndex);
             buffer.WriteUInt32(FakeShow, Endianness.Big);
             buffer.WriteByte(WakeLevel);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemType = buffer.ReadInt32(Endianness.Big);
+            PosIndex = buffer.ReadUInt16(Endianness.Big);
+            Rank = buffer.ReadUInt32(Endianness.Big);
+            EnhanceRule = buffer.ReadByte();
+            EnhanceLevel = buffer.ReadByte();
+            SoltCount = buffer.ReadByte();
+            GemID = buffer.ReadUInt32(Endianness.Big);
+            BreakLevel = buffer.ReadByte();
+            ColorIndex = buffer.ReadByte();
+            FakeShow = buffer.ReadUInt32(Endianness.Big);
+            WakeLevel = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSecretResearchLabResearchRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabResearchRsp));
 
         public S2CSecretResearchLabResearchRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BoxId, Endianness.Big);
             buffer.WriteInt32(ResearchCount, Endianness.Big);
             buffer.WriteInt32(ResearchIndex, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Status = buffer.ReadInt32(Endianness.Big);
+            BoxId = buffer.ReadInt32(Endianness.Big);
+            ResearchCount = buffer.ReadInt32(Endianness.Big);
+            ResearchIndex = buffer.ReadInt32(Endianness.Big);
         }
 
     }

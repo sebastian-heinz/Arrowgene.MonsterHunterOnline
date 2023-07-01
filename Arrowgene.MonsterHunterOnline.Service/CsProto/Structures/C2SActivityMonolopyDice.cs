@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SActivityMonolopyDice : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityMonolopyDice));
 
         public C2SActivityMonolopyDice()
         {
@@ -49,6 +51,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public void Write(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            reserve = buffer.ReadByte();
         }
 
     }

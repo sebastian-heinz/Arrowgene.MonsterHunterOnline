@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class Quaternion : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(Quaternion));
 
         public Quaternion()
         {
@@ -55,6 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(y, Endianness.Big);
             buffer.WriteFloat(z, Endianness.Big);
             buffer.WriteFloat(w, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            x = buffer.ReadFloat(Endianness.Big);
+            y = buffer.ReadFloat(Endianness.Big);
+            z = buffer.ReadFloat(Endianness.Big);
+            w = buffer.ReadFloat(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class ItemBoxType : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ItemBoxType));
 
         public ItemBoxType()
         {
@@ -84,6 +86,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(VipRefrshCount, Endianness.Big);
             buffer.WriteInt32(RefreshCount, Endianness.Big);
             buffer.WriteInt32(ResearchCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BoxId = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
+            {
+                LotteryItemList[i].Read(buffer);
+            }
+            VipRefrshCount = buffer.ReadInt32(Endianness.Big);
+            RefreshCount = buffer.ReadInt32(Endianness.Big);
+            ResearchCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

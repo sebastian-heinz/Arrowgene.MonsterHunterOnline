@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRandSeedSyncRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRandSeedSyncRsp));
 
         public CSRandSeedSyncRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(RandSeed, Endianness.Big);
             buffer.WriteUInt32(RandTimes, Endianness.Big);
             buffer.WriteByte(UsedBeforeMsg);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadUInt32(Endianness.Big);
+            RandSeed = buffer.ReadUInt32(Endianness.Big);
+            RandTimes = buffer.ReadUInt32(Endianness.Big);
+            UsedBeforeMsg = buffer.ReadByte();
         }
 
     }

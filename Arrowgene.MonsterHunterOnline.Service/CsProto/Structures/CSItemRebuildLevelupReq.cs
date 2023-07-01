@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemRebuildLevelupReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildLevelupReq));
 
         public CSItemRebuildLevelupReq()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(ItemGrid, Endianness.Big);
             buffer.WriteInt32(CreditItemCnt, Endianness.Big);
             buffer.WriteInt32(GoalLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemID = buffer.ReadUInt64(Endianness.Big);
+            ItemColumn = buffer.ReadByte();
+            ItemGrid = buffer.ReadUInt16(Endianness.Big);
+            CreditItemCnt = buffer.ReadInt32(Endianness.Big);
+            GoalLevel = buffer.ReadInt32(Endianness.Big);
         }
 
     }

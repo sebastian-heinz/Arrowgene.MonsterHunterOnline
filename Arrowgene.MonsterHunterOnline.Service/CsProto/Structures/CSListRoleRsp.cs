@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSListRoleRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSListRoleRsp));
 
         public CSListRoleRsp()
         {
@@ -67,6 +69,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(BanTime, Endianness.Big);
             buffer.WriteUInt32(LastLoinRoleIndex, Endianness.Big);
             RoleList.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadUInt32(Endianness.Big);
+            BanTime = buffer.ReadUInt32(Endianness.Big);
+            LastLoinRoleIndex = buffer.ReadUInt32(Endianness.Big);
+            RoleList.Read(buffer);
         }
 
     }

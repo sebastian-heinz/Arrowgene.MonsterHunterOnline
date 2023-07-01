@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SRoomsGetReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SRoomsGetReq));
 
         public C2SRoomsGetReq()
         {
@@ -57,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Mode, Endianness.Big);
             buffer.WriteUInt32(From, Endianness.Big);
             buffer.WriteUInt32(To, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Mode = buffer.ReadInt32(Endianness.Big);
+            From = buffer.ReadUInt32(Endianness.Big);
+            To = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

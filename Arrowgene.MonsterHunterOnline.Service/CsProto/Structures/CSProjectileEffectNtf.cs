@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSProjectileEffectNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSProjectileEffectNtf));
 
         public CSProjectileEffectNtf()
         {
@@ -119,6 +121,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             LocalDir.Write(buffer);
             buffer.WriteInt32(PartId, Endianness.Big);
             VerifyContext.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LifeTime = buffer.ReadFloat(Endianness.Big);
+            LastTime = buffer.ReadFloat(Endianness.Big);
+            ProjectileId = buffer.ReadInt32(Endianness.Big);
+            ProjEffectType = buffer.ReadInt32(Endianness.Big);
+            TargetId = buffer.ReadInt32(Endianness.Big);
+            HitPos.Read(buffer);
+            HitDir.Read(buffer);
+            LocalPos.Read(buffer);
+            LocalDir.Read(buffer);
+            PartId = buffer.ReadInt32(Endianness.Big);
+            VerifyContext.Read(buffer);
         }
 
     }

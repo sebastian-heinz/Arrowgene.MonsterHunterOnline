@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSuitSkillEditRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuitSkillEditRsp));
 
         public CSSuitSkillEditRsp()
         {
@@ -71,6 +73,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < skillIDCount; i++)
             {
                 buffer.WriteInt32(skillID[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ret = buffer.ReadInt32(Endianness.Big);
+            arg = buffer.ReadInt32(Endianness.Big);
+            group = buffer.ReadInt32(Endianness.Big);
+            skillID.Clear();
+            int skillIDCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < skillIDCount; i++)
+            {
+                int skillIDEntry = buffer.ReadInt32(Endianness.Big);
+                skillID.Add(skillIDEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSpawnCollectTrigSYNC : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpawnCollectTrigSYNC));
 
         public CSSpawnCollectTrigSYNC()
         {
@@ -85,6 +87,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Position.Write(buffer);
             Rotation.Write(buffer);
             buffer.WriteUInt32(RelativeID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemID = buffer.ReadInt32(Endianness.Big);
+            BoxParam.Read(buffer);
+            int TriggerTypeEntryLen = buffer.ReadInt32(Endianness.Big);
+            TriggerType = buffer.ReadString(TriggerTypeEntryLen);
+            Position.Read(buffer);
+            Rotation.Read(buffer);
+            RelativeID = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

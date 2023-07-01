@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityAddStOnlineTime : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAddStOnlineTime));
 
         public S2CActivityAddStOnlineTime()
         {
@@ -105,6 +107,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LastUpdateTime, Endianness.Big);
             buffer.WriteInt32(Begin, Endianness.Big);
             buffer.WriteInt32(End, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            id = buffer.ReadInt32(Endianness.Big);
+            hour = buffer.ReadInt32(Endianness.Big);
+            min = buffer.ReadInt32(Endianness.Big);
+            second = buffer.ReadInt32(Endianness.Big);
+            offset = buffer.ReadInt32(Endianness.Big);
+            OnlineTime = buffer.ReadInt32(Endianness.Big);
+            LastUpdateTime = buffer.ReadInt32(Endianness.Big);
+            Begin = buffer.ReadInt32(Endianness.Big);
+            End = buffer.ReadInt32(Endianness.Big);
         }
 
     }

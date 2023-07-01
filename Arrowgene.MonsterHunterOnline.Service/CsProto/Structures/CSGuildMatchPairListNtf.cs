@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildMatchPairListNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchPairListNtf));
 
         public CSGuildMatchPairListNtf()
         {
@@ -100,6 +102,53 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 buffer.WriteUInt32(SignUp2IDs[i], Endianness.Big);
             }
             buffer.WriteUInt32(WinSignID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SignUp64IDs.Clear();
+            int signUp64IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp64IDsCount; i++)
+            {
+                uint SignUp64IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp64IDs.Add(SignUp64IDsEntry);
+            }
+            SignUp32IDs.Clear();
+            int signUp32IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp32IDsCount; i++)
+            {
+                uint SignUp32IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp32IDs.Add(SignUp32IDsEntry);
+            }
+            SignUp16IDs.Clear();
+            int signUp16IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp16IDsCount; i++)
+            {
+                uint SignUp16IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp16IDs.Add(SignUp16IDsEntry);
+            }
+            SignUp8IDs.Clear();
+            int signUp8IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp8IDsCount; i++)
+            {
+                uint SignUp8IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp8IDs.Add(SignUp8IDsEntry);
+            }
+            SignUp4IDs.Clear();
+            int signUp4IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp4IDsCount; i++)
+            {
+                uint SignUp4IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp4IDs.Add(SignUp4IDsEntry);
+            }
+            SignUp2IDs.Clear();
+            int signUp2IDsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signUp2IDsCount; i++)
+            {
+                uint SignUp2IDsEntry = buffer.ReadUInt32(Endianness.Big);
+                SignUp2IDs.Add(SignUp2IDsEntry);
+            }
+            WinSignID = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

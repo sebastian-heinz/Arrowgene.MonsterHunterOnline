@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRemoveSrvEntList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemoveSrvEntList));
 
         public CSRemoveSrvEntList()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < entListCount; i++)
             {
                 EntList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntList.Clear();
+            uint entListCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < entListCount; i++)
+            {
+                CSRemoveSrvEnt EntListEntry = new CSRemoveSrvEnt();
+                EntListEntry.Read(buffer);
+                EntList.Add(EntListEntry);
             }
         }
 

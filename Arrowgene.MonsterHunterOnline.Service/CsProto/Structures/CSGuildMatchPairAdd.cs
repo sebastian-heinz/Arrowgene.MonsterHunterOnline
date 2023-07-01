@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildMatchPairAdd : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchPairAdd));
 
         public CSGuildMatchPairAdd()
         {
@@ -54,6 +56,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(WinSignID, Endianness.Big);
             buffer.WriteInt32(Round, Endianness.Big);
             buffer.WriteInt32(Index, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            WinSignID = buffer.ReadUInt32(Endianness.Big);
+            Round = buffer.ReadInt32(Endianness.Big);
+            Index = buffer.ReadInt32(Endianness.Big);
         }
 
     }

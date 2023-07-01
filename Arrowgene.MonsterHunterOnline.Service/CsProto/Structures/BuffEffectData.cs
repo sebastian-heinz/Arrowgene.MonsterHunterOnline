@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class BuffEffectData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(BuffEffectData));
 
         public BuffEffectData()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(effectType, Endianness.Big);
             buffer.WriteInt32(Param1, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            effectType = buffer.ReadInt32(Endianness.Big);
+            Param1 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

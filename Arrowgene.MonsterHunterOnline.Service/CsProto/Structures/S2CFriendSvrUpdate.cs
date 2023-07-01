@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CFriendSvrUpdate : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CFriendSvrUpdate));
 
         public S2CFriendSvrUpdate()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt32(oldSvr, Endianness.Big);
             buffer.WriteUInt32(newSvr, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            oldSvr = buffer.ReadUInt32(Endianness.Big);
+            newSvr = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

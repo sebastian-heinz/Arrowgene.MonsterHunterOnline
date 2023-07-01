@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipFakeShowReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipFakeShowReq));
 
         public CSEquipFakeShowReq()
         {
@@ -101,6 +103,45 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < targetGridCount; i++)
             {
                 buffer.WriteInt32(TargetGrid[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EquipCol.Clear();
+            int equipColCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < equipColCount; i++)
+            {
+                int EquipColEntry = buffer.ReadInt32(Endianness.Big);
+                EquipCol.Add(EquipColEntry);
+            }
+            EquipGrid.Clear();
+            int equipGridCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < equipGridCount; i++)
+            {
+                int EquipGridEntry = buffer.ReadInt32(Endianness.Big);
+                EquipGrid.Add(EquipGridEntry);
+            }
+            ReSetFlag.Clear();
+            int reSetFlagCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < reSetFlagCount; i++)
+            {
+                ushort ReSetFlagEntry = buffer.ReadUInt16(Endianness.Big);
+                ReSetFlag.Add(ReSetFlagEntry);
+            }
+            TargetCol.Clear();
+            int targetColCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < targetColCount; i++)
+            {
+                int TargetColEntry = buffer.ReadInt32(Endianness.Big);
+                TargetCol.Add(TargetColEntry);
+            }
+            TargetGrid.Clear();
+            int targetGridCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < targetGridCount; i++)
+            {
+                int TargetGridEntry = buffer.ReadInt32(Endianness.Big);
+                TargetGrid.Add(TargetGridEntry);
             }
         }
 

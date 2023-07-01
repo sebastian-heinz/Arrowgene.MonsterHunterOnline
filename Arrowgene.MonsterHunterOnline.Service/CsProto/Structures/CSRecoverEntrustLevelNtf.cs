@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRecoverEntrustLevelNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRecoverEntrustLevelNtf));
 
         public CSRecoverEntrustLevelNtf()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SubGroupID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(NpcID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GroupID = buffer.ReadInt32(Endianness.Big);
+            SubGroupID = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            NpcID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

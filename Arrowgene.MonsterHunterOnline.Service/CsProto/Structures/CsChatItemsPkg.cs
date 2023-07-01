@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CsChatItemsPkg : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CsChatItemsPkg));
 
         public CsChatItemsPkg()
         {
@@ -65,6 +67,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < soulStoneArrayCount; i++)
             {
                 buffer.WriteInt32(SoulStoneArray[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Items.Clear();
+            int itemsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemsCount; i++)
+            {
+                byte ItemsEntry = buffer.ReadByte();
+                Items.Add(ItemsEntry);
+            }
+            SoulStoneArray.Clear();
+            int soulStoneArrayCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < soulStoneArrayCount; i++)
+            {
+                int SoulStoneArrayEntry = buffer.ReadInt32(Endianness.Big);
+                SoulStoneArray.Add(SoulStoneArrayEntry);
             }
         }
 

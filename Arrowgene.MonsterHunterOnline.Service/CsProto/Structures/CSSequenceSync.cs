@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSequenceSync : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSequenceSync));
 
         public CSSequenceSync()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(time, Endianness.Big);
             buffer.WriteInt32(State, Endianness.Big);
             buffer.WriteInt32(Flag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LogicEntity = buffer.ReadUInt32(Endianness.Big);
+            int SeqNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            SeqName = buffer.ReadString(SeqNameEntryLen);
+            time = buffer.ReadFloat(Endianness.Big);
+            State = buffer.ReadInt32(Endianness.Big);
+            Flag = buffer.ReadInt32(Endianness.Big);
         }
 
     }

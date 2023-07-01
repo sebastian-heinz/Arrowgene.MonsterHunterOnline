@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPaidContributeBoxRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPaidContributeBoxRsp));
 
         public CSPaidContributeBoxRsp()
         {
@@ -79,6 +81,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < paidBuffsCount; i++)
             {
                 PaidBuffs[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            PaidItems.Clear();
+            int paidItemsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < paidItemsCount; i++)
+            {
+                CSPaidContributeBoxData PaidItemsEntry = new CSPaidContributeBoxData();
+                PaidItemsEntry.Read(buffer);
+                PaidItems.Add(PaidItemsEntry);
+            }
+            PaidBuffs.Clear();
+            int paidBuffsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < paidBuffsCount; i++)
+            {
+                CSPaidContributeBoxData PaidBuffsEntry = new CSPaidContributeBoxData();
+                PaidBuffsEntry.Read(buffer);
+                PaidBuffs.Add(PaidBuffsEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSNpcShopBuyBackItemReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcShopBuyBackItemReq));
 
         public CSNpcShopBuyBackItemReq()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Column, Endianness.Big);
             buffer.WriteInt32(Grid, Endianness.Big);
             buffer.WriteInt32(IsUnifiedStore, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Index = buffer.ReadInt32(Endianness.Big);
+            Column = buffer.ReadInt32(Endianness.Big);
+            Grid = buffer.ReadInt32(Endianness.Big);
+            IsUnifiedStore = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerTeleportResponse : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerTeleportResponse));
 
         public CSPlayerTeleportResponse()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(Region, Endianness.Big);
             buffer.WriteByte(InitState);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            Region = buffer.ReadInt32(Endianness.Big);
+            InitState = buffer.ReadByte();
         }
 
     }

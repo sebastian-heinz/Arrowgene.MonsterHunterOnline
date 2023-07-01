@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSClaner : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClaner));
 
         public CSClaner()
         {
@@ -113,6 +115,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Score, Endianness.Big);
             buffer.WriteInt32(RewardTag, Endianness.Big);
             buffer.WriteInt32(HRLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id.Read(buffer);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            Line = buffer.ReadInt32(Endianness.Big);
+            IsOnline = buffer.ReadByte();
+            OfflineTimeInterval = buffer.ReadInt32(Endianness.Big);
+            Title = buffer.ReadInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
+            RewardTag = buffer.ReadInt32(Endianness.Big);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
         }
 
     }

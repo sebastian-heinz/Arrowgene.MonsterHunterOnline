@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemRebuildLimitInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildLimitInfo));
 
         public CSItemRebuildLimitInfo()
         {
@@ -57,6 +59,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rebuildLimitDataInfoCount; i++)
             {
                 RebuildLimitDataInfo[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LastRebuildTm = buffer.ReadUInt64(Endianness.Big);
+            RebuildLimitDataInfo.Clear();
+            byte rebuildLimitDataInfoCount = buffer.ReadByte();
+            for (int i = 0; i < rebuildLimitDataInfoCount; i++)
+            {
+                CSItemRebuildLimitData RebuildLimitDataInfoEntry = new CSItemRebuildLimitData();
+                RebuildLimitDataInfoEntry.Read(buffer);
+                RebuildLimitDataInfo.Add(RebuildLimitDataInfoEntry);
             }
         }
 

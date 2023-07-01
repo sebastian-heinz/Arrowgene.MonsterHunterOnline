@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuideNotify : CSPlayerExtNotifyData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuideNotify));
 
         public CSGuideNotify(CSGuideNotifyData __Notify)
         {
@@ -56,6 +58,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32((int)_Notify.NotifyType, Endianness.Big);
             _Notify.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GUIDE_NOTIFY_TYPE CSGuideNotifyData_NotifyType = (GUIDE_NOTIFY_TYPE)buffer.ReadInt32(Endianness.Big);
+            switch (CSGuideNotifyData_NotifyType)
+            {
+                case GUIDE_NOTIFY_TYPE.GUIDE_NOTIFY_TYPE_SET_STEP:
+                    _Notify = new CSGuideStep();
+                    break;
+            }
+            if (_Notify != null) {
+                _Notify.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create '_Notify' instance of type 'CSGuideNotifyData'");
+            }
         }
 
     }

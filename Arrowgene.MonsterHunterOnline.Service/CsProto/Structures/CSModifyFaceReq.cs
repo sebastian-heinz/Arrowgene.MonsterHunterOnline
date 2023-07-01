@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSModifyFaceReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSModifyFaceReq));
 
         public CSModifyFaceReq()
         {
@@ -149,6 +151,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
             {
                 buffer.WriteInt16(FacialInfo[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Uin = buffer.ReadUInt32(Endianness.Big);
+            DBID = buffer.ReadUInt64(Endianness.Big);
+            ChangeGender = buffer.ReadUInt16(Endianness.Big);
+            Gender = buffer.ReadUInt16(Endianness.Big);
+            FaceId = buffer.ReadUInt16(Endianness.Big);
+            HairId = buffer.ReadUInt16(Endianness.Big);
+            UnderclothesId = buffer.ReadUInt16(Endianness.Big);
+            SkinColor = buffer.ReadInt32(Endianness.Big);
+            HairColor = buffer.ReadInt32(Endianness.Big);
+            InnerColor = buffer.ReadInt32(Endianness.Big);
+            EyeBall = buffer.ReadInt32(Endianness.Big);
+            EyeColor = buffer.ReadInt32(Endianness.Big);
+            FaceTattooIndex = buffer.ReadInt32(Endianness.Big);
+            FaceTattooColor = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+            {
+                FacialInfo[i] = buffer.ReadInt16(Endianness.Big);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSClientSettings : CSPlayerExtNotifyData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClientSettings));
 
         public CSClientSettings()
         {
@@ -49,6 +51,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < dataCount; i++)
             {
                 buffer.WriteByte(Data[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Data.Clear();
+            ushort dataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < dataCount; i++)
+            {
+                byte DataEntry = buffer.ReadByte();
+                Data.Add(DataEntry);
             }
         }
 

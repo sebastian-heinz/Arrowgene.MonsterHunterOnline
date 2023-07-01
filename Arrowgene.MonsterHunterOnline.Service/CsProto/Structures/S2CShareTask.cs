@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CShareTask : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CShareTask));
 
         public S2CShareTask()
         {
@@ -57,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Sender.Length + 1, Endianness.Big);
             buffer.WriteCString(Sender);
             buffer.WriteInt32(Task, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int SenderEntryLen = buffer.ReadInt32(Endianness.Big);
+            Sender = buffer.ReadString(SenderEntryLen);
+            Task = buffer.ReadInt32(Endianness.Big);
         }
 
     }

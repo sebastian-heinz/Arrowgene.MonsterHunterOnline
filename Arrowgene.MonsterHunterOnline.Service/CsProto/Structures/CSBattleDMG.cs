@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBattleDMG : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleDMG));
 
         public CSBattleDMG()
         {
@@ -284,6 +286,54 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(skillResID, Endianness.Big);
             buffer.WriteInt64(skillSeq, Endianness.Big);
             buffer.WriteFloat(curStamina, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            shooterId = buffer.ReadUInt32(Endianness.Big);
+            targetId = buffer.ReadUInt32(Endianness.Big);
+            weaponId = buffer.ReadUInt32(Endianness.Big);
+            projectileId = buffer.ReadUInt32(Endianness.Big);
+            material = buffer.ReadInt32(Endianness.Big);
+            type = buffer.ReadInt32(Endianness.Big);
+            bulletType = buffer.ReadInt32(Endianness.Big);
+            damageMin = buffer.ReadFloat(Endianness.Big);
+            pierce = buffer.ReadFloat(Endianness.Big);
+            partId = buffer.ReadInt32(Endianness.Big);
+            pos.Read(buffer);
+            lpos.Read(buffer);
+            dir.Read(buffer);
+            normal.Read(buffer);
+            lnorm.Read(buffer);
+            attackDir.Read(buffer);
+            tScarDir.Read(buffer);
+            tPos.Read(buffer);
+            tUp.Read(buffer);
+            tNormal.Read(buffer);
+            localnormangle.Read(buffer);
+            shakeStrength = buffer.ReadFloat(Endianness.Big);
+            shakeDurationTime = buffer.ReadFloat(Endianness.Big);
+            shakeStillTime = buffer.ReadFloat(Endianness.Big);
+            projectileClassId = buffer.ReadUInt16(Endianness.Big);
+            weaponClassId = buffer.ReadUInt16(Endianness.Big);
+            remote = buffer.ReadInt32(Endianness.Big);
+            damageLevel = buffer.ReadInt32(Endianness.Big);
+            attackType = buffer.ReadUInt32(Endianness.Big);
+            hitType = buffer.ReadUInt32(Endianness.Big);
+            defenseResult = buffer.ReadInt32(Endianness.Big);
+            HitIndex = buffer.ReadInt32(Endianness.Big);
+            shooterSrvId = buffer.ReadInt32(Endianness.Big);
+            targetSrvId = buffer.ReadInt32(Endianness.Big);
+            weaponSrvId = buffer.ReadInt32(Endianness.Big);
+            projectileSrvId = buffer.ReadInt32(Endianness.Big);
+            hashWeaponClass = buffer.ReadUInt32(Endianness.Big);
+            hashFireMode = buffer.ReadUInt32(Endianness.Big);
+            hashAttacker = buffer.ReadUInt32(Endianness.Big);
+            hashMeleeParams = buffer.ReadUInt32(Endianness.Big);
+            hashCurEvent = buffer.ReadUInt32(Endianness.Big);
+            skillResID = buffer.ReadInt32(Endianness.Big);
+            skillSeq = buffer.ReadInt64(Endianness.Big);
+            curStamina = buffer.ReadFloat(Endianness.Big);
         }
 
     }

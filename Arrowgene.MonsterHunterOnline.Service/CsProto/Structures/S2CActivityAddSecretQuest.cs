@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityAddSecretQuest : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAddSecretQuest));
 
         public S2CActivityAddSecretQuest()
         {
@@ -67,6 +69,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < levelsCount; i++)
             {
                 buffer.WriteInt32(Levels[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Camp = buffer.ReadInt32(Endianness.Big);
+            EndTime = buffer.ReadUInt32(Endianness.Big);
+            Levels.Clear();
+            int levelsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelsCount; i++)
+            {
+                int LevelsEntry = buffer.ReadInt32(Endianness.Big);
+                Levels.Add(LevelsEntry);
             }
         }
 

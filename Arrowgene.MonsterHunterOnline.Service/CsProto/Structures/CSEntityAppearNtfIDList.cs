@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEntityAppearNtfIDList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntityAppearNtfIDList));
 
         public CSEntityAppearNtfIDList()
         {
@@ -63,6 +65,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < logicEntityTypeCount; i++)
             {
                 buffer.WriteUInt32(LogicEntityType[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            InitType = buffer.ReadInt32(Endianness.Big);
+            LogicEntityID.Clear();
+            int logicEntityIDCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < logicEntityIDCount; i++)
+            {
+                uint LogicEntityIDEntry = buffer.ReadUInt32(Endianness.Big);
+                LogicEntityID.Add(LogicEntityIDEntry);
+            }
+            LogicEntityType.Clear();
+            int logicEntityTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < logicEntityTypeCount; i++)
+            {
+                uint LogicEntityTypeEntry = buffer.ReadUInt32(Endianness.Big);
+                LogicEntityType.Add(LogicEntityTypeEntry);
             }
         }
 

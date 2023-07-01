@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SCreateGuild : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SCreateGuild));
 
         public C2SCreateGuild()
         {
@@ -65,6 +67,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Icon, Endianness.Big);
             buffer.WriteInt32(Note.Length + 1, Endianness.Big);
             buffer.WriteCString(Note);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Icon = buffer.ReadInt32(Endianness.Big);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
         }
 
     }

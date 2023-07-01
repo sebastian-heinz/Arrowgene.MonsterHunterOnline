@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSProjectileLaunchNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSProjectileLaunchNtf));
 
         public CSProjectileLaunchNtf()
         {
@@ -206,6 +208,46 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < additiveAccTimeCount; i++)
             {
                 buffer.WriteFloat(additiveAccTime[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            LauncherID = buffer.ReadInt32(Endianness.Big);
+            VehicleID = buffer.ReadUInt32(Endianness.Big);
+            TypeID = buffer.ReadInt32(Endianness.Big);
+            pos.Read(buffer);
+            dir.Read(buffer);
+            additiveVel.Read(buffer);
+            skillId = buffer.ReadInt32(Endianness.Big);
+            itemId = buffer.ReadInt32(Endianness.Big);
+            delay = buffer.ReadFloat(Endianness.Big);
+            speedScale = buffer.ReadFloat(Endianness.Big);
+            damageScale = buffer.ReadFloat(Endianness.Big);
+            overrideTrail = buffer.ReadInt32(Endianness.Big);
+            acc.Read(buffer);
+            vel.Read(buffer);
+            radius = buffer.ReadFloat(Endianness.Big);
+            gravityChangeTime = buffer.ReadFloat(Endianness.Big);
+            additiveGravity = buffer.ReadFloat(Endianness.Big);
+            launchType = buffer.ReadInt32(Endianness.Big);
+            additiveAccXYZMode = buffer.ReadInt32(Endianness.Big);
+            additiveAccXYZ.Clear();
+            int additiveAccXYZCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < additiveAccXYZCount; i++)
+            {
+                CSVec3 additiveAccXYZEntry = new CSVec3();
+                additiveAccXYZEntry.Read(buffer);
+                additiveAccXYZ.Add(additiveAccXYZEntry);
+            }
+            additiveAccTime.Clear();
+            int additiveAccTimeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < additiveAccTimeCount; i++)
+            {
+                float additiveAccTimeEntry = buffer.ReadFloat(Endianness.Big);
+                additiveAccTime.Add(additiveAccTimeEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTowerSupplyOpenNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTowerSupplyOpenNtf));
 
         public CSTowerSupplyOpenNtf()
         {
@@ -100,6 +102,34 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_MAX_TOWER_APPRAISAL_NUM; i++)
             {
                 buffer.WriteInt32(ProbabilityInfo[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Layer = buffer.ReadInt32(Endianness.Big);
+            Appraisal = buffer.ReadInt32(Endianness.Big);
+            TowerSupplyID = buffer.ReadInt32(Endianness.Big);
+            CurUseTime = buffer.ReadInt32(Endianness.Big);
+            MemberInfo.Clear();
+            short memberInfoCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < memberInfoCount; i++)
+            {
+                CSTowerMemberInfo MemberInfoEntry = new CSTowerMemberInfo();
+                MemberInfoEntry.Read(buffer);
+                MemberInfo.Add(MemberInfoEntry);
+            }
+            ItemInfo.Clear();
+            short itemInfoCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < itemInfoCount; i++)
+            {
+                CSTowerItemInfo ItemInfoEntry = new CSTowerItemInfo();
+                ItemInfoEntry.Read(buffer);
+                ItemInfo.Add(ItemInfoEntry);
+            }
+            for (int i = 0; i < CsProtoConstant.CS_MAX_TOWER_APPRAISAL_NUM; i++)
+            {
+                ProbabilityInfo[i] = buffer.ReadInt32(Endianness.Big);
             }
         }
 

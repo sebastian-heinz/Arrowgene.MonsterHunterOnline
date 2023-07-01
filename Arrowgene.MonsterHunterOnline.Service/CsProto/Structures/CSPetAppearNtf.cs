@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetAppearNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetAppearNtf));
 
         public CSPetAppearNtf()
         {
@@ -189,6 +191,54 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteInt32(GrowHighDay, Endianness.Big);
             buffer.WriteInt32(GrowHeight, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadInt32(Endianness.Big);
+            OwnerID = buffer.ReadInt32(Endianness.Big);
+            InfoID = buffer.ReadInt32(Endianness.Big);
+            EntGUID = buffer.ReadUInt64(Endianness.Big);
+            PetUID = buffer.ReadInt32(Endianness.Big);
+            PetIdx = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Pose.Read(buffer);
+            AvatarSetID = buffer.ReadByte();
+            Health = buffer.ReadFloat(Endianness.Big);
+            Equip.Clear();
+            ushort equipCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipCount; i++)
+            {
+                int EquipEntry = buffer.ReadInt32(Endianness.Big);
+                Equip.Add(EquipEntry);
+            }
+            Attr.Clear();
+            ushort attrCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < attrCount; i++)
+            {
+                byte AttrEntry = buffer.ReadByte();
+                Attr.Add(AttrEntry);
+            }
+            Buff.Clear();
+            ushort buffCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < buffCount; i++)
+            {
+                byte BuffEntry = buffer.ReadByte();
+                Buff.Add(BuffEntry);
+            }
+            RandAttrs.Read(buffer);
+            Support = buffer.ReadByte();
+            Skill.Clear();
+            int skillCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < skillCount; i++)
+            {
+                CSPetSkill SkillEntry = new CSPetSkill();
+                SkillEntry.Read(buffer);
+                Skill.Add(SkillEntry);
+            }
+            GrowHighDay = buffer.ReadInt32(Endianness.Big);
+            GrowHeight = buffer.ReadInt32(Endianness.Big);
         }
 
     }

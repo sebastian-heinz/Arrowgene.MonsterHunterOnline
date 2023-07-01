@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRoomInitInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoomInitInfo));
 
         public CSRoomInitInfo()
         {
@@ -50,6 +52,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < roomSlotsCount; i++)
             {
                 buffer.WriteUInt32(RoomSlots[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoomSlots.Clear();
+            int roomSlotsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < roomSlotsCount; i++)
+            {
+                uint RoomSlotsEntry = buffer.ReadUInt32(Endianness.Big);
+                RoomSlots.Add(RoomSlotsEntry);
             }
         }
 

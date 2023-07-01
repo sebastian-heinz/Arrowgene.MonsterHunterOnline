@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDragonBoxShopRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxShopRsp));
 
         public CSDragonBoxShopRsp()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemListCount; i++)
             {
                 ItemList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ShopID = buffer.ReadInt32(Endianness.Big);
+            ShopType = buffer.ReadInt32(Endianness.Big);
+            ItemList.Clear();
+            int itemListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemListCount; i++)
+            {
+                CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
+                ItemListEntry.Read(buffer);
+                ItemList.Add(ItemListEntry);
             }
         }
 

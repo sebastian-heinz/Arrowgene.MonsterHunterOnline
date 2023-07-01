@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CatCarUseInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CatCarUseInfo));
 
         public CatCarUseInfo()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(FactionID, Endianness.Big);
             buffer.WriteInt32(CatCarCount, Endianness.Big);
             buffer.WriteInt32(CatCarTicketCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetId = buffer.ReadUInt32(Endianness.Big);
+            FactionID = buffer.ReadInt32(Endianness.Big);
+            CatCarCount = buffer.ReadInt32(Endianness.Big);
+            CatCarTicketCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

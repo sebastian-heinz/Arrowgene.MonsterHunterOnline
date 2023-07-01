@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class SCDemonTrialGetLevelsRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(SCDemonTrialGetLevelsRsp));
 
         public SCDemonTrialGetLevelsRsp()
         {
@@ -60,6 +62,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < demonTrialLevelsCount; i++)
             {
                 buffer.WriteInt32(DemonTrialLevels[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            DemonTrialLevels.Clear();
+            int demonTrialLevelsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < demonTrialLevelsCount; i++)
+            {
+                int DemonTrialLevelsEntry = buffer.ReadInt32(Endianness.Big);
+                DemonTrialLevels.Add(DemonTrialLevelsEntry);
             }
         }
 

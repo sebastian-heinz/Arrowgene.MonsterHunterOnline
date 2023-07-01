@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMsgBoxNewNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxNewNtf));
 
         public CSMsgBoxNewNtf()
         {
@@ -74,6 +76,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < msgPramListCount; i++)
             {
                 MsgPramList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MsgBoxId = buffer.ReadUInt32(Endianness.Big);
+            MsgBoxModule = buffer.ReadByte();
+            MsgBoxType = buffer.ReadUInt32(Endianness.Big);
+            MsgPramList.Clear();
+            byte msgPramListCount = buffer.ReadByte();
+            for (int i = 0; i < msgPramListCount; i++)
+            {
+                CSMsgParam MsgPramListEntry = new CSMsgParam(null);
+                MsgPramListEntry.Read(buffer);
+                MsgPramList.Add(MsgPramListEntry);
             }
         }
 

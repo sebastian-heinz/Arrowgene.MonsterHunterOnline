@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEntityDisappearNtfList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntityDisappearNtfList));
 
         public CSEntityDisappearNtfList()
         {
@@ -50,6 +52,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < disappearCount; i++)
             {
                 Disappear[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Disappear.Clear();
+            int disappearCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < disappearCount; i++)
+            {
+                CSEntityDisappearNtf DisappearEntry = new CSEntityDisappearNtf();
+                DisappearEntry.Read(buffer);
+                Disappear.Add(DisappearEntry);
             }
         }
 

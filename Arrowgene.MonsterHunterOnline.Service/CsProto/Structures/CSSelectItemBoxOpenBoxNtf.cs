@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSelectItemBoxOpenBoxNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSelectItemBoxOpenBoxNtf));
 
         public CSSelectItemBoxOpenBoxNtf()
         {
@@ -72,6 +74,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < equipListCount; i++)
             {
                 EquipList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Box = buffer.ReadInt32(Endianness.Big);
+            ItemList.Clear();
+            byte itemListCount = buffer.ReadByte();
+            for (int i = 0; i < itemListCount; i++)
+            {
+                CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
+                ItemListEntry.Read(buffer);
+                ItemList.Add(ItemListEntry);
+            }
+            EquipList.Clear();
+            byte equipListCount = buffer.ReadByte();
+            for (int i = 0; i < equipListCount; i++)
+            {
+                CSItemData EquipListEntry = new CSItemData();
+                EquipListEntry.Read(buffer);
+                EquipList.Add(EquipListEntry);
             }
         }
 

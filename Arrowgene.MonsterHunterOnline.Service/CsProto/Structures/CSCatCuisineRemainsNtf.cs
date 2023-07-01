@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSCatCuisineRemainsNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatCuisineRemainsNtf));
 
         public CSCatCuisineRemainsNtf()
         {
@@ -74,6 +76,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Level);
             buffer.WriteByte(Buffs);
             buffer.WriteUInt32(CatLastTm, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadInt32(Endianness.Big);
+            Count = buffer.ReadUInt16(Endianness.Big);
+            Level = buffer.ReadByte();
+            Buffs = buffer.ReadByte();
+            CatLastTm = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

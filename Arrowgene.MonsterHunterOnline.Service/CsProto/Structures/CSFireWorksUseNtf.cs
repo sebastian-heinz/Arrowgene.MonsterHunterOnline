@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFireWorksUseNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFireWorksUseNtf));
 
         public CSFireWorksUseNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(FromID, Endianness.Big);
             buffer.WriteInt32(FireWorksType, Endianness.Big);
             buffer.WriteInt32(curGrid, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FromID = buffer.ReadUInt64(Endianness.Big);
+            FireWorksType = buffer.ReadInt32(Endianness.Big);
+            curGrid = buffer.ReadInt32(Endianness.Big);
         }
 
     }

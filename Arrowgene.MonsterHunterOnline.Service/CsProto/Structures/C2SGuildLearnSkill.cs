@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SGuildLearnSkill : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildLearnSkill));
 
         public C2SGuildLearnSkill()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Skill, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Skill = buffer.ReadInt32(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
         }
 
     }

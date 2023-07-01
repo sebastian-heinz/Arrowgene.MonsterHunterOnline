@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSCatTreatureInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatTreatureInfo));
 
         public CSCatTreatureInfo()
         {
@@ -73,6 +75,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteByte(iTools);
             buffer.WriteByte(iOpenID);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            tCatTime = buffer.ReadInt64(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_CAT_TREATURE_MAX_CNT; i++)
+            {
+                vOpenInfo[i] = buffer.ReadByte();
+            }
+            iTools = buffer.ReadByte();
+            iOpenID = buffer.ReadByte();
         }
 
     }

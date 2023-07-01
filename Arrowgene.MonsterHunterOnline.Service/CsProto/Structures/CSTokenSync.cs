@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTokenSync : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTokenSync));
 
         public CSTokenSync()
         {
@@ -50,6 +52,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < entriesCount; i++)
             {
                 Entries[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Entries.Clear();
+            ushort entriesCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < entriesCount; i++)
+            {
+                CSTokenSyncEntry EntriesEntry = new CSTokenSyncEntry(null);
+                EntriesEntry.Read(buffer);
+                Entries.Add(EntriesEntry);
             }
         }
 

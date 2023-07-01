@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSMailGroupDelReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailGroupDelReq));
 
         public CSMailGroupDelReq()
         {
@@ -50,6 +52,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mailIdCount; i++)
             {
                 buffer.WriteUInt64(MailId[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MailId.Clear();
+            int mailIdCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < mailIdCount; i++)
+            {
+                ulong MailIdEntry = buffer.ReadUInt64(Endianness.Big);
+                MailId.Add(MailIdEntry);
             }
         }
 

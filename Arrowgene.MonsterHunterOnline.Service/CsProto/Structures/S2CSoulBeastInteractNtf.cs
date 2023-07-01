@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class S2CSoulBeastInteractNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSoulBeastInteractNtf));
 
         public S2CSoulBeastInteractNtf()
         {
@@ -48,6 +50,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(EntityID, Endianness.Big);
             buffer.WriteInt32(InteractType.Length + 1, Endianness.Big);
             buffer.WriteCString(InteractType);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityID = buffer.ReadUInt32(Endianness.Big);
+            int InteractTypeEntryLen = buffer.ReadInt32(Endianness.Big);
+            InteractType = buffer.ReadString(InteractTypeEntryLen);
         }
 
     }

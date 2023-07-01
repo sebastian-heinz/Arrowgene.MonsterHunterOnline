@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSExtraCatRewardRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExtraCatRewardRsp));
 
         public CSExtraCatRewardRsp()
         {
@@ -87,6 +89,39 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rewardIdxCount; i++)
             {
                 buffer.WriteInt32(RewardIdx[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RetCode = buffer.ReadInt32(Endianness.Big);
+            ItemType.Clear();
+            int itemTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemTypeCount; i++)
+            {
+                int ItemTypeEntry = buffer.ReadInt32(Endianness.Big);
+                ItemType.Add(ItemTypeEntry);
+            }
+            ItemCnt.Clear();
+            int itemCntCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemCntCount; i++)
+            {
+                int ItemCntEntry = buffer.ReadInt32(Endianness.Big);
+                ItemCnt.Add(ItemCntEntry);
+            }
+            BindType.Clear();
+            int bindTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < bindTypeCount; i++)
+            {
+                int BindTypeEntry = buffer.ReadInt32(Endianness.Big);
+                BindType.Add(BindTypeEntry);
+            }
+            RewardIdx.Clear();
+            int rewardIdxCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < rewardIdxCount; i++)
+            {
+                int RewardIdxEntry = buffer.ReadInt32(Endianness.Big);
+                RewardIdx.Add(RewardIdxEntry);
             }
         }
 

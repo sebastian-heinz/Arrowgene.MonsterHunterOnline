@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemMgrSortItemReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrSortItemReq));
 
         public CSItemMgrSortItemReq()
         {
@@ -102,6 +104,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemLocListCount; i++)
             {
                 ItemLocList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemColumn = buffer.ReadByte();
+            ItemBegGrid = buffer.ReadUInt16(Endianness.Big);
+            ItemEndGrid = buffer.ReadUInt16(Endianness.Big);
+            MoveSeq = buffer.ReadInt32(Endianness.Big);
+            SwapSeq = buffer.ReadInt32(Endianness.Big);
+            AddSeq = buffer.ReadInt32(Endianness.Big);
+            DelSeq = buffer.ReadInt32(Endianness.Big);
+            ItemLocList.Clear();
+            ushort itemLocListCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < itemLocListCount; i++)
+            {
+                CSItemMgrItemLoc ItemLocListEntry = new CSItemMgrItemLoc();
+                ItemLocListEntry.Read(buffer);
+                ItemLocList.Add(ItemLocListEntry);
             }
         }
 

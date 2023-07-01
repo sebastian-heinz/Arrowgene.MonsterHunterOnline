@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDetail : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDetail));
 
         public ScriptActivityDetail()
         {
@@ -165,6 +167,47 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 ShowPeriods[i].Write(buffer);
             }
             Params.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Type = buffer.ReadByte();
+            StartTime = buffer.ReadUInt32(Endianness.Big);
+            StopTime = buffer.ReadUInt32(Endianness.Big);
+            ShowTime = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
+            int TimeEntryLen = buffer.ReadInt32(Endianness.Big);
+            Time = buffer.ReadString(TimeEntryLen);
+            int RuleEntryLen = buffer.ReadInt32(Endianness.Big);
+            Rule = buffer.ReadString(RuleEntryLen);
+            int UrlEntryLen = buffer.ReadInt32(Endianness.Big);
+            Url = buffer.ReadString(UrlEntryLen);
+            int IconEntryLen = buffer.ReadInt32(Endianness.Big);
+            Icon = buffer.ReadString(IconEntryLen);
+            int BubbleEntryLen = buffer.ReadInt32(Endianness.Big);
+            Bubble = buffer.ReadString(BubbleEntryLen);
+            BubbleInterval = buffer.ReadInt32(Endianness.Big);
+            Serial = buffer.ReadByte();
+            DataEntries.Clear();
+            byte dataEntriesCount = buffer.ReadByte();
+            for (int i = 0; i < dataEntriesCount; i++)
+            {
+                ScriptActivityDataEntry DataEntriesEntry = new ScriptActivityDataEntry(null);
+                DataEntriesEntry.Read(buffer);
+                DataEntries.Add(DataEntriesEntry);
+            }
+            ShowPeriods.Clear();
+            byte showPeriodsCount = buffer.ReadByte();
+            for (int i = 0; i < showPeriodsCount; i++)
+            {
+                ScriptActivityPeriod ShowPeriodsEntry = new ScriptActivityPeriod();
+                ShowPeriodsEntry.Read(buffer);
+                ShowPeriods.Add(ShowPeriodsEntry);
+            }
+            Params.Read(buffer);
         }
 
     }

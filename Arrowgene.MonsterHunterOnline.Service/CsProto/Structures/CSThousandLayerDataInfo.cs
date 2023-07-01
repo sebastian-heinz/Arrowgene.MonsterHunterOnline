@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSThousandLayerDataInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSThousandLayerDataInfo));
 
         public CSThousandLayerDataInfo()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(Seconds, Endianness.Big);
             buffer.WriteInt16(Layer, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            Seconds = buffer.ReadInt32(Endianness.Big);
+            Layer = buffer.ReadInt16(Endianness.Big);
         }
 
     }

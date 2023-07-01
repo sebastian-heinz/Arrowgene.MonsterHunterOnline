@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmGatherReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmGatherReq));
 
         public CSFarmGatherReq()
         {
@@ -87,6 +89,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 buffer.WriteInt32(Tools[i], Endianness.Big);
             }
             buffer.WriteByte(SkipCutScene);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FacilityType = buffer.ReadInt32(Endianness.Big);
+            FacilityIndex = buffer.ReadInt32(Endianness.Big);
+            PlowLandIndex = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_FARM_ADVANCEDFACILITY_PET_COUNT; i++)
+            {
+                Pet[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            for (int i = 0; i < CsProtoConstant.CS_FARM_ADVANCEDFACILITY_PET_COUNT; i++)
+            {
+                Tools[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            SkipCutScene = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPkgTimerRecord : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPkgTimerRecord));
 
         public CSPkgTimerRecord()
         {
@@ -112,6 +114,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt64(Timer8, Endianness.Big);
             buffer.WriteInt64(Timer9, Endianness.Big);
             buffer.WriteInt64(Timer10, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Timer1 = buffer.ReadInt64(Endianness.Big);
+            Timer2 = buffer.ReadInt64(Endianness.Big);
+            Timer3 = buffer.ReadInt64(Endianness.Big);
+            Timer4 = buffer.ReadInt64(Endianness.Big);
+            Timer5 = buffer.ReadInt64(Endianness.Big);
+            Timer6 = buffer.ReadInt64(Endianness.Big);
+            Timer7 = buffer.ReadInt64(Endianness.Big);
+            Timer8 = buffer.ReadInt64(Endianness.Big);
+            Timer9 = buffer.ReadInt64(Endianness.Big);
+            Timer10 = buffer.ReadInt64(Endianness.Big);
         }
 
     }

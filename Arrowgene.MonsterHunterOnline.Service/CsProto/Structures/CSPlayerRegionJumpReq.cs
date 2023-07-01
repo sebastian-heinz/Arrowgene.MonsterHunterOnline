@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerRegionJumpReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerRegionJumpReq));
 
         public CSPlayerRegionJumpReq()
         {
@@ -57,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             PlayerPos.Write(buffer);
             buffer.WriteInt32(TriggerName.Length + 1, Endianness.Big);
             buffer.WriteCString(TriggerName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerPos.Read(buffer);
+            int TriggerNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TriggerName = buffer.ReadString(TriggerNameEntryLen);
         }
 
     }

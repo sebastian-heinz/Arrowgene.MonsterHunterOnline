@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSCheckVersionReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCheckVersionReq));
 
         public CSCheckVersionReq()
         {
@@ -116,6 +118,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tGPTicketCount; i++)
             {
                 buffer.WriteByte(TGPTicket[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MajorVerNo = buffer.ReadInt32(Endianness.Big);
+            MinorVerNo = buffer.ReadInt32(Endianness.Big);
+            RevisVerNo = buffer.ReadInt32(Endianness.Big);
+            BuildVerNo = buffer.ReadInt32(Endianness.Big);
+            IgnoreTag = buffer.ReadInt32(Endianness.Big);
+            ProtoVer = buffer.ReadInt32(Endianness.Big);
+            Feature.Read(buffer);
+            Reserve1 = buffer.ReadInt32(Endianness.Big);
+            Reserve2 = buffer.ReadInt32(Endianness.Big);
+            TGPTicket.Clear();
+            int tGPTicketCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tGPTicketCount; i++)
+            {
+                byte TGPTicketEntry = buffer.ReadByte();
+                TGPTicket.Add(TGPTicketEntry);
             }
         }
 

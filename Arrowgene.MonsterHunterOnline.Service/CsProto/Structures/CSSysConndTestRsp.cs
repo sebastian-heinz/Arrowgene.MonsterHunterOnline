@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSysConndTestRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSysConndTestRsp));
 
         public CSSysConndTestRsp()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(NeedSum, Endianness.Big);
             buffer.WriteUInt32(SvrTickCount, Endianness.Big);
             buffer.WriteUInt32(ClientTickCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Send = buffer.ReadUInt32(Endianness.Big);
+            Freq = buffer.ReadUInt32(Endianness.Big);
+            SendSum = buffer.ReadUInt32(Endianness.Big);
+            NeedSum = buffer.ReadUInt32(Endianness.Big);
+            SvrTickCount = buffer.ReadUInt32(Endianness.Big);
+            ClientTickCount = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

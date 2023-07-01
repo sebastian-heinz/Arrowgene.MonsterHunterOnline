@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLevelRewardAffectInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelRewardAffectInfo));
 
         public CSLevelRewardAffectInfo()
         {
@@ -111,6 +113,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteInt32(FinalPercent, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AffectType = buffer.ReadInt16(Endianness.Big);
+            ValueAffectType.Clear();
+            short valueAffectTypeCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < valueAffectTypeCount; i++)
+            {
+                short ValueAffectTypeEntry = buffer.ReadInt16(Endianness.Big);
+                ValueAffectType.Add(ValueAffectTypeEntry);
+            }
+            ValueAffectValue.Clear();
+            short valueAffectValueCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < valueAffectValueCount; i++)
+            {
+                int ValueAffectValueEntry = buffer.ReadInt32(Endianness.Big);
+                ValueAffectValue.Add(ValueAffectValueEntry);
+            }
+            PercentAffectType.Clear();
+            short percentAffectTypeCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < percentAffectTypeCount; i++)
+            {
+                short PercentAffectTypeEntry = buffer.ReadInt16(Endianness.Big);
+                PercentAffectType.Add(PercentAffectTypeEntry);
+            }
+            PercentAffectValue.Clear();
+            short percentAffectValueCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < percentAffectValueCount; i++)
+            {
+                int PercentAffectValueEntry = buffer.ReadInt32(Endianness.Big);
+                PercentAffectValue.Add(PercentAffectValueEntry);
+            }
+            FinalPercent = buffer.ReadInt32(Endianness.Big);
+            Arg1 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMultiNetIpinfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMultiNetIpinfo));
 
         public CSMultiNetIpinfo()
         {
@@ -119,7 +121,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(DomainAnalyseIP.Length + 1, Endianness.Big);
             buffer.WriteCString(DomainAnalyseIP);
             buffer.WriteInt32(PingDomainIP, Endianness.Big);
-            for (int i = 0; i < CsProtoConstant.CS_MAX_IP_STRING_COUNT; i++)
+            int ConfigIPLen = ConfigIP.Length;
+            buffer.WriteInt32(ConfigIPLen, Endianness.Big);
+            for (int i = 0; i < ConfigIPLen; i++)
             {
                 buffer.WriteInt32(ConfigIP[i].Length + 1, Endianness.Big);
                 buffer.WriteCString(ConfigIP[i]);
@@ -140,6 +144,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_MAX_IP_STRING_COUNT; i++)
             {
                 buffer.WriteInt32(HistoryPingWeight[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int SelectIPEntryLen = buffer.ReadInt32(Endianness.Big);
+            SelectIP = buffer.ReadString(SelectIPEntryLen);
+            int DomainNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            DomainName = buffer.ReadString(DomainNameEntryLen);
+            int DomainAnalyseIPEntryLen = buffer.ReadInt32(Endianness.Big);
+            DomainAnalyseIP = buffer.ReadString(DomainAnalyseIPEntryLen);
+            PingDomainIP = buffer.ReadInt32(Endianness.Big);
+            int ConfigIPLen = buffer.ReadInt32();
+            for (int i = 0; i < ConfigIPLen; i++)
+            {
+                int ConfigIPEntryLen = buffer.ReadInt32(Endianness.Big);
+                ConfigIP[i] = buffer.ReadString(ConfigIPEntryLen);
+            }
+            for (int i = 0; i < CsProtoConstant.CS_MAX_IP_STRING_COUNT; i++)
+            {
+                PingIP[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            Port = buffer.ReadInt32(Endianness.Big);
+            Signature.Clear();
+            int signatureCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < signatureCount; i++)
+            {
+                byte SignatureEntry = buffer.ReadByte();
+                Signature.Add(SignatureEntry);
+            }
+            Isp = buffer.ReadInt32(Endianness.Big);
+            Mode = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_MAX_IP_STRING_COUNT; i++)
+            {
+                HistoryPingWeight[i] = buffer.ReadInt32(Endianness.Big);
             }
         }
 

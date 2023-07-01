@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSvrStatusNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSvrStatusNtf));
 
         public CSSvrStatusNtf()
         {
@@ -103,6 +105,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < BattleFPS.Length; i++)
             {
                 buffer.WriteFloat(BattleFPS[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            OnlinePlayerNum = buffer.ReadInt32(Endianness.Big);
+            PlayerInTown = buffer.ReadInt32(Endianness.Big);
+            PlayerInBattle = buffer.ReadInt32(Endianness.Big);
+            ActiveInstanceCount = buffer.ReadInt32(Endianness.Big);
+            PlayerInWaitQueue = buffer.ReadInt32(Endianness.Big);
+            WorldFPS = buffer.ReadFloat(Endianness.Big);
+            for (int i = 0; i < TownFPS.Length; i++)
+            {
+                TownFPS[i] = buffer.ReadFloat(Endianness.Big);
+            }
+            for (int i = 0; i < BattleFPS.Length; i++)
+            {
+                BattleFPS[i] = buffer.ReadFloat(Endianness.Big);
             }
         }
 

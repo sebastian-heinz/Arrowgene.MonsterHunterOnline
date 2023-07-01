@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerLevelInitInfo : RemoteDataInfo
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerLevelInitInfo));
 
         public CSPlayerLevelInitInfo()
         {
@@ -194,6 +196,114 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 UnlockHubStarData[i].Write(buffer);
             }
             PlayerSuperHunterData.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntrustMoneyLastTm = buffer.ReadInt32(Endianness.Big);
+            UnLockLevelData.Clear();
+            int unLockLevelDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < unLockLevelDataCount; i++)
+            {
+                PlayerUnlockLevelInfo UnLockLevelDataEntry = new PlayerUnlockLevelInfo();
+                UnLockLevelDataEntry.Read(buffer);
+                UnLockLevelData.Add(UnLockLevelDataEntry);
+            }
+            UnlockHubData.Clear();
+            int unlockHubDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < unlockHubDataCount; i++)
+            {
+                PlayerUnLockHubInfo UnlockHubDataEntry = new PlayerUnLockHubInfo();
+                UnlockHubDataEntry.Read(buffer);
+                UnlockHubData.Add(UnlockHubDataEntry);
+            }
+            HubRewardData.Clear();
+            int hubRewardDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < hubRewardDataCount; i++)
+            {
+                CSHubEntryRewardInfo HubRewardDataEntry = new CSHubEntryRewardInfo();
+                HubRewardDataEntry.Read(buffer);
+                HubRewardData.Add(HubRewardDataEntry);
+            }
+            LevelIntegrateData.Clear();
+            int levelIntegrateDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelIntegrateDataCount; i++)
+            {
+                PlayerLevelIntegrateInfo LevelIntegrateDataEntry = new PlayerLevelIntegrateInfo();
+                LevelIntegrateDataEntry.Read(buffer);
+                LevelIntegrateData.Add(LevelIntegrateDataEntry);
+            }
+            LevelEntrustData.Clear();
+            int levelEntrustDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelEntrustDataCount; i++)
+            {
+                PlayerLevelEntrustInfo LevelEntrustDataEntry = new PlayerLevelEntrustInfo();
+                LevelEntrustDataEntry.Read(buffer);
+                LevelEntrustData.Add(LevelEntrustDataEntry);
+            }
+            PlayerLevelEnstrustRewardData.Clear();
+            int playerLevelEnstrustRewardDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < playerLevelEnstrustRewardDataCount; i++)
+            {
+                PlayerLevelEnstrustRewardInfo PlayerLevelEnstrustRewardDataEntry = new PlayerLevelEnstrustRewardInfo();
+                PlayerLevelEnstrustRewardDataEntry.Read(buffer);
+                PlayerLevelEnstrustRewardData.Add(PlayerLevelEnstrustRewardDataEntry);
+            }
+            PlayerLevelFormatPeriodLimitData.Read(buffer);
+            PlayerThousandLayerData.Clear();
+            int playerThousandLayerDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < playerThousandLayerDataCount; i++)
+            {
+                CSThousandLayerDataInfo PlayerThousandLayerDataEntry = new CSThousandLayerDataInfo();
+                PlayerThousandLayerDataEntry.Read(buffer);
+                PlayerThousandLayerData.Add(PlayerThousandLayerDataEntry);
+            }
+            LevelStatDataPack.Clear();
+            int levelStatDataPackCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelStatDataPackCount; i++)
+            {
+                byte LevelStatDataPackEntry = buffer.ReadByte();
+                LevelStatDataPack.Add(LevelStatDataPackEntry);
+            }
+            EntrustGroupDataPack.Clear();
+            int entrustGroupDataPackCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < entrustGroupDataPackCount; i++)
+            {
+                byte EntrustGroupDataPackEntry = buffer.ReadByte();
+                EntrustGroupDataPack.Add(EntrustGroupDataPackEntry);
+            }
+            LevelWarningDataPack.Clear();
+            int levelWarningDataPackCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelWarningDataPackCount; i++)
+            {
+                byte LevelWarningDataPackEntry = buffer.ReadByte();
+                LevelWarningDataPack.Add(LevelWarningDataPackEntry);
+            }
+            CSMonsterSizeList.Clear();
+            int cSMonsterSizeListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < cSMonsterSizeListCount; i++)
+            {
+                CSMonsterSize CSMonsterSizeListEntry = new CSMonsterSize();
+                CSMonsterSizeListEntry.Read(buffer);
+                CSMonsterSizeList.Add(CSMonsterSizeListEntry);
+            }
+            UnLockLevelGroupData.Clear();
+            int unLockLevelGroupDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < unLockLevelGroupDataCount; i++)
+            {
+                PlayerUnlockLevelGroupInfo UnLockLevelGroupDataEntry = new PlayerUnlockLevelGroupInfo();
+                UnLockLevelGroupDataEntry.Read(buffer);
+                UnLockLevelGroupData.Add(UnLockLevelGroupDataEntry);
+            }
+            UnlockHubStarData.Clear();
+            int unlockHubStarDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < unlockHubStarDataCount; i++)
+            {
+                PlayerUnLockHubStarInfo UnlockHubStarDataEntry = new PlayerUnLockHubStarInfo();
+                UnlockHubStarDataEntry.Read(buffer);
+                UnlockHubStarData.Add(UnlockHubStarDataEntry);
+            }
+            PlayerSuperHunterData.Read(buffer);
         }
 
     }

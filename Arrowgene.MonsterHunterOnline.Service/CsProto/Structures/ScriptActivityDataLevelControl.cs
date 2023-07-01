@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDataLevelControl : ScriptActivityDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataLevelControl));
 
         public ScriptActivityDataLevelControl()
         {
@@ -103,6 +105,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < datesCount; i++)
             {
                 Dates[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ControlType = buffer.ReadByte();
+            Id = buffer.ReadInt32(Endianness.Big);
+            DateType = buffer.ReadInt32(Endianness.Big);
+            DateInterval = buffer.ReadInt32(Endianness.Big);
+            int DateDaysEntryLen = buffer.ReadInt32(Endianness.Big);
+            DateDays = buffer.ReadString(DateDaysEntryLen);
+            int DateTimeEntryLen = buffer.ReadInt32(Endianness.Big);
+            DateTime = buffer.ReadString(DateTimeEntryLen);
+            BeginTime = buffer.ReadUInt32(Endianness.Big);
+            Dates.Clear();
+            byte datesCount = buffer.ReadByte();
+            for (int i = 0; i < datesCount; i++)
+            {
+                ScriptActivityDate DatesEntry = new ScriptActivityDate();
+                DatesEntry.Read(buffer);
+                Dates.Add(DatesEntry);
             }
         }
 

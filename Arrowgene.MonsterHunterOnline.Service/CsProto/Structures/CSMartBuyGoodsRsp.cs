@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMartBuyGoodsRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartBuyGoodsRsp));
 
         public CSMartBuyGoodsRsp()
         {
@@ -98,6 +100,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BindCredit, Endianness.Big);
             buffer.WriteByte(PayChannel);
             buffer.WriteByte(gift);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            errCode = buffer.ReadInt32(Endianness.Big);
+            goodID = buffer.ReadInt32(Endianness.Big);
+            num = buffer.ReadInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
+            Credit = buffer.ReadInt32(Endianness.Big);
+            BindCredit = buffer.ReadInt32(Endianness.Big);
+            PayChannel = buffer.ReadByte();
+            gift = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterSkelPoseInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterSkelPoseInfo));
 
         public CSMonsterSkelPoseInfo()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < bonePoseCount; i++)
             {
                 BonePose[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            EntityPose.Read(buffer);
+            BonePose.Clear();
+            uint bonePoseCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < bonePoseCount; i++)
+            {
+                CSQuatT BonePoseEntry = new CSQuatT();
+                BonePoseEntry.Read(buffer);
+                BonePose.Add(BonePoseEntry);
             }
         }
 

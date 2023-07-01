@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSetTrapReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetTrapReq));
 
         public CSSetTrapReq()
         {
@@ -94,6 +96,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CEClassName.Length + 1, Endianness.Big);
             buffer.WriteCString(CEClassName);
             buffer.WriteInt32(Param, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TrapID = buffer.ReadInt32(Endianness.Big);
+            SpawnType = buffer.ReadByte();
+            Pose.Read(buffer);
+            Rotation.Read(buffer);
+            Bone = buffer.ReadInt32(Endianness.Big);
+            Offset.Read(buffer);
+            Holder = buffer.ReadUInt32(Endianness.Big);
+            int CEClassNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            CEClassName = buffer.ReadString(CEClassNameEntryLen);
+            Param = buffer.ReadInt32(Endianness.Big);
         }
 
     }

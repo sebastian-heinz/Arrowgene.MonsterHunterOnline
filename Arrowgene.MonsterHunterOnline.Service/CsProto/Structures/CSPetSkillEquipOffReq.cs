@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetSkillEquipOffReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSkillEquipOffReq));
 
         public CSPetSkillEquipOffReq()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Idx, Endianness.Big);
             buffer.WriteInt32(UID, Endianness.Big);
             buffer.WriteInt32(SkillID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Idx = buffer.ReadInt32(Endianness.Big);
+            UID = buffer.ReadInt32(Endianness.Big);
+            SkillID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

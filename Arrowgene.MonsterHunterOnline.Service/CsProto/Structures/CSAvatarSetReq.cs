@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAvatarSetReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAvatarSetReq));
 
         public CSAvatarSetReq()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(HideFashion);
             buffer.WriteByte(HideSuite);
             buffer.WriteByte(HideHelm);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            HideFashion = buffer.ReadByte();
+            HideSuite = buffer.ReadByte();
+            HideHelm = buffer.ReadByte();
         }
 
     }

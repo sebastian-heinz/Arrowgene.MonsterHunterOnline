@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSChatPrivateReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatPrivateReq));
 
         public CSChatPrivateReq()
         {
@@ -79,6 +81,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(TargetName);
             Items.Write(buffer);
             buffer.WriteUInt32(TargetSvrId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ChannelType = buffer.ReadInt32(Endianness.Big);
+            int ContentEntryLen = buffer.ReadInt32(Endianness.Big);
+            Content = buffer.ReadString(ContentEntryLen);
+            int TargetNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TargetName = buffer.ReadString(TargetNameEntryLen);
+            Items.Read(buffer);
+            TargetSvrId = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSBSMRoomUIPlayerInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBSMRoomUIPlayerInfo));
 
         public CSBSMRoomUIPlayerInfo()
         {
@@ -102,6 +104,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Officer);
             buffer.WriteInt32(HRLevel, Endianness.Big);
             buffer.WriteByte(BigRand);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoleIndex = buffer.ReadUInt32(Endianness.Big);
+            CharLevel = buffer.ReadInt32(Endianness.Big);
+            Weapon = buffer.ReadInt32(Endianness.Big);
+            BoxID = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            int StarLevelEntryLen = buffer.ReadInt32(Endianness.Big);
+            StarLevel = buffer.ReadString(StarLevelEntryLen);
+            Faction = buffer.ReadInt32(Endianness.Big);
+            Officer = buffer.ReadByte();
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            BigRand = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class PlayerPassEntrustLevelInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerPassEntrustLevelInfo));
 
         public PlayerPassEntrustLevelInfo()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(MergeGroupID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteUInt32(PassCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MergeGroupID = buffer.ReadUInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            PassCount = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

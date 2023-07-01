@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSecretResearchLabDaliyRefreshRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabDaliyRefreshRsp));
 
         public S2CSecretResearchLabDaliyRefreshRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(VipRefreshCount, Endianness.Big);
             buffer.WriteInt32(RefreshCount, Endianness.Big);
             buffer.WriteInt32(ResearchCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            VipRefreshCount = buffer.ReadInt32(Endianness.Big);
+            RefreshCount = buffer.ReadInt32(Endianness.Big);
+            ResearchCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

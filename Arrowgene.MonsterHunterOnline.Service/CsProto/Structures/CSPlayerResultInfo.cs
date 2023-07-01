@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerResultInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerResultInfo));
 
         public CSPlayerResultInfo()
         {
@@ -73,6 +75,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < sizeChangeInfoListCount; i++)
             {
                 SizeChangeInfoList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BaseInfo.Read(buffer);
+            StatInfo.Read(buffer);
+            RewardInfoList.Clear();
+            int rewardInfoListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < rewardInfoListCount; i++)
+            {
+                CSLevelRewardInfo RewardInfoListEntry = new CSLevelRewardInfo();
+                RewardInfoListEntry.Read(buffer);
+                RewardInfoList.Add(RewardInfoListEntry);
+            }
+            SizeChangeInfoList.Clear();
+            int sizeChangeInfoListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < sizeChangeInfoListCount; i++)
+            {
+                MonsterSizeChange SizeChangeInfoListEntry = new MonsterSizeChange();
+                SizeChangeInfoListEntry.Read(buffer);
+                SizeChangeInfoList.Add(SizeChangeInfoListEntry);
             }
         }
 

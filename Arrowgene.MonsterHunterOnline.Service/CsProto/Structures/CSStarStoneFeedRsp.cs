@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSStarStoneFeedRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneFeedRsp));
 
         public CSStarStoneFeedRsp()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ThunderExp, Endianness.Big);
             buffer.WriteInt32(DragonExp, Endianness.Big);
             buffer.WriteInt32(IceExp, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RetCode = buffer.ReadInt32(Endianness.Big);
+            WaterExp = buffer.ReadInt32(Endianness.Big);
+            FireExp = buffer.ReadInt32(Endianness.Big);
+            ThunderExp = buffer.ReadInt32(Endianness.Big);
+            DragonExp = buffer.ReadInt32(Endianness.Big);
+            IceExp = buffer.ReadInt32(Endianness.Big);
         }
 
     }

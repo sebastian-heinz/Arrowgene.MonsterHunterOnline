@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSShop : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSShop));
 
         public CSShop()
         {
@@ -74,6 +76,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < commodityCount; i++)
             {
                 Commodity[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RefreshTime = buffer.ReadUInt32(Endianness.Big);
+            Lib = buffer.ReadInt32(Endianness.Big);
+            ResetTimes = buffer.ReadInt32(Endianness.Big);
+            Commodity.Clear();
+            short commodityCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < commodityCount; i++)
+            {
+                CSCommodity CommodityEntry = new CSCommodity();
+                CommodityEntry.Read(buffer);
+                Commodity.Add(CommodityEntry);
             }
         }
 

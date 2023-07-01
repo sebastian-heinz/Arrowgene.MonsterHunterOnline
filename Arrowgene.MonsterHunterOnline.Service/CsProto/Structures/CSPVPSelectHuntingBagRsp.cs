@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPVPSelectHuntingBagRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPSelectHuntingBagRsp));
 
         public CSPVPSelectHuntingBagRsp()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Name);
             buffer.WriteInt32(Level, Endianness.Big);
             buffer.WriteInt32(HuntingBagID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            NetId = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            HuntingBagID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

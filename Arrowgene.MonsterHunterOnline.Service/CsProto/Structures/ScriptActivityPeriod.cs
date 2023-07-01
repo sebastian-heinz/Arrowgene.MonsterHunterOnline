@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class ScriptActivityPeriod : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityPeriod));
 
         public ScriptActivityPeriod()
         {
@@ -65,6 +67,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Days);
             buffer.WriteInt32(Time.Length + 1, Endianness.Big);
             buffer.WriteCString(Time);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Type = buffer.ReadByte();
+            int DaysEntryLen = buffer.ReadInt32(Endianness.Big);
+            Days = buffer.ReadString(DaysEntryLen);
+            int TimeEntryLen = buffer.ReadInt32(Endianness.Big);
+            Time = buffer.ReadString(TimeEntryLen);
         }
 
     }

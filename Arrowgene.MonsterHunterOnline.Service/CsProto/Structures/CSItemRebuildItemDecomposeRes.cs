@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemRebuildItemDecomposeRes : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildItemDecomposeRes));
 
         public CSItemRebuildItemDecomposeRes()
         {
@@ -91,6 +93,36 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mailItemsCount; i++)
             {
                 MailItems[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            IsCrited = buffer.ReadByte();
+            BagItems.Clear();
+            byte bagItemsCount = buffer.ReadByte();
+            for (int i = 0; i < bagItemsCount; i++)
+            {
+                CSItemDecomposeItemEntry BagItemsEntry = new CSItemDecomposeItemEntry();
+                BagItemsEntry.Read(buffer);
+                BagItems.Add(BagItemsEntry);
+            }
+            StoreItems.Clear();
+            byte storeItemsCount = buffer.ReadByte();
+            for (int i = 0; i < storeItemsCount; i++)
+            {
+                CSItemDecomposeItemEntry StoreItemsEntry = new CSItemDecomposeItemEntry();
+                StoreItemsEntry.Read(buffer);
+                StoreItems.Add(StoreItemsEntry);
+            }
+            MailItems.Clear();
+            byte mailItemsCount = buffer.ReadByte();
+            for (int i = 0; i < mailItemsCount; i++)
+            {
+                CSItemDecomposeItemEntry MailItemsEntry = new CSItemDecomposeItemEntry();
+                MailItemsEntry.Read(buffer);
+                MailItems.Add(MailItemsEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSHunterStarCardData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarCardData));
 
         public CSHunterStarCardData()
         {
@@ -74,6 +76,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < targetListCount; i++)
             {
                 buffer.WriteUInt32(TargetList[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CardId = buffer.ReadUInt32(Endianness.Big);
+            Finished = buffer.ReadByte();
+            FinishTime = buffer.ReadUInt32(Endianness.Big);
+            TargetList.Clear();
+            byte targetListCount = buffer.ReadByte();
+            for (int i = 0; i < targetListCount; i++)
+            {
+                uint TargetListEntry = buffer.ReadUInt32(Endianness.Big);
+                TargetList.Add(TargetListEntry);
             }
         }
 

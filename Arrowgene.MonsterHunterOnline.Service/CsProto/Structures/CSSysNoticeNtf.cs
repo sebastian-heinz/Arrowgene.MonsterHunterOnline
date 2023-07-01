@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSysNoticeNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSysNoticeNtf));
 
         public CSSysNoticeNtf(NoticeMsg _Content)
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(RollSpeed);
             buffer.WriteByte(PreLevel);
             Content.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NoticeType = buffer.ReadByte();
+            RollCnt = buffer.ReadInt32(Endianness.Big);
+            RollSpeed = buffer.ReadByte();
+            PreLevel = buffer.ReadByte();
+            Content.Read(buffer);
         }
 
     }

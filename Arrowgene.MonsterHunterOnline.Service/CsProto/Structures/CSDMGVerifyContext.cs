@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDMGVerifyContext : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGVerifyContext));
 
         public CSDMGVerifyContext()
         {
@@ -101,6 +103,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 AttackeeLayers[i].Write(buffer);
             }
             HitInfo.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            Sequence = buffer.ReadInt64(Endianness.Big);
+            AttackerEntityPos.Read(buffer);
+            AttackerLayers.Clear();
+            short attackerLayersCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < attackerLayersCount; i++)
+            {
+                CSTransitionQueue AttackerLayersEntry = new CSTransitionQueue();
+                AttackerLayersEntry.Read(buffer);
+                AttackerLayers.Add(AttackerLayersEntry);
+            }
+            AttackeeEntityPos.Read(buffer);
+            AttackeeLayers.Clear();
+            short attackeeLayersCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < attackeeLayersCount; i++)
+            {
+                CSTransitionQueue AttackeeLayersEntry = new CSTransitionQueue();
+                AttackeeLayersEntry.Read(buffer);
+                AttackeeLayers.Add(AttackeeLayersEntry);
+            }
+            HitInfo.Read(buffer);
         }
 
     }

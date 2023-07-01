@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSpawnSrvEnt : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpawnSrvEnt));
 
         public CSSpawnSrvEnt()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Position.Write(buffer);
             Rotation.Write(buffer);
             buffer.WriteFloat(Scale, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            NetObjID = buffer.ReadUInt32(Endianness.Big);
+            Position.Read(buffer);
+            Rotation.Read(buffer);
+            Scale = buffer.ReadFloat(Endianness.Big);
         }
 
     }

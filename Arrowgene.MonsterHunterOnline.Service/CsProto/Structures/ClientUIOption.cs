@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class ClientUIOption : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ClientUIOption));
 
         public ClientUIOption()
         {
@@ -53,6 +55,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < optionDataCount; i++)
             {
                 buffer.WriteByte(OptionData[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            OptionData.Clear();
+            int optionDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < optionDataCount; i++)
+            {
+                byte OptionDataEntry = buffer.ReadByte();
+                OptionData.Add(OptionDataEntry);
             }
         }
 

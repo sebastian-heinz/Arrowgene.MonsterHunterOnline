@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDragonBoxPrizeNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxPrizeNtf));
 
         public CSDragonBoxPrizeNtf()
         {
@@ -82,6 +84,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 ItemList[i].Write(buffer);
             }
             buffer.WriteByte(BagFull);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Result = buffer.ReadInt32(Endianness.Big);
+            Id = buffer.ReadInt32(Endianness.Big);
+            Type = buffer.ReadByte();
+            ItemList.Clear();
+            byte itemListCount = buffer.ReadByte();
+            for (int i = 0; i < itemListCount; i++)
+            {
+                CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
+                ItemListEntry.Read(buffer);
+                ItemList.Add(ItemListEntry);
+            }
+            BagFull = buffer.ReadByte();
         }
 
     }

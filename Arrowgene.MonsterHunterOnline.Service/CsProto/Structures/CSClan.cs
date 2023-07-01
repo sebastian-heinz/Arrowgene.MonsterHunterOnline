@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSClan : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClan));
 
         public CSClan()
         {
@@ -127,6 +129,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PVEScore, Endianness.Big);
             buffer.WriteInt32(INDScore, Endianness.Big);
             buffer.WriteInt32(INDPV, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadUInt64(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Score = buffer.ReadInt32(Endianness.Big);
+            Rank = buffer.ReadInt32(Endianness.Big);
+            Capacity = buffer.ReadInt32(Endianness.Big);
+            ClanersCount = buffer.ReadInt32(Endianness.Big);
+            OnlineClanersCount = buffer.ReadInt32(Endianness.Big);
+            ClanersAvgLevel = buffer.ReadInt32(Endianness.Big);
+            ScoreUpdate = buffer.ReadInt64(Endianness.Big);
+            PVEScore = buffer.ReadInt32(Endianness.Big);
+            INDScore = buffer.ReadInt32(Endianness.Big);
+            INDPV = buffer.ReadInt32(Endianness.Big);
         }
 
     }

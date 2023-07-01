@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterPartBroken : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterPartBroken));
 
         public CSMonsterPartBroken()
         {
@@ -115,6 +117,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             SpawnDir.Write(buffer);
             SpawnVel.Write(buffer);
             buffer.WriteByte(Hide);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            int PartNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            PartName = buffer.ReadString(PartNameEntryLen);
+            int PartBoneNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            PartBoneName = buffer.ReadString(PartBoneNameEntryLen);
+            int PartTemplateEntryLen = buffer.ReadInt32(Endianness.Big);
+            PartTemplate = buffer.ReadString(PartTemplateEntryLen);
+            SpawnFlag = buffer.ReadUInt32(Endianness.Big);
+            SpawnPoint.Read(buffer);
+            SpawnDir.Read(buffer);
+            SpawnVel.Read(buffer);
+            Hide = buffer.ReadByte();
         }
 
     }

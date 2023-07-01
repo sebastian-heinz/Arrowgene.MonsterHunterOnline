@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMartBuyGoodsReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartBuyGoodsReq));
 
         public CSMartBuyGoodsReq()
         {
@@ -135,6 +137,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(recvName);
             buffer.WriteInt32(msg.Length + 1, Endianness.Big);
             buffer.WriteCString(msg);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            version = buffer.ReadUInt32(Endianness.Big);
+            goodID = buffer.ReadInt32(Endianness.Big);
+            num = buffer.ReadInt32(Endianness.Big);
+            bind = buffer.ReadByte();
+            card = buffer.ReadByte();
+            col = buffer.ReadInt32(Endianness.Big);
+            grid = buffer.ReadInt32(Endianness.Big);
+            paych = buffer.ReadInt32(Endianness.Big);
+            gift = buffer.ReadByte();
+            recvUin = buffer.ReadUInt32(Endianness.Big);
+            recvDBID = buffer.ReadUInt64(Endianness.Big);
+            int recvNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            recvName = buffer.ReadString(recvNameEntryLen);
+            int msgEntryLen = buffer.ReadInt32(Endianness.Big);
+            msg = buffer.ReadString(msgEntryLen);
         }
 
     }

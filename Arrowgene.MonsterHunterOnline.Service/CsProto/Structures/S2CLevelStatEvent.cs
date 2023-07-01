@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class S2CLevelStatEvent : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLevelStatEvent));
 
         public S2CLevelStatEvent()
         {
@@ -64,6 +66,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < argsListCount; i++)
             {
                 buffer.WriteInt32(ArgsList[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EventType = buffer.ReadInt32(Endianness.Big);
+            EventTm = buffer.ReadUInt32(Endianness.Big);
+            ArgsList.Clear();
+            int argsListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < argsListCount; i++)
+            {
+                int ArgsListEntry = buffer.ReadInt32(Endianness.Big);
+                ArgsList.Add(ArgsListEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class BuffNetInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(BuffNetInfo));
 
         public BuffNetInfo()
         {
@@ -121,6 +123,33 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < effectDataCount; i++)
             {
                 EffectData[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            UniqueID = buffer.ReadInt32(Endianness.Big);
+            TypeID = buffer.ReadInt32(Endianness.Big);
+            OwnerID = buffer.ReadInt32(Endianness.Big);
+            StackCount = buffer.ReadInt16(Endianness.Big);
+            TriggerCount = buffer.ReadInt32(Endianness.Big);
+            RetainTime = buffer.ReadInt32(Endianness.Big);
+            Param.Clear();
+            ushort paramCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < paramCount; i++)
+            {
+                byte ParamEntry = buffer.ReadByte();
+                Param.Add(ParamEntry);
+            }
+            isNew = buffer.ReadByte();
+            from = buffer.ReadUInt16(Endianness.Big);
+            EffectData.Clear();
+            ushort effectDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < effectDataCount; i++)
+            {
+                BuffEffectData EffectDataEntry = new BuffEffectData();
+                EffectDataEntry.Read(buffer);
+                EffectData.Add(EffectDataEntry);
             }
         }
 

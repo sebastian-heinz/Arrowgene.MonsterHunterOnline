@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDataButtonEnterLevel : ScriptActivityDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataButtonEnterLevel));
 
         public ScriptActivityDataButtonEnterLevel()
         {
@@ -78,6 +80,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(DataID);
             buffer.WriteInt32(Condition.Length + 1, Endianness.Big);
             buffer.WriteCString(Condition);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int LabelEntryLen = buffer.ReadInt32(Endianness.Big);
+            Label = buffer.ReadString(LabelEntryLen);
+            LevelID = buffer.ReadUInt32(Endianness.Big);
+            EnterMode = buffer.ReadByte();
+            DataID = buffer.ReadByte();
+            int ConditionEntryLen = buffer.ReadInt32(Endianness.Big);
+            Condition = buffer.ReadString(ConditionEntryLen);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class SkillBeads : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(SkillBeads));
 
         public SkillBeads()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(slotItemId, Endianness.Big);
             buffer.WriteInt32(beadLevel, Endianness.Big);
             buffer.WriteInt32(isLegend, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            slotItemId = buffer.ReadInt32(Endianness.Big);
+            beadLevel = buffer.ReadInt32(Endianness.Big);
+            isLegend = buffer.ReadInt32(Endianness.Big);
         }
 
     }

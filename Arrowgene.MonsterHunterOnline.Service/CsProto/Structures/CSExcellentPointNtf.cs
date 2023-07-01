@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSExcellentPointNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExcellentPointNtf));
 
         public CSExcellentPointNtf()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Point, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
             buffer.WriteInt32(BuffID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadInt32(Endianness.Big);
+            ActionType = buffer.ReadInt32(Endianness.Big);
+            Point = buffer.ReadInt32(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
+            BuffID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

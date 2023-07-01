@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSWeaponStyleActiveRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWeaponStyleActiveRsp));
 
         public CSWeaponStyleActiveRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(WeaponType, Endianness.Big);
             buffer.WriteInt32(Style, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            WeaponType = buffer.ReadInt32(Endianness.Big);
+            Style = buffer.ReadInt32(Endianness.Big);
         }
 
     }

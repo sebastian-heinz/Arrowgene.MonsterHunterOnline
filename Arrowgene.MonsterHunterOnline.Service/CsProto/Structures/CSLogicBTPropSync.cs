@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLogicBTPropSync : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLogicBTPropSync));
 
         public CSLogicBTPropSync()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(OperType, Endianness.Big);
             buffer.WriteInt32(OperData, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            OperType = buffer.ReadInt32(Endianness.Big);
+            OperData = buffer.ReadInt32(Endianness.Big);
         }
 
     }

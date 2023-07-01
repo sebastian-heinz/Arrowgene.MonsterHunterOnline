@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class GuideActionInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideActionInfo));
 
         public GuideActionInfo()
         {
@@ -65,6 +67,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < actionStepInfosCount; i++)
             {
                 ActionStepInfos[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FinishActionBitTag.Clear();
+            int finishActionBitTagCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < finishActionBitTagCount; i++)
+            {
+                byte FinishActionBitTagEntry = buffer.ReadByte();
+                FinishActionBitTag.Add(FinishActionBitTagEntry);
+            }
+            ActionStepInfos.Clear();
+            int actionStepInfosCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < actionStepInfosCount; i++)
+            {
+                ActionStepInfo ActionStepInfosEntry = new ActionStepInfo();
+                ActionStepInfosEntry.Read(buffer);
+                ActionStepInfos.Add(ActionStepInfosEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SRejectFriendApply : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SRejectFriendApply));
 
         public C2SRejectFriendApply()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(svr, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Apply = buffer.ReadInt32(Endianness.Big);
+            Reason = buffer.ReadInt32(Endianness.Big);
+            Dbid = buffer.ReadUInt64(Endianness.Big);
+            svr = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
         }
 
     }

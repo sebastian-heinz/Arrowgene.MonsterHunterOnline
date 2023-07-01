@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSChatTargetQueryRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatTargetQueryRsp));
 
         public CSChatTargetQueryRsp()
         {
@@ -101,6 +103,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LineID, Endianness.Big);
             buffer.WriteByte(VipLevel);
             buffer.WriteByte(VipCanUse);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            GuildName = buffer.ReadString(GuildNameEntryLen);
+            int HunterStarEntryLen = buffer.ReadInt32(Endianness.Big);
+            HunterStar = buffer.ReadString(HunterStarEntryLen);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            LineID = buffer.ReadInt32(Endianness.Big);
+            VipLevel = buffer.ReadByte();
+            VipCanUse = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActorFlyMove : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorFlyMove));
 
         public CSActorFlyMove()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Rotation.Write(buffer);
             MoveSpeed.Write(buffer);
             AngleSpeed.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            InputWorldDir.Read(buffer);
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            Location.Read(buffer);
+            Rotation.Read(buffer);
+            MoveSpeed.Read(buffer);
+            AngleSpeed.Read(buffer);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSWaitQueueInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWaitQueueInfo));
 
         public CSWaitQueueInfo()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Position, Endianness.Big);
             buffer.WriteUInt32(NormalWaitTime, Endianness.Big);
             buffer.WriteUInt32(VIPWaitTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            IsVIP = buffer.ReadInt32(Endianness.Big);
+            Position = buffer.ReadUInt32(Endianness.Big);
+            NormalWaitTime = buffer.ReadUInt32(Endianness.Big);
+            VIPWaitTime = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTeamMemberPosSync : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberPosSync));
 
         public CSTeamMemberPosSync()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < teammemberCount; i++)
             {
                 teammember[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            teammember.Clear();
+            int teammemberCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < teammemberCount; i++)
+            {
+                CSTeamMemberPos teammemberEntry = new CSTeamMemberPos();
+                teammemberEntry.Read(buffer);
+                teammember.Add(teammemberEntry);
             }
         }
 

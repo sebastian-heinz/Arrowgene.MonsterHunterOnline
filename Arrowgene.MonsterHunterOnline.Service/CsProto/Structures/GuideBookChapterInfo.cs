@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class GuideBookChapterInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideBookChapterInfo));
 
         public GuideBookChapterInfo()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ChapterId, Endianness.Big);
             buffer.WriteInt32(GetRewardCount, Endianness.Big);
             buffer.WriteByte(IsNotNew);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ChapterId = buffer.ReadInt32(Endianness.Big);
+            GetRewardCount = buffer.ReadInt32(Endianness.Big);
+            IsNotNew = buffer.ReadByte();
         }
 
     }

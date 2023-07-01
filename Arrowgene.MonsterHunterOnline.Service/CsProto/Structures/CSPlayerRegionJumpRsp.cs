@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerRegionJumpRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerRegionJumpRsp));
 
         public CSPlayerRegionJumpRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ErrorCode, Endianness.Big);
             buffer.WriteInt32(RegionId, Endianness.Big);
             Transform.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrorCode = buffer.ReadInt32(Endianness.Big);
+            RegionId = buffer.ReadInt32(Endianness.Big);
+            Transform.Read(buffer);
         }
 
     }

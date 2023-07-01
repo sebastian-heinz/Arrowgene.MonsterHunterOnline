@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmGatherRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmGatherRsp));
 
         public CSFarmGatherRsp()
         {
@@ -103,6 +105,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(FarmExp, Endianness.Big);
             buffer.WriteByte(AdvResult);
             buffer.WriteByte(SkipCutScene);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            Req.Read(buffer);
+            for (int i = 0; i < Award.Length; i++)
+            {
+                Award[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            for (int i = 0; i < AwardCount.Length; i++)
+            {
+                AwardCount[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            for (int i = 0; i < AwardErrCode.Length; i++)
+            {
+                AwardErrCode[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            ConsumeTool = buffer.ReadInt32(Endianness.Big);
+            GatherLeft = buffer.ReadInt32(Endianness.Big);
+            FarmExp = buffer.ReadInt32(Endianness.Big);
+            AdvResult = buffer.ReadByte();
+            SkipCutScene = buffer.ReadByte();
         }
 
     }

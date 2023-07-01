@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class S2CSoulStoneAttrUpgrade : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSoulStoneAttrUpgrade));
 
         public S2CSoulStoneAttrUpgrade()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Rtid, Endianness.Big);
             buffer.WriteInt32(AttrId, Endianness.Big);
             buffer.WriteInt32(AttrLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Rtid = buffer.ReadUInt32(Endianness.Big);
+            AttrId = buffer.ReadInt32(Endianness.Big);
+            AttrLevel = buffer.ReadInt32(Endianness.Big);
         }
 
     }

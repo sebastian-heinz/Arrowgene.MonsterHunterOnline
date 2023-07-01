@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipPlanChangeNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipPlanChangeNtf));
 
         public CSEquipPlanChangeNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PlanId, Endianness.Big);
             buffer.WriteInt32(ActionFlag, Endianness.Big);
             buffer.WriteInt32(FashionFlag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlanId = buffer.ReadInt32(Endianness.Big);
+            ActionFlag = buffer.ReadInt32(Endianness.Big);
+            FashionFlag = buffer.ReadInt32(Endianness.Big);
         }
 
     }

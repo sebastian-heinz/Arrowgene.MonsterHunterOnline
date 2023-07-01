@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAnimation : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAnimation));
 
         public CSAnimation()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(AnimTime, Endianness.Big);
             buffer.WriteFloat(TransitionWeight, Endianness.Big);
             buffer.WriteUInt32(Flags, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Parametric.Read(buffer);
+            AnimCRC = buffer.ReadUInt32(Endianness.Big);
+            SegmentCounter = buffer.ReadInt16(Endianness.Big);
+            AnimTime = buffer.ReadFloat(Endianness.Big);
+            TransitionWeight = buffer.ReadFloat(Endianness.Big);
+            Flags = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

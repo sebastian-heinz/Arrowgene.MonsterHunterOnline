@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerExtRequest : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerExtRequest));
 
         public CSPlayerExtRequest(CSPlayerExtRequestData _Request)
         {
@@ -51,6 +53,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteByte((byte)Request.ExtType);
             Request.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CS_PLAYER_EXT_TYPE CSPlayerExtRequestData_ExtType = (CS_PLAYER_EXT_TYPE)buffer.ReadByte();
+            switch (CSPlayerExtRequestData_ExtType)
+            {
+                case CS_PLAYER_EXT_TYPE.CS_PLAYER_EXT_INTERACT:
+                    Request = new CSInteractRequest(null);
+                    break;
+            }
+            if (Request != null) {
+                Request.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Request' instance of type 'CSPlayerExtRequestData'");
+            }
         }
 
     }

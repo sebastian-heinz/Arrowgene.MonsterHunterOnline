@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CGetSculptureLibs : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetSculptureLibs));
 
         public S2CGetSculptureLibs()
         {
@@ -65,6 +67,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < libsCount; i++)
             {
                 libs[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Cfgs.Clear();
+            int cfgsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < cfgsCount; i++)
+            {
+                CSSculptureInfo CfgsEntry = new CSSculptureInfo();
+                CfgsEntry.Read(buffer);
+                Cfgs.Add(CfgsEntry);
+            }
+            libs.Clear();
+            int libsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < libsCount; i++)
+            {
+                CSSculptureLib libsEntry = new CSSculptureLib();
+                libsEntry.Read(buffer);
+                libs.Add(libsEntry);
             }
         }
 

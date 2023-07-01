@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSParametric : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSParametric));
 
         public CSParametric()
         {
@@ -84,6 +86,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < blendWeightCount; i++)
             {
                 buffer.WriteFloat(BlendWeight[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ParametricCRC = buffer.ReadUInt32(Endianness.Big);
+            AnimCRC.Clear();
+            short animCRCCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < animCRCCount; i++)
+            {
+                uint AnimCRCEntry = buffer.ReadUInt32(Endianness.Big);
+                AnimCRC.Add(AnimCRCEntry);
+            }
+            SegmentCounter.Clear();
+            short segmentCounterCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < segmentCounterCount; i++)
+            {
+                short SegmentCounterEntry = buffer.ReadInt16(Endianness.Big);
+                SegmentCounter.Add(SegmentCounterEntry);
+            }
+            BlendWeight.Clear();
+            short blendWeightCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < blendWeightCount; i++)
+            {
+                float BlendWeightEntry = buffer.ReadFloat(Endianness.Big);
+                BlendWeight.Add(BlendWeightEntry);
             }
         }
 

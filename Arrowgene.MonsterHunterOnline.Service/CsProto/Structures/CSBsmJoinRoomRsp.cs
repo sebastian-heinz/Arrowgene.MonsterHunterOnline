@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSBsmJoinRoomRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBsmJoinRoomRsp));
 
         public CSBsmJoinRoomRsp()
         {
@@ -74,6 +76,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteByte(IsMatching);
             buffer.WriteInt32(EstimateTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            RoomID = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            IsMatching = buffer.ReadByte();
+            EstimateTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

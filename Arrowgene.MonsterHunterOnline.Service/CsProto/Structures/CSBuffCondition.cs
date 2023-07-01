@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBuffCondition : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBuffCondition));
 
         public CSBuffCondition()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteInt32(UniqueID, Endianness.Big);
             buffer.WriteByte(enable);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            UniqueID = buffer.ReadInt32(Endianness.Big);
+            enable = buffer.ReadByte();
         }
 
     }

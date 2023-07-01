@@ -22,6 +22,7 @@ public class PlayerState
 
     private Client _client;
     private CSRoleBaseInfo _roleBaseInfo;
+    private CSRoleBaseInfo _roleBaseInfo2;
     private CSPlayerInitInfo _playerInitInfo;
     private CSInstanceInitInfo _instanceInitInfo;
     private CSPlayerLevelInitInfo _playerLevelInitInfo;
@@ -36,8 +37,8 @@ public class PlayerState
     {
         _client = client;
         _roleBaseInfo = new CSRoleBaseInfo();
-        _roleBaseInfo.RoleID = 1;
-        _roleBaseInfo.RoleIndex = 1;
+        _roleBaseInfo.RoleID = 0;
+        _roleBaseInfo.RoleIndex = 0;
         _roleBaseInfo.Name = "Star";
         _roleBaseInfo.Gender = 1;
         _roleBaseInfo.Level = 1;
@@ -50,56 +51,74 @@ public class PlayerState
         _roleBaseInfo.EyeBall = 1;
         _roleBaseInfo.EyeColor = 1;
 
+        _roleBaseInfo2 = new CSRoleBaseInfo();
+        _roleBaseInfo2.RoleID = 1;
+        _roleBaseInfo2.RoleIndex = 1;
+        _roleBaseInfo2.Name = "Moon";
+        _roleBaseInfo2.Gender = 1;
+        _roleBaseInfo2.Level = 1;
+        _roleBaseInfo2.FaceId = 1;
+        _roleBaseInfo2.HairId = 1;
+        _roleBaseInfo2.UnderclothesId = 1;
+        _roleBaseInfo2.SkinColor = 1;
+        _roleBaseInfo2.HairColor = 1;
+        _roleBaseInfo2.InnerColor = 1;
+        _roleBaseInfo2.EyeBall = 1;
+        _roleBaseInfo2.EyeColor = 1;
+
         _playerInitInfo = new CSPlayerInitInfo();
-        _playerInitInfo.AccountID = 1;
-        _playerInitInfo.NetID = 1;
-        _playerInitInfo.DBId = 1;
-        _playerInitInfo.SessionID = 1;
-        _playerInitInfo.WorldID = 1;
-        _playerInitInfo.ServerID = 1;
-        _playerInitInfo.WorldSvrID = 1;
+        _playerInitInfo.AccountID = 0;
+        _playerInitInfo.NetID = 0;
+        _playerInitInfo.DBId = 0;
+        _playerInitInfo.SessionID = 0;
+        _playerInitInfo.WorldID = 0;
+        _playerInitInfo.ServerID = 0;
+        _playerInitInfo.WorldSvrID = 0;
         _playerInitInfo.Name = _roleBaseInfo.Name;
         _playerInitInfo.Gender = _roleBaseInfo.Gender;
         _playerInitInfo.IsGM = 0;
-        _playerInitInfo.ParentEntityGUID = 1;
-        _playerInitInfo.RandSeed = 1;
-        _playerInitInfo.CatCuisineID = 1;
-        _playerInitInfo.FirstEnterLevel = 1;
-        _playerInitInfo.FirstEnterMap = 1;
-        _playerInitInfo.PvpPrepareStageState = 1;
+        _playerInitInfo.ParentEntityGUID = 0;
+        _playerInitInfo.RandSeed = 0;
+        _playerInitInfo.CatCuisineID = 0;
+        _playerInitInfo.FirstEnterLevel = 0;
+        _playerInitInfo.FirstEnterMap = 0;
+        _playerInitInfo.PvpPrepareStageState = 0;
 
         _instanceInitInfo = new CSInstanceInitInfo();
-        _instanceInitInfo.BattleGroundID = 1;
-        _instanceInitInfo.LevelID = 1;
-        _instanceInitInfo.CreateMaxPlayerCount = 1;
-        _instanceInitInfo.GameMode = 1;
-        _instanceInitInfo.TimeType = 1;
-        _instanceInitInfo.WeatherType = 1;
+        _instanceInitInfo.BattleGroundID = 0;
+        _instanceInitInfo.LevelID = 0;
+        _instanceInitInfo.CreateMaxPlayerCount = 4;
+        _instanceInitInfo.GameMode = 0;
+        _instanceInitInfo.TimeType = 0;
+        _instanceInitInfo.WeatherType = 0;
         _instanceInitInfo.time = 0;
-        _instanceInitInfo.LevelRandSeed = 1;
+        _instanceInitInfo.LevelRandSeed = 0;
         _instanceInitInfo.WarningFlag = 0;
         _instanceInitInfo.CreatePlayerMaxLv = 99;
 
         _playerLevelInitInfo = new CSPlayerLevelInitInfo();
 
         _spawnPlayer = new CSSpawnPlayer();
-        _spawnPlayer.PlayerId = 1;
-        _spawnPlayer.NetObjId = 1;
+        _spawnPlayer.PlayerId = 0;
+        _spawnPlayer.NetObjId = 0;
         _spawnPlayer.Name = _roleBaseInfo.Name;
         _spawnPlayer.Gender = _roleBaseInfo.Gender;
         _spawnPlayer.Scale = 1.0f;
-        _spawnPlayer.NewConnect = 1;
-        _spawnPlayer.SendSrvId = 1;
+        _spawnPlayer.NewConnect = 0;
+        _spawnPlayer.SendSrvId = 0;
 
         _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
         _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
-        _townInstanceVerifyRsp.LineID = 1;
-        _townInstanceVerifyRsp.LevelEnterType = 1;
+        _townInstanceVerifyRsp.LineID = 0;
+        _townInstanceVerifyRsp.LevelEnterType = 3;
 
         _enterInstanceRsp = new CSEnterInstanceRsp();
-        _enterInstanceRsp.InstanceID = 1;
+        _enterInstanceRsp.InstanceID = 0;
         _enterInstanceRsp.Key = "test";
         _enterInstanceRsp.BattleSvr = "127.0.0.1:8143";
+        _enterInstanceRsp.RoleId = 0;
+        _enterInstanceRsp.ServiceID = 0;
+        _enterInstanceRsp.InstanceInfo = _instanceInitInfo;
 
         _verifyRsp = new CSInstanceVerifyRsp();
         _verifyRsp.ErrNo = 0;
@@ -116,10 +135,32 @@ public class PlayerState
     /// </summary>
     public void OnFileCheckCompleted()
     {
-           SendTownSessionStart();
-          SendPlayerInitNtf();
-            SendListRoleRsp();
-     //   SendBruteForceT();
+        SendListRoleRsp();
+    }
+
+
+    public void OnCreateRole(CSRoleCreateInfo info)
+    {
+        CSListRoleRsp roleRsp = new CSListRoleRsp();
+
+
+        _roleBaseInfo.Name = info.Name;
+        _roleBaseInfo.Gender = info.Gender;
+        _roleBaseInfo.FaceId = info.FaceId;
+        _roleBaseInfo.HairId = info.HairId;
+        _roleBaseInfo.UnderclothesId = info.UnderclothesId;
+        _roleBaseInfo.SkinColor = info.SkinColor;
+        _roleBaseInfo.HairColor = info.HairColor;
+        _roleBaseInfo.InnerColor = info.InnerColor;
+        _roleBaseInfo.EyeBall = info.EyeBall;
+        _roleBaseInfo.EyeColor = info.EyeColor;
+        _roleBaseInfo.FaceTattooIndex = info.FaceTattooIndex;
+        _roleBaseInfo.FaceTattooColor = info.FaceTattooColor;
+        _roleBaseInfo.FacialInfo = info.FacialInfo;
+
+
+        roleRsp.RoleList.Role.Add(_roleBaseInfo);
+        _client.SendCsPacket(NewCsPacket.CreateRoleRsp(roleRsp));
     }
 
     /// <summary>
@@ -128,21 +169,48 @@ public class PlayerState
     /// </summary>
     public void OnRoleSelected()
     {
-        //   SendPlayerInitNtf();
-        // SendEnterInstanceRsp();
-             SendReselectRoleRsp();
+        _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
 
-  
+        //  _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
+        SendTownSessionStart();
+        SendPlayerInitNtf();
 
-        // SendPlayerSpawn();
-        //  SendPlayerLevelInitNtf();
+        //  SendReselectRoleRsp();
+
+        //     SendLoadLevelNtf();
+        // _client.SendCsPacket(NewCsPacket.EnterLevelNtf(new CSEnterLevelNtf(){}));
+
+        //   SendTownServerInitNtf();
+
+        //  _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
+
+        //  SendBruteForceT();
+
+        SendReselectRoleRsp();
+
+        //  SendPlayerInitNtf();
         //  SendLoadLevelNtf();
+        //   SendPlayerSpawn();
+
+        //SendEnterInstanceRsp();
+
+        //    _client.SendCsPacket(NewCsPacket.BuffInitList(new CSBuffInitList()));
+        //    _client.SendCsPacket(NewCsPacket.AttrInfo(new CSAttrInitInfo()));
+        //    _client.SendCsPacket(NewCsPacket.PetInitList(new CSPetInitList()));
+        //    _client.SendCsPacket(NewCsPacket.RoomInitInfo(new CSRoomInitInfo()));
+        //    _client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()));
+        //    _client.SendCsPacket(NewCsPacket.SupplyBoxInitItemNtf(new CSSupplyBoxInitItemNtf()));
+        //    _client.SendCsPacket(NewCsPacket.InstanceUnlockNotify(new CSInstanceUnlockNotify()));
     }
 
     public void OnBattleSvr()
     {
-        //  SendInstanceVerifyRsp();
-        // SendPlayerInitNtf();
+        //SendPlayerLevelInitNtf();
+        //SendTownServerInitNtf();
+        //SendPlayerSpawn();
+        //SendLoadLevelNtf();
+        //SendInstanceInitNtf();
+        SendPlayerInitNtf();
     }
 
     public void SendBruteForceT()
@@ -154,7 +222,7 @@ public class PlayerState
     public void SendBruteForce()
     {
         Thread.Sleep(3000);
-        
+
         List<string> exclude = new List<string>()
         {
             "CatTreatureErr",
@@ -172,8 +240,55 @@ public class PlayerState
             "S2CTalkExec",
             "EquipPlanUnlockNtf",
             "EquipPlanEditNtf",
+            "LineUpStateNtf",
+            "GuildMatchSignUpReadyNtf",
+            "GuildMatchSignUpListNtf",
+            "GuildMatchSignUpAdd",
+            "GuildMatchSignUpDel",
+            "ScheduleError",
+            "ObtainTargetListRes",
+            "GuildMatchQualifierFirstNtf",
+            "GuildMatchStateNtf",
+            "GuildMatchPairListNtf",
+            "PkgEncryptData",
+            "Ping",
+            "HeartBeat",
+            "GameManagerCmd",
+            "GlobalErrNtf",
+            "PkgTimerRecord",
+            "PkgTransAntiData",
+            "PingReply",
+            "PkgChatEncryptData",
+            "ZipPkg",
+            "DelBuff",
+            "BuffParamChange",
+            "NotifyInfo",
+            "DropClientNotifyInfo",
+            "PropSync",
+            "TimeOfDayNtf",
+            "AttrSync",
+            "AttrInfo",
+            "FarmSetEquipAvatarNtf",
+            "FarmWoodIndexIDMappingNtf",
+            "CatTreatureInfo",
+            "C2SSpeakWord",
+            "C2SSpeakSetSelfDef",
+            "C2SSpeakSetAuto",
+            "S2CSculptureLibSnapshot",
+            "S2CGetSculptureLibs",
+            "S2CSculptureErr",
+            "S2CSpeakErr",
+            "SurrenderVoteNtf",
+            "C2SGetSculptureLibs",
+            "S2CGetSculpture",
+            "S2CSculptureAvatarSnapshot",
+            "S2CScriptAddSculpture",
+            "S2CSpoorFetchPrize",
+            "S2CSpoorErr",
+            "S2CSpoorAddPoints",
+            "ItemMgrMoveSwapItemsNtf",
         };
-        
+
         Type type = typeof(NewCsPacket);
         List<MethodInfo> collectedMethods = new List<MethodInfo>();
         foreach (MethodInfo mi in type.GetMethods())
@@ -182,15 +297,30 @@ public class PlayerState
             {
                 continue;
             }
+
+            if (mi.Name == "Equals"
+                || mi.Name == "GetType"
+                || mi.Name == "ToString"
+                || mi.Name == "GetHashCode")
+            {
+                continue;
+            }
+
             if (mi.Name.EndsWith("Req"))
             {
                 continue;
             }
-            if (mi.Name.EndsWith("Rsp"))
+
+            if (mi.Name.StartsWith("C2S"))
             {
-                //collectedMethods.Add(mi);
                 continue;
             }
+
+            if (mi.Name.EndsWith("Rsp"))
+            {
+                continue;
+            }
+
             collectedMethods.Add(mi);
         }
 
@@ -198,7 +328,7 @@ public class PlayerState
         //LevelIntegrateNtf
 //2023-06-25 05:47:10 - Error - PlayerState: Sending S2CScriptActivityTimeUpdateNtf (28/206)
 
-        int start = 240;
+        int start = 80;
         int current = 1;
         int total = collectedMethods.Count;
         foreach (MethodInfo mi in collectedMethods)
@@ -291,6 +421,7 @@ public class PlayerState
         CSListRoleRsp roleRsp = new CSListRoleRsp();
         // if role list is empty, client will auto move to char creation
         roleRsp.RoleList.Role.Add(_roleBaseInfo);
+        roleRsp.RoleList.Role.Add(_roleBaseInfo2);
         _client.SendCsPacket(NewCsPacket.ListRoleRsp(roleRsp));
     }
 

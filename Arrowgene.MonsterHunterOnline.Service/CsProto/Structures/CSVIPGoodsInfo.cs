@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSVIPGoodsInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPGoodsInfo));
 
         public CSVIPGoodsInfo()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(GoodsID, Endianness.Big);
             buffer.WriteUInt32(GoodsCount, Endianness.Big);
             buffer.WriteUInt32(GoodsVersion, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GoodsID = buffer.ReadUInt32(Endianness.Big);
+            GoodsCount = buffer.ReadUInt32(Endianness.Big);
+            GoodsVersion = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

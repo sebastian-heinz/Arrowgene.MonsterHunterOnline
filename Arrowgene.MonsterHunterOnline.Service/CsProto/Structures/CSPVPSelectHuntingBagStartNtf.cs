@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPVPSelectHuntingBagStartNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPSelectHuntingBagStartNtf));
 
         public CSPVPSelectHuntingBagStartNtf()
         {
@@ -60,6 +62,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < memberCount; i++)
             {
                 Member[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ShowUI = buffer.ReadInt32(Endianness.Big);
+            Member.Clear();
+            short memberCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < memberCount; i++)
+            {
+                CSPVPSelectHuntingBagMember MemberEntry = new CSPVPSelectHuntingBagMember();
+                MemberEntry.Read(buffer);
+                Member.Add(MemberEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerBakeResultReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerBakeResultReq));
 
         public CSPlayerBakeResultReq()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(ItemColumn);
             buffer.WriteUInt16(ItemGrid, Endianness.Big);
             buffer.WriteInt32(Result, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemColumn = buffer.ReadByte();
+            ItemGrid = buffer.ReadUInt16(Endianness.Big);
+            Result = buffer.ReadInt32(Endianness.Big);
         }
 
     }

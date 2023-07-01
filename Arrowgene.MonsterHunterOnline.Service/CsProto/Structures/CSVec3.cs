@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSVec3 : CSAttrValue
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVec3));
 
         public CSVec3()
         {
@@ -53,6 +55,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(x, Endianness.Big);
             buffer.WriteFloat(y, Endianness.Big);
             buffer.WriteFloat(z, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            x = buffer.ReadFloat(Endianness.Big);
+            y = buffer.ReadFloat(Endianness.Big);
+            z = buffer.ReadFloat(Endianness.Big);
         }
 
     }

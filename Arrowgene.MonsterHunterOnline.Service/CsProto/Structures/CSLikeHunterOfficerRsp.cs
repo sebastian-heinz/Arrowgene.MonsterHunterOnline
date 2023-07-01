@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLikeHunterOfficerRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLikeHunterOfficerRsp));
 
         public CSLikeHunterOfficerRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(OptRoleID, Endianness.Big);
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(LikeNum, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            HunterOfficerRoleID = buffer.ReadUInt32(Endianness.Big);
+            OptRoleID = buffer.ReadUInt32(Endianness.Big);
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            LikeNum = buffer.ReadInt32(Endianness.Big);
         }
 
     }

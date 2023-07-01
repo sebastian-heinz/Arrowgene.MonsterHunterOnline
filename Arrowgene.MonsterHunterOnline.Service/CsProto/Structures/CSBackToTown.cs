@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBackToTown : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBackToTown));
 
         public CSBackToTown()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt32(Uin, Endianness.Big);
             buffer.WriteInt32(RoleID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Uin = buffer.ReadUInt32(Endianness.Big);
+            RoleID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

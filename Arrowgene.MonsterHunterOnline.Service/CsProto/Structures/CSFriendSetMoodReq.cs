@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendSetMoodReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendSetMoodReq));
 
         public CSFriendSetMoodReq()
         {
@@ -50,6 +52,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Mood.Length + 1, Endianness.Big);
             buffer.WriteCString(Mood);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int MoodEntryLen = buffer.ReadInt32(Endianness.Big);
+            Mood = buffer.ReadString(MoodEntryLen);
         }
 
     }

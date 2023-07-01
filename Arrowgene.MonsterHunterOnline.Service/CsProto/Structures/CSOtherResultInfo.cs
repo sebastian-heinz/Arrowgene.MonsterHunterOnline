@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSOtherResultInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSOtherResultInfo));
 
         public CSOtherResultInfo()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             BaseInfo.Write(buffer);
             StatInfo.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BaseInfo.Read(buffer);
+            StatInfo.Read(buffer);
         }
 
     }

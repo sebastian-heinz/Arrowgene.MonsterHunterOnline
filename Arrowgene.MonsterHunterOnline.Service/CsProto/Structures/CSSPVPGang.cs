@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSPVPGang : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSPVPGang));
 
         public CSSPVPGang()
         {
@@ -58,6 +60,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < membersCount; i++)
             {
                 Members[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GangID = buffer.ReadInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
+            Members.Clear();
+            short membersCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < membersCount; i++)
+            {
+                CSSPVPMember MembersEntry = new CSSPVPMember();
+                MembersEntry.Read(buffer);
+                Members.Add(MembersEntry);
             }
         }
 

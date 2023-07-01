@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMaterialExchange : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMaterialExchange));
 
         public CSMaterialExchange()
         {
@@ -60,6 +62,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mEGridInfoCount; i++)
             {
                 MEGridInfo[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MEID = buffer.ReadUInt32(Endianness.Big);
+            MEGridInfo.Clear();
+            uint mEGridInfoCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < mEGridInfoCount; i++)
+            {
+                CSMaterialExchangeGrid MEGridInfoEntry = new CSMaterialExchangeGrid();
+                MEGridInfoEntry.Read(buffer);
+                MEGridInfo.Add(MEGridInfoEntry);
             }
         }
 

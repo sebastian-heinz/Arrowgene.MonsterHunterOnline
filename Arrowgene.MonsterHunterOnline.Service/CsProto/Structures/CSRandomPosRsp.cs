@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRandomPosRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRandomPosRsp));
 
         public CSRandomPosRsp()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             RandomPos.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadInt32(Endianness.Big);
+            RandomPos.Read(buffer);
         }
 
     }

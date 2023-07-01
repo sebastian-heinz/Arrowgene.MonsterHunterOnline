@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SSecretResearchLabResearchReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSecretResearchLabResearchReq));
 
         public C2SSecretResearchLabResearchReq()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < costMaterialListCount; i++)
             {
                 CostMaterialList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BoxId = buffer.ReadInt32(Endianness.Big);
+            MonsterType = buffer.ReadInt32(Endianness.Big);
+            CostMaterialList.Clear();
+            int costMaterialListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < costMaterialListCount; i++)
+            {
+                SRLCostMaterialType CostMaterialListEntry = new SRLCostMaterialType();
+                CostMaterialListEntry.Read(buffer);
+                CostMaterialList.Add(CostMaterialListEntry);
             }
         }
 

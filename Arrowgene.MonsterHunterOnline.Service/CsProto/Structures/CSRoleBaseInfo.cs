@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRoleBaseInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoleBaseInfo));
 
         public CSRoleBaseInfo()
         {
@@ -234,6 +236,48 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(StarLevel);
             buffer.WriteInt32(HRLevel, Endianness.Big);
             buffer.WriteInt32(SoulStoneLv, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoleID = buffer.ReadUInt64(Endianness.Big);
+            RoleIndex = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Gender = buffer.ReadByte();
+            Level = buffer.ReadInt32(Endianness.Big);
+            RoleState = buffer.ReadInt32(Endianness.Big);
+            RoleStateEndLeftTime = buffer.ReadUInt32(Endianness.Big);
+            AvatarSetID = buffer.ReadByte();
+            FaceId = buffer.ReadUInt16(Endianness.Big);
+            HairId = buffer.ReadUInt16(Endianness.Big);
+            UnderclothesId = buffer.ReadUInt16(Endianness.Big);
+            SkinColor = buffer.ReadInt32(Endianness.Big);
+            HairColor = buffer.ReadInt32(Endianness.Big);
+            InnerColor = buffer.ReadInt32(Endianness.Big);
+            EyeBall = buffer.ReadInt32(Endianness.Big);
+            EyeColor = buffer.ReadInt32(Endianness.Big);
+            FaceTattooIndex = buffer.ReadInt32(Endianness.Big);
+            FaceTattooColor = buffer.ReadInt32(Endianness.Big);
+            Equip.Clear();
+            ushort equipCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipCount; i++)
+            {
+                CSAvatarItem EquipEntry = new CSAvatarItem();
+                EquipEntry.Read(buffer);
+                Equip.Add(EquipEntry);
+            }
+            HideHelm = buffer.ReadByte();
+            HideFashion = buffer.ReadByte();
+            HideSuite = buffer.ReadByte();
+            for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+            {
+                FacialInfo[i] = buffer.ReadInt16(Endianness.Big);
+            }
+            int StarLevelEntryLen = buffer.ReadInt32(Endianness.Big);
+            StarLevel = buffer.ReadString(StarLevelEntryLen);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            SoulStoneLv = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendAddBlacklistReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAddBlacklistReq));
 
         public CSFriendAddBlacklistReq()
         {
@@ -50,6 +52,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(RoleName.Length + 1, Endianness.Big);
             buffer.WriteCString(RoleName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
         }
 
     }

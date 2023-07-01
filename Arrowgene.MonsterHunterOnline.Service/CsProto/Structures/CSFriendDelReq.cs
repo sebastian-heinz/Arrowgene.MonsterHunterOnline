@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendDelReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendDelReq));
 
         public CSFriendDelReq()
         {
@@ -49,6 +51,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public void Write(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoleDBID = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

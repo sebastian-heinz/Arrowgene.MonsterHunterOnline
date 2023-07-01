@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CScriptActivityListRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityListRsp));
 
         public S2CScriptActivityListRsp()
         {
@@ -50,6 +52,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < activitiesCount; i++)
             {
                 Activities[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Activities.Clear();
+            ushort activitiesCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < activitiesCount; i++)
+            {
+                ScriptActivitySimple ActivitiesEntry = new ScriptActivitySimple();
+                ActivitiesEntry.Read(buffer);
+                Activities.Add(ActivitiesEntry);
             }
         }
 

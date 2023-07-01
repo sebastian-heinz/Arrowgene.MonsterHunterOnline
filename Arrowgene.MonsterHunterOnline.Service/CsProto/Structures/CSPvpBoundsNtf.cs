@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPvpBoundsNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpBoundsNtf));
 
         public CSPvpBoundsNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TotalBounds, Endianness.Big);
             buffer.WriteInt32(RedBounds, Endianness.Big);
             buffer.WriteInt32(BlueBounds, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TotalBounds = buffer.ReadInt32(Endianness.Big);
+            RedBounds = buffer.ReadInt32(Endianness.Big);
+            BlueBounds = buffer.ReadInt32(Endianness.Big);
         }
 
     }

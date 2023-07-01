@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class SCAccountRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(SCAccountRsp));
 
         public SCAccountRsp()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(FaceCount, Endianness.Big);
             buffer.WriteUInt32(ChgSexCount, Endianness.Big);
             buffer.WriteUInt32(Result, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FaceCount = buffer.ReadUInt32(Endianness.Big);
+            ChgSexCount = buffer.ReadUInt32(Endianness.Big);
+            Result = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

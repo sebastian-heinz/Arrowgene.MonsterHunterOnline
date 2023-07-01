@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBattlePVPDMG : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattlePVPDMG));
 
         public CSBattlePVPDMG()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt64(Sequence, Endianness.Big);
             HitInfo.Write(buffer);
             DamageResult.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            Sequence = buffer.ReadInt64(Endianness.Big);
+            HitInfo.Read(buffer);
+            DamageResult.Read(buffer);
         }
 
     }

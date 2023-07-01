@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmCDDecreaseReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmCDDecreaseReq));
 
         public CSFarmCDDecreaseReq()
         {
@@ -81,6 +83,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CDType, Endianness.Big);
             buffer.WriteInt32(CDTime, Endianness.Big);
             buffer.WriteByte(CostType);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FacilityType = buffer.ReadInt32(Endianness.Big);
+            FacilityIndex = buffer.ReadInt32(Endianness.Big);
+            PlowLandIndex = buffer.ReadInt32(Endianness.Big);
+            CDType = buffer.ReadInt32(Endianness.Big);
+            CDTime = buffer.ReadInt32(Endianness.Big);
+            CostType = buffer.ReadByte();
         }
 
     }

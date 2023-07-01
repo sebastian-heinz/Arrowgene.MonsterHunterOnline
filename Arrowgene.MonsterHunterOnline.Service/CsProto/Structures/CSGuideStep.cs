@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuideStep : CSGuideNotifyData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuideStep));
 
         public CSGuideStep()
         {
@@ -58,6 +60,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteByte(StepID);
             buffer.WriteByte(StepState);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            StepID = buffer.ReadByte();
+            StepState = buffer.ReadByte();
         }
 
     }

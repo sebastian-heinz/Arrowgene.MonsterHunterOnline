@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSCatCuisineMakeReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatCuisineMakeReq));
 
         public CSCatCuisineMakeReq()
         {
@@ -53,6 +55,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteUInt16(Count, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadInt32(Endianness.Big);
+            Count = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class TeamInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(TeamInfo));
 
         public TeamInfo()
         {
@@ -199,6 +201,44 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_MAX_TEAM_MEMBER_NUM; i++)
             {
                 buffer.WriteUInt32(Slots[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TeamId = buffer.ReadUInt32(Endianness.Big);
+            int TeamNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TeamName = buffer.ReadString(TeamNameEntryLen);
+            MemberMax = buffer.ReadUInt32(Endianness.Big);
+            FreeJoin = buffer.ReadInt32(Endianness.Big);
+            HasPwd = buffer.ReadInt16(Endianness.Big);
+            int PwdEntryLen = buffer.ReadInt32(Endianness.Big);
+            Pwd = buffer.ReadString(PwdEntryLen);
+            OpenRecruit = buffer.ReadInt32(Endianness.Big);
+            MinLevel = buffer.ReadUInt32(Endianness.Big);
+            MaxLevel = buffer.ReadUInt32(Endianness.Big);
+            MinStar = buffer.ReadUInt32(Endianness.Big);
+            MaxStar = buffer.ReadUInt32(Endianness.Big);
+            TargetMap = buffer.ReadUInt32(Endianness.Big);
+            TargetMode = buffer.ReadUInt32(Endianness.Big);
+            TargetLevelGrp = buffer.ReadUInt32(Endianness.Big);
+            Difficulty = buffer.ReadInt16(Endianness.Big);
+            LeaderDBID = buffer.ReadUInt64(Endianness.Big);
+            LeaderID = buffer.ReadUInt32(Endianness.Big);
+            CreateTime = buffer.ReadUInt64(Endianness.Big);
+            TownSvr = buffer.ReadUInt32(Endianness.Big);
+            BattleSvr = buffer.ReadUInt32(Endianness.Big);
+            Members.Clear();
+            uint membersCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < membersCount; i++)
+            {
+                TeamMemberInfo MembersEntry = new TeamMemberInfo();
+                MembersEntry.Read(buffer);
+                Members.Add(MembersEntry);
+            }
+            for (int i = 0; i < CsProtoConstant.CS_MAX_TEAM_MEMBER_NUM; i++)
+            {
+                Slots[i] = buffer.ReadUInt32(Endianness.Big);
             }
         }
 

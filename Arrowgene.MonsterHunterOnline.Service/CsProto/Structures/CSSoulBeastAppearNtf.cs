@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSoulBeastAppearNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSoulBeastAppearNtf));
 
         public CSSoulBeastAppearNtf()
         {
@@ -81,6 +83,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < beastCount; i++)
             {
                 buffer.WriteByte(Beast[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadInt32(Endianness.Big);
+            OwnerID = buffer.ReadInt32(Endianness.Big);
+            InfoID = buffer.ReadInt32(Endianness.Big);
+            Pose.Read(buffer);
+            Beast.Clear();
+            int beastCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < beastCount; i++)
+            {
+                byte BeastEntry = buffer.ReadByte();
+                Beast.Add(BeastEntry);
             }
         }
 

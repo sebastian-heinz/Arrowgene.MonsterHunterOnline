@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendAddRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAddRsp));
 
         public CSFriendAddRsp()
         {
@@ -110,6 +112,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(FarmPoint, Endianness.Big);
             buffer.WriteInt32(FarmCanBGatheredCount, Endianness.Big);
             buffer.WriteInt32(LineId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadByte();
+            Friender.Read(buffer);
+            RoleDBID = buffer.ReadUInt64(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            Online = buffer.ReadByte();
+            FarmPoint = buffer.ReadInt32(Endianness.Big);
+            FarmCanBGatheredCount = buffer.ReadInt32(Endianness.Big);
+            LineId = buffer.ReadInt32(Endianness.Big);
         }
 
     }

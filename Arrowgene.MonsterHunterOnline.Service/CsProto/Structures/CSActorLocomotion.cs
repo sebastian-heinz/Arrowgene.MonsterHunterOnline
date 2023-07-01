@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActorLocomotion : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorLocomotion));
 
         public CSActorLocomotion()
         {
@@ -142,6 +144,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(UserDataS1);
             buffer.WriteInt32(UserDataS2.Length + 1, Endianness.Big);
             buffer.WriteCString(UserDataS2);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            MoveType = buffer.ReadInt32(Endianness.Big);
+            UserDataF1 = buffer.ReadFloat(Endianness.Big);
+            UserDataF2 = buffer.ReadFloat(Endianness.Big);
+            UserDataF3 = buffer.ReadFloat(Endianness.Big);
+            UserDataF4 = buffer.ReadFloat(Endianness.Big);
+            UserDataF5 = buffer.ReadFloat(Endianness.Big);
+            UserDataV1.Read(buffer);
+            UserDataU1 = buffer.ReadUInt32(Endianness.Big);
+            UserDataU2 = buffer.ReadUInt32(Endianness.Big);
+            UserDataI1 = buffer.ReadInt32(Endianness.Big);
+            int UserDataS1EntryLen = buffer.ReadInt32(Endianness.Big);
+            UserDataS1 = buffer.ReadString(UserDataS1EntryLen);
+            int UserDataS2EntryLen = buffer.ReadInt32(Endianness.Big);
+            UserDataS2 = buffer.ReadString(UserDataS2EntryLen);
         }
 
     }

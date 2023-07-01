@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLootFishBeginRes : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLootFishBeginRes));
 
         public CSLootFishBeginRes()
         {
@@ -117,6 +119,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(TryBegTime, Endianness.Big);
             buffer.WriteUInt16(Angle, Endianness.Big);
             buffer.WriteByte(Radius);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            PlayerId = buffer.ReadUInt32(Endianness.Big);
+            LogicEntityId = buffer.ReadUInt32(Endianness.Big);
+            FishList.Clear();
+            byte fishListCount = buffer.ReadByte();
+            for (int i = 0; i < fishListCount; i++)
+            {
+                uint FishListEntry = buffer.ReadUInt32(Endianness.Big);
+                FishList.Add(FishListEntry);
+            }
+            GotFishId = buffer.ReadUInt32(Endianness.Big);
+            FinishBegTime = buffer.ReadUInt32(Endianness.Big);
+            FinishEndTime = buffer.ReadUInt32(Endianness.Big);
+            TryBegTime = buffer.ReadUInt32(Endianness.Big);
+            Angle = buffer.ReadUInt16(Endianness.Big);
+            Radius = buffer.ReadByte();
         }
 
     }

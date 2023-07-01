@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSExchangeSearchRes : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeSearchRes));
 
         public CSExchangeSearchRes()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < recordsCount; i++)
             {
                 Records[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            Fin = buffer.ReadInt32(Endianness.Big);
+            Records.Clear();
+            ushort recordsCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < recordsCount; i++)
+            {
+                CSExchangeRecord RecordsEntry = new CSExchangeRecord();
+                RecordsEntry.Read(buffer);
+                Records.Add(RecordsEntry);
             }
         }
 

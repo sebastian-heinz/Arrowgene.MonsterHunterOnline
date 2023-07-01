@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDragonBoxNumOKRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxNumOKRsp));
 
         public CSDragonBoxNumOKRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BoxID, Endianness.Big);
             buffer.WriteInt32(sucess, Endianness.Big);
             buffer.WriteInt32(Number, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BoxID = buffer.ReadInt32(Endianness.Big);
+            sucess = buffer.ReadInt32(Endianness.Big);
+            Number = buffer.ReadInt32(Endianness.Big);
         }
 
     }

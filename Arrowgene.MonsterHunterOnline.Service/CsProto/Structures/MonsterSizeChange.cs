@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class MonsterSizeChange : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(MonsterSizeChange));
 
         public MonsterSizeChange()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(OldSize, Endianness.Big);
             buffer.WriteFloat(NewSize, Endianness.Big);
             buffer.WriteInt32(OldType, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MonsterID = buffer.ReadInt32(Endianness.Big);
+            ChangeType = buffer.ReadInt32(Endianness.Big);
+            OldSize = buffer.ReadFloat(Endianness.Big);
+            NewSize = buffer.ReadFloat(Endianness.Big);
+            OldType = buffer.ReadInt32(Endianness.Big);
         }
 
     }

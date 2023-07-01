@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSculptureAvatar : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSculptureAvatar));
 
         public CSSculptureAvatar()
         {
@@ -53,6 +55,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < avatarDataCount; i++)
             {
                 buffer.WriteByte(AvatarData[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AvatarData.Clear();
+            int avatarDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < avatarDataCount; i++)
+            {
+                byte AvatarDataEntry = buffer.ReadByte();
+                AvatarData.Add(AvatarDataEntry);
             }
         }
 

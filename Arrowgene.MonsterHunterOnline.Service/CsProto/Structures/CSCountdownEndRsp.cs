@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSCountdownEndRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCountdownEndRsp));
 
         public CSCountdownEndRsp()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(RoleState, Endianness.Big);
             buffer.WriteUInt32(RoleStateEndLeftTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RoleState = buffer.ReadInt32(Endianness.Big);
+            RoleStateEndLeftTime = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

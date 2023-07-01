@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFIFOSyncInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFIFOSyncInfo));
 
         public CSFIFOSyncInfo()
         {
@@ -175,6 +177,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(AttackRotation, Endianness.Big);
             buffer.WriteUInt16(sp, Endianness.Big);
             buffer.WriteUInt16(sta, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            Pos.Read(buffer);
+            Rot.Read(buffer);
+            Rot1.Read(buffer);
+            Rot2.Read(buffer);
+            Type = buffer.ReadByte();
+            Extension = buffer.ReadByte();
+            state1 = buffer.ReadUInt32(Endianness.Big);
+            state2 = buffer.ReadUInt32(Endianness.Big);
+            state3 = buffer.ReadUInt32(Endianness.Big);
+            state4 = buffer.ReadUInt32(Endianness.Big);
+            AGState = buffer.ReadUInt32(Endianness.Big);
+            SkillID = buffer.ReadUInt32(Endianness.Big);
+            SkillLevel = buffer.ReadUInt32(Endianness.Big);
+            param = buffer.ReadInt32(Endianness.Big);
+            paramf = buffer.ReadFloat(Endianness.Big);
+            AttackRotation = buffer.ReadFloat(Endianness.Big);
+            sp = buffer.ReadUInt16(Endianness.Big);
+            sta = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

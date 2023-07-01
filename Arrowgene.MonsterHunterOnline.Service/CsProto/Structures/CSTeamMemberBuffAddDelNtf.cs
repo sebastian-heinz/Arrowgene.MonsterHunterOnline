@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTeamMemberBuffAddDelNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberBuffAddDelNtf));
 
         public CSTeamMemberBuffAddDelNtf()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BuffRetainTime, Endianness.Big);
             buffer.WriteInt32(BuffStackCount, Endianness.Big);
             buffer.WriteUInt64(Dbid, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetId = buffer.ReadUInt32(Endianness.Big);
+            BuffOp = buffer.ReadInt32(Endianness.Big);
+            BuffId = buffer.ReadInt32(Endianness.Big);
+            BuffRetainTime = buffer.ReadInt32(Endianness.Big);
+            BuffStackCount = buffer.ReadInt32(Endianness.Big);
+            Dbid = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

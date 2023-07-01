@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSPlayAnimationParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayAnimationParam));
 
         public CSPlayAnimationParam()
         {
@@ -70,6 +72,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(keepLastKey, Endianness.Big);
             buffer.WriteInt16(loop, Endianness.Big);
             buffer.WriteInt16(open, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int animationNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            animationName = buffer.ReadString(animationNameEntryLen);
+            keepLastKey = buffer.ReadInt16(Endianness.Big);
+            loop = buffer.ReadInt16(Endianness.Big);
+            open = buffer.ReadInt16(Endianness.Big);
         }
 
     }

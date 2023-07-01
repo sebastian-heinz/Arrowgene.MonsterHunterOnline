@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAccessory : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAccessory));
 
         public CSAccessory(CsAccessoryDataUnion _Accessory)
         {
@@ -61,6 +63,33 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(isGet);
             buffer.WriteUInt32((uint)Accessory.Type, Endianness.Big);
             Accessory.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            isGet = buffer.ReadByte();
+            EMailAccessoryType CsAccessoryDataUnion_Type = (EMailAccessoryType)buffer.ReadUInt32(Endianness.Big);
+            switch (CsAccessoryDataUnion_Type)
+            {
+                case EMailAccessoryType.EMailAccessoryType_Gold:
+                    Accessory = new MailAccDataGold();
+                    break;
+                case EMailAccessoryType.EMailAccessoryType_BindCredit:
+                    Accessory = new MailAccDataBindCredit();
+                    break;
+                case EMailAccessoryType.EMailAccessoryType_Item:
+                    Accessory = new MailAccDataItem();
+                    break;
+                case EMailAccessoryType.EMailAccessoryType_BindGold:
+                    Accessory = new MailAccDataBindGold();
+                    break;
+            }
+            if (Accessory != null) {
+                Accessory.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Accessory' instance of type 'CsAccessoryDataUnion'");
+            }
         }
 
     }

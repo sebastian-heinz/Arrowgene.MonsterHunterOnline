@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerQueryInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerQueryInfo));
 
         public CSPlayerQueryInfo()
         {
@@ -196,6 +198,77 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < soulStoneCount; i++)
             {
                 buffer.WriteByte(SoulStone[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadInt32(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            SessionID = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Gender = buffer.ReadByte();
+            AvatarSetID = buffer.ReadByte();
+            Weapon = buffer.ReadInt32(Endianness.Big);
+            WeaponAtkFlag = buffer.ReadInt32(Endianness.Big);
+            EquipItem.Clear();
+            ushort equipItemCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipItemCount; i++)
+            {
+                byte EquipItemEntry = buffer.ReadByte();
+                EquipItem.Add(EquipItemEntry);
+            }
+            SkillGroup.Clear();
+            ushort skillGroupCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < skillGroupCount; i++)
+            {
+                int SkillGroupEntry = buffer.ReadInt32(Endianness.Big);
+                SkillGroup.Add(SkillGroupEntry);
+            }
+            SkillId.Clear();
+            ushort skillIdCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < skillIdCount; i++)
+            {
+                int SkillIdEntry = buffer.ReadInt32(Endianness.Big);
+                SkillId.Add(SkillIdEntry);
+            }
+            SkillActFlag.Clear();
+            ushort skillActFlagCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < skillActFlagCount; i++)
+            {
+                int SkillActFlagEntry = buffer.ReadInt32(Endianness.Big);
+                SkillActFlag.Add(SkillActFlagEntry);
+            }
+            SkillType.Clear();
+            ushort skillTypeCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < skillTypeCount; i++)
+            {
+                int SkillTypeEntry = buffer.ReadInt32(Endianness.Big);
+                SkillType.Add(SkillTypeEntry);
+            }
+            Attr.Clear();
+            ushort attrCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < attrCount; i++)
+            {
+                byte AttrEntry = buffer.ReadByte();
+                Attr.Add(AttrEntry);
+            }
+            int HunterStarEntryLen = buffer.ReadInt32(Endianness.Big);
+            HunterStar = buffer.ReadString(HunterStarEntryLen);
+            SuitSkillData.Clear();
+            uint suitSkillDataCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < suitSkillDataCount; i++)
+            {
+                byte SuitSkillDataEntry = buffer.ReadByte();
+                SuitSkillData.Add(SuitSkillDataEntry);
+            }
+            SoulStone.Clear();
+            int soulStoneCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < soulStoneCount; i++)
+            {
+                byte SoulStoneEntry = buffer.ReadByte();
+                SoulStone.Add(SoulStoneEntry);
             }
         }
 

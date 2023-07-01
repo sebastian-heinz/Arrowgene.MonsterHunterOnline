@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CTournamentsGetRanks : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTournamentsGetRanks));
 
         public S2CTournamentsGetRanks()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rolesCount; i++)
             {
                 Roles[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Total = buffer.ReadUInt64(Endianness.Big);
+            Rank = buffer.ReadUInt64(Endianness.Big);
+            Roles.Clear();
+            int rolesCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < rolesCount; i++)
+            {
+                CSTournamentsRole RolesEntry = new CSTournamentsRole();
+                RolesEntry.Read(buffer);
+                Roles.Add(RolesEntry);
             }
         }
 

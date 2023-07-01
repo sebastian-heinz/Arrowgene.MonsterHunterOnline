@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class FriendQueryInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(FriendQueryInfo));
 
         public FriendQueryInfo()
         {
@@ -92,6 +94,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Mood.Length + 1, Endianness.Big);
             buffer.WriteCString(Mood);
             buffer.WriteInt32(LineId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DBID = buffer.ReadUInt64(Endianness.Big);
+            RoleID = buffer.ReadInt32(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadUInt32(Endianness.Big);
+            IsOnline = buffer.ReadByte();
+            int MoodEntryLen = buffer.ReadInt32(Endianness.Big);
+            Mood = buffer.ReadString(MoodEntryLen);
+            LineId = buffer.ReadInt32(Endianness.Big);
         }
 
     }

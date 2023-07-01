@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterActionAck : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterActionAck));
 
         public CSMonsterActionAck()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(MonsterID, Endianness.Big);
             buffer.WriteUInt32(AckFlag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            AckFlag = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

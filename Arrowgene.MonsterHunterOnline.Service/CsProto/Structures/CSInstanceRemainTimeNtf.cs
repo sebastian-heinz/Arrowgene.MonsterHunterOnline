@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceRemainTimeNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceRemainTimeNtf));
 
         public CSInstanceRemainTimeNtf()
         {
@@ -91,6 +93,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(VipMaxLimit, Endianness.Big);
             buffer.WriteInt32(ItemMaxLimit, Endianness.Big);
             buffer.WriteInt32(UIShowFlag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RemainTimeSeconds = buffer.ReadInt32(Endianness.Big);
+            VipExtraRemainSeconds = buffer.ReadInt32(Endianness.Big);
+            ItemExtraRemainSeconds = buffer.ReadInt32(Endianness.Big);
+            NormalMaxLimit = buffer.ReadInt32(Endianness.Big);
+            VipMaxLimit = buffer.ReadInt32(Endianness.Big);
+            ItemMaxLimit = buffer.ReadInt32(Endianness.Big);
+            UIShowFlag = buffer.ReadInt32(Endianness.Big);
         }
 
     }

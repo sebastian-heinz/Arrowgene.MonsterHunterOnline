@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSAttrSyncList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAttrSyncList));
 
         public CSAttrSyncList()
         {
@@ -50,6 +52,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < attrCount; i++)
             {
                 Attr[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Attr.Clear();
+            int attrCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < attrCount; i++)
+            {
+                CSAttrSync AttrEntry = new CSAttrSync(null);
+                AttrEntry.Read(buffer);
+                Attr.Add(AttrEntry);
             }
         }
 

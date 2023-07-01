@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class S2CAstrolabeRefreshTask : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAstrolabeRefreshTask));
 
         public S2CAstrolabeRefreshTask()
         {
@@ -103,6 +105,35 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(LastSubmitTaskTime, Endianness.Big);
             buffer.WriteInt32(TaskDoDayNum, Endianness.Big);
             buffer.WriteInt32(TaskBuyDayNum, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RefreshTimes = buffer.ReadInt32(Endianness.Big);
+            Tasks.Clear();
+            int tasksCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tasksCount; i++)
+            {
+                int TasksEntry = buffer.ReadInt32(Endianness.Big);
+                Tasks.Add(TasksEntry);
+            }
+            Prizes.Clear();
+            int prizesCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < prizesCount; i++)
+            {
+                int PrizesEntry = buffer.ReadInt32(Endianness.Big);
+                Prizes.Add(PrizesEntry);
+            }
+            CompleteTasks.Clear();
+            int completeTasksCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < completeTasksCount; i++)
+            {
+                int CompleteTasksEntry = buffer.ReadInt32(Endianness.Big);
+                CompleteTasks.Add(CompleteTasksEntry);
+            }
+            LastSubmitTaskTime = buffer.ReadUInt32(Endianness.Big);
+            TaskDoDayNum = buffer.ReadInt32(Endianness.Big);
+            TaskBuyDayNum = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActivityFetchsCtx : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActivityFetchsCtx));
 
         public CSActivityFetchsCtx()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < ctxCount; i++)
             {
                 Ctx[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ctx.Clear();
+            int ctxCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < ctxCount; i++)
+            {
+                CSActivityFetchCtx CtxEntry = new CSActivityFetchCtx();
+                CtxEntry.Read(buffer);
+                Ctx.Add(CtxEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDataMarqueen : ScriptActivityDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataMarqueen));
 
         public ScriptActivityDataMarqueen()
         {
@@ -49,6 +51,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Url.Length + 1, Endianness.Big);
             buffer.WriteCString(Url);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int UrlEntryLen = buffer.ReadInt32(Endianness.Big);
+            Url = buffer.ReadString(UrlEntryLen);
         }
 
     }

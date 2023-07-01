@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmTrainResultNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmTrainResultNtf));
 
         public CSFarmTrainResultNtf()
         {
@@ -78,6 +80,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LoyalPoint, Endianness.Big);
             buffer.WriteInt32(Spirit, Endianness.Big);
             buffer.WriteInt32(Potential, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            PetID = buffer.ReadInt32(Endianness.Big);
+            TrainID = buffer.ReadInt32(Endianness.Big);
+            Melee = buffer.ReadInt32(Endianness.Big);
+            Defence = buffer.ReadInt32(Endianness.Big);
+            MaxHP = buffer.ReadInt32(Endianness.Big);
+            LoyalPoint = buffer.ReadInt32(Endianness.Big);
+            Spirit = buffer.ReadInt32(Endianness.Big);
+            Potential = buffer.ReadInt32(Endianness.Big);
         }
 
     }

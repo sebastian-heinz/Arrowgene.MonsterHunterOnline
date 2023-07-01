@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CsPlayer : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CsPlayer));
 
         public CsPlayer()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Zone, Endianness.Big);
             buffer.WriteUInt64(Uin, Endianness.Big);
             buffer.WriteUInt32(Rtid, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Uid = buffer.ReadUInt64(Endianness.Big);
+            Zone = buffer.ReadUInt32(Endianness.Big);
+            Uin = buffer.ReadUInt64(Endianness.Big);
+            Rtid = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

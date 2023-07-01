@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceResultRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceResultRsp));
 
         public CSInstanceResultRsp()
         {
@@ -107,6 +109,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < otherResultListCount; i++)
             {
                 OtherResultList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            GameMode = buffer.ReadInt32(Endianness.Big);
+            HuntingMode = buffer.ReadInt32(Endianness.Big);
+            FakeItemInfo.Read(buffer);
+            InstanceStatResult.Read(buffer);
+            FactionStatResult.Clear();
+            int factionStatResultCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < factionStatResultCount; i++)
+            {
+                FactionResultStatInfo FactionStatResultEntry = new FactionResultStatInfo();
+                FactionStatResultEntry.Read(buffer);
+                FactionStatResult.Add(FactionStatResultEntry);
+            }
+            SelfResult.Read(buffer);
+            OtherResultList.Clear();
+            byte otherResultListCount = buffer.ReadByte();
+            for (int i = 0; i < otherResultListCount; i++)
+            {
+                CSOtherResultInfo OtherResultListEntry = new CSOtherResultInfo();
+                OtherResultListEntry.Read(buffer);
+                OtherResultList.Add(OtherResultListEntry);
             }
         }
 

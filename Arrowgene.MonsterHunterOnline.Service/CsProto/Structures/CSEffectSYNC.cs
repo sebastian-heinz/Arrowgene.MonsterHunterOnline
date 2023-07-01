@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEffectSYNC : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEffectSYNC));
 
         public CSEffectSYNC()
         {
@@ -93,6 +95,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BoneName.Length + 1, Endianness.Big);
             buffer.WriteCString(BoneName);
             buffer.WriteByte(bRemove);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AttachToNetObjId = buffer.ReadUInt32(Endianness.Big);
+            Scale = buffer.ReadFloat(Endianness.Big);
+            int EffectEntryLen = buffer.ReadInt32(Endianness.Big);
+            Effect = buffer.ReadString(EffectEntryLen);
+            LocalDir.Read(buffer);
+            Offset.Read(buffer);
+            int BoneNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            BoneName = buffer.ReadString(BoneNameEntryLen);
+            bRemove = buffer.ReadByte();
         }
 
     }

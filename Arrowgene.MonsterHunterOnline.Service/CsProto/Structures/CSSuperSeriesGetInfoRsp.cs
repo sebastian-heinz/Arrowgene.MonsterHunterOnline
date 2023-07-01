@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSuperSeriesGetInfoRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuperSeriesGetInfoRsp));
 
         public CSSuperSeriesGetInfoRsp()
         {
@@ -79,6 +81,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GainVipSuccessRewardTimes, Endianness.Big);
             buffer.WriteInt32(SuperSeqId, Endianness.Big);
             buffer.WriteInt32(DelayRefreshTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RetCode = buffer.ReadInt32(Endianness.Big);
+            GainChallangeRewardTimes = buffer.ReadInt32(Endianness.Big);
+            GainSuccessRewardTimes = buffer.ReadInt32(Endianness.Big);
+            GainVipChallangeRewardTimes = buffer.ReadInt32(Endianness.Big);
+            GainVipSuccessRewardTimes = buffer.ReadInt32(Endianness.Big);
+            SuperSeqId = buffer.ReadInt32(Endianness.Big);
+            DelayRefreshTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTradeBeginAsk : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeBeginAsk));
 
         public CSTradeBeginAsk()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(SrcPlayerId, Endianness.Big);
             buffer.WriteUInt64(SrcPlayerDBID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SrcPlayerId = buffer.ReadInt32(Endianness.Big);
+            SrcPlayerDBID = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

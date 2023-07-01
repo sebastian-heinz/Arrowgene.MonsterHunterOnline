@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGetManageUrlRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetManageUrlRsp));
 
         public CSGetManageUrlRsp()
         {
@@ -64,6 +66,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Result, Endianness.Big);
             buffer.WriteInt32(Url.Length + 1, Endianness.Big);
             buffer.WriteCString(Url);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Type = buffer.ReadUInt32(Endianness.Big);
+            Result = buffer.ReadUInt32(Endianness.Big);
+            int UrlEntryLen = buffer.ReadInt32(Endianness.Big);
+            Url = buffer.ReadString(UrlEntryLen);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class ManufactureSkill : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ManufactureSkill));
 
         public ManufactureSkill()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SkillId, Endianness.Big);
             buffer.WriteInt32(ProficiencyLevel, Endianness.Big);
             buffer.WriteInt32(ProficiencyDegree, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SkillId = buffer.ReadInt32(Endianness.Big);
+            ProficiencyLevel = buffer.ReadInt32(Endianness.Big);
+            ProficiencyDegree = buffer.ReadInt32(Endianness.Big);
         }
 
     }

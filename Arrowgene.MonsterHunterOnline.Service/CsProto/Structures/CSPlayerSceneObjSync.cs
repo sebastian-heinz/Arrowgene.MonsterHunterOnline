@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerSceneObjSync : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerSceneObjSync));
 
         public CSPlayerSceneObjSync()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ReqLogicID, Endianness.Big);
             buffer.WriteInt32(Params1, Endianness.Big);
             buffer.WriteInt32(Params2, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SceneObjLogicID = buffer.ReadInt32(Endianness.Big);
+            ReqLogicID = buffer.ReadInt32(Endianness.Big);
+            Params1 = buffer.ReadInt32(Endianness.Big);
+            Params2 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

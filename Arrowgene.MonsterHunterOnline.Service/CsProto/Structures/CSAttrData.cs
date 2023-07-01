@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSAttrData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAttrData));
 
         public CSAttrData(CSAttrDataUnion _Value)
         {
@@ -55,6 +57,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(AttrID, Endianness.Big);
             buffer.WriteUInt16((ushort)Value.Type, Endianness.Big);
             Value.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AttrID = buffer.ReadUInt32(Endianness.Big);
+            CS_ATTR_DATA_TYPE CSAttrDataUnion_Type = (CS_ATTR_DATA_TYPE)buffer.ReadUInt16(Endianness.Big);
+            switch (CSAttrDataUnion_Type)
+            {
+                case CS_ATTR_DATA_TYPE.CS_ATTR_DATA_BASE:
+                    Value = new CSAttrBaseData(null);
+                    break;
+                case CS_ATTR_DATA_TYPE.CS_ATTR_DATA_BONUS:
+                    Value = new CSAttrBonusData();
+                    break;
+            }
+            if (Value != null) {
+                Value.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Value' instance of type 'CSAttrDataUnion'");
+            }
         }
 
     }

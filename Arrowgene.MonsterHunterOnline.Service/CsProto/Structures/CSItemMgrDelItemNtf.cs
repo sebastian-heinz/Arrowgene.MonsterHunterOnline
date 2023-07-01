@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemMgrDelItemNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrDelItemNtf));
 
         public CSItemMgrDelItemNtf()
         {
@@ -57,6 +59,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < delGridListCount; i++)
             {
                 DelGridList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Reason = buffer.ReadUInt16(Endianness.Big);
+            DelGridList.Clear();
+            byte delGridListCount = buffer.ReadByte();
+            for (int i = 0; i < delGridListCount; i++)
+            {
+                CSDelGrid DelGridListEntry = new CSDelGrid();
+                DelGridListEntry.Read(buffer);
+                DelGridList.Add(DelGridListEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSetRageRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetRageRsp));
 
         public CSSetRageRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(idx, Endianness.Big);
             buffer.WriteInt32(skillID, Endianness.Big);
             buffer.WriteInt32(errorID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            weaponType = buffer.ReadInt32(Endianness.Big);
+            idx = buffer.ReadInt32(Endianness.Big);
+            skillID = buffer.ReadInt32(Endianness.Big);
+            errorID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CPetUnlockSkillSlot : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CPetUnlockSkillSlot));
 
         public S2CPetUnlockSkillSlot()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UID, Endianness.Big);
             buffer.WriteByte(Type);
             buffer.WriteByte(Index);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Result = buffer.ReadInt32(Endianness.Big);
+            Idx = buffer.ReadInt32(Endianness.Big);
+            UID = buffer.ReadInt32(Endianness.Big);
+            Type = buffer.ReadByte();
+            Index = buffer.ReadByte();
         }
 
     }

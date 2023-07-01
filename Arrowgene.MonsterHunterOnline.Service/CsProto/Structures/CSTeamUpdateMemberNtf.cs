@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTeamUpdateMemberNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamUpdateMemberNtf));
 
         public CSTeamUpdateMemberNtf()
         {
@@ -51,6 +53,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(TeamID, Endianness.Big);
             buffer.WriteUInt32(SrcRoleID, Endianness.Big);
             Member.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TeamID = buffer.ReadUInt32(Endianness.Big);
+            SrcRoleID = buffer.ReadUInt32(Endianness.Big);
+            Member.Read(buffer);
         }
 
     }

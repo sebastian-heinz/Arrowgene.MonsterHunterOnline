@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEnGroupGainRewardRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnGroupGainRewardRsp));
 
         public CSEnGroupGainRewardRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(EnGroupID, Endianness.Big);
             buffer.WriteInt32(Item, Endianness.Big);
             buffer.WriteInt32(UnlockSubGroupID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            EnGroupID = buffer.ReadInt32(Endianness.Big);
+            Item = buffer.ReadInt32(Endianness.Big);
+            UnlockSubGroupID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGiftBagAttrNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftBagAttrNtf));
 
         public CSGiftBagAttrNtf()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(OnlineTime, Endianness.Big);
             buffer.WriteInt32(ConsDays, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            OnlineTime = buffer.ReadInt32(Endianness.Big);
+            ConsDays = buffer.ReadInt32(Endianness.Big);
         }
 
     }

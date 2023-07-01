@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSpectateRoom : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpectateRoom));
 
         public CSSpectateRoom()
         {
@@ -57,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Room, Endianness.Big);
             buffer.WriteByte(State);
             buffer.WriteUInt32(SignId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Room = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadByte();
+            SignId = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAIAnimSequence : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAIAnimSequence));
 
         public CSAIAnimSequence()
         {
@@ -223,6 +225,43 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(MoveSpeedAccStart, Endianness.Big);
             buffer.WriteFloat(MoveSpeedAccEnd, Endianness.Big);
             MoveSplineScale.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            int AnimSeqNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            AnimSeqName = buffer.ReadString(AnimSeqNameEntryLen);
+            SkillID = buffer.ReadInt32(Endianness.Big);
+            SkillLv = buffer.ReadInt32(Endianness.Big);
+            SyncFlag = buffer.ReadUInt32(Endianness.Big);
+            TargetSrvID = buffer.ReadInt32(Endianness.Big);
+            MoveSpeed.Read(buffer);
+            RotSpeed.Read(buffer);
+            MonsterPos.Read(buffer);
+            MonsterRot.Read(buffer);
+            SkillSpeed = buffer.ReadFloat(Endianness.Big);
+            RestartAnim = buffer.ReadByte();
+            TargetMultiAttackPos.Clear();
+            int targetMultiAttackPosCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < targetMultiAttackPosCount; i++)
+            {
+                CSVec3 TargetMultiAttackPosEntry = new CSVec3();
+                TargetMultiAttackPosEntry.Read(buffer);
+                TargetMultiAttackPos.Add(TargetMultiAttackPosEntry);
+            }
+            TargetAttackPos.Read(buffer);
+            NeedTargetAttackPos = buffer.ReadByte();
+            AckFlag = buffer.ReadUInt32(Endianness.Big);
+            SetRotate = buffer.ReadByte();
+            SetPos = buffer.ReadByte();
+            NoTransferCorrection = buffer.ReadByte();
+            NeedMoveSpeedAcc = buffer.ReadByte();
+            MoveSpeedAccelerate.Read(buffer);
+            MoveSpeedAccStart = buffer.ReadFloat(Endianness.Big);
+            MoveSpeedAccEnd = buffer.ReadFloat(Endianness.Big);
+            MoveSplineScale.Read(buffer);
         }
 
     }

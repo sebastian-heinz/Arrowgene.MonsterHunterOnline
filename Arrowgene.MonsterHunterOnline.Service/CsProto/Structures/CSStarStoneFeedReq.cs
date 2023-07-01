@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSStarStoneFeedReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneFeedReq));
 
         public CSStarStoneFeedReq()
         {
@@ -65,6 +67,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tinyStoneCntCount; i++)
             {
                 buffer.WriteInt32(TinyStoneCnt[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TinyStoneID.Clear();
+            int tinyStoneIDCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tinyStoneIDCount; i++)
+            {
+                int TinyStoneIDEntry = buffer.ReadInt32(Endianness.Big);
+                TinyStoneID.Add(TinyStoneIDEntry);
+            }
+            TinyStoneCnt.Clear();
+            int tinyStoneCntCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tinyStoneCntCount; i++)
+            {
+                int TinyStoneCntEntry = buffer.ReadInt32(Endianness.Big);
+                TinyStoneCnt.Add(TinyStoneCntEntry);
             }
         }
 

@@ -19,6 +19,8 @@ public class CsCmdSelectRoleHandler : ICsProtoHandler
         int RoleIndex = req.ReadInt32(Endianness.Big);
         int MacAddressLen = req.ReadInt32(Endianness.Big);
         string MacAddress = req.ReadString(MacAddressLen - 1);
+        
+        
 
 
         //     <struct name="CSSelectRoleRsp" version="1" desc="选择角色响应">
@@ -32,7 +34,7 @@ public class CsCmdSelectRoleHandler : ICsProtoHandler
         CsProtoPacket resp = new CsProtoPacket();
         resp.Body = res.GetAllBytes();
         resp.Cmd = CS_CMD_ID.CS_CMD_SELECT_ROLE_RSP;
-        client.SendCsProto(resp);
+      //  client.SendCsProto(resp);
 
         client.State.OnRoleSelected();
     }

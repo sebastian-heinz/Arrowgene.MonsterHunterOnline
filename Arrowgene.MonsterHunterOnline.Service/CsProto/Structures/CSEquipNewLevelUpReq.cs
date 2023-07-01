@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipNewLevelUpReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipNewLevelUpReq));
 
         public CSEquipNewLevelUpReq()
         {
@@ -89,6 +91,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 TagItemData[i].Write(buffer);
             }
             buffer.WriteInt32(GoalLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemUid = buffer.ReadInt64(Endianness.Big);
+            EquipColumn = buffer.ReadByte();
+            EquipGrid = buffer.ReadUInt16(Endianness.Big);
+            CreditCnt = buffer.ReadByte();
+            TagItemData.Clear();
+            byte tagItemDataCount = buffer.ReadByte();
+            for (int i = 0; i < tagItemDataCount; i++)
+            {
+                TagItemList TagItemDataEntry = new TagItemList();
+                TagItemDataEntry.Read(buffer);
+                TagItemData.Add(TagItemDataEntry);
+            }
+            GoalLevel = buffer.ReadInt32(Endianness.Big);
         }
 
     }

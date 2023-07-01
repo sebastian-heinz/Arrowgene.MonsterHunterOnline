@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class GuildWarCommerceInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuildWarCommerceInfo));
 
         public GuildWarCommerceInfo()
         {
@@ -89,6 +91,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(GuildId, Endianness.Big);
             buffer.WriteByte(IsFinish);
             buffer.WriteByte(Rank);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CommerceID = buffer.ReadUInt32(Endianness.Big);
+            GoodsNumber = buffer.ReadUInt32(Endianness.Big);
+            LastChangeTime = buffer.ReadUInt32(Endianness.Big);
+            int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            GuildName = buffer.ReadString(GuildNameEntryLen);
+            GuildId = buffer.ReadUInt64(Endianness.Big);
+            IsFinish = buffer.ReadByte();
+            Rank = buffer.ReadByte();
         }
 
     }

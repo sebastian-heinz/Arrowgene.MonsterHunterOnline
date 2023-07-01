@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPvpPlayerKillNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpPlayerKillNtf));
 
         public CSPvpPlayerKillNtf()
         {
@@ -93,6 +95,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(BeKillerName);
             buffer.WriteInt32(BeKillerCampType, Endianness.Big);
             buffer.WriteInt32(LastKill, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            KillerNetID = buffer.ReadUInt32(Endianness.Big);
+            int KillerNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            KillerName = buffer.ReadString(KillerNameEntryLen);
+            KillerCampType = buffer.ReadInt32(Endianness.Big);
+            BeKillerNetID = buffer.ReadUInt32(Endianness.Big);
+            int BeKillerNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            BeKillerName = buffer.ReadString(BeKillerNameEntryLen);
+            BeKillerCampType = buffer.ReadInt32(Endianness.Big);
+            LastKill = buffer.ReadInt32(Endianness.Big);
         }
 
     }

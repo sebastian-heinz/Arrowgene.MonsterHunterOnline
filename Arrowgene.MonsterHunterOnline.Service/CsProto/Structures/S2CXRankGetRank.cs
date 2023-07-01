@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CXRankGetRank : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CXRankGetRank));
 
         public S2CXRankGetRank()
         {
@@ -107,6 +109,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < blurUsersCount; i++)
             {
                 BlurUsers[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Result = buffer.ReadInt32(Endianness.Big);
+            Zone = buffer.ReadInt32(Endianness.Big);
+            ScoreType = buffer.ReadInt32(Endianness.Big);
+            Offset = buffer.ReadUInt32(Endianness.Big);
+            total = buffer.ReadUInt32(Endianness.Big);
+            topUsers.Clear();
+            int topUsersCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < topUsersCount; i++)
+            {
+                CSXRankUserInfo topUsersEntry = new CSXRankUserInfo();
+                topUsersEntry.Read(buffer);
+                topUsers.Add(topUsersEntry);
+            }
+            selfBlurRank.Read(buffer);
+            BlurUsers.Clear();
+            int blurUsersCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < blurUsersCount; i++)
+            {
+                CSXRankUserInfo BlurUsersEntry = new CSXRankUserInfo();
+                BlurUsersEntry.Read(buffer);
+                BlurUsers.Add(BlurUsersEntry);
             }
         }
 

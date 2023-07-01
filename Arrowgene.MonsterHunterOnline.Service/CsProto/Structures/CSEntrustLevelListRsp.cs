@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEntrustLevelListRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntrustLevelListRsp));
 
         public CSEntrustLevelListRsp()
         {
@@ -57,6 +59,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < subGroupInfosCount; i++)
             {
                 SubGroupInfos[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            SubGroupInfos.Clear();
+            short subGroupInfosCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < subGroupInfosCount; i++)
+            {
+                CSEnSubGroupInfo SubGroupInfosEntry = new CSEnSubGroupInfo();
+                SubGroupInfosEntry.Read(buffer);
+                SubGroupInfos.Add(SubGroupInfosEntry);
             }
         }
 

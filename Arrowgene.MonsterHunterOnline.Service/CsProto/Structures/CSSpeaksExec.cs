@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSpeaksExec : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpeaksExec));
 
         public CSSpeaksExec()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < execCount; i++)
             {
                 Exec[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Exec.Clear();
+            byte execCount = buffer.ReadByte();
+            for (int i = 0; i < execCount; i++)
+            {
+                CSSpeakExec ExecEntry = new CSSpeakExec();
+                ExecEntry.Read(buffer);
+                Exec.Add(ExecEntry);
             }
         }
 

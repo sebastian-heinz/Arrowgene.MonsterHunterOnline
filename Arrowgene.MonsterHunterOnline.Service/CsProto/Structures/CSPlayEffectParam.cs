@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSPlayEffectParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayEffectParam));
 
         public CSPlayEffectParam()
         {
@@ -70,6 +72,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             offset.Write(buffer);
             angle.Write(buffer);
             buffer.WriteFloat(scale, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int effectNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            effectName = buffer.ReadString(effectNameEntryLen);
+            offset.Read(buffer);
+            angle.Read(buffer);
+            scale = buffer.ReadFloat(Endianness.Big);
         }
 
     }

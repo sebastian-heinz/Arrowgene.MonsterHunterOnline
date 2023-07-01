@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSManufactureProduceRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSManufactureProduceRsp));
 
         public CSManufactureProduceRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(ItemID, Endianness.Big);
             buffer.WriteInt32(BindFlag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            ItemID = buffer.ReadInt32(Endianness.Big);
+            BindFlag = buffer.ReadInt32(Endianness.Big);
         }
 
     }

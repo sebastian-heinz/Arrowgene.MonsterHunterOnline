@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class SRLCostMaterialType : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(SRLCostMaterialType));
 
         public SRLCostMaterialType()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(MaterialId, Endianness.Big);
             buffer.WriteInt32(MaterialNum, Endianness.Big);
             buffer.WriteInt32(MaterialType, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MaterialId = buffer.ReadInt32(Endianness.Big);
+            MaterialNum = buffer.ReadInt32(Endianness.Big);
+            MaterialType = buffer.ReadInt32(Endianness.Big);
         }
 
     }

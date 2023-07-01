@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSCheckVersionRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCheckVersionRsp));
 
         public CSCheckVersionRsp()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RevisVerNo, Endianness.Big);
             buffer.WriteInt32(BuildVerNo, Endianness.Big);
             Feature.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadInt32(Endianness.Big);
+            MajorVerNo = buffer.ReadInt32(Endianness.Big);
+            MinorVerNo = buffer.ReadInt32(Endianness.Big);
+            RevisVerNo = buffer.ReadInt32(Endianness.Big);
+            BuildVerNo = buffer.ReadInt32(Endianness.Big);
+            Feature.Read(buffer);
         }
 
     }

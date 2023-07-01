@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTeamSearchTeamsReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamSearchTeamsReq));
 
         public CSTeamSearchTeamsReq()
         {
@@ -91,6 +93,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(CrossLine, Endianness.Big);
             buffer.WriteUInt32(BeginFrom, Endianness.Big);
             buffer.WriteUInt32(EndTo, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LevelMode = buffer.ReadInt16(Endianness.Big);
+            MapId = buffer.ReadUInt32(Endianness.Big);
+            LevelGrpId = buffer.ReadUInt32(Endianness.Big);
+            Difficulty = buffer.ReadInt16(Endianness.Big);
+            CrossLine = buffer.ReadInt16(Endianness.Big);
+            BeginFrom = buffer.ReadUInt32(Endianness.Big);
+            EndTo = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

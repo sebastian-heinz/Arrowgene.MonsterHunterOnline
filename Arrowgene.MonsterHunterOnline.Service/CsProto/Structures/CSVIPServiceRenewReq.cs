@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSVIPServiceRenewReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPServiceRenewReq));
 
         public CSVIPServiceRenewReq()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RenewType, Endianness.Big);
             buffer.WriteInt32(ServiceType, Endianness.Big);
             buffer.WriteInt32(RenewPeriod, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RenewType = buffer.ReadInt32(Endianness.Big);
+            ServiceType = buffer.ReadInt32(Endianness.Big);
+            RenewPeriod = buffer.ReadInt32(Endianness.Big);
         }
 
     }

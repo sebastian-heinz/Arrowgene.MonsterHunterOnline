@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSensitiveVerifyResult : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSensitiveVerifyResult));
 
         public CSSensitiveVerifyResult()
         {
@@ -72,6 +74,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tipsCount; i++)
             {
                 buffer.WriteByte(Tips[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Result = buffer.ReadUInt32(Endianness.Big);
+            Title.Clear();
+            uint titleCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < titleCount; i++)
+            {
+                byte TitleEntry = buffer.ReadByte();
+                Title.Add(TitleEntry);
+            }
+            Tips.Clear();
+            uint tipsCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < tipsCount; i++)
+            {
+                byte TipsEntry = buffer.ReadByte();
+                Tips.Add(TipsEntry);
             }
         }
 

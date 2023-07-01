@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEntityAttach : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntityAttach));
 
         public CSEntityAttach()
         {
@@ -93,6 +95,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Offset.Write(buffer);
             Rotation.Write(buffer);
             buffer.WriteByte(Attach);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ParentEntNetId = buffer.ReadUInt32(Endianness.Big);
+            ChildEntNetId = buffer.ReadUInt32(Endianness.Big);
+            int AttachmentNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            AttachmentName = buffer.ReadString(AttachmentNameEntryLen);
+            int BoneNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            BoneName = buffer.ReadString(BoneNameEntryLen);
+            Offset.Read(buffer);
+            Rotation.Read(buffer);
+            Attach = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPVPPlayerScoreNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPPlayerScoreNtf));
 
         public CSPVPPlayerScoreNtf()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CampType, Endianness.Big);
             buffer.WriteInt32(AddScore, Endianness.Big);
             buffer.WriteInt32(CatCar, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetId = buffer.ReadInt32(Endianness.Big);
+            CampType = buffer.ReadInt32(Endianness.Big);
+            AddScore = buffer.ReadInt32(Endianness.Big);
+            CatCar = buffer.ReadInt32(Endianness.Big);
         }
 
     }

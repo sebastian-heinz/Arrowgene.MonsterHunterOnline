@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class GuildWarSimpleInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuildWarSimpleInfo));
 
         public GuildWarSimpleInfo()
         {
@@ -61,6 +63,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GuildName.Length + 1, Endianness.Big);
             buffer.WriteCString(GuildName);
             buffer.WriteByte(BoatsCount);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GuildId = buffer.ReadUInt64(Endianness.Big);
+            int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            GuildName = buffer.ReadString(GuildNameEntryLen);
+            BoatsCount = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBSMRoomOperRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBSMRoomOperRsp));
 
         public CSBSMRoomOperRsp()
         {
@@ -103,6 +105,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Param3, Endianness.Big);
             buffer.WriteUInt32(Param4, Endianness.Big);
             buffer.WriteUInt32(Param5, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            OpNetID = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            OpCmd = buffer.ReadInt32(Endianness.Big);
+            Param1 = buffer.ReadUInt32(Endianness.Big);
+            Param2 = buffer.ReadUInt32(Endianness.Big);
+            Param3 = buffer.ReadUInt32(Endianness.Big);
+            Param4 = buffer.ReadUInt32(Endianness.Big);
+            Param5 = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

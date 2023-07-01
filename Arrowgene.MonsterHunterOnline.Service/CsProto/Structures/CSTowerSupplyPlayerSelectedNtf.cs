@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTowerSupplyPlayerSelectedNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTowerSupplyPlayerSelectedNtf));
 
         public CSTowerSupplyPlayerSelectedNtf()
         {
@@ -67,6 +69,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SelectedAppraisal, Endianness.Big);
             buffer.WriteInt32(SelectedItemID, Endianness.Big);
             buffer.WriteInt32(Result, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerNetID = buffer.ReadInt32(Endianness.Big);
+            SelectedAppraisal = buffer.ReadInt32(Endianness.Big);
+            SelectedItemID = buffer.ReadInt32(Endianness.Big);
+            Result = buffer.ReadInt32(Endianness.Big);
         }
 
     }

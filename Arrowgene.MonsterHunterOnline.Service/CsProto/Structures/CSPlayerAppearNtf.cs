@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerAppearNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerAppearNtf));
 
         public CSPlayerAppearNtf()
         {
@@ -282,6 +284,73 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(VehicleID, Endianness.Big);
             buffer.WriteInt32(GrowHighDay, Endianness.Big);
             buffer.WriteInt32(GrowHeight, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadInt32(Endianness.Big);
+            SessionID = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Gender = buffer.ReadByte();
+            Pose.Read(buffer);
+            AvatarSetID = buffer.ReadByte();
+            Health = buffer.ReadFloat(Endianness.Big);
+            HealthRecover = buffer.ReadFloat(Endianness.Big);
+            Faction = buffer.ReadInt32(Endianness.Big);
+            Weapon = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadInt32(Endianness.Big);
+            HasTeam = buffer.ReadByte();
+            TeamHasPwd = buffer.ReadByte();
+            RandSeed = buffer.ReadUInt32(Endianness.Big);
+            Equip.Clear();
+            ushort equipCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipCount; i++)
+            {
+                CSAvatarItem EquipEntry = new CSAvatarItem();
+                EquipEntry.Read(buffer);
+                Equip.Add(EquipEntry);
+            }
+            Attr.Clear();
+            ushort attrCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < attrCount; i++)
+            {
+                byte AttrEntry = buffer.ReadByte();
+                Attr.Add(AttrEntry);
+            }
+            Buff.Clear();
+            ushort buffCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < buffCount; i++)
+            {
+                byte BuffEntry = buffer.ReadByte();
+                Buff.Add(BuffEntry);
+            }
+            ProjIds.Clear();
+            int projIdsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < projIdsCount; i++)
+            {
+                CSAmmoInfo ProjIdsEntry = new CSAmmoInfo();
+                ProjIdsEntry.Read(buffer);
+                ProjIds.Add(ProjIdsEntry);
+            }
+            ParentEntityGUID = buffer.ReadUInt64(Endianness.Big);
+            Type = buffer.ReadByte();
+            state1 = buffer.ReadUInt32(Endianness.Big);
+            state2 = buffer.ReadUInt32(Endianness.Big);
+            state3 = buffer.ReadUInt32(Endianness.Big);
+            state4 = buffer.ReadUInt32(Endianness.Big);
+            AGState = buffer.ReadUInt32(Endianness.Big);
+            SubState = buffer.ReadUInt32(Endianness.Big);
+            Guilder.Read(buffer);
+            int StarLevelEntryLen = buffer.ReadInt32(Endianness.Big);
+            StarLevel = buffer.ReadString(StarLevelEntryLen);
+            for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+            {
+                FacialInfo[i] = buffer.ReadInt16(Endianness.Big);
+            }
+            VehicleID = buffer.ReadInt32(Endianness.Big);
+            GrowHighDay = buffer.ReadInt32(Endianness.Big);
+            GrowHeight = buffer.ReadInt32(Endianness.Big);
         }
 
     }

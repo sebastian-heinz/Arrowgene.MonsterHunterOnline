@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSupplyBoxInitItemNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyBoxInitItemNtf));
 
         public CSSupplyBoxInitItemNtf()
         {
@@ -74,6 +76,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < supplyItemListCount; i++)
             {
                 SupplyItemList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SupplyBoxType = buffer.ReadByte();
+            ShareId = buffer.ReadUInt32(Endianness.Big);
+            SupplyCatUnlock = buffer.ReadByte();
+            SupplyItemList.Clear();
+            int supplyItemListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < supplyItemListCount; i++)
+            {
+                CSSupplyItem SupplyItemListEntry = new CSSupplyItem();
+                SupplyItemListEntry.Read(buffer);
+                SupplyItemList.Add(SupplyItemListEntry);
             }
         }
 

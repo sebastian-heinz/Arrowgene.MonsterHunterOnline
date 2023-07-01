@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CRankRapidHuntListRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRankRapidHuntListRsp));
 
         public S2CRankRapidHuntListRsp()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < hissCount; i++)
             {
                 hiss[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            hiss.Clear();
+            int hissCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < hissCount; i++)
+            {
+                CSRapidHuntHis hissEntry = new CSRapidHuntHis();
+                hissEntry.Read(buffer);
+                hiss.Add(hissEntry);
             }
         }
 

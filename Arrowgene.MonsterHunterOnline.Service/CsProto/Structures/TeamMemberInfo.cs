@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class TeamMemberInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(TeamMemberInfo));
 
         public TeamMemberInfo()
         {
@@ -170,6 +172,30 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(HunterStar);
             buffer.WriteUInt32(Zone, Endianness.Big);
             buffer.WriteInt32(WeaponTitle, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetId = buffer.ReadUInt32(Endianness.Big);
+            DBId = buffer.ReadUInt64(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Level = buffer.ReadUInt32(Endianness.Big);
+            LevelId = buffer.ReadUInt32(Endianness.Big);
+            LevelExtra = buffer.ReadUInt64(Endianness.Big);
+            Sex = buffer.ReadInt32(Endianness.Big);
+            WeaponType = buffer.ReadInt32(Endianness.Big);
+            Star = buffer.ReadUInt32(Endianness.Big);
+            CanBeKicked = buffer.ReadInt32(Endianness.Big);
+            Online = buffer.ReadInt32(Endianness.Big);
+            Vec3.Read(buffer);
+            Dir.Read(buffer);
+            LineId = buffer.ReadInt32(Endianness.Big);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            int HunterStarEntryLen = buffer.ReadInt32(Endianness.Big);
+            HunterStar = buffer.ReadString(HunterStarEntryLen);
+            Zone = buffer.ReadUInt32(Endianness.Big);
+            WeaponTitle = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceItemLootInfoList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceItemLootInfoList));
 
         public CSInstanceItemLootInfoList()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemsCount; i++)
             {
                 Items[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Items.Clear();
+            short itemsCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < itemsCount; i++)
+            {
+                CSInstanceItemLootInfo ItemsEntry = new CSInstanceItemLootInfo();
+                ItemsEntry.Read(buffer);
+                Items.Add(ItemsEntry);
             }
         }
 

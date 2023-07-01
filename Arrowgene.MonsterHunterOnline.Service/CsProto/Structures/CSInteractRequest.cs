@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInteractRequest : CSPlayerExtRequestData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInteractRequest));
 
         public CSInteractRequest(CSInteractRequestData _Request)
         {
@@ -56,6 +58,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32((int)Request.RequestType, Endianness.Big);
             Request.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            INTERACT_REQUEST_TYPE CSInteractRequestData_RequestType = (INTERACT_REQUEST_TYPE)buffer.ReadInt32(Endianness.Big);
+            switch (CSInteractRequestData_RequestType)
+            {
+                case INTERACT_REQUEST_TYPE.INTERACT_REQUEST_TYPE_BEGIN:
+                    Request = new CSInteractRequestBegin();
+                    break;
+                case INTERACT_REQUEST_TYPE.INTERACT_REQUEST_TYPE_END:
+                    Request = new CSInteractRequestEnd();
+                    break;
+            }
+            if (Request != null) {
+                Request.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Request' instance of type 'CSInteractRequestData'");
+            }
         }
 
     }

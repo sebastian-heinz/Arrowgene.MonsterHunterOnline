@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSStarStoneInsertSlot : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneInsertSlot));
 
         public CSStarStoneInsertSlot()
         {
@@ -67,6 +69,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Colume, Endianness.Big);
             buffer.WriteInt32(Grid, Endianness.Big);
             buffer.WriteInt32(UseNum, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Slotlv = buffer.ReadInt32(Endianness.Big);
+            Colume = buffer.ReadInt32(Endianness.Big);
+            Grid = buffer.ReadInt32(Endianness.Big);
+            UseNum = buffer.ReadInt32(Endianness.Big);
         }
 
     }

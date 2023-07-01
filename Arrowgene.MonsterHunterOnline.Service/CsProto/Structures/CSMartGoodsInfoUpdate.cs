@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMartGoodsInfoUpdate : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartGoodsInfoUpdate));
 
         public CSMartGoodsInfoUpdate()
         {
@@ -313,6 +315,53 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(IconFemale.Length + 1, Endianness.Big);
             buffer.WriteCString(IconFemale);
             buffer.WriteInt32(SexLimit, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ID = buffer.ReadInt32(Endianness.Big);
+            GroupID = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            PayType = buffer.ReadByte();
+            FuncID = buffer.ReadInt32(Endianness.Big);
+            FuncParam = buffer.ReadInt32(Endianness.Big);
+            ItemID = buffer.ReadInt32(Endianness.Big);
+            ItemNum = buffer.ReadInt32(Endianness.Big);
+            LimitTime = buffer.ReadInt32(Endianness.Big);
+            Type = buffer.ReadByte();
+            SubType = buffer.ReadByte();
+            Flag = buffer.ReadByte();
+            Recommend = buffer.ReadByte();
+            VIPLimit = buffer.ReadByte();
+            Price = buffer.ReadInt32(Endianness.Big);
+            CutPrice = buffer.ReadInt32(Endianness.Big);
+            VIPCutPrice = buffer.ReadInt32(Endianness.Big);
+            Coin = buffer.ReadByte();
+            Card = buffer.ReadByte();
+            Gift = buffer.ReadByte();
+            AutoUse = buffer.ReadByte();
+            int BeginTimeEntryLen = buffer.ReadInt32(Endianness.Big);
+            BeginTime = buffer.ReadString(BeginTimeEntryLen);
+            int EndTimeEntryLen = buffer.ReadInt32(Endianness.Big);
+            EndTime = buffer.ReadString(EndTimeEntryLen);
+            NumLimit = buffer.ReadInt32(Endianness.Big);
+            PeriodLimit = buffer.ReadByte();
+            IsShow = buffer.ReadByte();
+            int IconEntryLen = buffer.ReadInt32(Endianness.Big);
+            Icon = buffer.ReadString(IconEntryLen);
+            BtlSvrLimit = buffer.ReadByte();
+            VipLevel = buffer.ReadInt32(Endianness.Big);
+            QQMask = buffer.ReadInt32(Endianness.Big);
+            LevelLimit = buffer.ReadInt32(Endianness.Big);
+            Sort = buffer.ReadInt32(Endianness.Big);
+            AddVipExp = buffer.ReadInt32(Endianness.Big);
+            WxID = buffer.ReadInt32(Endianness.Big);
+            IsVIPGoods = buffer.ReadByte();
+            Ver = buffer.ReadInt32(Endianness.Big);
+            int IconFemaleEntryLen = buffer.ReadInt32(Endianness.Big);
+            IconFemale = buffer.ReadString(IconFemaleEntryLen);
+            SexLimit = buffer.ReadInt32(Endianness.Big);
         }
 
     }

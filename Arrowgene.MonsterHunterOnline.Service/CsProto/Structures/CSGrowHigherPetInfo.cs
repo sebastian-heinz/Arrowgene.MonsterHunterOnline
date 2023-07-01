@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSGrowHigherPetInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGrowHigherPetInfo));
 
         public CSGrowHigherPetInfo()
         {
@@ -57,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PetIdx, Endianness.Big);
             buffer.WriteInt32(DateDay, Endianness.Big);
             buffer.WriteInt32(CurHigher, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PetIdx = buffer.ReadInt32(Endianness.Big);
+            DateDay = buffer.ReadInt32(Endianness.Big);
+            CurHigher = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAGSyncInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAGSyncInfo));
 
         public CSAGSyncInfo()
         {
@@ -91,6 +93,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Value, Endianness.Big);
             buffer.WriteUInt32(StateID, Endianness.Big);
             buffer.WriteFloat(ratio, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            Layer = buffer.ReadByte();
+            InputType = buffer.ReadByte();
+            Input = buffer.ReadByte();
+            Value = buffer.ReadUInt32(Endianness.Big);
+            StateID = buffer.ReadUInt32(Endianness.Big);
+            ratio = buffer.ReadFloat(Endianness.Big);
         }
 
     }

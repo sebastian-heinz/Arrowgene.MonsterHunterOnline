@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSClaners : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClaners));
 
         public CSClaners()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < clanersCount; i++)
             {
                 Claners[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Claners.Clear();
+            int clanersCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < clanersCount; i++)
+            {
+                CSClaner ClanersEntry = new CSClaner();
+                ClanersEntry.Read(buffer);
+                Claners.Add(ClanersEntry);
             }
         }
 

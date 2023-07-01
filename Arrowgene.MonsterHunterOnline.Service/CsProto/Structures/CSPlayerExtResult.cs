@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerExtResult : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerExtResult));
 
         public CSPlayerExtResult(CSPlayerExtRequestData _Request, CSPlayerExtResultData _Result)
         {
@@ -68,6 +70,36 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ResultCode, Endianness.Big);
             Request.Write(buffer);
             Result.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CS_PLAYER_EXT_TYPE CSPlayerExtResultData_ExtType = (CS_PLAYER_EXT_TYPE)buffer.ReadByte();
+            ResultCode = buffer.ReadInt32(Endianness.Big);
+            switch (CSPlayerExtResultData_ExtType)
+            {
+                case CS_PLAYER_EXT_TYPE.CS_PLAYER_EXT_INTERACT:
+                    Request = new CSInteractRequest(null);
+                    break;
+            }
+            if (Request != null) {
+                Request.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Request' instance of type 'CSPlayerExtRequestData'");
+            }
+            switch (CSPlayerExtResultData_ExtType)
+            {
+                case CS_PLAYER_EXT_TYPE.CS_PLAYER_EXT_INTERACT:
+                    Result = new CSActionPointData();
+                    break;
+            }
+            if (Result != null) {
+                Result.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Result' instance of type 'CSPlayerExtResultData'");
+            }
         }
 
     }

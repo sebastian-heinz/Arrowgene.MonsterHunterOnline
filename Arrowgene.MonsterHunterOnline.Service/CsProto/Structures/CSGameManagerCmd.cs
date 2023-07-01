@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGameManagerCmd : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGameManagerCmd));
 
         public CSGameManagerCmd()
         {
@@ -50,6 +52,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Command.Length + 1, Endianness.Big);
             buffer.WriteCString(Command);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int CommandEntryLen = buffer.ReadInt32(Endianness.Big);
+            Command = buffer.ReadString(CommandEntryLen);
         }
 
     }

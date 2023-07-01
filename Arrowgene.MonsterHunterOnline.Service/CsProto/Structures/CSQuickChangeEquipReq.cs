@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSQuickChangeEquipReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSQuickChangeEquipReq));
 
         public CSQuickChangeEquipReq()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < equipParamListCount; i++)
             {
                 EquipParamList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EquipParamList.Clear();
+            int equipParamListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < equipParamListCount; i++)
+            {
+                EquipParam EquipParamListEntry = new EquipParam();
+                EquipParamListEntry.Read(buffer);
+                EquipParamList.Add(EquipParamListEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CLeagueResult : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeagueResult));
 
         public S2CLeagueResult()
         {
@@ -126,6 +128,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(TotalLimit);
             buffer.WriteInt32(ExRewardScore, Endianness.Big);
             buffer.WriteInt32(ExRewardMedal, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Type = buffer.ReadInt32(Endianness.Big);
+            ClanScoreMod = buffer.ReadInt32(Endianness.Big);
+            ClanPVMod = buffer.ReadInt32(Endianness.Big);
+            SelfScoreMod = buffer.ReadInt32(Endianness.Big);
+            Punish = buffer.ReadInt32(Endianness.Big);
+            SelfPVMod = buffer.ReadInt32(Endianness.Big);
+            SelfMedalMod = buffer.ReadInt32(Endianness.Big);
+            StepRewardLevel = buffer.ReadInt32(Endianness.Big);
+            WeekLimit = buffer.ReadByte();
+            TotalLimit = buffer.ReadByte();
+            ExRewardScore = buffer.ReadInt32(Endianness.Big);
+            ExRewardMedal = buffer.ReadInt32(Endianness.Big);
         }
 
     }

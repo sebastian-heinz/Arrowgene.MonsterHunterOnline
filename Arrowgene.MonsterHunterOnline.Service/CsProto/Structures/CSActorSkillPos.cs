@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActorSkillPos : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorSkillPos));
 
         public CSActorSkillPos()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(CurTime, Endianness.Big);
             Location.Write(buffer);
             buffer.WriteUInt16(Flag, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            StateID = buffer.ReadUInt32(Endianness.Big);
+            CurTime = buffer.ReadFloat(Endianness.Big);
+            Location.Read(buffer);
+            Flag = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

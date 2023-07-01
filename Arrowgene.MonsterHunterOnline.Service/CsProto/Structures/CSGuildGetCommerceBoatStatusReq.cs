@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSGuildGetCommerceBoatStatusReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildGetCommerceBoatStatusReq));
 
         public CSGuildGetCommerceBoatStatusReq()
         {
@@ -53,6 +55,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt64(PlayerDBID, Endianness.Big);
             buffer.WriteByte(Mode);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerDBID = buffer.ReadUInt64(Endianness.Big);
+            Mode = buffer.ReadByte();
         }
 
     }

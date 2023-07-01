@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInteractRequestBegin : CSInteractRequestData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInteractRequestBegin));
 
         public CSInteractRequestBegin()
         {
@@ -65,6 +67,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(InteractType, Endianness.Big);
             buffer.WriteInt32(Param1, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TargetID = buffer.ReadInt32(Endianness.Big);
+            InteractType = buffer.ReadInt32(Endianness.Big);
+            Param1 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

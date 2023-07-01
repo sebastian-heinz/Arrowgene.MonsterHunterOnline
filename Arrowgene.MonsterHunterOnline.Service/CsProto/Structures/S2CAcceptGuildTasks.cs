@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CAcceptGuildTasks : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAcceptGuildTasks));
 
         public S2CAcceptGuildTasks()
         {
@@ -60,6 +62,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tasksCount; i++)
             {
                 buffer.WriteInt32(tasks[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            lib = buffer.ReadInt32(Endianness.Big);
+            tasks.Clear();
+            int tasksCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tasksCount; i++)
+            {
+                int tasksEntry = buffer.ReadInt32(Endianness.Big);
+                tasks.Add(tasksEntry);
             }
         }
 

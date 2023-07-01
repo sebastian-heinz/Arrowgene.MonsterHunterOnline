@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBBVarList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBBVarList));
 
         public CSBBVarList()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < varsCount; i++)
             {
                 Vars[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Vars.Clear();
+            short varsCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < varsCount; i++)
+            {
+                CSBBVar VarsEntry = new CSBBVar(null);
+                VarsEntry.Read(buffer);
+                Vars.Add(VarsEntry);
             }
         }
 

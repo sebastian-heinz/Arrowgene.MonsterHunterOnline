@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLocalBatOPRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLocalBatOPRsp));
 
         public CSLocalBatOPRsp()
         {
@@ -89,6 +91,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ResultParam4, Endianness.Big);
             buffer.WriteInt32(ResultParamStr.Length + 1, Endianness.Big);
             buffer.WriteCString(ResultParamStr);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Op.Read(buffer);
+            Result = buffer.ReadInt32(Endianness.Big);
+            ResultParam1 = buffer.ReadInt32(Endianness.Big);
+            ResultParam2 = buffer.ReadInt32(Endianness.Big);
+            ResultParam3 = buffer.ReadInt32(Endianness.Big);
+            ResultParam4 = buffer.ReadInt32(Endianness.Big);
+            int ResultParamStrEntryLen = buffer.ReadInt32(Endianness.Big);
+            ResultParamStr = buffer.ReadString(ResultParamStrEntryLen);
         }
 
     }

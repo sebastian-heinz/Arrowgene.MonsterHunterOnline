@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSExtraRewardListRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExtraRewardListRsp));
 
         public CSExtraRewardListRsp()
         {
@@ -91,6 +93,33 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < bindTypeCount; i++)
             {
                 buffer.WriteInt32(BindType[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RetCode = buffer.ReadInt32(Endianness.Big);
+            ResetCnt = buffer.ReadInt32(Endianness.Big);
+            ItemType.Clear();
+            int itemTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemTypeCount; i++)
+            {
+                int ItemTypeEntry = buffer.ReadInt32(Endianness.Big);
+                ItemType.Add(ItemTypeEntry);
+            }
+            ItemCount.Clear();
+            int itemCountCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemCountCount; i++)
+            {
+                int ItemCountEntry = buffer.ReadInt32(Endianness.Big);
+                ItemCount.Add(ItemCountEntry);
+            }
+            BindType.Clear();
+            int bindTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < bindTypeCount; i++)
+            {
+                int BindTypeEntry = buffer.ReadInt32(Endianness.Big);
+                BindType.Add(BindTypeEntry);
             }
         }
 

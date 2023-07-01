@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTowerMemberInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTowerMemberInfo));
 
         public CSTowerMemberInfo()
         {
@@ -72,6 +74,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RoleName.Length + 1, Endianness.Big);
             buffer.WriteCString(RoleName);
             buffer.WriteInt32(BestHistoryTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerNetID = buffer.ReadInt32(Endianness.Big);
+            Attack = buffer.ReadInt32(Endianness.Big);
+            Defense = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            BestHistoryTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

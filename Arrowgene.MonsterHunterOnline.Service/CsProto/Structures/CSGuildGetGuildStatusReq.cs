@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSGuildGetGuildStatusReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildGetGuildStatusReq));
 
         public CSGuildGetGuildStatusReq()
         {
@@ -53,6 +55,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt32(CommerceID, Endianness.Big);
             buffer.WriteUInt64(GuildId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CommerceID = buffer.ReadUInt32(Endianness.Big);
+            GuildId = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

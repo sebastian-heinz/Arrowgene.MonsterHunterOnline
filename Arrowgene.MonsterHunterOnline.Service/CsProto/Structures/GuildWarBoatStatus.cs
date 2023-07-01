@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class GuildWarBoatStatus : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuildWarBoatStatus));
 
         public GuildWarBoatStatus()
         {
@@ -144,6 +146,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(OtherRoleName3);
             buffer.WriteInt32(OtherRoleName4.Length + 1, Endianness.Big);
             buffer.WriteCString(OtherRoleName4);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BoatId = buffer.ReadUInt32(Endianness.Big);
+            PlayerId = buffer.ReadUInt64(Endianness.Big);
+            StartTimestamp = buffer.ReadUInt32(Endianness.Big);
+            LevelId = buffer.ReadUInt32(Endianness.Big);
+            MinTime = buffer.ReadUInt32(Endianness.Big);
+            GuildId = buffer.ReadUInt64(Endianness.Big);
+            int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            GuildName = buffer.ReadString(GuildNameEntryLen);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            Status = buffer.ReadUInt32(Endianness.Big);
+            int OhterGuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            OhterGuildName = buffer.ReadString(OhterGuildNameEntryLen);
+            int OtherRoleName1EntryLen = buffer.ReadInt32(Endianness.Big);
+            OtherRoleName1 = buffer.ReadString(OtherRoleName1EntryLen);
+            int OtherRoleName2EntryLen = buffer.ReadInt32(Endianness.Big);
+            OtherRoleName2 = buffer.ReadString(OtherRoleName2EntryLen);
+            int OtherRoleName3EntryLen = buffer.ReadInt32(Endianness.Big);
+            OtherRoleName3 = buffer.ReadString(OtherRoleName3EntryLen);
+            int OtherRoleName4EntryLen = buffer.ReadInt32(Endianness.Big);
+            OtherRoleName4 = buffer.ReadString(OtherRoleName4EntryLen);
         }
 
     }

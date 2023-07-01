@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSvrTestReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSvrTestReq));
 
         public CSSvrTestReq()
         {
@@ -60,6 +62,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < structCount; i++)
             {
                 buffer.WriteByte(Struct[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Reason = buffer.ReadInt32(Endianness.Big);
+            Struct.Clear();
+            uint structCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < structCount; i++)
+            {
+                byte StructEntry = buffer.ReadByte();
+                Struct.Add(StructEntry);
             }
         }
 

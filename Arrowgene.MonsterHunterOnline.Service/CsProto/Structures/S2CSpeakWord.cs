@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSpeakWord : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSpeakWord));
 
         public S2CSpeakWord()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(netId, Endianness.Big);
             buffer.WriteInt32(MsgId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            netId = buffer.ReadInt32(Endianness.Big);
+            MsgId = buffer.ReadInt32(Endianness.Big);
         }
 
     }

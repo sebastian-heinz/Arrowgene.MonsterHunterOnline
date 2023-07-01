@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSRotateAxisParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRotateAxisParam));
 
         public CSRotateAxisParam()
         {
@@ -69,6 +71,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(rotateAngle, Endianness.Big);
             buffer.WriteFloat(speed, Endianness.Big);
             buffer.WriteFloat(acceleration, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            axis.Read(buffer);
+            rotateAngle = buffer.ReadFloat(Endianness.Big);
+            speed = buffer.ReadFloat(Endianness.Big);
+            acceleration = buffer.ReadFloat(Endianness.Big);
         }
 
     }

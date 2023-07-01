@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSCommerceInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCommerceInfo));
 
         public CSCommerceInfo()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(GoodsNumber, Endianness.Big);
             buffer.WriteUInt32(LastChangeTime, Endianness.Big);
             buffer.WriteByte(IsOwned);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CommerceId = buffer.ReadInt32(Endianness.Big);
+            GoodsNumber = buffer.ReadUInt32(Endianness.Big);
+            LastChangeTime = buffer.ReadUInt32(Endianness.Big);
+            IsOwned = buffer.ReadByte();
         }
 
     }

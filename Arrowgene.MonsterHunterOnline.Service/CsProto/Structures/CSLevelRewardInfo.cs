@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLevelRewardInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelRewardInfo));
 
         public CSLevelRewardInfo()
         {
@@ -114,6 +116,44 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < instanceItemDataCount; i++)
             {
                 InstanceItemData[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RewardType = buffer.ReadInt16(Endianness.Big);
+            ExtId = buffer.ReadInt32(Endianness.Big);
+            AttrRewardType.Clear();
+            int attrRewardTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < attrRewardTypeCount; i++)
+            {
+                short AttrRewardTypeEntry = buffer.ReadInt16(Endianness.Big);
+                AttrRewardType.Add(AttrRewardTypeEntry);
+            }
+            AttrRewardValue.Clear();
+            int attrRewardValueCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < attrRewardValueCount; i++)
+            {
+                int AttrRewardValueEntry = buffer.ReadInt32(Endianness.Big);
+                AttrRewardValue.Add(AttrRewardValueEntry);
+            }
+            RewardAffectList.Clear();
+            int rewardAffectListCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < rewardAffectListCount; i++)
+            {
+                CSLevelRewardAffectInfo RewardAffectListEntry = new CSLevelRewardAffectInfo();
+                RewardAffectListEntry.Read(buffer);
+                RewardAffectList.Add(RewardAffectListEntry);
+            }
+            ItemLootList.Read(buffer);
+            BoxItemLootList.Read(buffer);
+            InstanceItemData.Clear();
+            int instanceItemDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < instanceItemDataCount; i++)
+            {
+                CSRewardInstanceData InstanceItemDataEntry = new CSRewardInstanceData();
+                InstanceItemDataEntry.Read(buffer);
+                InstanceItemData.Add(InstanceItemDataEntry);
             }
         }
 

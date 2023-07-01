@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSGotoStateParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGotoStateParam));
 
         public CSGotoStateParam()
         {
@@ -49,6 +51,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(StateName.Length + 1, Endianness.Big);
             buffer.WriteCString(StateName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int StateNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            StateName = buffer.ReadString(StateNameEntryLen);
         }
 
     }

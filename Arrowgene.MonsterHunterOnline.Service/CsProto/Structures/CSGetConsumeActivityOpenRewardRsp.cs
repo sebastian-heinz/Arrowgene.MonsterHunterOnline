@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGetConsumeActivityOpenRewardRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetConsumeActivityOpenRewardRsp));
 
         public CSGetConsumeActivityOpenRewardRsp()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(Index, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            Index = buffer.ReadInt32(Endianness.Big);
         }
 
     }

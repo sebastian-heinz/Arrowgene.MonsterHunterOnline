@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBattleUseAction : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleUseAction));
 
         public CSBattleUseAction()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteByte(WeaponType);
             buffer.WriteByte(ActionType);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            WeaponType = buffer.ReadByte();
+            ActionType = buffer.ReadByte();
         }
 
     }

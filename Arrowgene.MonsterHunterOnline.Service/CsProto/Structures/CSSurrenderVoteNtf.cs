@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSSurrenderVoteNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSurrenderVoteNtf));
 
         public CSSurrenderVoteNtf()
         {
@@ -82,6 +84,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(agreeNum);
             buffer.WriteByte(disagreeNum);
             buffer.WriteByte(totalNum);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int nameEntryLen = buffer.ReadInt32(Endianness.Big);
+            name = buffer.ReadString(nameEntryLen);
+            uin = buffer.ReadUInt32(Endianness.Big);
+            agree = buffer.ReadByte();
+            agreeNum = buffer.ReadByte();
+            disagreeNum = buffer.ReadByte();
+            totalNum = buffer.ReadByte();
         }
 
     }

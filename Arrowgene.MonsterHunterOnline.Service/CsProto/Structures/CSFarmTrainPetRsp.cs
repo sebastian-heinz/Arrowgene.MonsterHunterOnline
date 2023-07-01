@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmTrainPetRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmTrainPetRsp));
 
         public CSFarmTrainPetRsp()
         {
@@ -88,6 +90,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(FacilitySlot, Endianness.Big);
             buffer.WriteInt16(IsFirstUse, Endianness.Big);
             buffer.WriteUInt32(LeftTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PetID = buffer.ReadInt32(Endianness.Big);
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            FacilityType = buffer.ReadInt32(Endianness.Big);
+            FacilityIndex = buffer.ReadInt32(Endianness.Big);
+            FacilitySlot = buffer.ReadInt16(Endianness.Big);
+            IsFirstUse = buffer.ReadInt16(Endianness.Big);
+            LeftTime = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

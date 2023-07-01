@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPeriodLimitEventNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPeriodLimitEventNtf));
 
         public CSPeriodLimitEventNtf()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Arg1, Endianness.Big);
             buffer.WriteUInt32(Arg2, Endianness.Big);
             buffer.WriteUInt32(Arg3, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EventType = buffer.ReadInt32(Endianness.Big);
+            Arg1 = buffer.ReadUInt32(Endianness.Big);
+            Arg2 = buffer.ReadUInt32(Endianness.Big);
+            Arg3 = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

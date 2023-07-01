@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSuitSkillUnlockReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuitSkillUnlockReq));
 
         public CSSuitSkillUnlockReq()
         {
@@ -64,6 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tagItemDataCount; i++)
             {
                 TagItemData[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            group = buffer.ReadInt32(Endianness.Big);
+            skill = buffer.ReadInt32(Endianness.Big);
+            TagItemData.Clear();
+            int tagItemDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tagItemDataCount; i++)
+            {
+                TagItemList TagItemDataEntry = new TagItemList();
+                TagItemDataEntry.Read(buffer);
+                TagItemData.Add(TagItemDataEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEnterFarmRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterFarmRsp));
 
         public CSEnterFarmRsp()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteUInt64(FarmerDBID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadUInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            FarmerDBID = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

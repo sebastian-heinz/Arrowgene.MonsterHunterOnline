@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuild : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuild));
 
         public CSGuild()
         {
@@ -431,6 +433,80 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < commerceBuffInfoCount; i++)
             {
                 CommerceBuffInfo[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadUInt64(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Icon = buffer.ReadInt32(Endianness.Big);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            Exp = buffer.ReadInt32(Endianness.Big);
+            Repute = buffer.ReadInt32(Endianness.Big);
+            Fund = buffer.ReadInt32(Endianness.Big);
+            Arena = buffer.ReadInt32(Endianness.Big);
+            Plot = buffer.ReadInt32(Endianness.Big);
+            ResA = buffer.ReadInt32(Endianness.Big);
+            ResB = buffer.ReadInt32(Endianness.Big);
+            GuildersCount = buffer.ReadInt32(Endianness.Big);
+            OnlineGuildersCount = buffer.ReadInt32(Endianness.Big);
+            GuildersAvgLevel = buffer.ReadInt32(Endianness.Big);
+            JoinLevel = buffer.ReadInt32(Endianness.Big);
+            DepotOpenFlag = buffer.ReadByte();
+            FundMax = buffer.ReadUInt64(Endianness.Big);
+            HallLevel = buffer.ReadByte();
+            RecruitingLevel = buffer.ReadByte();
+            ResourcingLevel = buffer.ReadByte();
+            TradingLevel = buffer.ReadByte();
+            TrainingLevel = buffer.ReadByte();
+            GuilderCountMax = buffer.ReadInt32(Endianness.Big);
+            FundDaily = buffer.ReadUInt64(Endianness.Big);
+            FundWeekly = buffer.ReadUInt64(Endianness.Big);
+            CommodityUnlock1 = buffer.ReadUInt64(Endianness.Big);
+            CommodityUnlock2 = buffer.ReadUInt64(Endianness.Big);
+            CommodityUnlock3 = buffer.ReadUInt64(Endianness.Big);
+            ResC = buffer.ReadInt32(Endianness.Big);
+            ResD = buffer.ReadInt32(Endianness.Big);
+            ResADaily = buffer.ReadInt32(Endianness.Big);
+            ResBDaily = buffer.ReadInt32(Endianness.Big);
+            ResCDaily = buffer.ReadInt32(Endianness.Big);
+            ResDDaily = buffer.ReadInt32(Endianness.Big);
+            ResAWeekly = buffer.ReadInt32(Endianness.Big);
+            ResBWeekly = buffer.ReadInt32(Endianness.Big);
+            ResCWeekly = buffer.ReadInt32(Endianness.Big);
+            ResDWeekly = buffer.ReadInt32(Endianness.Big);
+            ResAMax = buffer.ReadInt32(Endianness.Big);
+            ResBMax = buffer.ReadInt32(Endianness.Big);
+            ResCMax = buffer.ReadInt32(Endianness.Big);
+            ResDMax = buffer.ReadInt32(Endianness.Big);
+            CelebrationScore = buffer.ReadInt32(Endianness.Big);
+            CelebrationTaskA = buffer.ReadInt32(Endianness.Big);
+            CelebrationTaskB = buffer.ReadInt32(Endianness.Big);
+            CelebrationTaskC = buffer.ReadInt32(Endianness.Big);
+            CelebrationTaskD = buffer.ReadInt32(Endianness.Big);
+            CelebrationReward = buffer.ReadInt32(Endianness.Big);
+            DailyCelebrationScore = buffer.ReadInt32(Endianness.Big);
+            CommerceBoats.Clear();
+            int commerceBoatsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < commerceBoatsCount; i++)
+            {
+                CSCommerceInfo CommerceBoatsEntry = new CSCommerceInfo();
+                CommerceBoatsEntry.Read(buffer);
+                CommerceBoats.Add(CommerceBoatsEntry);
+            }
+            SelectBoatsId = buffer.ReadInt32(Endianness.Big);
+            GuildWarHistoryInfo = buffer.ReadUInt32(Endianness.Big);
+            CommerceBuffInfo.Clear();
+            int commerceBuffInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < commerceBuffInfoCount; i++)
+            {
+                CSGuildCommerceBuffs CommerceBuffInfoEntry = new CSGuildCommerceBuffs();
+                CommerceBuffInfoEntry.Read(buffer);
+                CommerceBuffInfo.Add(CommerceBuffInfoEntry);
             }
         }
 

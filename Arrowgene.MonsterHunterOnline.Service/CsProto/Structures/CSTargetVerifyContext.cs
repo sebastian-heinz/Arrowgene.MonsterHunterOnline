@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTargetVerifyContext : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTargetVerifyContext));
 
         public CSTargetVerifyContext()
         {
@@ -60,6 +62,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < attackeeLayersCount; i++)
             {
                 AttackeeLayers[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AttackeeEntityPos.Read(buffer);
+            AttackeeLayers.Clear();
+            short attackeeLayersCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < attackeeLayersCount; i++)
+            {
+                CSTransitionQueue AttackeeLayersEntry = new CSTransitionQueue();
+                AttackeeLayersEntry.Read(buffer);
+                AttackeeLayers.Add(AttackeeLayersEntry);
             }
         }
 

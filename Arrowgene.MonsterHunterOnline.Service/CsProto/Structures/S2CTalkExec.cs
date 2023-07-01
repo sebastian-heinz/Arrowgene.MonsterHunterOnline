@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CTalkExec : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTalkExec));
 
         public S2CTalkExec()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Talk, Endianness.Big);
             buffer.WriteInt32(Round, Endianness.Big);
             buffer.WriteInt32(Proc, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Npc = buffer.ReadUInt32(Endianness.Big);
+            Type = buffer.ReadInt32(Endianness.Big);
+            Talk = buffer.ReadInt32(Endianness.Big);
+            Round = buffer.ReadInt32(Endianness.Big);
+            Proc = buffer.ReadInt32(Endianness.Big);
         }
 
     }

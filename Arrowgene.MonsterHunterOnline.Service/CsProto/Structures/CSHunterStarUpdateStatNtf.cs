@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSHunterStarUpdateStatNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarUpdateStatNtf));
 
         public CSHunterStarUpdateStatNtf()
         {
@@ -53,6 +55,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < statDataCount; i++)
             {
                 StatData[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            StatData.Clear();
+            byte statDataCount = buffer.ReadByte();
+            for (int i = 0; i < statDataCount; i++)
+            {
+                CSHunterStarStatData StatDataEntry = new CSHunterStarStatData();
+                StatDataEntry.Read(buffer);
+                StatData.Add(StatDataEntry);
             }
         }
 

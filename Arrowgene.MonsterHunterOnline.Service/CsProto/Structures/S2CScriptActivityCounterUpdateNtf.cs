@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CScriptActivityCounterUpdateNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityCounterUpdateNtf));
 
         public S2CScriptActivityCounterUpdateNtf()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Phase);
             buffer.WriteByte(DataID);
             buffer.WriteUInt32(Counter, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ID = buffer.ReadUInt32(Endianness.Big);
+            Phase = buffer.ReadByte();
+            DataID = buffer.ReadByte();
+            Counter = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

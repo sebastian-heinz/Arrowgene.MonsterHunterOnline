@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceVerifyReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceVerifyReq));
 
         public CSInstanceVerifyReq()
         {
@@ -103,6 +105,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ProtoVer, Endianness.Big);
             buffer.WriteInt32(Reserve1, Endianness.Big);
             buffer.WriteInt32(Reserve2, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Uin = buffer.ReadUInt32(Endianness.Big);
+            PVPMode = buffer.ReadInt32(Endianness.Big);
+            VerifyType = buffer.ReadInt32(Endianness.Big);
+            RoleID = buffer.ReadInt32(Endianness.Big);
+            ServiceID = buffer.ReadInt32(Endianness.Big);
+            int KeyEntryLen = buffer.ReadInt32(Endianness.Big);
+            Key = buffer.ReadString(KeyEntryLen);
+            ProtoVer = buffer.ReadInt32(Endianness.Big);
+            Reserve1 = buffer.ReadInt32(Endianness.Big);
+            Reserve2 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

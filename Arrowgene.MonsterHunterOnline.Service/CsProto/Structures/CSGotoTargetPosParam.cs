@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSGotoTargetPosParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGotoTargetPosParam));
 
         public CSGotoTargetPosParam()
         {
@@ -69,6 +71,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             startPos.Write(buffer);
             buffer.WriteFloat(speed, Endianness.Big);
             buffer.WriteInt16(teleport, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            targetPos.Read(buffer);
+            startPos.Read(buffer);
+            speed = buffer.ReadFloat(Endianness.Big);
+            teleport = buffer.ReadInt16(Endianness.Big);
         }
 
     }

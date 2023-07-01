@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFlyDiveToTarget1SYNC : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFlyDiveToTarget1SYNC));
 
         public CSFlyDiveToTarget1SYNC()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             PosC.Write(buffer);
             PosD.Write(buffer);
             buffer.WriteFloat(TotalTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            PosB.Read(buffer);
+            PosC.Read(buffer);
+            PosD.Read(buffer);
+            TotalTime = buffer.ReadFloat(Endianness.Big);
         }
 
     }

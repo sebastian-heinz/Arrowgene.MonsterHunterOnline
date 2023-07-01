@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSObjectActionSyncEntry : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSObjectActionSyncEntry));
 
         public CSObjectActionSyncEntry(CSObjectActionParam _Param)
         {
@@ -55,6 +57,45 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteUInt16((ushort)Param.Action, Endianness.Big);
             Param.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            CS_SCENE_OBJECT_ACTION_TYPE CSObjectActionParam_Action = (CS_SCENE_OBJECT_ACTION_TYPE)buffer.ReadUInt16(Endianness.Big);
+            switch (CSObjectActionParam_Action)
+            {
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_PLAY_EFFECT:
+                    Param = new CSPlayEffectParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_PLAY_ANIMATION:
+                    Param = new CSPlayAnimationParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_GOTOSTATE:
+                    Param = new CSGotoStateParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_GOTO_TARGETPOS:
+                    Param = new CSGotoTargetPosParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_ROTATEAXIS:
+                    Param = new CSRotateAxisParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_TELEPORT:
+                    Param = new CSTeleportParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_SIMPLE:
+                    Param = new CSSimpleActionParam();
+                    break;
+                case CS_SCENE_OBJECT_ACTION_TYPE.CS_ACTION_TYPE_PYSICS_COLLISION:
+                    Param = new CSPhysicsCollisionParam();
+                    break;
+            }
+            if (Param != null) {
+                Param.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'Param' instance of type 'CSObjectActionParam'");
+            }
         }
 
     }

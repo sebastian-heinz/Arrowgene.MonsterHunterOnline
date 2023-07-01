@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetSkillUseInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSkillUseInfo));
 
         public CSPetSkillUseInfo()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ServerTimeHour, Endianness.Big);
             buffer.WriteInt32(ServerTimeMin, Endianness.Big);
             buffer.WriteInt32(ServerTimeSec, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SkillInfo = buffer.ReadInt32(Endianness.Big);
+            SkillID = buffer.ReadInt32(Endianness.Big);
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            ServerTimeHour = buffer.ReadInt32(Endianness.Big);
+            ServerTimeMin = buffer.ReadInt32(Endianness.Big);
+            ServerTimeSec = buffer.ReadInt32(Endianness.Big);
         }
 
     }

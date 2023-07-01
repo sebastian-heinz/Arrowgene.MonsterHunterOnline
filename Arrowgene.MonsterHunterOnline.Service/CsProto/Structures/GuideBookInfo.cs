@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class GuideBookInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideBookInfo));
 
         public GuideBookInfo()
         {
@@ -75,6 +77,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(IsFisrtAutoOpenGuideBook);
             buffer.WriteByte(WeaopnId);
             GuideActionInfos.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GuideBookChapterInfos.Clear();
+            int guideBookChapterInfosCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < guideBookChapterInfosCount; i++)
+            {
+                GuideBookChapterInfo GuideBookChapterInfosEntry = new GuideBookChapterInfo();
+                GuideBookChapterInfosEntry.Read(buffer);
+                GuideBookChapterInfos.Add(GuideBookChapterInfosEntry);
+            }
+            IsFisrtAutoOpenGuideBook = buffer.ReadByte();
+            WeaopnId = buffer.ReadByte();
+            GuideActionInfos.Read(buffer);
         }
 
     }

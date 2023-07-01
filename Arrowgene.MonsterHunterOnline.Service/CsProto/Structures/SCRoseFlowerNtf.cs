@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class SCRoseFlowerNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(SCRoseFlowerNtf));
 
         public SCRoseFlowerNtf()
         {
@@ -86,6 +88,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(TargetID, Endianness.Big);
             buffer.WriteInt32(RoseType, Endianness.Big);
             buffer.WriteInt32(AddValue, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int FromNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            FromName = buffer.ReadString(FromNameEntryLen);
+            FromID = buffer.ReadUInt64(Endianness.Big);
+            int TargetNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TargetName = buffer.ReadString(TargetNameEntryLen);
+            TargetID = buffer.ReadUInt64(Endianness.Big);
+            RoseType = buffer.ReadInt32(Endianness.Big);
+            AddValue = buffer.ReadInt32(Endianness.Big);
         }
 
     }

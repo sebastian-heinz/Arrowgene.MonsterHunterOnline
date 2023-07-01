@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuilderWarInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuilderWarInfo));
 
         public CSGuilderWarInfo()
         {
@@ -103,6 +105,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             CommerceBoatInfo.Write(buffer);
             buffer.WriteUInt32(ContributeResPoint, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ChallengeTimes = buffer.ReadByte();
+            BuyGrabTimes = buffer.ReadByte();
+            RefreshTimestamp = buffer.ReadInt32(Endianness.Big);
+            StartBoatTimes = buffer.ReadInt32(Endianness.Big);
+            BuyStartBoatTimes = buffer.ReadByte();
+            OhterGuildNewsInfo.Clear();
+            int ohterGuildNewsInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < ohterGuildNewsInfoCount; i++)
+            {
+                CSOhterGuildNews OhterGuildNewsInfoEntry = new CSOhterGuildNews();
+                OhterGuildNewsInfoEntry.Read(buffer);
+                OhterGuildNewsInfo.Add(OhterGuildNewsInfoEntry);
+            }
+            CommerceBoatInfo.Read(buffer);
+            ContributeResPoint = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

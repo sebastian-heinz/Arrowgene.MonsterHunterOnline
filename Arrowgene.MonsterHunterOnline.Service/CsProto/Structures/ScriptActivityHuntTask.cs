@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityHuntTask : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityHuntTask));
 
         public ScriptActivityHuntTask()
         {
@@ -92,6 +94,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(NeedIntenseFighting);
             buffer.WriteUInt32(HuntNum, Endianness.Big);
             buffer.WriteByte(CounterID);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int DescEntryLen = buffer.ReadInt32(Endianness.Big);
+            Desc = buffer.ReadString(DescEntryLen);
+            Bosses.Clear();
+            byte bossesCount = buffer.ReadByte();
+            for (int i = 0; i < bossesCount; i++)
+            {
+                int BossesEntry = buffer.ReadInt32(Endianness.Big);
+                Bosses.Add(BossesEntry);
+            }
+            Tags.Clear();
+            byte tagsCount = buffer.ReadByte();
+            for (int i = 0; i < tagsCount; i++)
+            {
+                int TagsEntry = buffer.ReadInt32(Endianness.Big);
+                Tags.Add(TagsEntry);
+            }
+            NeedIntenseFighting = buffer.ReadByte();
+            HuntNum = buffer.ReadUInt32(Endianness.Big);
+            CounterID = buffer.ReadByte();
         }
 
     }

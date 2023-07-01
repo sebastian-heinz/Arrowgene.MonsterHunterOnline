@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityGetWildHuntTasks : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityGetWildHuntTasks));
 
         public S2CActivityGetWildHuntTasks()
         {
@@ -84,6 +86,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < completeTasksCount; i++)
             {
                 buffer.WriteInt32(CompleteTasks[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ResetTimes = buffer.ReadInt32(Endianness.Big);
+            Tasks.Clear();
+            int tasksCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < tasksCount; i++)
+            {
+                int TasksEntry = buffer.ReadInt32(Endianness.Big);
+                Tasks.Add(TasksEntry);
+            }
+            Ratios.Clear();
+            int ratiosCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < ratiosCount; i++)
+            {
+                float RatiosEntry = buffer.ReadFloat(Endianness.Big);
+                Ratios.Add(RatiosEntry);
+            }
+            CompleteTasks.Clear();
+            int completeTasksCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < completeTasksCount; i++)
+            {
+                int CompleteTasksEntry = buffer.ReadInt32(Endianness.Big);
+                CompleteTasks.Add(CompleteTasksEntry);
             }
         }
 

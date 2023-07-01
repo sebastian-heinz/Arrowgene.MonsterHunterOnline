@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2STraceTask : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2STraceTask));
 
         public C2STraceTask()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Task, Endianness.Big);
             buffer.WriteByte(Trace);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Task = buffer.ReadInt32(Endianness.Big);
+            Trace = buffer.ReadByte();
         }
 
     }

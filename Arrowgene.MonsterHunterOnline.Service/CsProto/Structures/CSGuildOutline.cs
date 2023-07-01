@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildOutline : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildOutline));
 
         public CSGuildOutline()
         {
@@ -122,6 +124,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GuildersAvgLevel, Endianness.Big);
             buffer.WriteInt32(JoinLevel, Endianness.Big);
             buffer.WriteUInt64(HuntSoul, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadUInt64(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Icon = buffer.ReadInt32(Endianness.Big);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            Repute = buffer.ReadInt32(Endianness.Big);
+            int LeaderEntryLen = buffer.ReadInt32(Endianness.Big);
+            Leader = buffer.ReadString(LeaderEntryLen);
+            Guilders = buffer.ReadInt32(Endianness.Big);
+            GuildersAvgLevel = buffer.ReadInt32(Endianness.Big);
+            JoinLevel = buffer.ReadInt32(Endianness.Big);
+            HuntSoul = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

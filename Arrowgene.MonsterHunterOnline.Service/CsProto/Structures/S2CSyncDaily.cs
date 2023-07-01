@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSyncDaily : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSyncDaily));
 
         public S2CSyncDaily()
         {
@@ -75,6 +77,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(RefreshTime, Endianness.Big);
             buffer.WriteInt32(RefreshLevel, Endianness.Big);
             buffer.WriteInt32(CompleteCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Daily.Clear();
+            short dailyCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < dailyCount; i++)
+            {
+                short DailyEntry = buffer.ReadInt16(Endianness.Big);
+                Daily.Add(DailyEntry);
+            }
+            RefreshTime = buffer.ReadUInt32(Endianness.Big);
+            RefreshLevel = buffer.ReadInt32(Endianness.Big);
+            CompleteCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

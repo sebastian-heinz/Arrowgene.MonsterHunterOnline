@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBOSSDie : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBOSSDie));
 
         public CSBOSSDie()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CurrentLevelID, Endianness.Big);
             buffer.WriteUInt32(CoutdownTime, Endianness.Big);
             buffer.WriteInt32(NextLevelID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CurrentLevelID = buffer.ReadInt32(Endianness.Big);
+            CoutdownTime = buffer.ReadUInt32(Endianness.Big);
+            NextLevelID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

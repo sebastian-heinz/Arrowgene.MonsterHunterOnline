@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityWildHuntApply : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityWildHuntApply));
 
         public S2CActivityWildHuntApply()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(camp, Endianness.Big);
             buffer.WriteInt32(applyType, Endianness.Big);
             buffer.WriteUInt64(Guild, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Phase = buffer.ReadInt32(Endianness.Big);
+            camp = buffer.ReadInt32(Endianness.Big);
+            applyType = buffer.ReadInt32(Endianness.Big);
+            Guild = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

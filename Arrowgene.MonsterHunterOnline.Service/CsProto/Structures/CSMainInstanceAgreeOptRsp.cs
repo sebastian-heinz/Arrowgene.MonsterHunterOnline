@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMainInstanceAgreeOptRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceAgreeOptRsp));
 
         public CSMainInstanceAgreeOptRsp()
         {
@@ -72,6 +74,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Agree, Endianness.Big);
             buffer.WriteInt32(RoleName.Length + 1, Endianness.Big);
             buffer.WriteCString(RoleName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Reason = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            Agree = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
         }
 
     }

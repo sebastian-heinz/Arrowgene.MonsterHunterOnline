@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAGAllInput : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAGAllInput));
 
         public CSAGAllInput()
         {
@@ -81,6 +83,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < aGInputCount; i++)
             {
                 AGInput[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityID = buffer.ReadByte();
+            Layer = buffer.ReadByte();
+            StateID = buffer.ReadUInt32(Endianness.Big);
+            ratio = buffer.ReadFloat(Endianness.Big);
+            AGInput.Clear();
+            short aGInputCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < aGInputCount; i++)
+            {
+                CSAGInput AGInputEntry = new CSAGInput();
+                AGInputEntry.Read(buffer);
+                AGInput.Add(AGInputEntry);
             }
         }
 

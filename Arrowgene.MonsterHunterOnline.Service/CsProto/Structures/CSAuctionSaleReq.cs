@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAuctionSaleReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAuctionSaleReq));
 
         public CSAuctionSaleReq()
         {
@@ -91,6 +93,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(InitPrice, Endianness.Big);
             buffer.WriteUInt32(MaxPrice, Endianness.Big);
             buffer.WriteByte(Time);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Column = buffer.ReadByte();
+            Grid = buffer.ReadUInt16(Endianness.Big);
+            ItemId = buffer.ReadUInt32(Endianness.Big);
+            Count = buffer.ReadUInt16(Endianness.Big);
+            InitPrice = buffer.ReadUInt32(Endianness.Big);
+            MaxPrice = buffer.ReadUInt32(Endianness.Big);
+            Time = buffer.ReadByte();
         }
 
     }

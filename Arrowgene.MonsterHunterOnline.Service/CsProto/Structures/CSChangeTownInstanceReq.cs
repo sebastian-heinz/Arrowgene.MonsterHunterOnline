@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSChangeTownInstanceReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChangeTownInstanceReq));
 
         public CSChangeTownInstanceReq()
         {
@@ -65,6 +67,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LevelId, Endianness.Big);
             buffer.WriteInt32(dstpoint.Length + 1, Endianness.Big);
             buffer.WriteCString(dstpoint);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int trigger_nameEntryLen = buffer.ReadInt32(Endianness.Big);
+            trigger_name = buffer.ReadString(trigger_nameEntryLen);
+            LevelId = buffer.ReadInt32(Endianness.Big);
+            int dstpointEntryLen = buffer.ReadInt32(Endianness.Big);
+            dstpoint = buffer.ReadString(dstpointEntryLen);
         }
 
     }

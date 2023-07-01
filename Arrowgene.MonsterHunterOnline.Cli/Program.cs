@@ -261,7 +261,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
                 if (log.LoggerIdentity.StartsWith("Arrowgene.WebServer.Route.WebRouter"))
                 {
                     // ignore web route logs
-                    return;
+                    //return;
                 }
             }
 

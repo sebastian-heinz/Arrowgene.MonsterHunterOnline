@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMartHotListRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartHotListRsp));
 
         public CSMartHotListRsp()
         {
@@ -53,6 +55,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < hotlistCount; i++)
             {
                 buffer.WriteInt32(hotlist[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            hotlist.Clear();
+            int hotlistCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < hotlistCount; i++)
+            {
+                int hotlistEntry = buffer.ReadInt32(Endianness.Big);
+                hotlist.Add(hotlistEntry);
             }
         }
 

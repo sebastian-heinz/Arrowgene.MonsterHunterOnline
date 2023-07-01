@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSVIPOpenRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPOpenRsp));
 
         public CSVIPOpenRsp()
         {
@@ -68,6 +70,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(EndTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            OpenGoods.Clear();
+            int openGoodsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < openGoodsCount; i++)
+            {
+                CSVIPGoodsInfo OpenGoodsEntry = new CSVIPGoodsInfo();
+                OpenGoodsEntry.Read(buffer);
+                OpenGoods.Add(OpenGoodsEntry);
+            }
+            Result = buffer.ReadInt32(Endianness.Big);
+            EndTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

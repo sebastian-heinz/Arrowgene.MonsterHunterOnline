@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActionPointData : CSPlayerExtResultData
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActionPointData));
 
         public CSActionPointData()
         {
@@ -75,6 +77,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(AdditionalActionPoint, Endianness.Big);
             buffer.WriteInt32(NextResetTime, Endianness.Big);
             buffer.WriteUInt32(ActionPointFlags, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            for (int i = 0; i < CsProtoConstant.ACTION_POINT_TYPE_COUNT; i++)
+            {
+                ActionPoint[i] = buffer.ReadInt32(Endianness.Big);
+            }
+            AdditionalActionPoint = buffer.ReadInt32(Endianness.Big);
+            NextResetTime = buffer.ReadInt32(Endianness.Big);
+            ActionPointFlags = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSkillEffectInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSkillEffectInfo));
 
         public CSSkillEffectInfo()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteInt32(EventName.Length + 1, Endianness.Big);
             buffer.WriteCString(EventName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            SkillID = buffer.ReadInt32(Endianness.Big);
+            SkillLevel = buffer.ReadInt32(Endianness.Big);
+            Type = buffer.ReadInt32(Endianness.Big);
+            int EventNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            EventName = buffer.ReadString(EventNameEntryLen);
         }
 
     }

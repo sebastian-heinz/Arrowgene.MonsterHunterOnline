@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSPVPEvent : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSPVPEvent));
 
         public CSSPVPEvent()
         {
@@ -78,6 +80,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(DeadID, Endianness.Big);
             buffer.WriteInt32(DeadGang, Endianness.Big);
             buffer.WriteInt32(Score, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EventType = buffer.ReadInt32(Endianness.Big);
+            TimeStamp = buffer.ReadUInt32(Endianness.Big);
+            Stage = buffer.ReadInt32(Endianness.Big);
+            Result = buffer.ReadInt32(Endianness.Big);
+            KillerID = buffer.ReadUInt32(Endianness.Big);
+            KillerGang = buffer.ReadInt32(Endianness.Big);
+            DeadID = buffer.ReadUInt32(Endianness.Big);
+            DeadGang = buffer.ReadInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
         }
 
     }

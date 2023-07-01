@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRankSearchRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRankSearchRsp));
 
         public CSRankSearchRsp()
         {
@@ -88,6 +90,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(pages, Endianness.Big);
             buffer.WriteInt32(page, Endianness.Big);
             rankData.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            result = buffer.ReadByte();
+            rankId = buffer.ReadInt32(Endianness.Big);
+            pos = buffer.ReadInt32(Endianness.Big);
+            rankersCount = buffer.ReadInt32(Endianness.Big);
+            pages = buffer.ReadInt32(Endianness.Big);
+            page = buffer.ReadInt32(Endianness.Big);
+            rankData.Read(buffer);
         }
 
     }

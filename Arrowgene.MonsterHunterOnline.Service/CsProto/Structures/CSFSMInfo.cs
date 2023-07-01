@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFSMInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFSMInfo));
 
         public CSFSMInfo()
         {
@@ -98,6 +100,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(StateID4, Endianness.Big);
             Position.Write(buffer);
             Rotation.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            StateID1 = buffer.ReadUInt32(Endianness.Big);
+            StateID2 = buffer.ReadUInt32(Endianness.Big);
+            StateID3 = buffer.ReadUInt32(Endianness.Big);
+            StateID4 = buffer.ReadUInt32(Endianness.Big);
+            Position.Read(buffer);
+            Rotation.Read(buffer);
         }
 
     }

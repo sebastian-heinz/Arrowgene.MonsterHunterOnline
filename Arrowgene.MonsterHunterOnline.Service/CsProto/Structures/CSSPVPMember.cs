@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSPVPMember : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSPVPMember));
 
         public CSSPVPMember()
         {
@@ -54,6 +56,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(NetID, Endianness.Big);
             buffer.WriteInt32(Score, Endianness.Big);
             buffer.WriteInt32(KillingCombo, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadUInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
+            KillingCombo = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAuctionRecord : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAuctionRecord));
 
         public CSAuctionRecord()
         {
@@ -128,6 +130,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(BidRoleName);
             buffer.WriteUInt32(BidLevel, Endianness.Big);
             Item.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RecordId = buffer.ReadUInt64(Endianness.Big);
+            DBId = buffer.ReadUInt64(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            SaleTime = buffer.ReadByte();
+            LeftTime = buffer.ReadUInt32(Endianness.Big);
+            InitPrice = buffer.ReadUInt32(Endianness.Big);
+            MaxPrice = buffer.ReadUInt32(Endianness.Big);
+            CurPrice = buffer.ReadUInt32(Endianness.Big);
+            BidDBId = buffer.ReadUInt64(Endianness.Big);
+            int BidRoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            BidRoleName = buffer.ReadString(BidRoleNameEntryLen);
+            BidLevel = buffer.ReadUInt32(Endianness.Big);
+            Item.Read(buffer);
         }
 
     }

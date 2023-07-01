@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSNpcAtdErr : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcAtdErr));
 
         public CSNpcAtdErr()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(OpType, Endianness.Big);
             buffer.WriteInt32(_Err, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            OpType = buffer.ReadInt32(Endianness.Big);
+            _Err = buffer.ReadInt32(Endianness.Big);
+            Arg1 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

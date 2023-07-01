@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipQuenchReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipQuenchReq));
 
         public CSEquipQuenchReq()
         {
@@ -74,6 +76,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < delAttrListCount; i++)
             {
                 buffer.WriteInt32(DelAttrList[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemUid = buffer.ReadInt64(Endianness.Big);
+            EquipColumn = buffer.ReadByte();
+            EquipGrid = buffer.ReadUInt16(Endianness.Big);
+            DelAttrList.Clear();
+            byte delAttrListCount = buffer.ReadByte();
+            for (int i = 0; i < delAttrListCount; i++)
+            {
+                int DelAttrListEntry = buffer.ReadInt32(Endianness.Big);
+                DelAttrList.Add(DelAttrListEntry);
             }
         }
 

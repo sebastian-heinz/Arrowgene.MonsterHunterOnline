@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterPhysPartInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterPhysPartInfo));
 
         public CSMonsterPhysPartInfo()
         {
@@ -67,6 +69,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < partPoseCount; i++)
             {
                 PartPose[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            EntityPose.Read(buffer);
+            PartPose.Clear();
+            uint partPoseCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < partPoseCount; i++)
+            {
+                CSQuatT PartPoseEntry = new CSQuatT();
+                PartPoseEntry.Read(buffer);
+                PartPose.Add(PartPoseEntry);
             }
         }
 

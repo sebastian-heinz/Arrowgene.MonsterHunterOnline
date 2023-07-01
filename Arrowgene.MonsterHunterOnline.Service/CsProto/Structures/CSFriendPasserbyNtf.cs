@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendPasserbyNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendPasserbyNtf));
 
         public CSFriendPasserbyNtf()
         {
@@ -99,6 +101,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(IsOnline);
             buffer.WriteByte(MeetWay);
             buffer.WriteInt32(SvrId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DBID = buffer.ReadUInt64(Endianness.Big);
+            RoleID = buffer.ReadInt32(Endianness.Big);
+            Level = buffer.ReadInt32(Endianness.Big);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            RoleName = buffer.ReadString(RoleNameEntryLen);
+            IsOnline = buffer.ReadByte();
+            MeetWay = buffer.ReadByte();
+            SvrId = buffer.ReadInt32(Endianness.Big);
         }
 
     }

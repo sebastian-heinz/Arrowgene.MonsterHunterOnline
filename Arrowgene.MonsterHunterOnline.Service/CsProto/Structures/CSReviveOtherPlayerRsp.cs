@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSReviveOtherPlayerRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReviveOtherPlayerRsp));
 
         public CSReviveOtherPlayerRsp()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RevivePoint, Endianness.Big);
             buffer.WriteInt32(ReviveType, Endianness.Big);
             buffer.WriteInt32(Param, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerID = buffer.ReadInt32(Endianness.Big);
+            TargetID = buffer.ReadInt32(Endianness.Big);
+            RevivePoint = buffer.ReadInt32(Endianness.Big);
+            ReviveType = buffer.ReadInt32(Endianness.Big);
+            Param = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CRole : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CRole));
 
         public CRole()
         {
@@ -48,6 +50,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(gid, Endianness.Big);
             buffer.WriteInt32(str.Length + 1, Endianness.Big);
             buffer.WriteCString(str);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            gid = buffer.ReadUInt64(Endianness.Big);
+            int strEntryLen = buffer.ReadInt32(Endianness.Big);
+            str = buffer.ReadString(strEntryLen);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMaterialExchangeGrid : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMaterialExchangeGrid));
 
         public CSMaterialExchangeGrid()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Column, Endianness.Big);
             buffer.WriteUInt32(GridIndex, Endianness.Big);
             buffer.WriteUInt32(ExNum, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Column = buffer.ReadUInt32(Endianness.Big);
+            GridIndex = buffer.ReadUInt32(Endianness.Big);
+            ExNum = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

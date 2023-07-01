@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLevelTournamentPeriodLimitNotify : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelTournamentPeriodLimitNotify));
 
         public CSLevelTournamentPeriodLimitNotify()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Round, Endianness.Big);
             buffer.WriteInt32(SubGroupID, Endianness.Big);
             buffer.WriteInt32(finish_count, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Season = buffer.ReadInt32(Endianness.Big);
+            Round = buffer.ReadInt32(Endianness.Big);
+            SubGroupID = buffer.ReadInt32(Endianness.Big);
+            finish_count = buffer.ReadInt32(Endianness.Big);
         }
 
     }

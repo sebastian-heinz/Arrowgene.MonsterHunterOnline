@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSWxPayUrl : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWxPayUrl));
 
         public CSWxPayUrl()
         {
@@ -124,6 +126,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BindCredit, Endianness.Big);
             buffer.WriteByte(Limit);
             buffer.WriteByte(ReUse);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            int PayUrlEntryLen = buffer.ReadInt32(Endianness.Big);
+            PayUrl = buffer.ReadString(PayUrlEntryLen);
+            OrderID = buffer.ReadUInt64(Endianness.Big);
+            SrcMod = buffer.ReadInt32(Endianness.Big);
+            SrcSubMod = buffer.ReadInt32(Endianness.Big);
+            SrcID = buffer.ReadUInt32(Endianness.Big);
+            GoodsID = buffer.ReadUInt32(Endianness.Big);
+            GoodsNum = buffer.ReadUInt32(Endianness.Big);
+            Price = buffer.ReadInt32(Endianness.Big);
+            BindCredit = buffer.ReadInt32(Endianness.Big);
+            Limit = buffer.ReadByte();
+            ReUse = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSMailListGetResError : CSMailListGetResResult
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailListGetResError));
 
         public CSMailListGetResError()
         {
@@ -47,6 +49,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(ErrMsg.Length + 1, Endianness.Big);
             buffer.WriteCString(ErrMsg);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int ErrMsgEntryLen = buffer.ReadInt32(Endianness.Big);
+            ErrMsg = buffer.ReadString(ErrMsgEntryLen);
         }
 
     }

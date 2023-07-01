@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class FactionResultStatInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(FactionResultStatInfo));
 
         public FactionResultStatInfo()
         {
@@ -72,6 +74,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < factionDataValueCount; i++)
             {
                 buffer.WriteInt32(FactionDataValue[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FactionID = buffer.ReadInt32(Endianness.Big);
+            FactionDataType.Clear();
+            int factionDataTypeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < factionDataTypeCount; i++)
+            {
+                int FactionDataTypeEntry = buffer.ReadInt32(Endianness.Big);
+                FactionDataType.Add(FactionDataTypeEntry);
+            }
+            FactionDataValue.Clear();
+            int factionDataValueCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < factionDataValueCount; i++)
+            {
+                int FactionDataValueEntry = buffer.ReadInt32(Endianness.Big);
+                FactionDataValue.Add(FactionDataValueEntry);
             }
         }
 

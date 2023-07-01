@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSMailArgs : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailArgs));
 
         public CSMailArgs()
         {
@@ -96,6 +98,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 items[i].Write(buffer);
             }
             buffer.WriteByte(interactive);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            type = buffer.ReadInt32(Endianness.Big);
+            int receiverEntryLen = buffer.ReadInt32(Endianness.Big);
+            receiver = buffer.ReadString(receiverEntryLen);
+            int titleEntryLen = buffer.ReadInt32(Endianness.Big);
+            title = buffer.ReadString(titleEntryLen);
+            int contentEntryLen = buffer.ReadInt32(Endianness.Big);
+            content = buffer.ReadString(contentEntryLen);
+            money = buffer.ReadUInt64(Endianness.Big);
+            items.Clear();
+            int itemsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemsCount; i++)
+            {
+                CSAccItemInfo itemsEntry = new CSAccItemInfo();
+                itemsEntry.Read(buffer);
+                items.Add(itemsEntry);
+            }
+            interactive = buffer.ReadByte();
         }
 
     }

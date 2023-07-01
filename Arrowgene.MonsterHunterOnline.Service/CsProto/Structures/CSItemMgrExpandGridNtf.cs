@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemMgrExpandGridNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrExpandGridNtf));
 
         public CSItemMgrExpandGridNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Count, Endianness.Big);
             buffer.WriteByte(flag);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Column = buffer.ReadByte();
+            Count = buffer.ReadUInt16(Endianness.Big);
+            flag = buffer.ReadByte();
         }
 
     }

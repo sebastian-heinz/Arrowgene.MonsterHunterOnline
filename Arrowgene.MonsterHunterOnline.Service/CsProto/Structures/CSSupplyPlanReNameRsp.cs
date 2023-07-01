@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSupplyPlanReNameRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyPlanReNameRsp));
 
         public CSSupplyPlanReNameRsp()
         {
@@ -64,6 +66,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(iPlanID, Endianness.Big);
             buffer.WriteInt32(PlanName.Length + 1, Endianness.Big);
             buffer.WriteCString(PlanName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            iRetCode = buffer.ReadInt32(Endianness.Big);
+            iPlanID = buffer.ReadInt32(Endianness.Big);
+            int PlanNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            PlanName = buffer.ReadString(PlanNameEntryLen);
         }
 
     }

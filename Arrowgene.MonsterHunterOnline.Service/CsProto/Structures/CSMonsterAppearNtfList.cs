@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMonsterAppearNtfList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterAppearNtfList));
 
         public CSMonsterAppearNtfList()
         {
@@ -50,6 +52,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < appearCount; i++)
             {
                 Appear[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Appear.Clear();
+            int appearCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < appearCount; i++)
+            {
+                CSMonsterAppearNtf AppearEntry = new CSMonsterAppearNtf();
+                AppearEntry.Read(buffer);
+                Appear.Add(AppearEntry);
             }
         }
 

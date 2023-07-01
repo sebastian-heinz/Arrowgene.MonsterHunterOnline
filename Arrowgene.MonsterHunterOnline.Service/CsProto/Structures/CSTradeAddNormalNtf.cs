@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTradeAddNormalNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeAddNormalNtf));
 
         public CSTradeAddNormalNtf()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ItemId, Endianness.Big);
             buffer.WriteUInt16(Count, Endianness.Big);
             NormalItem.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerId = buffer.ReadInt32(Endianness.Big);
+            DstGrid = buffer.ReadUInt16(Endianness.Big);
+            ItemId = buffer.ReadInt32(Endianness.Big);
+            Count = buffer.ReadUInt16(Endianness.Big);
+            NormalItem.Read(buffer);
         }
 
     }

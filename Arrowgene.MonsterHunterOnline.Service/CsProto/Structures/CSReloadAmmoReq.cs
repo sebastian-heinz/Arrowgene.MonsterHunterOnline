@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSReloadAmmoReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReloadAmmoReq));
 
         public CSReloadAmmoReq()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(TypeID, Endianness.Big);
             buffer.WriteInt32(Reserved, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TypeID = buffer.ReadInt32(Endianness.Big);
+            Reserved = buffer.ReadInt32(Endianness.Big);
         }
 
     }

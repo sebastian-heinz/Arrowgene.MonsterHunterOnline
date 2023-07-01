@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSXRankUserExtInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSXRankUserExtInfo));
 
         public CSXRankUserExtInfo()
         {
@@ -68,6 +70,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(BestRank, Endianness.Big);
             buffer.WriteInt32(UserData.Length + 1, Endianness.Big);
             buffer.WriteCString(UserData);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Uid = buffer.ReadUInt64(Endianness.Big);
+            BestRankTime = buffer.ReadUInt64(Endianness.Big);
+            BestRank = buffer.ReadUInt32(Endianness.Big);
+            int UserDataEntryLen = buffer.ReadInt32(Endianness.Big);
+            UserData = buffer.ReadString(UserDataEntryLen);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,13 +36,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSChatSystemMsgReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatSystemMsgReq));
 
         public CSChatSystemMsgReq()
         {
             MsgType = 0;
             MsgArea = 0;
             Dbid = 0;
-            MsgPramList = new List<CSMsgParam>();
+            MsgParamNum = 0;
+            MsgPramList = new CSMsgParam[CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM];
+            for (int i = 0; i < CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM; i++)
+            {
+                MsgPramList[i] = new CSMsgParam(null);
+            }
         }
 
         /// <summary>
@@ -62,12 +69,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 参数数量
         /// </summary>
-        public byte MsgParamNum => (byte)MsgPramList.Count;
+        public byte MsgParamNum;
 
         /// <summary>
         /// 参数列表
         /// </summary>
-        public List<CSMsgParam> MsgPramList;
+        public CSMsgParam[] MsgPramList;
 
         public void Write(IBuffer buffer)
         {
@@ -75,9 +82,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(MsgArea, Endianness.Big);
             buffer.WriteUInt64(Dbid, Endianness.Big);
             buffer.WriteByte(MsgParamNum);
-            for (int i = 0; i < MsgParamNum; i++)
+            for (int i = 0; i < CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM; i++)
             {
                 MsgPramList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MsgType = buffer.ReadUInt32(Endianness.Big);
+            MsgArea = buffer.ReadUInt32(Endianness.Big);
+            Dbid = buffer.ReadUInt64(Endianness.Big);
+            MsgParamNum = buffer.ReadByte();
+            for (int i = 0; i < CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM; i++)
+            {
+                MsgPramList[i].Read(buffer);
             }
         }
 

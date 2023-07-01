@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class C2SSoulBeastExpShift : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSoulBeastExpShift));
 
         public C2SSoulBeastExpShift()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SrcBeast, Endianness.Big);
             buffer.WriteInt32(DstBeast, Endianness.Big);
             buffer.WriteInt32(UseItem, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SrcBeast = buffer.ReadInt32(Endianness.Big);
+            DstBeast = buffer.ReadInt32(Endianness.Big);
+            UseItem = buffer.ReadInt32(Endianness.Big);
         }
 
     }

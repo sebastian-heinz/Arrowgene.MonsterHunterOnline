@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class Ranker : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(Ranker));
 
         public Ranker()
         {
@@ -124,6 +126,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(str3);
             buffer.WriteInt32(str4.Length + 1, Endianness.Big);
             buffer.WriteCString(str4);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            dbid = buffer.ReadUInt64(Endianness.Big);
+            int nameEntryLen = buffer.ReadInt32(Endianness.Big);
+            name = buffer.ReadString(nameEntryLen);
+            uin = buffer.ReadUInt32(Endianness.Big);
+            int str1EntryLen = buffer.ReadInt32(Endianness.Big);
+            str1 = buffer.ReadString(str1EntryLen);
+            arg1 = buffer.ReadInt32(Endianness.Big);
+            arg2 = buffer.ReadInt32(Endianness.Big);
+            arg3 = buffer.ReadInt32(Endianness.Big);
+            param1 = buffer.ReadInt32(Endianness.Big);
+            int str2EntryLen = buffer.ReadInt32(Endianness.Big);
+            str2 = buffer.ReadString(str2EntryLen);
+            int str3EntryLen = buffer.ReadInt32(Endianness.Big);
+            str3 = buffer.ReadString(str3EntryLen);
+            int str4EntryLen = buffer.ReadInt32(Endianness.Big);
+            str4 = buffer.ReadString(str4EntryLen);
         }
 
     }

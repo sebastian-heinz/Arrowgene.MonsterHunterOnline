@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CRefreshSchedule : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRefreshSchedule));
 
         public S2CRefreshSchedule()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(Group, Endianness.Big);
             buffer.WriteUInt32(RefreshTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Group = buffer.ReadInt32(Endianness.Big);
+            RefreshTime = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

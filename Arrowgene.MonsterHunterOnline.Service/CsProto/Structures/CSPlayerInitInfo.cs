@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerInitInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerInitInfo));
 
         public CSPlayerInitInfo()
         {
@@ -854,6 +856,365 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             SecretResearchInitData.Write(buffer);
             buffer.WriteInt32(DragonShopBox, Endianness.Big);
             buffer.WriteInt32(CanGetRewarded, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AccountID = buffer.ReadUInt32(Endianness.Big);
+            NetID = buffer.ReadInt32(Endianness.Big);
+            DBId = buffer.ReadUInt64(Endianness.Big);
+            SessionID = buffer.ReadUInt32(Endianness.Big);
+            WorldID = buffer.ReadUInt32(Endianness.Big);
+            ServerID = buffer.ReadUInt32(Endianness.Big);
+            WorldSvrID = buffer.ReadUInt32(Endianness.Big);
+            ServerTime = buffer.ReadUInt32(Endianness.Big);
+            IsReConnect = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Gender = buffer.ReadByte();
+            IsGM = buffer.ReadByte();
+            Pose.Read(buffer);
+            ParentEntityGUID = buffer.ReadUInt64(Endianness.Big);
+            AvatarSetID = buffer.ReadByte();
+            Faction = buffer.ReadInt32(Endianness.Big);
+            RandSeed = buffer.ReadUInt32(Endianness.Big);
+            Weapon = buffer.ReadInt32(Endianness.Big);
+            LastLoginTime = buffer.ReadUInt32(Endianness.Big);
+            CreateTime = buffer.ReadUInt32(Endianness.Big);
+            StoreSize = buffer.ReadUInt16(Endianness.Big);
+            NormalSize = buffer.ReadUInt16(Endianness.Big);
+            MaterialStoreSize = buffer.ReadUInt16(Endianness.Big);
+            BagItem.Clear();
+            int bagItemCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < bagItemCount; i++)
+            {
+                byte BagItemEntry = buffer.ReadByte();
+                BagItem.Add(BagItemEntry);
+            }
+            EquipItem.Clear();
+            ushort equipItemCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipItemCount; i++)
+            {
+                byte EquipItemEntry = buffer.ReadByte();
+                EquipItem.Add(EquipItemEntry);
+            }
+            StoreItem.Clear();
+            int storeItemCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < storeItemCount; i++)
+            {
+                byte StoreItemEntry = buffer.ReadByte();
+                StoreItem.Add(StoreItemEntry);
+            }
+            Shortcut.Clear();
+            ushort shortcutCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < shortcutCount; i++)
+            {
+                CSShortcut ShortcutEntry = new CSShortcut();
+                ShortcutEntry.Read(buffer);
+                Shortcut.Add(ShortcutEntry);
+            }
+            Buff.Clear();
+            ushort buffCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < buffCount; i++)
+            {
+                byte BuffEntry = buffer.ReadByte();
+                Buff.Add(BuffEntry);
+            }
+            Skill.Clear();
+            ushort skillCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < skillCount; i++)
+            {
+                byte SkillEntry = buffer.ReadByte();
+                Skill.Add(SkillEntry);
+            }
+            Pet.Clear();
+            ushort petCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < petCount; i++)
+            {
+                byte PetEntry = buffer.ReadByte();
+                Pet.Add(PetEntry);
+            }
+            FriendData.Clear();
+            int friendDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < friendDataCount; i++)
+            {
+                FriendInfoPacket FriendDataEntry = new FriendInfoPacket();
+                FriendDataEntry.Read(buffer);
+                FriendData.Add(FriendDataEntry);
+            }
+            PasserbyData.Clear();
+            int passerbyDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < passerbyDataCount; i++)
+            {
+                PasserbyInfoPacket PasserbyDataEntry = new PasserbyInfoPacket();
+                PasserbyDataEntry.Read(buffer);
+                PasserbyData.Add(PasserbyDataEntry);
+            }
+            BlacklistData.Clear();
+            int blacklistDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < blacklistDataCount; i++)
+            {
+                BlacklistInfoPacket BlacklistDataEntry = new BlacklistInfoPacket();
+                BlacklistDataEntry.Read(buffer);
+                BlacklistData.Add(BlacklistDataEntry);
+            }
+            FriendGroupData.Clear();
+            int friendGroupDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < friendGroupDataCount; i++)
+            {
+                FriendGroupPacket FriendGroupDataEntry = new FriendGroupPacket();
+                FriendGroupDataEntry.Read(buffer);
+                FriendGroupData.Add(FriendGroupDataEntry);
+            }
+            Attr.Clear();
+            ushort attrCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < attrCount; i++)
+            {
+                byte AttrEntry = buffer.ReadByte();
+                Attr.Add(AttrEntry);
+            }
+            Task.Clear();
+            int taskCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < taskCount; i++)
+            {
+                byte TaskEntry = buffer.ReadByte();
+                Task.Add(TaskEntry);
+            }
+            Guild.Clear();
+            int guildCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < guildCount; i++)
+            {
+                byte GuildEntry = buffer.ReadByte();
+                Guild.Add(GuildEntry);
+            }
+            ActionPoint.Read(buffer);
+            FirstEnterLevel = buffer.ReadInt32(Endianness.Big);
+            FirstEnterMap = buffer.ReadInt32(Endianness.Big);
+            PvpPrepareStageState = buffer.ReadInt32(Endianness.Big);
+            GuideSteps.Clear();
+            ushort guideStepsCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < guideStepsCount; i++)
+            {
+                CSGuideStep GuideStepsEntry = new CSGuideStep();
+                GuideStepsEntry.Read(buffer);
+                GuideSteps.Add(GuideStepsEntry);
+            }
+            CD.Clear();
+            ushort cDCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < cDCount; i++)
+            {
+                byte CDEntry = buffer.ReadByte();
+                CD.Add(CDEntry);
+            }
+            SchedulePrize.Clear();
+            int schedulePrizeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < schedulePrizeCount; i++)
+            {
+                byte SchedulePrizeEntry = buffer.ReadByte();
+                SchedulePrize.Add(SchedulePrizeEntry);
+            }
+            mailInfo.Clear();
+            int mailInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < mailInfoCount; i++)
+            {
+                byte mailInfoEntry = buffer.ReadByte();
+                mailInfo.Add(mailInfoEntry);
+            }
+            NpcAtdInfo.Clear();
+            int npcAtdInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < npcAtdInfoCount; i++)
+            {
+                byte NpcAtdInfoEntry = buffer.ReadByte();
+                NpcAtdInfo.Add(NpcAtdInfoEntry);
+            }
+            CurPlayerUsedCatCarCount = buffer.ReadInt32(Endianness.Big);
+            CatCuisineID = buffer.ReadInt32(Endianness.Big);
+            CatCuisineLevel = buffer.ReadByte();
+            CatCuisineBuffs = buffer.ReadByte();
+            CatCuisineLastTm = buffer.ReadUInt32(Endianness.Big);
+            CatCuisineFormulaCount = buffer.ReadInt32(Endianness.Big);
+            CatCuisineFormulaData.Clear();
+            ushort catCuisineFormulaDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < catCuisineFormulaDataCount; i++)
+            {
+                CatCuisineDataInfo CatCuisineFormulaDataEntry = new CatCuisineDataInfo();
+                CatCuisineFormulaDataEntry.Read(buffer);
+                CatCuisineFormulaData.Add(CatCuisineFormulaDataEntry);
+            }
+            ItemUseOnceList.Clear();
+            ushort itemUseOnceListCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < itemUseOnceListCount; i++)
+            {
+                ushort ItemUseOnceListEntry = buffer.ReadUInt16(Endianness.Big);
+                ItemUseOnceList.Add(ItemUseOnceListEntry);
+            }
+            Star.Clear();
+            int starCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < starCount; i++)
+            {
+                byte StarEntry = buffer.ReadByte();
+                Star.Add(StarEntry);
+            }
+            Video.Clear();
+            ushort videoCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < videoCount; i++)
+            {
+                byte VideoEntry = buffer.ReadByte();
+                Video.Add(VideoEntry);
+            }
+            ClientSettings.Read(buffer);
+            Farm.Clear();
+            int farmCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < farmCount; i++)
+            {
+                byte FarmEntry = buffer.ReadByte();
+                Farm.Add(FarmEntry);
+            }
+            for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+            {
+                FacialInfo[i] = buffer.ReadInt16(Endianness.Big);
+            }
+            Spoor.Clear();
+            int spoorCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < spoorCount; i++)
+            {
+                byte SpoorEntry = buffer.ReadByte();
+                Spoor.Add(SpoorEntry);
+            }
+            RapidHunt.Clear();
+            int rapidHuntCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < rapidHuntCount; i++)
+            {
+                byte RapidHuntEntry = buffer.ReadByte();
+                RapidHunt.Add(RapidHuntEntry);
+            }
+            Activity.Clear();
+            int activityCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < activityCount; i++)
+            {
+                byte ActivityEntry = buffer.ReadByte();
+                Activity.Add(ActivityEntry);
+            }
+            IsSpectating = buffer.ReadByte();
+            ItemRebuild.Clear();
+            int itemRebuildCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemRebuildCount; i++)
+            {
+                byte ItemRebuildEntry = buffer.ReadByte();
+                ItemRebuild.Add(ItemRebuildEntry);
+            }
+            ItemBox.Clear();
+            int itemBoxCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < itemBoxCount; i++)
+            {
+                byte ItemBoxEntry = buffer.ReadByte();
+                ItemBox.Add(ItemBoxEntry);
+            }
+            Shop.Clear();
+            int shopCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < shopCount; i++)
+            {
+                byte ShopEntry = buffer.ReadByte();
+                Shop.Add(ShopEntry);
+            }
+            EquipPlanData.Clear();
+            ushort equipPlanDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipPlanDataCount; i++)
+            {
+                byte EquipPlanDataEntry = buffer.ReadByte();
+                EquipPlanData.Add(EquipPlanDataEntry);
+            }
+            Trace.Clear();
+            int traceCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < traceCount; i++)
+            {
+                byte TraceEntry = buffer.ReadByte();
+                Trace.Add(TraceEntry);
+            }
+            StarStone.Read(buffer);
+            Speak.Clear();
+            int speakCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < speakCount; i++)
+            {
+                byte SpeakEntry = buffer.ReadByte();
+                Speak.Add(SpeakEntry);
+            }
+            BattleItemUse.Clear();
+            uint battleItemUseCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < battleItemUseCount; i++)
+            {
+                byte BattleItemUseEntry = buffer.ReadByte();
+                BattleItemUse.Add(BattleItemUseEntry);
+            }
+            SuitSkillData.Clear();
+            uint suitSkillDataCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < suitSkillDataCount; i++)
+            {
+                byte SuitSkillDataEntry = buffer.ReadByte();
+                SuitSkillData.Add(SuitSkillDataEntry);
+            }
+            Astrolabe.Clear();
+            int astrolabeCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < astrolabeCount; i++)
+            {
+                byte AstrolabeEntry = buffer.ReadByte();
+                Astrolabe.Add(AstrolabeEntry);
+            }
+            WildHunt.Clear();
+            int wildHuntCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < wildHuntCount; i++)
+            {
+                byte WildHuntEntry = buffer.ReadByte();
+                WildHunt.Add(WildHuntEntry);
+            }
+            SoulStone.Clear();
+            int soulStoneCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < soulStoneCount; i++)
+            {
+                byte SoulStoneEntry = buffer.ReadByte();
+                SoulStone.Add(SoulStoneEntry);
+            }
+            Monolopy.Clear();
+            int monolopyCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < monolopyCount; i++)
+            {
+                byte MonolopyEntry = buffer.ReadByte();
+                Monolopy.Add(MonolopyEntry);
+            }
+            Achieve.Clear();
+            int achieveCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < achieveCount; i++)
+            {
+                byte AchieveEntry = buffer.ReadByte();
+                Achieve.Add(AchieveEntry);
+            }
+            UIOptionInfo.Read(buffer);
+            Illustrate.Clear();
+            int illustrateCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < illustrateCount; i++)
+            {
+                byte IllustrateEntry = buffer.ReadByte();
+                Illustrate.Add(IllustrateEntry);
+            }
+            WeaponStyleInfo.Read(buffer);
+            WeaponHavenInfo.Clear();
+            int weaponHavenInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < weaponHavenInfoCount; i++)
+            {
+                byte WeaponHavenInfoEntry = buffer.ReadByte();
+                WeaponHavenInfo.Add(WeaponHavenInfoEntry);
+            }
+            SilverStorageBoxInfo.Read(buffer);
+            GuideBookData.Clear();
+            int guideBookDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < guideBookDataCount; i++)
+            {
+                byte GuideBookDataEntry = buffer.ReadByte();
+                GuideBookData.Add(GuideBookDataEntry);
+            }
+            SecretResearchInitData.Read(buffer);
+            DragonShopBox = buffer.ReadInt32(Endianness.Big);
+            CanGetRewarded = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerAbnormalNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerAbnormalNtf));
 
         public CSPlayerAbnormalNtf()
         {
@@ -98,6 +100,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(hittype, Endianness.Big);
             buffer.WriteInt32(result, Endianness.Big);
             buffer.WriteInt32(param1, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FirstBuffId = buffer.ReadInt32(Endianness.Big);
+            FirstBuffOwner = buffer.ReadInt32(Endianness.Big);
+            SecondBuffId = buffer.ReadInt32(Endianness.Big);
+            SecondBuffOwner = buffer.ReadInt32(Endianness.Big);
+            change = buffer.ReadByte();
+            hittype = buffer.ReadInt32(Endianness.Big);
+            result = buffer.ReadInt32(Endianness.Big);
+            param1 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

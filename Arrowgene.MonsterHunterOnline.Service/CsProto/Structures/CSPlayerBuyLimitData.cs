@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPlayerBuyLimitData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerBuyLimitData));
 
         public CSPlayerBuyLimitData()
         {
@@ -89,6 +91,42 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < foreverBuyLimitDataCount; i++)
             {
                 ForeverBuyLimitData[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DayBuyLimitData.Clear();
+            ushort dayBuyLimitDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < dayBuyLimitDataCount; i++)
+            {
+                CSBuyItemLimitData DayBuyLimitDataEntry = new CSBuyItemLimitData();
+                DayBuyLimitDataEntry.Read(buffer);
+                DayBuyLimitData.Add(DayBuyLimitDataEntry);
+            }
+            WeekBuyLimitData.Clear();
+            ushort weekBuyLimitDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < weekBuyLimitDataCount; i++)
+            {
+                CSBuyItemLimitData WeekBuyLimitDataEntry = new CSBuyItemLimitData();
+                WeekBuyLimitDataEntry.Read(buffer);
+                WeekBuyLimitData.Add(WeekBuyLimitDataEntry);
+            }
+            MonthBuyLimitData.Clear();
+            ushort monthBuyLimitDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < monthBuyLimitDataCount; i++)
+            {
+                CSBuyItemLimitData MonthBuyLimitDataEntry = new CSBuyItemLimitData();
+                MonthBuyLimitDataEntry.Read(buffer);
+                MonthBuyLimitData.Add(MonthBuyLimitDataEntry);
+            }
+            ForeverBuyLimitData.Clear();
+            ushort foreverBuyLimitDataCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < foreverBuyLimitDataCount; i++)
+            {
+                CSBuyItemLimitData ForeverBuyLimitDataEntry = new CSBuyItemLimitData();
+                ForeverBuyLimitDataEntry.Read(buffer);
+                ForeverBuyLimitData.Add(ForeverBuyLimitDataEntry);
             }
         }
 

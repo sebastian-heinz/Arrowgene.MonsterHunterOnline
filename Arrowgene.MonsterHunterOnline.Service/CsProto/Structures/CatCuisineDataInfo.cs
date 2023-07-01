@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CatCuisineDataInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CatCuisineDataInfo));
 
         public CatCuisineDataInfo()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(CatCuisineID, Endianness.Big);
             buffer.WriteUInt32(State, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CatCuisineID = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

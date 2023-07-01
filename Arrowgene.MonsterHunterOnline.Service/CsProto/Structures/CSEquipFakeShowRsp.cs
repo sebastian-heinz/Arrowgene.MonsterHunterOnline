@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipFakeShowRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipFakeShowRsp));
 
         public CSEquipFakeShowRsp()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Param1, Endianness.Big);
             buffer.WriteInt32(Param2, Endianness.Big);
             buffer.WriteInt32(Param3, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RetCode = buffer.ReadInt32(Endianness.Big);
+            Param1 = buffer.ReadInt32(Endianness.Big);
+            Param2 = buffer.ReadInt32(Endianness.Big);
+            Param3 = buffer.ReadInt32(Endianness.Big);
         }
 
     }

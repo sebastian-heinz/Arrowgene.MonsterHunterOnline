@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CLeaguePlayerInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeaguePlayerInfo));
 
         public S2CLeaguePlayerInfo()
         {
@@ -126,6 +128,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ExRewardNum, Endianness.Big);
             buffer.WriteInt32(StepReward, Endianness.Big);
             buffer.WriteInt32(ExMedalNum, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CurSeason = buffer.ReadInt32(Endianness.Big);
+            Score = buffer.ReadInt32(Endianness.Big);
+            ScoreTop = buffer.ReadInt32(Endianness.Big);
+            WeekReward = buffer.ReadInt32(Endianness.Big);
+            Streak = buffer.ReadInt32(Endianness.Big);
+            WinNum = buffer.ReadInt32(Endianness.Big);
+            LoseNum = buffer.ReadInt32(Endianness.Big);
+            TotalNum = buffer.ReadInt32(Endianness.Big);
+            RewardMask = buffer.ReadInt32(Endianness.Big);
+            ExRewardNum = buffer.ReadInt32(Endianness.Big);
+            StepReward = buffer.ReadInt32(Endianness.Big);
+            ExMedalNum = buffer.ReadInt32(Endianness.Big);
         }
 
     }

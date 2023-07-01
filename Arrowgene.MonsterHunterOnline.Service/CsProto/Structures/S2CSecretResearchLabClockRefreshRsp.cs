@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSecretResearchLabClockRefreshRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabClockRefreshRsp));
 
         public S2CSecretResearchLabClockRefreshRsp()
         {
@@ -63,6 +65,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 LotteryItemList[i].Write(buffer);
             }
             buffer.WriteInt32(BoxId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
+            {
+                LotteryItemList[i].Read(buffer);
+            }
+            BoxId = buffer.ReadInt32(Endianness.Big);
         }
 
     }

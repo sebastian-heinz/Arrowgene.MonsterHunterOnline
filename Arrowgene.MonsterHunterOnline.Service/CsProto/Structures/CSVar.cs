@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSVar : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVar));
 
         public CSVar(CSAny _Val)
         {
@@ -58,6 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32((int)Val.Type, Endianness.Big);
             Val.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadInt32(Endianness.Big);
+            CS_ANY_TYPE CSAny_Type = (CS_ANY_TYPE)buffer.ReadInt32(Endianness.Big);
+            Val = new CSAny(CSAny_Type);
+            Val.Read(buffer);
         }
 
     }

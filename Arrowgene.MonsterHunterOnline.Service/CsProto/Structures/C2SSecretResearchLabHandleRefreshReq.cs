@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SSecretResearchLabHandleRefreshReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSecretResearchLabHandleRefreshReq));
 
         public C2SSecretResearchLabHandleRefreshReq()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(BoxId, Endianness.Big);
             buffer.WriteInt32(IsVipRefresh, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BoxId = buffer.ReadInt32(Endianness.Big);
+            IsVipRefresh = buffer.ReadInt32(Endianness.Big);
         }
 
     }

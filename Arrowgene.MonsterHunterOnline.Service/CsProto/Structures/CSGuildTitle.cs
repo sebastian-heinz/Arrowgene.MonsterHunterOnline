@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildTitle : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildTitle));
 
         public CSGuildTitle()
         {
@@ -78,6 +80,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Rights, Endianness.Big);
             buffer.WriteInt32(DepotOpCount, Endianness.Big);
             DepotRights.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Title = buffer.ReadInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Rights = buffer.ReadInt32(Endianness.Big);
+            DepotOpCount = buffer.ReadInt32(Endianness.Big);
+            DepotRights.Read(buffer);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceDynamicInfoNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceDynamicInfoNtf));
 
         public CSInstanceDynamicInfoNtf(CSRulesInfo _RulesInfo)
         {
@@ -197,6 +199,67 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 PaidBuffs[i].Write(buffer);
             }
             buffer.WriteInt32(IsBigRand, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CreatePlayerMaxLv = buffer.ReadInt32(Endianness.Big);
+            StartTime = buffer.ReadInt32(Endianness.Big);
+            RemainSeconds = buffer.ReadInt32(Endianness.Big);
+            VipRemainSeconds = buffer.ReadInt32(Endianness.Big);
+            ItemRemainSeconds = buffer.ReadInt32(Endianness.Big);
+            NormalMaxLimit = buffer.ReadInt32(Endianness.Big);
+            VipMaxLimit = buffer.ReadInt32(Endianness.Big);
+            ItemMaxLimit = buffer.ReadInt32(Endianness.Big);
+            PlayerNum = buffer.ReadInt32(Endianness.Big);
+            IsHunterOfficer = buffer.ReadInt32(Endianness.Big);
+            RegionWeather.Clear();
+            short regionWeatherCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < regionWeatherCount; i++)
+            {
+                CSRegionWeatherNtf RegionWeatherEntry = new CSRegionWeatherNtf();
+                RegionWeatherEntry.Read(buffer);
+                RegionWeather.Add(RegionWeatherEntry);
+            }
+            IsCrossServerInstance = buffer.ReadInt32(Endianness.Big);
+            IsWarning = buffer.ReadInt32(Endianness.Big);
+            HuntingMode = buffer.ReadInt32(Endianness.Big);
+            ActHuntingMode = buffer.ReadInt32(Endianness.Big);
+            CarCarInfo.Read(buffer);
+            CS_BATTLE_RULES_TYPE CSRulesInfo_RulesInfoType = (CS_BATTLE_RULES_TYPE)buffer.ReadInt32(Endianness.Big);
+            switch (CSRulesInfo_RulesInfoType)
+            {
+                case CS_BATTLE_RULES_TYPE.BATTLE_RULES_DEFAULT_INFO:
+                    RulesInfo = null; //new int();
+                    break;
+                case CS_BATTLE_RULES_TYPE.BATTLE_RULES_PVP_INFO:
+                    RulesInfo = new CSInDirectPVPInfo();
+                    break;
+            }
+            if (RulesInfo != null) {
+                RulesInfo.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'RulesInfo' instance of type 'CSRulesInfo'");
+            }
+            OtherStatData.Read(buffer);
+            PaidItems.Clear();
+            int paidItemsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < paidItemsCount; i++)
+            {
+                CSPaidContributeBoxData PaidItemsEntry = new CSPaidContributeBoxData();
+                PaidItemsEntry.Read(buffer);
+                PaidItems.Add(PaidItemsEntry);
+            }
+            PaidBuffs.Clear();
+            int paidBuffsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < paidBuffsCount; i++)
+            {
+                CSPaidContributeBoxData PaidBuffsEntry = new CSPaidContributeBoxData();
+                PaidBuffsEntry.Read(buffer);
+                PaidBuffs.Add(PaidBuffsEntry);
+            }
+            IsBigRand = buffer.ReadInt32(Endianness.Big);
         }
 
     }

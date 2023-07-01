@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CRoomsGetRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRoomsGetRsp));
 
         public S2CRoomsGetRsp()
         {
@@ -68,6 +70,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < roomsCount; i++)
             {
                 Rooms[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Mode = buffer.ReadInt32(Endianness.Big);
+            From = buffer.ReadUInt32(Endianness.Big);
+            To = buffer.ReadUInt32(Endianness.Big);
+            Rooms.Clear();
+            uint roomsCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < roomsCount; i++)
+            {
+                CSSpectateRoom RoomsEntry = new CSSpectateRoom();
+                RoomsEntry.Read(buffer);
+                Rooms.Add(RoomsEntry);
             }
         }
 

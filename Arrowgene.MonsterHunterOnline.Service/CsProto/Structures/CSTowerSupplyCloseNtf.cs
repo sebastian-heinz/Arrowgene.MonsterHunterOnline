@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSTowerSupplyCloseNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTowerSupplyCloseNtf));
 
         public CSTowerSupplyCloseNtf()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Layer, Endianness.Big);
             buffer.WriteInt32(Appraisal, Endianness.Big);
             buffer.WriteInt32(TowerSupplyID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Layer = buffer.ReadInt32(Endianness.Big);
+            Appraisal = buffer.ReadInt32(Endianness.Big);
+            TowerSupplyID = buffer.ReadInt32(Endianness.Big);
         }
 
     }

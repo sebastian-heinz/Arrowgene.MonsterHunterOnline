@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLocalBatOPReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLocalBatOPReq));
 
         public CSLocalBatOPReq()
         {
@@ -85,6 +87,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Param4, Endianness.Big);
             buffer.WriteInt32(ParamStr.Length + 1, Endianness.Big);
             buffer.WriteCString(ParamStr);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Op = buffer.ReadInt32(Endianness.Big);
+            Param1 = buffer.ReadInt32(Endianness.Big);
+            Param2 = buffer.ReadInt32(Endianness.Big);
+            Param3 = buffer.ReadInt32(Endianness.Big);
+            Param4 = buffer.ReadInt32(Endianness.Big);
+            int ParamStrEntryLen = buffer.ReadInt32(Endianness.Big);
+            ParamStr = buffer.ReadString(ParamStrEntryLen);
         }
 
     }

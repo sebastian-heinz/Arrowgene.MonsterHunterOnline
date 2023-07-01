@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSItemListRsp : RemoteDataInfo
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemListRsp));
 
         public CSItemListRsp()
         {
@@ -109,6 +111,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemUseOnceListCount; i++)
             {
                 buffer.WriteUInt16(ItemUseOnceList[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            StoreSize = buffer.ReadUInt16(Endianness.Big);
+            NormalSize = buffer.ReadUInt16(Endianness.Big);
+            MaterialStoreSize = buffer.ReadUInt16(Endianness.Big);
+            BagItem.Clear();
+            int bagItemCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < bagItemCount; i++)
+            {
+                byte BagItemEntry = buffer.ReadByte();
+                BagItem.Add(BagItemEntry);
+            }
+            EquipItem.Clear();
+            ushort equipItemCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < equipItemCount; i++)
+            {
+                byte EquipItemEntry = buffer.ReadByte();
+                EquipItem.Add(EquipItemEntry);
+            }
+            StoreItem.Clear();
+            int storeItemCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < storeItemCount; i++)
+            {
+                byte StoreItemEntry = buffer.ReadByte();
+                StoreItem.Add(StoreItemEntry);
+            }
+            ItemUseOnceList.Clear();
+            ushort itemUseOnceListCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < itemUseOnceListCount; i++)
+            {
+                ushort ItemUseOnceListEntry = buffer.ReadUInt16(Endianness.Big);
+                ItemUseOnceList.Add(ItemUseOnceListEntry);
             }
         }
 

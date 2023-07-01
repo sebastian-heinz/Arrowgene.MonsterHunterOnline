@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSceneObjAppearNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSceneObjAppearNtf));
 
         public CSSceneObjAppearNtf()
         {
@@ -200,6 +202,47 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
             buffer.WriteUInt32(ParentID, Endianness.Big);
             buffer.WriteUInt64(ParentGUID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetID = buffer.ReadUInt32(Endianness.Big);
+            int EntityNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            EntityName = buffer.ReadString(EntityNameEntryLen);
+            int ClassNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            ClassName = buffer.ReadString(ClassNameEntryLen);
+            Pose.Read(buffer);
+            SubTypeID = buffer.ReadInt32(Endianness.Big);
+            Sync2CE = buffer.ReadByte();
+            SpawnType = buffer.ReadByte();
+            Bone = buffer.ReadInt32(Endianness.Big);
+            Holder = buffer.ReadUInt32(Endianness.Big);
+            Owner = buffer.ReadUInt32(Endianness.Big);
+            Faction = buffer.ReadInt32(Endianness.Big);
+            RegionId = buffer.ReadInt32(Endianness.Big);
+            UsrData.Clear();
+            int usrDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < usrDataCount; i++)
+            {
+                byte UsrDataEntry = buffer.ReadByte();
+                UsrData.Add(UsrDataEntry);
+            }
+            EntGUID = buffer.ReadUInt64(Endianness.Big);
+            int PropertityFileEntryLen = buffer.ReadInt32(Endianness.Big);
+            PropertityFile = buffer.ReadString(PropertityFileEntryLen);
+            MHSpawnType = buffer.ReadInt16(Endianness.Big);
+            int BTStateEntryLen = buffer.ReadInt32(Endianness.Big);
+            BTState = buffer.ReadString(BTStateEntryLen);
+            BBVars.Read(buffer);
+            Buff.Clear();
+            ushort buffCount = buffer.ReadUInt16(Endianness.Big);
+            for (int i = 0; i < buffCount; i++)
+            {
+                byte BuffEntry = buffer.ReadByte();
+                Buff.Add(BuffEntry);
+            }
+            ParentID = buffer.ReadUInt32(Endianness.Big);
+            ParentGUID = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

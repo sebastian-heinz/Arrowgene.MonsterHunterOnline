@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class MailAccDataGold : CsAccessoryDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(MailAccDataGold));
 
         public MailAccDataGold()
         {
@@ -48,6 +50,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public void Write(IBuffer buffer)
         {
             buffer.WriteUInt32(Gold, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Gold = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

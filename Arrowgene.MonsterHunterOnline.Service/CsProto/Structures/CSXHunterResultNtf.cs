@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSXHunterResultNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSXHunterResultNtf));
 
         public CSXHunterResultNtf()
         {
@@ -120,6 +122,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < playereInfoCount; i++)
             {
                 PlayereInfo[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RedBounds = buffer.ReadInt32(Endianness.Big);
+            BlueBounds = buffer.ReadInt32(Endianness.Big);
+            RedTotalScore = buffer.ReadInt32(Endianness.Big);
+            BlueTotalScore = buffer.ReadInt32(Endianness.Big);
+            RedSpeedScore = buffer.ReadInt32(Endianness.Big);
+            BlueSpeedScore = buffer.ReadInt32(Endianness.Big);
+            RedDamageScore = buffer.ReadInt32(Endianness.Big);
+            BlueDamageScore = buffer.ReadInt32(Endianness.Big);
+            RedHitedScore = buffer.ReadInt32(Endianness.Big);
+            BlueHitedScore = buffer.ReadInt32(Endianness.Big);
+            PlayereInfo.Clear();
+            int playereInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < playereInfoCount; i++)
+            {
+                CSXHunterPlayerInfo PlayereInfoEntry = new CSXHunterPlayerInfo();
+                PlayereInfoEntry.Read(buffer);
+                PlayereInfo.Add(PlayereInfoEntry);
             }
         }
 

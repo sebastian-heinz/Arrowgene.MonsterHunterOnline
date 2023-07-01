@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTransitionQueue : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTransitionQueue));
 
         public CSTransitionQueue()
         {
@@ -65,6 +67,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < animationsCount; i++)
             {
                 Animations[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AdditiveWeights = buffer.ReadFloat(Endianness.Big);
+            Blending = buffer.ReadFloat(Endianness.Big);
+            BlendingMultiplier = buffer.ReadFloat(Endianness.Big);
+            Animations.Clear();
+            short animationsCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < animationsCount; i++)
+            {
+                CSAnimation AnimationsEntry = new CSAnimation();
+                AnimationsEntry.Read(buffer);
+                Animations.Add(AnimationsEntry);
             }
         }
 

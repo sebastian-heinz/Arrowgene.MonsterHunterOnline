@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSSpawnPlayer : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpawnPlayer));
 
         public CSSpawnPlayer()
         {
@@ -121,6 +123,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(EquipmentPack.Length + 1, Endianness.Big);
             buffer.WriteCString(EquipmentPack);
             buffer.WriteByte(AvatarSetID);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlayerId = buffer.ReadUInt32(Endianness.Big);
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            int NameEntryLen = buffer.ReadInt32(Endianness.Big);
+            Name = buffer.ReadString(NameEntryLen);
+            Gender = buffer.ReadByte();
+            Position.Read(buffer);
+            Rotation.Read(buffer);
+            Scale = buffer.ReadFloat(Endianness.Big);
+            NewConnect = buffer.ReadUInt32(Endianness.Big);
+            SendSrvId = buffer.ReadUInt32(Endianness.Big);
+            int EquipmentPackEntryLen = buffer.ReadInt32(Endianness.Big);
+            EquipmentPack = buffer.ReadString(EquipmentPackEntryLen);
+            AvatarSetID = buffer.ReadByte();
         }
 
     }

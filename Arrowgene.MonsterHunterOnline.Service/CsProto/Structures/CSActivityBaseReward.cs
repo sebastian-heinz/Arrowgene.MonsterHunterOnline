@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSActivityBaseReward : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActivityBaseReward));
 
         public CSActivityBaseReward()
         {
@@ -91,6 +93,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GuildAthPoint, Endianness.Big);
             buffer.WriteInt32(AddPetExp, Endianness.Big);
             buffer.WriteInt32(PetRoyalPoint, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AddExp = buffer.ReadInt32(Endianness.Big);
+            AddBindGold = buffer.ReadInt32(Endianness.Big);
+            AddUnBindGold = buffer.ReadInt32(Endianness.Big);
+            AddFarmPoint = buffer.ReadInt32(Endianness.Big);
+            GuildAthPoint = buffer.ReadInt32(Endianness.Big);
+            AddPetExp = buffer.ReadInt32(Endianness.Big);
+            PetRoyalPoint = buffer.ReadInt32(Endianness.Big);
         }
 
     }

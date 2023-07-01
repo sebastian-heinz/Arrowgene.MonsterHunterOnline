@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSMonsterScarNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterScarNtf));
 
         public CSMonsterScarNtf()
         {
@@ -67,6 +69,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Normal.Write(buffer);
             ScarDir.Write(buffer);
             Up.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MonsterID = buffer.ReadUInt32(Endianness.Big);
+            PartID = buffer.ReadInt32(Endianness.Big);
+            ScarType = buffer.ReadInt32(Endianness.Big);
+            Pose.Read(buffer);
+            Normal.Read(buffer);
+            ScarDir.Read(buffer);
+            Up.Read(buffer);
         }
 
     }

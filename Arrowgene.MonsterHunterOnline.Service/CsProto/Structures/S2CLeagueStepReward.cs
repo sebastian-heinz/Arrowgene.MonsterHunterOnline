@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CLeagueStepReward : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeagueStepReward));
 
         public S2CLeagueStepReward()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Level, Endianness.Big);
             buffer.WriteByte(WeekLimit);
             buffer.WriteByte(TotalLimit);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Level = buffer.ReadInt32(Endianness.Big);
+            WeekLimit = buffer.ReadByte();
+            TotalLimit = buffer.ReadByte();
         }
 
     }

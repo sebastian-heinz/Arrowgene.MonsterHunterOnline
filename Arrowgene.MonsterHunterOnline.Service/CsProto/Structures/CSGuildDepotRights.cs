@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildDepotRights : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildDepotRights));
 
         public CSGuildDepotRights()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Rights, Endianness.Big);
             buffer.WriteInt32(FetchCount, Endianness.Big);
             buffer.WriteInt32(CurFetchCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Depot = buffer.ReadInt32(Endianness.Big);
+            Rights = buffer.ReadInt32(Endianness.Big);
+            FetchCount = buffer.ReadInt32(Endianness.Big);
+            CurFetchCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class C2SFileCheckReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SFileCheckReq));
 
         public C2SFileCheckReq()
         {
@@ -71,6 +73,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(ScanFinish);
             buffer.WriteInt32(ScanTime, Endianness.Big);
             buffer.WriteByte(TimeoutReScan);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int CodeEntryLen = buffer.ReadInt32(Endianness.Big);
+            Code = buffer.ReadString(CodeEntryLen);
+            ScanFinish = buffer.ReadByte();
+            ScanTime = buffer.ReadInt32(Endianness.Big);
+            TimeoutReScan = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDataLevelHidden : ScriptActivityDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataLevelHidden));
 
         public ScriptActivityDataLevelHidden()
         {
@@ -65,6 +67,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(SubGroups);
             buffer.WriteInt32(Levels.Length + 1, Endianness.Big);
             buffer.WriteCString(Levels);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int GroupsEntryLen = buffer.ReadInt32(Endianness.Big);
+            Groups = buffer.ReadString(GroupsEntryLen);
+            int SubGroupsEntryLen = buffer.ReadInt32(Endianness.Big);
+            SubGroups = buffer.ReadString(SubGroupsEntryLen);
+            int LevelsEntryLen = buffer.ReadInt32(Endianness.Big);
+            Levels = buffer.ReadString(LevelsEntryLen);
         }
 
     }

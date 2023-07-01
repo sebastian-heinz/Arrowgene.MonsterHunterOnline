@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInstanceInitInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceInitInfo));
 
         public CSInstanceInitInfo()
         {
@@ -106,6 +108,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LevelRandSeed, Endianness.Big);
             buffer.WriteByte(WarningFlag);
             buffer.WriteInt32(CreatePlayerMaxLv, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            BattleGroundID = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            CreateMaxPlayerCount = buffer.ReadInt32(Endianness.Big);
+            GameMode = buffer.ReadInt32(Endianness.Big);
+            TimeType = buffer.ReadInt32(Endianness.Big);
+            WeatherType = buffer.ReadInt32(Endianness.Big);
+            time = buffer.ReadFloat(Endianness.Big);
+            LevelRandSeed = buffer.ReadInt32(Endianness.Big);
+            WarningFlag = buffer.ReadByte();
+            CreatePlayerMaxLv = buffer.ReadInt32(Endianness.Big);
         }
 
     }

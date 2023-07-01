@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBTObjSimpleLocomotion : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBTObjSimpleLocomotion));
 
         public CSBTObjSimpleLocomotion()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Position.Write(buffer);
             Rotation.Write(buffer);
             TargetPos.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            EntityId = buffer.ReadUInt32(Endianness.Big);
+            Position.Read(buffer);
+            Rotation.Read(buffer);
+            TargetPos.Read(buffer);
         }
 
     }

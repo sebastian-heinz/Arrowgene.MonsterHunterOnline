@@ -124,6 +124,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         protected override void HandleConnected(ITcpSocket socket)
         {
             Client client = new Client(socket, _setting);
+            client.SystemEncryptData = true;
             lock (_lock)
             {
                 _clients.Add(socket, client);

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSBuyItemLimitData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBuyItemLimitData));
 
         public CSBuyItemLimitData()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ShopID, Endianness.Big);
             buffer.WriteUInt32(SaleID, Endianness.Big);
             buffer.WriteUInt32(BuyCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ShopType = buffer.ReadByte();
+            ShopID = buffer.ReadInt32(Endianness.Big);
+            SaleID = buffer.ReadUInt32(Endianness.Big);
+            BuyCount = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

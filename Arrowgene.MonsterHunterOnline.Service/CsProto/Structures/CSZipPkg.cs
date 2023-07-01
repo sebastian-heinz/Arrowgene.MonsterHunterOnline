@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSZipPkg : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSZipPkg));
 
         public CSZipPkg()
         {
@@ -53,6 +55,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < zipDataCount; i++)
             {
                 buffer.WriteByte(ZipData[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ZipData.Clear();
+            uint zipDataCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < zipDataCount; i++)
+            {
+                byte ZipDataEntry = buffer.ReadByte();
+                ZipData.Add(ZipDataEntry);
             }
         }
 

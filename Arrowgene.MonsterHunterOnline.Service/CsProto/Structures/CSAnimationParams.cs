@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSAnimationParams : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAnimationParams));
 
         public CSAnimationParams()
         {
@@ -121,6 +123,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_NUM_ANIMATION_USER_DATA_SLOTS; i++)
             {
                 buffer.WriteFloat(UserData[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TransTime = buffer.ReadFloat(Endianness.Big);
+            KeyTime = buffer.ReadFloat(Endianness.Big);
+            AnimTotalTime = buffer.ReadFloat(Endianness.Big);
+            InitAnimKeyTime = buffer.ReadFloat(Endianness.Big);
+            PlaybackSpeed = buffer.ReadFloat(Endianness.Big);
+            AllowMultilayerAnim = buffer.ReadFloat(Endianness.Big);
+            LayerID = buffer.ReadInt32(Endianness.Big);
+            LayerWeight = buffer.ReadFloat(Endianness.Big);
+            Flags = buffer.ReadUInt32(Endianness.Big);
+            UserToken = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_NUM_ANIMATION_USER_DATA_SLOTS; i++)
+            {
+                UserData[i] = buffer.ReadFloat(Endianness.Big);
             }
         }
 

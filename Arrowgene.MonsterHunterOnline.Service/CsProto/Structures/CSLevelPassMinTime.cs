@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLevelPassMinTime : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelPassMinTime));
 
         public CSLevelPassMinTime()
         {
@@ -61,6 +63,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LevelId, Endianness.Big);
             buffer.WriteInt32(PlayerName.Length + 1, Endianness.Big);
             buffer.WriteCString(PlayerName);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MinTime = buffer.ReadInt16(Endianness.Big);
+            LevelId = buffer.ReadInt32(Endianness.Big);
+            int PlayerNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            PlayerName = buffer.ReadString(PlayerNameEntryLen);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CSilverStorageBoxInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSilverStorageBoxInfo));
 
         public S2CSilverStorageBoxInfo()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(WeekFreeFetchTimes, Endianness.Big);
             buffer.WriteInt32(WeekBuyFetchTimes, Endianness.Big);
             buffer.WriteInt32(EnlargeTimes, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SilverCount = buffer.ReadInt32(Endianness.Big);
+            WeekFreeFetchTimes = buffer.ReadInt32(Endianness.Big);
+            WeekBuyFetchTimes = buffer.ReadInt32(Endianness.Big);
+            EnlargeTimes = buffer.ReadInt32(Endianness.Big);
         }
 
     }

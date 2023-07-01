@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMsgBoxSelectReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxSelectReq));
 
         public CSMsgBoxSelectReq()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(MsgBoxId, Endianness.Big);
             buffer.WriteByte(Option);
             buffer.WriteInt32(Reason, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MsgBoxId = buffer.ReadUInt32(Endianness.Big);
+            Option = buffer.ReadByte();
+            Reason = buffer.ReadInt32(Endianness.Big);
         }
 
     }

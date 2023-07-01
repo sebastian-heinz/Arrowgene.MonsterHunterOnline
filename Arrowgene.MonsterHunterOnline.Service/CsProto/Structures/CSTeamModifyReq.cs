@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSTeamModifyReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamModifyReq));
 
         public CSTeamModifyReq()
         {
@@ -128,6 +130,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Pwd);
             buffer.WriteUInt16(MinLevel, Endianness.Big);
             buffer.WriteUInt16(MaxLevel, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TeamSetting.Read(buffer);
+            int TeamNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TeamName = buffer.ReadString(TeamNameEntryLen);
+            TargetMode = buffer.ReadInt16(Endianness.Big);
+            TargetMap = buffer.ReadUInt32(Endianness.Big);
+            TargetLevelGrp = buffer.ReadUInt32(Endianness.Big);
+            Difficulty = buffer.ReadInt16(Endianness.Big);
+            MemberMax = buffer.ReadUInt16(Endianness.Big);
+            FreeJoin = buffer.ReadInt32(Endianness.Big);
+            OpenRecruit = buffer.ReadInt32(Endianness.Big);
+            int PwdEntryLen = buffer.ReadInt32(Endianness.Big);
+            Pwd = buffer.ReadString(PwdEntryLen);
+            MinLevel = buffer.ReadUInt16(Endianness.Big);
+            MaxLevel = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

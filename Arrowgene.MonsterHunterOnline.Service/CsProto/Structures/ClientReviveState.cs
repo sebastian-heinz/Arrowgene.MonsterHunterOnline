@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class ClientReviveState : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ClientReviveState));
 
         public ClientReviveState()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(SysTime, Endianness.Big);
             buffer.WriteInt32(FreeRevive, Endianness.Big);
             buffer.WriteInt32(TicketRevive, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DeadState = buffer.ReadInt32(Endianness.Big);
+            DeadTime = buffer.ReadUInt32(Endianness.Big);
+            SvrTime = buffer.ReadUInt32(Endianness.Big);
+            SysTime = buffer.ReadUInt32(Endianness.Big);
+            FreeRevive = buffer.ReadInt32(Endianness.Big);
+            TicketRevive = buffer.ReadInt32(Endianness.Big);
         }
 
     }

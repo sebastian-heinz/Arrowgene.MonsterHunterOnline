@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class TagItemList : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(TagItemList));
 
         public TagItemList()
         {
@@ -79,6 +81,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < materialCntCount; i++)
             {
                 buffer.WriteInt32(MaterialCnt[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TagType = buffer.ReadInt32(Endianness.Big);
+            CreditCnt = buffer.ReadInt32(Endianness.Big);
+            MaterialType.Clear();
+            byte materialTypeCount = buffer.ReadByte();
+            for (int i = 0; i < materialTypeCount; i++)
+            {
+                int MaterialTypeEntry = buffer.ReadInt32(Endianness.Big);
+                MaterialType.Add(MaterialTypeEntry);
+            }
+            MaterialCnt.Clear();
+            byte materialCntCount = buffer.ReadByte();
+            for (int i = 0; i < materialCntCount; i++)
+            {
+                int MaterialCntEntry = buffer.ReadInt32(Endianness.Big);
+                MaterialCnt.Add(MaterialCntEntry);
             }
         }
 

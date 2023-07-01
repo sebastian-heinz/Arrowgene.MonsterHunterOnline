@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuilder : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuilder));
 
         public CSGuilder()
         {
@@ -212,6 +214,36 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(IsBaned, Endianness.Big);
             buffer.WriteInt32(BanedTime, Endianness.Big);
             GuildWar.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id.Read(buffer);
+            int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
+            Note = buffer.ReadString(NoteEntryLen);
+            Level = buffer.ReadInt32(Endianness.Big);
+            int HunterStarEntryLen = buffer.ReadInt32(Endianness.Big);
+            HunterStar = buffer.ReadString(HunterStarEntryLen);
+            IsOnline = buffer.ReadByte();
+            Contribution = buffer.ReadInt32(Endianness.Big);
+            ContributionAcc = buffer.ReadUInt64(Endianness.Big);
+            Wage = buffer.ReadInt32(Endianness.Big);
+            Title = buffer.ReadInt32(Endianness.Big);
+            OfflineTime = buffer.ReadUInt32(Endianness.Big);
+            DepotOpCount = buffer.ReadInt32(Endianness.Big);
+            HRLevel = buffer.ReadInt32(Endianness.Big);
+            JoinTime = buffer.ReadUInt32(Endianness.Big);
+            CelebrationScore = buffer.ReadUInt32(Endianness.Big);
+            CelebrationTask = buffer.ReadUInt32(Endianness.Big);
+            PreCelebrationTask = buffer.ReadUInt32(Endianness.Big);
+            CelebrationRewardType = buffer.ReadUInt32(Endianness.Big);
+            ContributionWeekAcc = buffer.ReadInt32(Endianness.Big);
+            LevelupAll = buffer.ReadInt32(Endianness.Big);
+            HunterCount = buffer.ReadInt32(Endianness.Big);
+            TaskCount = buffer.ReadInt32(Endianness.Big);
+            IsBaned = buffer.ReadInt32(Endianness.Big);
+            BanedTime = buffer.ReadInt32(Endianness.Big);
+            GuildWar.Read(buffer);
         }
 
     }

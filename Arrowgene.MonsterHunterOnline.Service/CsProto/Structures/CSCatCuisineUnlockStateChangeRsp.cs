@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSCatCuisineUnlockStateChangeRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatCuisineUnlockStateChangeRsp));
 
         public CSCatCuisineUnlockStateChangeRsp()
         {
@@ -60,6 +62,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(State, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            Id = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadInt32(Endianness.Big);
         }
 
     }

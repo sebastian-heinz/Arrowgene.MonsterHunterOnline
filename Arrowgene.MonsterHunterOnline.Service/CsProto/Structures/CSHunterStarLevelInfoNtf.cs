@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSHunterStarLevelInfoNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarLevelInfoNtf));
 
         public CSHunterStarLevelInfoNtf()
         {
@@ -79,6 +81,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < branchListCount; i++)
             {
                 BranchList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AllScore = buffer.ReadInt32(Endianness.Big);
+            StarScore = buffer.ReadInt32(Endianness.Big);
+            StarList.Clear();
+            byte starListCount = buffer.ReadByte();
+            for (int i = 0; i < starListCount; i++)
+            {
+                CSHunterStarStar StarListEntry = new CSHunterStarStar();
+                StarListEntry.Read(buffer);
+                StarList.Add(StarListEntry);
+            }
+            BranchList.Clear();
+            byte branchListCount = buffer.ReadByte();
+            for (int i = 0; i < branchListCount; i++)
+            {
+                CSHunterStarBranch BranchListEntry = new CSHunterStarBranch();
+                BranchListEntry.Read(buffer);
+                BranchList.Add(BranchListEntry);
             }
         }
 

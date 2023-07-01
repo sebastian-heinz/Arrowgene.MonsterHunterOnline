@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSLevelIntegrateNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelIntegrateNtf));
 
         public CSLevelIntegrateNtf()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(level_id, Endianness.Big);
             buffer.WriteByte(state);
             buffer.WriteInt32(best_final_rank, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            level_id = buffer.ReadInt32(Endianness.Big);
+            state = buffer.ReadByte();
+            best_final_rank = buffer.ReadInt32(Endianness.Big);
         }
 
     }

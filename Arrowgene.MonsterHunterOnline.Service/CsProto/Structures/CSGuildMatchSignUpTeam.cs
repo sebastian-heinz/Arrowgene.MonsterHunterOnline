@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSGuildMatchSignUpTeam : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchSignUpTeam));
 
         public CSGuildMatchSignUpTeam()
         {
@@ -118,6 +120,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < membersCount; i++)
             {
                 Members[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MatchID = buffer.ReadInt32(Endianness.Big);
+            SignUpID = buffer.ReadUInt32(Endianness.Big);
+            SignUpTM = buffer.ReadInt32(Endianness.Big);
+            GuildID = buffer.ReadUInt64(Endianness.Big);
+            int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            GuildName = buffer.ReadString(GuildNameEntryLen);
+            BestScore = buffer.ReadInt32(Endianness.Big);
+            BestScoreTm = buffer.ReadInt32(Endianness.Big);
+            AcceptRound = buffer.ReadByte();
+            int TeamNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            TeamName = buffer.ReadString(TeamNameEntryLen);
+            Members.Clear();
+            uint membersCount = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < membersCount; i++)
+            {
+                CSGuildMatchSignUpTeamMember MembersEntry = new CSGuildMatchSignUpTeamMember();
+                MembersEntry.Read(buffer);
+                Members.Add(MembersEntry);
             }
         }
 

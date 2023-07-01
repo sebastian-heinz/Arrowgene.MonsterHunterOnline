@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEnterInstanceRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterInstanceRsp));
 
         public CSEnterInstanceRsp()
         {
@@ -111,6 +113,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(SameBS);
             buffer.WriteByte(CrossRegion);
             buffer.WriteByte(MatchRoom);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrNo = buffer.ReadInt32(Endianness.Big);
+            RoleId = buffer.ReadInt32(Endianness.Big);
+            InstanceID = buffer.ReadInt32(Endianness.Big);
+            int BattleSvrEntryLen = buffer.ReadInt32(Endianness.Big);
+            BattleSvr = buffer.ReadString(BattleSvrEntryLen);
+            ServiceID = buffer.ReadInt32(Endianness.Big);
+            int KeyEntryLen = buffer.ReadInt32(Endianness.Big);
+            Key = buffer.ReadString(KeyEntryLen);
+            InstanceInfo.Read(buffer);
+            SameBS = buffer.ReadByte();
+            CrossRegion = buffer.ReadByte();
+            MatchRoom = buffer.ReadByte();
         }
 
     }

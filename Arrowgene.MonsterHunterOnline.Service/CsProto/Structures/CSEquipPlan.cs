@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEquipPlan : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipPlan));
 
         public CSEquipPlan()
         {
@@ -84,6 +86,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_MAX_EQUIPPLAN_NUM; i++)
             {
                 EquipList[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            PlanId = buffer.ReadInt32(Endianness.Big);
+            ReNameFlag = buffer.ReadInt32(Endianness.Big);
+            int PlanNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            PlanName = buffer.ReadString(PlanNameEntryLen);
+            EquipCnt = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_MAX_EQUIPPLAN_NUM; i++)
+            {
+                EquipList[i].Read(buffer);
             }
         }
 

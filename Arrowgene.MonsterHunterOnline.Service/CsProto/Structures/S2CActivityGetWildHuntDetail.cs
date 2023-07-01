@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityGetWildHuntDetail : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityGetWildHuntDetail));
 
         public S2CActivityGetWildHuntDetail()
         {
@@ -63,6 +65,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(RedSoul, Endianness.Big);
             buffer.WriteUInt64(YellowSoul, Endianness.Big);
             Guild.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RedSoul = buffer.ReadUInt64(Endianness.Big);
+            YellowSoul = buffer.ReadUInt64(Endianness.Big);
+            Guild.Read(buffer);
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSFriendOnlineNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendOnlineNtf));
 
         public CSFriendOnlineNtf()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             FriendOnline.Write(buffer);
             Friender.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            FriendOnline.Read(buffer);
+            Friender.Read(buffer);
         }
 
     }

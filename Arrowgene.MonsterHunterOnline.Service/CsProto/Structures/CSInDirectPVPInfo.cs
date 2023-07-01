@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSInDirectPVPInfo : CSRulesInfo
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInDirectPVPInfo));
 
         public CSInDirectPVPInfo()
         {
@@ -84,6 +86,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 PlayereInfo[i].Write(buffer);
             }
             buffer.WriteInt32(UIShowTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            TotalBounds = buffer.ReadInt32(Endianness.Big);
+            RedBounds = buffer.ReadInt32(Endianness.Big);
+            BlueBounds = buffer.ReadInt32(Endianness.Big);
+            PlayereInfo.Clear();
+            int playereInfoCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < playereInfoCount; i++)
+            {
+                CSInDirectPVPPlayerInfo PlayereInfoEntry = new CSInDirectPVPPlayerInfo();
+                PlayereInfoEntry.Read(buffer);
+                PlayereInfo.Add(PlayereInfoEntry);
+            }
+            UIShowTime = buffer.ReadInt32(Endianness.Big);
         }
 
     }

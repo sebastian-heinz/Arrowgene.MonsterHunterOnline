@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSDMGResult : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGResult));
 
         public CSDMGResult()
         {
@@ -268,6 +270,45 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < CsProtoConstant.CS_STATE_BUFF_COUNT; i++)
             {
                 buffer.WriteInt32(StateBuffID[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            DamageResult = buffer.ReadFloat(Endianness.Big);
+            WaterDamageResult = buffer.ReadFloat(Endianness.Big);
+            FireDamageResult = buffer.ReadFloat(Endianness.Big);
+            ElectricDamageResult = buffer.ReadFloat(Endianness.Big);
+            DragonDamageResult = buffer.ReadFloat(Endianness.Big);
+            IceDamageResult = buffer.ReadFloat(Endianness.Big);
+            NonDamageResult = buffer.ReadFloat(Endianness.Big);
+            PIYOResut = buffer.ReadInt32(Endianness.Big);
+            StaminaResult = buffer.ReadInt32(Endianness.Big);
+            DamageMode = buffer.ReadInt32(Endianness.Big);
+            DefenceLevel = buffer.ReadInt32(Endianness.Big);
+            InjuryLevel = buffer.ReadInt32(Endianness.Big);
+            TanDao = buffer.ReadInt16(Endianness.Big);
+            Attack_levelP = buffer.ReadInt32(Endianness.Big);
+            HitIndex = buffer.ReadInt32(Endianness.Big);
+            AttackLogicEntityId = buffer.ReadInt32(Endianness.Big);
+            HitLogicEntityId = buffer.ReadInt32(Endianness.Big);
+            DefenceLogicEntityId = buffer.ReadInt32(Endianness.Big);
+            DamageGener = buffer.ReadFloat(Endianness.Big);
+            WaterDamageGener = buffer.ReadFloat(Endianness.Big);
+            FireDamageGener = buffer.ReadFloat(Endianness.Big);
+            ElectricDamageGener = buffer.ReadFloat(Endianness.Big);
+            DragonDamageGener = buffer.ReadFloat(Endianness.Big);
+            IceDamageGener = buffer.ReadFloat(Endianness.Big);
+            PartId = buffer.ReadInt32(Endianness.Big);
+            SkillResID = buffer.ReadInt32(Endianness.Big);
+            ItemType = buffer.ReadInt32(Endianness.Big);
+            AttackDataID = buffer.ReadInt32(Endianness.Big);
+            Dir.Read(buffer);
+            Pos.Read(buffer);
+            Normal.Read(buffer);
+            for (int i = 0; i < CsProtoConstant.CS_STATE_BUFF_COUNT; i++)
+            {
+                StateBuffID[i] = buffer.ReadInt32(Endianness.Big);
             }
         }
 

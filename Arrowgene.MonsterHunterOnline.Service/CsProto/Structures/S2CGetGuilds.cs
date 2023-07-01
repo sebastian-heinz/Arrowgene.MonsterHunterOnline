@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CGetGuilds : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetGuilds));
 
         public S2CGetGuilds()
         {
@@ -70,6 +72,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Pages, Endianness.Big);
             buffer.WriteInt32(Page, Endianness.Big);
             Guilds.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            GuildsCount = buffer.ReadInt32(Endianness.Big);
+            Pages = buffer.ReadInt32(Endianness.Big);
+            Page = buffer.ReadInt32(Endianness.Big);
+            Guilds.Read(buffer);
         }
 
     }

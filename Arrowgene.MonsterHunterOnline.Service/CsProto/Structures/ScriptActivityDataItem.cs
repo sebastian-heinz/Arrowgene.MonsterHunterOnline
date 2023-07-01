@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class ScriptActivityDataItem : ScriptActivityDataUnion
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataItem));
 
         public ScriptActivityDataItem()
         {
@@ -161,6 +163,37 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rewardItemsCount; i++)
             {
                 RewardItems[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ItemID = buffer.ReadUInt32(Endianness.Big);
+            ItemCount = buffer.ReadInt16(Endianness.Big);
+            BindType = buffer.ReadByte();
+            OpenType = buffer.ReadByte();
+            Column = buffer.ReadByte();
+            Flags = buffer.ReadUInt32(Endianness.Big);
+            CondType = buffer.ReadByte();
+            CondId = buffer.ReadByte();
+            CondParam1 = buffer.ReadInt32(Endianness.Big);
+            CondParam2 = buffer.ReadInt32(Endianness.Big);
+            int CondParamEntryLen = buffer.ReadInt32(Endianness.Big);
+            CondParam = buffer.ReadString(CondParamEntryLen);
+            GetCountMax = buffer.ReadInt16(Endianness.Big);
+            int DescEntryLen = buffer.ReadInt32(Endianness.Big);
+            Desc = buffer.ReadString(DescEntryLen);
+            int CondArg1EntryLen = buffer.ReadInt32(Endianness.Big);
+            CondArg1 = buffer.ReadString(CondArg1EntryLen);
+            int CondArg2EntryLen = buffer.ReadInt32(Endianness.Big);
+            CondArg2 = buffer.ReadString(CondArg2EntryLen);
+            RewardItems.Clear();
+            byte rewardItemsCount = buffer.ReadByte();
+            for (int i = 0; i < rewardItemsCount; i++)
+            {
+                ScriptActivityRewardItem RewardItemsEntry = new ScriptActivityRewardItem();
+                RewardItemsEntry.Read(buffer);
+                RewardItems.Add(RewardItemsEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSEnterLevelRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterLevelRsp));
 
         public CSEnterLevelRsp()
         {
@@ -66,6 +68,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 buffer.WriteUInt32(LockItemList[i], Endianness.Big);
             }
             buffer.WriteInt32(Reserver, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            LockItemNum = buffer.ReadUInt32(Endianness.Big);
+            for (int i = 0; i < CsProtoConstant.CS_MAX_LOCK_ITEM_NUM; i++)
+            {
+                LockItemList[i] = buffer.ReadUInt32(Endianness.Big);
+            }
+            Reserver = buffer.ReadInt32(Endianness.Big);
         }
 
     }

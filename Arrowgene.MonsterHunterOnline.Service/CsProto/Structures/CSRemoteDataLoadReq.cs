@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSRemoteDataLoadReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemoteDataLoadReq));
 
         public CSRemoteDataLoadReq()
         {
@@ -46,6 +48,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public void Write(IBuffer buffer)
         {
             buffer.WriteUInt16(RemoteDataType, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RemoteDataType = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

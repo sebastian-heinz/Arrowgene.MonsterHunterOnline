@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSItemRebuildBreakRes : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildBreakRes));
 
         public CSItemRebuildBreakRes()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Column);
             buffer.WriteInt16(Grid, Endianness.Big);
             buffer.WriteInt16(UseDiamondCnt, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            SuccessFlag = buffer.ReadByte();
+            EquipID = buffer.ReadUInt64(Endianness.Big);
+            Column = buffer.ReadByte();
+            Grid = buffer.ReadInt16(Endianness.Big);
+            UseDiamondCnt = buffer.ReadInt16(Endianness.Big);
         }
 
     }

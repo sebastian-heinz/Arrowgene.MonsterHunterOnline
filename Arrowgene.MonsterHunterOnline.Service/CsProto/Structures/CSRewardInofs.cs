@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSRewardInofs : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRewardInofs));
 
         public CSRewardInofs()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GetedState, Endianness.Big);
             buffer.WriteInt32(RewardItemID, Endianness.Big);
             buffer.WriteInt32(RewardItemCount, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Index = buffer.ReadInt32(Endianness.Big);
+            NeedPoint = buffer.ReadInt32(Endianness.Big);
+            GetedState = buffer.ReadInt32(Endianness.Big);
+            RewardItemID = buffer.ReadInt32(Endianness.Big);
+            RewardItemCount = buffer.ReadInt32(Endianness.Big);
         }
 
     }

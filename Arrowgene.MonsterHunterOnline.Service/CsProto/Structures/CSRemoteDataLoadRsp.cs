@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSRemoteDataLoadRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemoteDataLoadRsp));
 
         public CSRemoteDataLoadRsp(RemoteDataInfo _RemoteData)
         {
@@ -51,6 +53,38 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt16((ushort)RemoteData.DataType, Endianness.Big);
             RemoteData.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            ROMTE_DATA_TYPE RemoteDataInfo_DataType = (ROMTE_DATA_TYPE)buffer.ReadUInt16(Endianness.Big);
+            switch (RemoteDataInfo_DataType)
+            {
+                case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
+                    RemoteData = new CSItemListRsp();
+                    break;
+                case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
+                    RemoteData = new CSPlayerLevelInitInfo();
+                    break;
+                case ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE:
+                    RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE);
+                    break;
+                case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
+                    RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
+                    break;
+                case ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE:
+                    RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
+                    break;
+                case ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE:
+                    RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE);
+                    break;
+            }
+            if (RemoteData != null) {
+                RemoteData.Read(buffer);
+            }
+            else {
+                Logger.Error("Failed to create 'RemoteData' instance of type 'RemoteDataInfo'");
+            }
         }
 
     }

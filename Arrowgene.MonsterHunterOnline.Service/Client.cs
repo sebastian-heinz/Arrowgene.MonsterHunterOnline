@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arrowgene.Buffers;
 using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
 using Arrowgene.Networking.Tcp;
@@ -17,6 +20,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private readonly CsProtoPacketFactory _csProtoPacketFactory;
 
         private TdpuCrypto _tdpuCrypto;
+        
+        public bool SystemEncryptData { get; set; }
 
         public Client(ITcpSocket socket, Setting setting)
         {
@@ -137,6 +142,35 @@ namespace Arrowgene.MonsterHunterOnline.Service
             catch (Exception ex)
             {
                 Logger.Exception(this, ex);
+                return;
+            }
+
+            if (SystemEncryptData)
+            {
+                SendRaw(csProtoData);
+                Logger.LogPacket(this, packet);
+                return;
+                
+                //string key = "MultiByteToWideC";
+                string key = "GetSystemDirecto";
+                byte[] encData = new byte[csProtoData.Length];
+                for (int i = 0; i < csProtoData.Length; i++)
+                {
+                    encData[i] = (byte)(key[i % key.Length] ^ csProtoData[i]);
+                }
+                
+                CsTPacket<CSPkgEncryptData> resp = NewCsPacket.PkgEncryptData(new CSPkgEncryptData()
+                {
+                    EncryptData = new List<byte>(encData),
+                });
+
+                CsProtoPacket csProtoSystemEncryptPacket = resp.BuildPacket();
+                csProtoSystemEncryptPacket.Source = PacketSource.Server;
+                byte[] respData = _csProtoPacketFactory.Write(csProtoSystemEncryptPacket);
+                
+                SendRaw(respData);
+                Logger.LogPacket(this, packet);
+                Logger.LogPacket(this, csProtoSystemEncryptPacket);
                 return;
             }
 

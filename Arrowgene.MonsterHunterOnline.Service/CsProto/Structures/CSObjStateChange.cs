@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSObjStateChange : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSObjStateChange));
 
         public CSObjStateChange()
         {
@@ -71,6 +73,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(StateName);
             buffer.WriteByte(NeedReset);
             VariableList.Write(buffer);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetObjId = buffer.ReadUInt32(Endianness.Big);
+            int StateNameEntryLen = buffer.ReadInt32(Endianness.Big);
+            StateName = buffer.ReadString(StateNameEntryLen);
+            NeedReset = buffer.ReadByte();
+            VariableList.Read(buffer);
         }
 
     }

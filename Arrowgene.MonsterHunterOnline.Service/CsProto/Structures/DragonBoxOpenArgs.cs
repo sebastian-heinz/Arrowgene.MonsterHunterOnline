@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class DragonBoxOpenArgs : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(DragonBoxOpenArgs));
 
         public DragonBoxOpenArgs()
         {
@@ -77,6 +79,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Hit);
             buffer.WriteByte(ResetChess);
             buffer.WriteByte(AllHit);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Id = buffer.ReadInt32(Endianness.Big);
+            Point = buffer.ReadInt32(Endianness.Big);
+            Hit = buffer.ReadByte();
+            ResetChess = buffer.ReadByte();
+            AllHit = buffer.ReadByte();
         }
 
     }

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSMainInstanceEnterOptRsp : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceEnterOptRsp));
 
         public CSMainInstanceEnterOptRsp()
         {
@@ -100,6 +102,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UseEmploye, Endianness.Big);
             buffer.WriteInt32(WeaponTrialLevel, Endianness.Big);
             buffer.WriteInt32(WeaponType, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            NetId = buffer.ReadInt32(Endianness.Big);
+            ErrCode = buffer.ReadInt32(Endianness.Big);
+            LevelID = buffer.ReadInt32(Endianness.Big);
+            WarningFlag = buffer.ReadByte();
+            UIInfos.Clear();
+            short uIInfosCount = buffer.ReadInt16(Endianness.Big);
+            for (int i = 0; i < uIInfosCount; i++)
+            {
+                CSBSMRoomUIPlayerInfo UIInfosEntry = new CSBSMRoomUIPlayerInfo();
+                UIInfosEntry.Read(buffer);
+                UIInfos.Add(UIInfosEntry);
+            }
+            UseEmploye = buffer.ReadInt32(Endianness.Big);
+            WeaponTrialLevel = buffer.ReadInt32(Endianness.Big);
+            WeaponType = buffer.ReadInt32(Endianness.Big);
         }
 
     }

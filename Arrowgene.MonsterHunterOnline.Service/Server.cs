@@ -45,6 +45,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             handlers.Add(new CsCmdBattleActorFifoSyncHandler());
             handlers.Add(new CsCmdCheckVersionHandler());
             handlers.Add(new CsCmdClientSendLogHandler());
+            handlers.Add(new CsCmdCreateRoleReqHandler());
             handlers.Add(new CsCmdDataLoadHandler());
             handlers.Add(new CsCmdDragonBoxDetailReqHandler());
             handlers.Add(new CsCmdFileCheckHandler());
@@ -99,7 +100,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             WebSetting webSetting = new WebSetting();
             WebService webService = new WebService(new KestrelWebServer(webSetting));
             webService.AddRoute(new WebRouter());
-            //webService.Start();
+            webService.Start();
 
             // this seems to be for anti cheat stuff
             // tqos.gamesafe.qq.com
@@ -132,7 +133,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
                 WebResponse response = new WebResponse();
                 response.StatusCode = 200;
-                await response.WriteAsync("");
+                await response.WriteAsync("{\"test}");
                 return response;
             }
         }

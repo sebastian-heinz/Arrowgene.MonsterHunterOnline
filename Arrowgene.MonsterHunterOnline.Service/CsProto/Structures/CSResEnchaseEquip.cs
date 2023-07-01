@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSResEnchaseEquip : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSResEnchaseEquip));
 
         public CSResEnchaseEquip()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(DstSlot);
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Grid, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Ret = buffer.ReadInt32(Endianness.Big);
+            EquipColumn = buffer.ReadByte();
+            EquipGrid = buffer.ReadUInt16(Endianness.Big);
+            DstSlot = buffer.ReadByte();
+            Column = buffer.ReadByte();
+            Grid = buffer.ReadUInt16(Endianness.Big);
         }
 
     }

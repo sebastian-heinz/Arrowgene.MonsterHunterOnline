@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSMailDetailGetReq : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailDetailGetReq));
 
         public CSMailDetailGetReq()
         {
@@ -53,6 +55,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteByte(MailType);
             buffer.WriteUInt64(MailId, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            MailType = buffer.ReadByte();
+            MailId = buffer.ReadUInt64(Endianness.Big);
         }
 
     }

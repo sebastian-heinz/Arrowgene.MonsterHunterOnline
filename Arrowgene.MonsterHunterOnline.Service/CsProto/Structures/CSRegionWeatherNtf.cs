@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSRegionWeatherNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRegionWeatherNtf));
 
         public CSRegionWeatherNtf()
         {
@@ -48,6 +50,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RegionId, Endianness.Big);
             buffer.WriteInt32(RegionWeather.Length + 1, Endianness.Big);
             buffer.WriteCString(RegionWeather);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            RegionId = buffer.ReadInt32(Endianness.Big);
+            int RegionWeatherEntryLen = buffer.ReadInt32(Endianness.Big);
+            RegionWeather = buffer.ReadString(RegionWeatherEntryLen);
         }
 
     }

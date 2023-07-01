@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSPhysicsCollisionParam : CSObjectActionParam
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPhysicsCollisionParam));
 
         public CSPhysicsCollisionParam()
         {
@@ -48,6 +50,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public void Write(IBuffer buffer)
         {
             buffer.WriteInt32(CollisionType, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            CollisionType = buffer.ReadInt32(Endianness.Big);
         }
 
     }

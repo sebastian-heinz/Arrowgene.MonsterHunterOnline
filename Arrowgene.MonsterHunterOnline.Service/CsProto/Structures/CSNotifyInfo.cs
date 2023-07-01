@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSNotifyInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNotifyInfo));
 
         public CSNotifyInfo()
         {
@@ -50,6 +52,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteInt32(NotifyInfo.Length + 1, Endianness.Big);
             buffer.WriteCString(NotifyInfo);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            int NotifyInfoEntryLen = buffer.ReadInt32(Endianness.Big);
+            NotifyInfo = buffer.ReadString(NotifyInfoEntryLen);
         }
 
     }

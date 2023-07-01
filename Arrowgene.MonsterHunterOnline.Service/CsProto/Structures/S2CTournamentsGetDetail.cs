@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CTournamentsGetDetail : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTournamentsGetDetail));
 
         public S2CTournamentsGetDetail()
         {
@@ -74,6 +76,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < levelsCount; i++)
             {
                 buffer.WriteInt32(Levels[i], Endianness.Big);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Season = buffer.ReadInt32(Endianness.Big);
+            Round = buffer.ReadInt32(Endianness.Big);
+            State = buffer.ReadInt32(Endianness.Big);
+            Levels.Clear();
+            int levelsCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < levelsCount; i++)
+            {
+                int LevelsEntry = buffer.ReadInt32(Endianness.Big);
+                Levels.Add(LevelsEntry);
             }
         }
 

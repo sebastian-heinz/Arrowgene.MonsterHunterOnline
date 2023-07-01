@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class S2CActivityAwardsNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAwardsNtf));
 
         public S2CActivityAwardsNtf()
         {
@@ -60,6 +62,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < awardsCount; i++)
             {
                 Awards[i].Write(buffer);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            Type = buffer.ReadInt32(Endianness.Big);
+            Awards.Clear();
+            byte awardsCount = buffer.ReadByte();
+            for (int i = 0; i < awardsCount; i++)
+            {
+                CSActivityFetchArgs AwardsEntry = new CSActivityFetchArgs();
+                AwardsEntry.Read(buffer);
+                Awards.Add(AwardsEntry);
             }
         }
 

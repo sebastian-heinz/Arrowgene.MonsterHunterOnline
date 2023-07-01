@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPkgTransAntiData : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPkgTransAntiData));
 
         public CSPkgTransAntiData()
         {
@@ -53,6 +55,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < antiDataCount; i++)
             {
                 buffer.WriteByte(AntiData[i]);
+            }
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            AntiData.Clear();
+            int antiDataCount = buffer.ReadInt32(Endianness.Big);
+            for (int i = 0; i < antiDataCount; i++)
+            {
+                byte AntiDataEntry = buffer.ReadByte();
+                AntiData.Add(AntiDataEntry);
             }
         }
 

@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSStateResetInfo : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStateResetInfo));
 
         public CSStateResetInfo()
         {
@@ -84,6 +86,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(state3, Endianness.Big);
             buffer.WriteUInt32(state4, Endianness.Big);
             buffer.WriteUInt32(AGState, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            SyncTime = buffer.ReadInt64(Endianness.Big);
+            state1 = buffer.ReadUInt32(Endianness.Big);
+            state2 = buffer.ReadUInt32(Endianness.Big);
+            state3 = buffer.ReadUInt32(Endianness.Big);
+            state4 = buffer.ReadUInt32(Endianness.Big);
+            AGState = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

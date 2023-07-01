@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -32,6 +33,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
     public class CSFarmDataUpdateNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmDataUpdateNtf));
 
         public CSFarmDataUpdateNtf()
         {
@@ -56,6 +58,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 buffer.WriteByte(Farm[i]);
             }
             buffer.WriteUInt32(ServerTime, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            for (int i = 0; i < CsProtoConstant.CS_ROLE_FARMER_LEN; i++)
+            {
+                Farm[i] = buffer.ReadByte();
+            }
+            ServerTime = buffer.ReadUInt32(Endianness.Big);
         }
 
     }

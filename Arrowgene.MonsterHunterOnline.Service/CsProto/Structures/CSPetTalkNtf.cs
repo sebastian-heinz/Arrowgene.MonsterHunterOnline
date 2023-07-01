@@ -24,6 +24,7 @@
 
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
@@ -35,6 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class CSPetTalkNtf : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetTalkNtf));
 
         public CSPetTalkNtf()
         {
@@ -56,6 +58,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             buffer.WriteUInt32(entityID, Endianness.Big);
             buffer.WriteInt32(SignalID, Endianness.Big);
+        }
+
+        public void Read(IBuffer buffer)
+        {
+            entityID = buffer.ReadUInt32(Endianness.Big);
+            SignalID = buffer.ReadInt32(Endianness.Big);
         }
 
     }
