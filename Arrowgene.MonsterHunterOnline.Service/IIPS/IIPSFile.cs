@@ -63,11 +63,18 @@ public class IIPSFile
         b.ReadUInt32();
         byte[] md5Bet = b.ReadBytes(16);
         byte[] md5Het = b.ReadBytes(16);
-        byte[] md5Unk = b.ReadBytes(16);
+        byte[] md5Header = b.ReadBytes(16);
         BetMd5 = BitConverter.ToString(md5Bet).Replace("-", "").ToLowerInvariant();
         HetMd5 = BitConverter.ToString(md5Het).Replace("-", "").ToLowerInvariant();
-        HeaderMd5 = BitConverter.ToString(md5Unk).Replace("-", "").ToLowerInvariant();
-
+        HeaderMd5 = BitConverter.ToString(md5Header).Replace("-", "").ToLowerInvariant();
+        
+        byte[] md5headerTest = b.GetBytes(0, (int)HeaderLength - 16);
+        string headerMd5Test = IIPSCrypto.Md5(md5headerTest);
+        if (HeaderMd5 != headerMd5Test)
+        {
+            Logger.Info($"Header MD5 miss match");
+        }
+        
         if (BetOffset + BetLength > (ulong)b.Size)
         {
             Logger.Info($"BET overflow");
@@ -93,13 +100,7 @@ public class IIPSFile
             Logger.Info($"HET MD5 miss match");
         }
 
-        byte[] md5headerTest = b.GetBytes(0, (int)HeaderLength - 16);
-        string headerMd5Test = IIPSCrypto.Md5(md5headerTest);
-        if (HeaderMd5 != headerMd5Test)
-        {
-            Logger.Info($"Header MD5 miss match");
-        }
-
+        
         b.Position = (int)HetOffset;
         uint hetMagic = b.ReadUInt32();
         uint hetUnk = b.ReadUInt32();
