@@ -74,6 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
             AddCommand(new ShowCommand());
             AddCommand(new HelpCommand(_commands));
             AddCommand(new ServiceCommand());
+            AddCommand(new IIPSCommand());
         }
 
         private void RunArguments(string[] arguments)
