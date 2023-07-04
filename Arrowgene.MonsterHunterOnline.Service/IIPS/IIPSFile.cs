@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Security.Cryptography;
 using Arrowgene.Buffers;
 using Arrowgene.Logging;
 
@@ -25,7 +23,7 @@ public class IIPSFile
     public ulong OffsetELength { get; set; }
     public string BetMd5 { get; set; }
     public string HetMd5 { get; set; }
-    public string Md5Unk { get; set; }
+    public string HeaderMd5 { get; set; }
 
     public void Open(string path)
     {
@@ -55,12 +53,10 @@ public class IIPSFile
         OffsetELength = b.ReadUInt64();
         uint unk1 = b.ReadUInt32();
         uint unk2 = b.ReadUInt32();
-        // maybe md5?
         b.ReadUInt32();
         b.ReadUInt32();
         b.ReadUInt32();
         b.ReadUInt32();
-        // maybe md5?
         b.ReadUInt32();
         b.ReadUInt32();
         b.ReadUInt32();
@@ -70,8 +66,7 @@ public class IIPSFile
         byte[] md5Unk = b.ReadBytes(16);
         BetMd5 = BitConverter.ToString(md5Bet).Replace("-", "").ToLowerInvariant();
         HetMd5 = BitConverter.ToString(md5Het).Replace("-", "").ToLowerInvariant();
-        Md5Unk = BitConverter.ToString(md5Unk).Replace("-", "").ToLowerInvariant();
-        // header done
+        HeaderMd5 = BitConverter.ToString(md5Unk).Replace("-", "").ToLowerInvariant();
 
         if (BetOffset + BetLength > (ulong)b.Size)
         {
@@ -79,7 +74,7 @@ public class IIPSFile
         }
 
         byte[] md5BetTest = b.GetBytes((int)BetOffset, (int)BetLength);
-        string BetMd5Test = GetMD5checksum(md5BetTest);
+        string BetMd5Test = IIPSCrypto.Md5(md5BetTest);
 
         if (BetMd5 != BetMd5Test)
         {
@@ -92,29 +87,45 @@ public class IIPSFile
         }
 
         byte[] md5hetTest = b.GetBytes((int)HetOffset, (int)HetLength);
-        string hetMd5Test = GetMD5checksum(md5hetTest);
+        string hetMd5Test = IIPSCrypto.Md5(md5hetTest);
         if (HetMd5 != hetMd5Test)
         {
             Logger.Info($"HET MD5 miss match");
         }
 
+        byte[] md5headerTest = b.GetBytes(0, (int)HeaderLength - 16);
+        string headerMd5Test = IIPSCrypto.Md5(md5headerTest);
+        if (HeaderMd5 != headerMd5Test)
+        {
+            Logger.Info($"Header MD5 miss match");
+        }
 
-        Logger.Info(Util.HexDump(b.GetBytes((int)OffsetA, (int)OffsetALength)));
-        Logger.Info(Util.HexDump(b.GetBytes((int)BetOffset, (int)BetLength)));
-        Logger.Info(Util.HexDump(b.GetBytes((int)HetOffset, (int)HetLength)));
-        Logger.Info(Util.HexDump(b.GetBytes((int)OffsetE, (int)OffsetELength)));
+        b.Position = (int)HetOffset;
+        uint hetMagic = b.ReadUInt32();
+        uint hetUnk = b.ReadUInt32();
+        uint hetDataLength = b.ReadUInt32();
+        byte[] hetData = b.ReadBytes((int)hetDataLength);
+        IIPSCrypto.Crypt(hetData);
+        Logger.Info(Environment.NewLine + Util.HexDump(hetData));
+
+        b.Position = (int)BetOffset;
+        uint betMagic = b.ReadUInt32();
+        uint betUnk = b.ReadUInt32();
+        uint betDataLength = b.ReadUInt32();
+        byte[] betData = b.ReadBytes((int)betDataLength);
+        IIPSCrypto.Crypt(betData);
+        Logger.Info(Environment.NewLine + Util.HexDump(betData));
 
 
-        int i = 1;
         // 6E 69 66 73 - magic
         // AC 00 00 00 - header size
-        // 00 00 05 00
+        // 00 00 05 00 -> 5 in cl
         // 00 40 C1 1B - A off o:465649664 l:454752
         // 00 00 00 00
 
-        // AB 46 BE 1B - B off o:465454763 l:184297
+        // AB 46 BE 1B - B off o:465454763 l:184297 BET
         // 00 00 00 00
-        // 08 0B BE 1B - C off o:465439496 l:15251
+        // 08 0B BE 1B - C off o:465439496 l:15251 HET
         // 00 00 00 00
         // 00 40 C1 1B - A off o:465649664 l:454752
         // 00 00 00 00
@@ -142,18 +153,6 @@ public class IIPSFile
         // 00 00 00 00
         // A1 77 4D DC 89 FA F0 E6 51 F3 8A 51 8F EB 5E 9B -md5b
         // 5B CC D5 10 CD E4 92 4D D1 CF 25 E0 85 1B 48 0E -md5C
-        // 79 1E B2 3E F8 DF AD 89 89 4E A9 D8 4A 81 51 D3
-    }
-
-    public static string GetMD5checksum(byte[] inputData)
-    {
-        MemoryStream stream = new MemoryStream();
-        stream.Write(inputData, 0, inputData.Length);
-        stream.Seek(0, SeekOrigin.Begin);
-        using (var md5Instance = MD5.Create())
-        {
-            var hashResult = md5Instance.ComputeHash(stream);
-            return BitConverter.ToString(hashResult).Replace("-", "").ToLowerInvariant();
-        }
+        // 79 1E B2 3E F8 DF AD 89 89 4E A9 D8 4A 81 51 D3 -md5header
     }
 }
