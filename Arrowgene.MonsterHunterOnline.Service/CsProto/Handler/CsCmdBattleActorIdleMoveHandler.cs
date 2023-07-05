@@ -18,6 +18,7 @@ public class CsCmdBattleActorIdleMoveHandler : ICsProtoHandler
     {
         CSActorIdlemove req = new CSActorIdlemove();
         req.Read(packet.NewBuffer());
+        
         client.SendCsPacket(NewCsPacket.ActorIdlemoveNtf(new CSActorIdlemoveNtf()
         {
             NetObjId  = client.State._spawnPlayer.NetObjId,

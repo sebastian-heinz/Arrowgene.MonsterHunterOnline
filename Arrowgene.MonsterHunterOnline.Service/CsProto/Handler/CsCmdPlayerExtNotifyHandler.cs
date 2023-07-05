@@ -15,5 +15,6 @@ public class CsCmdPlayerExtNotifyHandler : ICsProtoHandler
 
     public void Handle(Client client, CsProtoPacket packet)
     {
+        
     }
 }

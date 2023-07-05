@@ -18,10 +18,17 @@ public class CsCmdBattleActorMoveStateHandler : ICsProtoHandler
     {
         CSActorMovestate req = new CSActorMovestate();
         req.Read(packet.NewBuffer());
+
+        //req.MoveSpeed.x = 10;
+        Logger.Info($"NetObjId:{client.State._spawnPlayer.NetObjId} State:{req.State} Speed:X{req.MoveSpeed.x} Y{req.MoveSpeed.y} Z{req.MoveSpeed.z}");
         client.SendCsPacket(NewCsPacket.ActorMovestateNtf(new CSActorMovestateNtf()
         {
             NetObjId = client.State._spawnPlayer.NetObjId,
             ActorMovestate = req
         }));
+        
+        //client.SendCsPacket(NewCsPacket.ActorMovestate(req));
+  
+        
     }
 }

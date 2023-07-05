@@ -1,4 +1,5 @@
-﻿using Arrowgene.Logging;
+﻿using System.Collections.Generic;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
@@ -16,6 +17,9 @@ public class CS2CmdDemonTrailGetLevelsReqHandler : ICsProtoHandler
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-        client.SendCsPacket(NewCsPacket.DemonTrialGetLevelsRsp(new SCDemonTrialGetLevelsRsp()));
+        client.SendCsPacket(NewCsPacket.DemonTrialGetLevelsRsp(new SCDemonTrialGetLevelsRsp()
+        {
+            DemonTrialLevels = new List<int>() {1,1,1,1,1,1,1,1}
+        }));
     }
 }

@@ -298,7 +298,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// attr数据
         /// </summary>
-        public List<byte> Attr;
+        public List<byte>Attr;
 
         /// <summary>
         /// 任务数据

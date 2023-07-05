@@ -34,10 +34,15 @@ public class PlayerState
     public CSInstanceVerifyRsp _verifyRsp;
     public CSReselectRoleRsp _reselectRoleRsp;
     public CSPlayerAppearNtf _playerAppearNtf;
-
+    public CSItemListRsp _ItemListRsp;
+    public CSTeamInfoNtf _teamInfoNtf;
+    public TeamMemberInfo _TeamMemberInfo;
+    public int LevelId;
 
     public PlayerState(Client client)
     {
+        LevelId = 150301;
+
         _client = client;
         _roleBaseInfo = new CSRoleBaseInfo();
         _roleBaseInfo.RoleID = 1;
@@ -45,7 +50,8 @@ public class PlayerState
         _roleBaseInfo.Name = "Star";
         _roleBaseInfo.Gender = 1;
         _roleBaseInfo.AvatarSetID = 1;
-        _roleBaseInfo.Level = 1;
+        _roleBaseInfo.Level = 80;
+        _roleBaseInfo.HRLevel = 8;
         _roleBaseInfo.FaceId = 1;
         _roleBaseInfo.HairId = 1;
         _roleBaseInfo.UnderclothesId = 1;
@@ -83,22 +89,46 @@ public class PlayerState
         _playerInitInfo.IsGM = 0;
         _playerInitInfo.AvatarSetID = _roleBaseInfo.AvatarSetID;
         _playerInitInfo.ParentEntityGUID = 0;
-        _playerInitInfo.RandSeed = 0;
+        _playerInitInfo.RandSeed = 1;
         _playerInitInfo.CatCuisineID = 0;
-        _playerInitInfo.FirstEnterLevel = 1;
-        _playerInitInfo.FirstEnterMap = 1;
+        _playerInitInfo.FirstEnterLevel = 0;
+        _playerInitInfo.FirstEnterMap = 0;
         _playerInitInfo.PvpPrepareStageState = 0;
+        _playerInitInfo.ServerTime = 100;
+        
+        //spawn location
         _playerInitInfo.Pose.t.x = 409.91379f;
         _playerInitInfo.Pose.t.y = 358.74976f;
         _playerInitInfo.Pose.t.z = 100.0f; // height
-        _playerInitInfo.Pose.q.v.x = 0;
-        _playerInitInfo.Pose.q.v.y = 0;
-        _playerInitInfo.Pose.q.v.z = 0;
-        _playerInitInfo.Pose.q.w = 0;
+        
+        _playerInitInfo.Pose.q.v.x = 10;
+        _playerInitInfo.Pose.q.v.y = 10;
+        _playerInitInfo.Pose.q.v.z = 10;
+        _playerInitInfo.Pose.q.w = 10;
+
+
+        _playerInitInfo.StoreSize = 20;
+        _playerInitInfo.NormalSize = 20;
+        _playerInitInfo.MaterialStoreSize = 20;
+
+        _playerInitInfo.EquipItem.Add(1);
+        _playerInitInfo.EquipItem.Add(2);
+        _playerInitInfo.EquipItem.Add(3);
+        _playerInitInfo.EquipItem.Add(4);
+        _playerInitInfo.EquipItem.Add(5);
+
+        _playerInitInfo.Attr.Add(1);
+        _playerInitInfo.Attr.Add(2);
+        _playerInitInfo.Attr.Add(3);
+        _playerInitInfo.Attr.Add(4);
+
+
+        _playerInitInfo.FacialInfo[0] = 1;
+        _playerInitInfo.FacialInfo[1] = 1;
 
         _instanceInitInfo = new CSInstanceInitInfo();
         _instanceInitInfo.BattleGroundID = 0;
-        _instanceInitInfo.LevelID = 150301;
+        _instanceInitInfo.LevelID = LevelId;
         _instanceInitInfo.CreateMaxPlayerCount = 4;
         _instanceInitInfo.GameMode = 99;
         _instanceInitInfo.TimeType = 1;
@@ -107,8 +137,62 @@ public class PlayerState
         _instanceInitInfo.LevelRandSeed = 1;
         _instanceInitInfo.WarningFlag = 0;
         _instanceInitInfo.CreatePlayerMaxLv = 99;
+       //    <LevelInfo>
+       //    <Difficulty>
+       //    <Info Name="Easy" ID="1"/>
+       //    <Info Name="Normal" ID="2"/>
+       //    <Info Name="Hard" ID="3"/>
+       //    <Info Name="Insane" ID="4"/>
+       //    </Difficulty>
+       //    <GameMode>
+       //    <Info Name="Standard" ID="1"/>
+       //    <Info Name="Adventure" ID="2"/>
+       //    <Info Name="Casual" ID="3"/>
+       //    <Info Name="Arena" ID="4"/>
+       //    <Info Name="ThousandsHunter" ID="5"/>
+       //    <Info Name="Raid" ID="6"/>
+       //    <Info Name="Survive" ID="7"/>
+       //    <Info Name="Story" ID="8"/>
+       //    <Info Name="Training" ID="9"/>
+       //    <Info Name="Testing" ID="10"/>
+       //    <Info Name="WaterFight" ID="11"/>
+       //    <Info Name="HunterCraft" ID="12"/>
+       //    <Info Name="DuelOfHunter" ID="13"/>
+       //    <Info Name="Airship" ID="14"/>
+       //    <Info Name="Extreme" ID="15"/>
+       //    <Info Name="Bouns" ID="16"/>
+       //    <Info Name="PvP" ID="17"/>
+       //    <Info Name="Tutorial" ID="23"/>
+       //    <Info Name="Elite" ID="26"/>
+       //    <Info Name="Extreme" ID="33"/>
+       //    <Info Name="SingleElite" ID="34"/>
+       //    <Info Name="Town" ID="99"/>
+       //    </GameMode>
+       //    <Weather>
+       //    <Info Name="Sunny" ID="1"/>
+       //    <Info Name="SmallRain" ID="2"/>
+       //    <Info Name="HeavyRain" ID="4"/>
+       //    <Info Name="Snow" ID="8"/>
+       //    <Info Name="Blizzard" ID="16"/>
+       //    <Info Name="Foggy" ID="32"/>
+       //    <Info Name="Cloudy" ID="64"/>
+       //    <Info Name="AfterRain" ID="128"/>
+       //    <Info Name="SandStorm" ID="256"/>
+       //    </Weather>
+       //    <Time>
+       //    <Info Name="Morning" ID="1"/>
+       //    <Info Name="Noon" ID="2"/>
+       //    <Info Name="Dusk" ID="4"/>
+       //    <Info Name="Night" ID="8"/>
+       //    </Time>
+       //    <RegionType>
+       //    <Info Name="type1" ID="1"/>
+       //    <Info Name="type2" ID="2"/>
+       //    <Info Name="type3" ID="3"/>
+       //    </RegionType>
+       //    </LevelInfo>
 
-        _playerLevelInitInfo = new CSPlayerLevelInitInfo();
+              _playerLevelInitInfo = new CSPlayerLevelInitInfo();
 
         _spawnPlayer = new CSSpawnPlayer();
         _spawnPlayer.PlayerId = 1;
@@ -146,6 +230,55 @@ public class PlayerState
         _playerAppearNtf.Gender = _roleBaseInfo.Gender;
         _playerAppearNtf.Pose = _playerInitInfo.Pose;
         _playerAppearNtf.AvatarSetID = _roleBaseInfo.AvatarSetID;
+
+        _ItemListRsp = new CSItemListRsp();
+
+        _TeamMemberInfo = new TeamMemberInfo();
+        _TeamMemberInfo.NetId = (uint)_playerInitInfo.NetID;
+        _TeamMemberInfo.DBId =  _playerInitInfo.DBId;
+        _TeamMemberInfo.Name = _roleBaseInfo.Name;
+        _TeamMemberInfo.Level = (uint)_roleBaseInfo.Level;
+        _TeamMemberInfo.LevelId = (uint)LevelId;
+        _TeamMemberInfo.LevelExtra = 1;
+        _TeamMemberInfo.Sex = _roleBaseInfo.Gender;
+        _TeamMemberInfo.WeaponType = 1;
+        _TeamMemberInfo.Star = 1;
+        _TeamMemberInfo.CanBeKicked = 0;
+        _TeamMemberInfo.Online = 1;
+        _TeamMemberInfo.Vec3.x = 10;
+        _TeamMemberInfo.Vec3.y = 10;
+        _TeamMemberInfo.Vec3.z = 10;
+        _TeamMemberInfo.Dir.x = 10;
+        _TeamMemberInfo.Dir.y = 10;
+        _TeamMemberInfo.Dir.z = 10;
+        _TeamMemberInfo.LineId = 1;
+        _TeamMemberInfo.HRLevel = _roleBaseInfo.HRLevel;
+        _TeamMemberInfo.HunterStar = _roleBaseInfo.StarLevel;
+        _TeamMemberInfo.Zone = 1;
+        _TeamMemberInfo.WeaponTitle = 1;
+
+        _teamInfoNtf = new CSTeamInfoNtf();
+        _teamInfoNtf.Team.TeamId = 1;
+        _teamInfoNtf.Team.TeamName = "StarTeam";
+        _teamInfoNtf.Team.MemberMax = 4;
+        _teamInfoNtf.Team.FreeJoin = 1;
+        _teamInfoNtf.Team.HasPwd = 0;
+        _teamInfoNtf.Team.Pwd = "";
+        _teamInfoNtf.Team.OpenRecruit = 1;
+        _teamInfoNtf.Team.MinLevel = 1;
+        _teamInfoNtf.Team.MaxLevel = 1;
+        _teamInfoNtf.Team.MinStar = 1;
+        _teamInfoNtf.Team.MaxStar = 4;
+        _teamInfoNtf.Team.TargetMap = 1;
+        _teamInfoNtf.Team.TargetMode = 1;
+        _teamInfoNtf.Team.TargetLevelGrp = 1;
+        _teamInfoNtf.Team.Difficulty = 1;
+        _teamInfoNtf.Team.LeaderDBID = 1;
+        _teamInfoNtf.Team.LeaderID = 1;
+        _teamInfoNtf.Team.CreateTime = 1;
+        _teamInfoNtf.Team.TownSvr = 1;
+        _teamInfoNtf.Team.BattleSvr = 1;
+        _teamInfoNtf.Team.Members.Add(_TeamMemberInfo);
     }
 
     /// <summary>
@@ -193,18 +326,43 @@ public class PlayerState
     /// </summary>
     public void OnEnterLevel()
     {
-        SendPlayerLevelInitNtf();
-      // _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
-      // {
-      //     PlayerId = 1
-      // }));
-      // //SendPlayerSpawn();
+        // all packets here seem not to be required
+        // just testing
 
-      // //_client.SendCsPacket(NewCsPacket.PlayerAppearNtf(_playerAppearNtf));
-      // _client.SendCsPacket(NewCsPacket.NewPlayer(new CSSpawnNewPlayer()
-      // {
-      //     Name = _roleBaseInfo.Name
-      // }));
+        SendPlayerLevelInitNtf();
+
+
+        _client.SendCsPacket(NewCsPacket.NewPlayer(new CSSpawnNewPlayer()
+        {
+            Name = _roleBaseInfo.Name
+        }));
+
+        _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
+        {
+            PlayerId = 1
+        }));
+
+        SendPlayerSpawn();
+
+        _client.SendCsPacket(NewCsPacket.PlayerAppearNtf(_playerAppearNtf));
+
+        CSBattleEntitySpeed spd = new CSBattleEntitySpeed();
+        spd.NetObjId = 1;
+        spd.IsStart = 1;
+        spd.InitSpeed.x = 10;
+        spd.InitSpeed.y = 10;
+        spd.InitSpeed.z = 10;
+        spd.Accelator.x = 10;
+        spd.Accelator.y = 10;
+        spd.Accelator.z = 10;
+        spd.InitAngleSpeed = 10;
+        spd.AngleAccelator = 10;
+        _client.SendCsPacket(NewCsPacket.EntitySpeed(spd));
+
+        //  SendBruteForce();
+
+
+        // //
     }
 
     /// <summary>
@@ -212,6 +370,7 @@ public class PlayerState
     /// </summary>
     public void OnChangeTownInstance(CSChangeTownInstanceReq req)
     {
+        //  TODO req tells us spawn position name, the coordinates should be in levels/xx/mission .xml 
         _client.SendCsPacket(NewCsPacket.ChangeTownInstanceRsp(new CSChangeTownInstanceRsp()
         {
             ErrCode = 0,
@@ -220,6 +379,7 @@ public class PlayerState
         _instanceInitInfo.LevelID = req.LevelId;
         SendTownServerInitNtf();
     }
+
     public void OnBattleSvr()
     {
         //SendPlayerLevelInitNtf();
@@ -521,5 +681,4 @@ public class PlayerState
     {
         _client.SendCsPacket(NewCsPacket.ReselectRoleRsp(_reselectRoleRsp));
     }
-
 }

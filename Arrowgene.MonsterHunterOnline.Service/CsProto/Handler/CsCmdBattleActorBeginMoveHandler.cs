@@ -18,6 +18,9 @@ public class CsCmdBattleActorBeginMoveHandler : ICsProtoHandler
     {
         CSActorBeginmove req = new CSActorBeginmove();
         req.Read(packet.NewBuffer());
+        
+        
+        Logger.Info($"BeginMove: Speed:X{req.MoveSpeed.x} Y{req.MoveSpeed.y} Z{req.MoveSpeed.z}");
         client.SendCsPacket(NewCsPacket.ActorBeginmoveNtf(new CSActorBeginmoveNtf()
         {
             NetObjId = client.State._spawnPlayer.NetObjId,

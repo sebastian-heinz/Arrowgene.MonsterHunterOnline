@@ -68,6 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         /// <summary>
         /// 当前位置
+        /// current location
         /// </summary>
         public CSVec3 Pos;
 
@@ -88,6 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         /// <summary>
         /// 队列种类
+        /// queue type
         /// </summary>
         public byte Type;
 
@@ -148,11 +150,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         /// <summary>
         /// 玩家属性
+        /// Player attributes
         /// </summary>
         public ushort sp;
 
         /// <summary>
         /// 玩家属性
+        /// Player attributes
         /// </summary>
         public ushort sta;
 

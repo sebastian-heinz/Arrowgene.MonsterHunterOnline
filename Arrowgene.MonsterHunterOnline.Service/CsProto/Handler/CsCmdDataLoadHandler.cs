@@ -22,10 +22,10 @@ public class CsCmdDataLoadHandler : ICsProtoHandler
         switch (remoteDataType)
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
-                rsp = new CSRemoteDataLoadRsp(new CSItemListRsp());
+                rsp = new CSRemoteDataLoadRsp(client.State._ItemListRsp);
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
-                rsp = new CSRemoteDataLoadRsp(new CSPlayerLevelInitInfo());
+                rsp = new CSRemoteDataLoadRsp(client.State._playerLevelInitInfo);
                 break;
             case ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE:
                 rsp = new CSRemoteDataLoadRsp(new RemoteDataInitInfo(ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE));
