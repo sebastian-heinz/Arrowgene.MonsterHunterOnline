@@ -67,13 +67,13 @@ public class PlayerState
         _roleBaseInfo2.EyeColor = 1;
 
         _playerInitInfo = new CSPlayerInitInfo();
-        _playerInitInfo.AccountID = 0;
-        _playerInitInfo.NetID = 0;
-        _playerInitInfo.DBId = 0;
-        _playerInitInfo.SessionID = 0;
-        _playerInitInfo.WorldID = 0;
-        _playerInitInfo.ServerID = 0;
-        _playerInitInfo.WorldSvrID = 0;
+        _playerInitInfo.AccountID = 1;
+        _playerInitInfo.NetID = 1;
+        _playerInitInfo.DBId = 1;
+        _playerInitInfo.SessionID = 1;
+        _playerInitInfo.WorldID = 1;
+        _playerInitInfo.ServerID = 1;
+        _playerInitInfo.WorldSvrID = 1;
         _playerInitInfo.Name = _roleBaseInfo.Name;
         _playerInitInfo.Gender = _roleBaseInfo.Gender;
         _playerInitInfo.IsGM = 0;
@@ -83,16 +83,23 @@ public class PlayerState
         _playerInitInfo.FirstEnterLevel = 0;
         _playerInitInfo.FirstEnterMap = 0;
         _playerInitInfo.PvpPrepareStageState = 0;
+        _playerInitInfo.Pose.t.x = 100;
+        _playerInitInfo.Pose.t.y = 1000;
+        _playerInitInfo.Pose.t.z = 100;
+        _playerInitInfo.Pose.q.v.x= 100;
+        _playerInitInfo.Pose.q.v.y = 1000;
+        _playerInitInfo.Pose.q.v.z = 100;
+        _playerInitInfo.Pose.q.w = 100;
 
         _instanceInitInfo = new CSInstanceInitInfo();
         _instanceInitInfo.BattleGroundID = 0;
-        _instanceInitInfo.LevelID = 0;
+        _instanceInitInfo.LevelID = 214010;
         _instanceInitInfo.CreateMaxPlayerCount = 4;
-        _instanceInitInfo.GameMode = 0;
-        _instanceInitInfo.TimeType = 0;
-        _instanceInitInfo.WeatherType = 0;
-        _instanceInitInfo.time = 0;
-        _instanceInitInfo.LevelRandSeed = 0;
+        _instanceInitInfo.GameMode = 99;
+        _instanceInitInfo.TimeType = 1;
+        _instanceInitInfo.WeatherType = 1;
+        _instanceInitInfo.time = 1;
+        _instanceInitInfo.LevelRandSeed = 1;
         _instanceInitInfo.WarningFlag = 0;
         _instanceInitInfo.CreatePlayerMaxLv = 99;
 
@@ -110,7 +117,7 @@ public class PlayerState
         _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
         _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
         _townInstanceVerifyRsp.LineID = 0;
-        _townInstanceVerifyRsp.LevelEnterType = 3;
+        _townInstanceVerifyRsp.LevelEnterType = 0;
 
         _enterInstanceRsp = new CSEnterInstanceRsp();
         _enterInstanceRsp.InstanceID = 0;
@@ -172,8 +179,22 @@ public class PlayerState
         _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
 
         //  _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
+   
         SendTownSessionStart();
+   //     SendLoadLevelNtf();
         SendPlayerInitNtf();
+
+   //    NewCsPacket.PlayerLevelInitNtf(new CSPlayerLevelInitInfo());
+   //     _client.SendCsPacket(NewCsPacket.BuffInitList(new CSBuffInitList()));
+   //     _client.SendCsPacket(NewCsPacket.AttrInfo(new CSAttrInitInfo()));
+   //     _client.SendCsPacket(NewCsPacket.PetInitList(new CSPetInitList()));
+   //     _client.SendCsPacket(NewCsPacket.RoomInitInfo(new CSRoomInitInfo()));
+   //     _client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()));
+   //     _client.SendCsPacket(NewCsPacket.SupplyBoxInitItemNtf(new CSSupplyBoxInitItemNtf()));
+   //     _client.SendCsPacket(NewCsPacket.InstanceUnlockNotify(new CSInstanceUnlockNotify()));
+   //    SendPlayerSpawn();
+        
+     //   SendTownServerInitNtf();
 
         //  SendReselectRoleRsp();
 
@@ -186,7 +207,7 @@ public class PlayerState
 
         //  SendBruteForceT();
 
-        SendReselectRoleRsp();
+    //    SendReselectRoleRsp();
 
         //  SendPlayerInitNtf();
         //  SendLoadLevelNtf();
@@ -194,15 +215,14 @@ public class PlayerState
 
         //SendEnterInstanceRsp();
 
-        //    _client.SendCsPacket(NewCsPacket.BuffInitList(new CSBuffInitList()));
-        //    _client.SendCsPacket(NewCsPacket.AttrInfo(new CSAttrInitInfo()));
-        //    _client.SendCsPacket(NewCsPacket.PetInitList(new CSPetInitList()));
-        //    _client.SendCsPacket(NewCsPacket.RoomInitInfo(new CSRoomInitInfo()));
-        //    _client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()));
-        //    _client.SendCsPacket(NewCsPacket.SupplyBoxInitItemNtf(new CSSupplyBoxInitItemNtf()));
-        //    _client.SendCsPacket(NewCsPacket.InstanceUnlockNotify(new CSInstanceUnlockNotify()));
-    }
 
+    }
+    
+    public void LastP()
+    {
+        SendTownServerInitNtf();
+    }
+    
     public void OnBattleSvr()
     {
         //SendPlayerLevelInitNtf();
@@ -484,4 +504,6 @@ public class PlayerState
     {
         _client.SendCsPacket(NewCsPacket.ReselectRoleRsp(_reselectRoleRsp));
     }
+
+
 }
