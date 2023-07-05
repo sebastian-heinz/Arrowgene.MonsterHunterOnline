@@ -1,0 +1,3 @@
+dotnet
+dotnet run --project ./Arrowgene.MonsterHunterOnline.Cli/Arrowgene.MonsterHunterOnline.Cli.csproj -- service start
+cmd
