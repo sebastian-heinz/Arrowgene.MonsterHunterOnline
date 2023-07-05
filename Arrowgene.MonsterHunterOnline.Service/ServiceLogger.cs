@@ -15,7 +15,13 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private static List<CS_CMD_ID> _ignore = new List<CS_CMD_ID>()
         {
             CS_CMD_ID.CS_CMD_SYSTEM_TRANS_ANTI_DATA,
-            CS_CMD_ID.CS_CMD_SYSTEM_PKG_TIMER_RECORD
+            CS_CMD_ID.CS_CMD_SYSTEM_PKG_TIMER_RECORD,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_MOVESTATE,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_MOVESTATE_NTF,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_IDLEMOVE,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_IDLEMOVE_NTF,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE_NTF,
         };
 
         public override void Initialize(string identity, string name, Action<Log> write)

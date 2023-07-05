@@ -5,17 +5,17 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
-public class CsCmdItemReBuildLimitDataHandler : ICsProtoHandler
+public class CsCmdMailUnreadGetReqHandler : ICsProtoHandler
 {
     private static readonly ServiceLogger Logger =
-        LogProvider.Logger<ServiceLogger>(typeof(CsCmdItemReBuildLimitDataHandler));
+        LogProvider.Logger<ServiceLogger>(typeof(CsCmdMailUnreadGetReqHandler));
 
-    public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_ITEMREBUILD_LIMITDATA_REQ;
+
+    public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_MAIL_UNREADGET_REQ;
+
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-        CSItemRebuildLimitInfo rsp = new CSItemRebuildLimitInfo();
-        client.SendCsPacket(NewCsPacket.ItemRebuildLimitDataNtf(rsp));
-        client.State.OnPlayerInitFinished();
+        client.SendCsPacket(NewCsPacket.MailunReadGetRes(new CSMailunReadGetRes()));
     }
 }

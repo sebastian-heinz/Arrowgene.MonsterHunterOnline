@@ -21,23 +21,25 @@ public class PlayerState
     private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(PlayerState));
 
     private Client _client;
-    private CSRoleBaseInfo _roleBaseInfo;
-    private CSRoleBaseInfo _roleBaseInfo2;
-    private CSPlayerInitInfo _playerInitInfo;
-    private CSInstanceInitInfo _instanceInitInfo;
-    private CSPlayerLevelInitInfo _playerLevelInitInfo;
-    private CSSpawnPlayer _spawnPlayer;
-    private CSTownInstanceVerifyRsp _townInstanceVerifyRsp;
-    private CSEnterInstanceRsp _enterInstanceRsp;
-    private CSInstanceVerifyRsp _verifyRsp;
-    private CSReselectRoleRsp _reselectRoleRsp;
+
+    public CSRoleBaseInfo _roleBaseInfo;
+
+    //  public CSRoleBaseInfo _roleBaseInfo2;
+    public CSPlayerInitInfo _playerInitInfo;
+    public CSInstanceInitInfo _instanceInitInfo;
+    public CSPlayerLevelInitInfo _playerLevelInitInfo;
+    public CSSpawnPlayer _spawnPlayer;
+    public CSTownInstanceVerifyRsp _townInstanceVerifyRsp;
+    public CSEnterInstanceRsp _enterInstanceRsp;
+    public CSInstanceVerifyRsp _verifyRsp;
+    public CSReselectRoleRsp _reselectRoleRsp;
 
 
     public PlayerState(Client client)
     {
         _client = client;
         _roleBaseInfo = new CSRoleBaseInfo();
-        _roleBaseInfo.RoleID = 0;
+        _roleBaseInfo.RoleID = 1;
         _roleBaseInfo.RoleIndex = 0;
         _roleBaseInfo.Name = "Star";
         _roleBaseInfo.Gender = 1;
@@ -51,20 +53,20 @@ public class PlayerState
         _roleBaseInfo.EyeBall = 1;
         _roleBaseInfo.EyeColor = 1;
 
-        _roleBaseInfo2 = new CSRoleBaseInfo();
-        _roleBaseInfo2.RoleID = 1;
-        _roleBaseInfo2.RoleIndex = 1;
-        _roleBaseInfo2.Name = "Moon";
-        _roleBaseInfo2.Gender = 1;
-        _roleBaseInfo2.Level = 1;
-        _roleBaseInfo2.FaceId = 1;
-        _roleBaseInfo2.HairId = 1;
-        _roleBaseInfo2.UnderclothesId = 1;
-        _roleBaseInfo2.SkinColor = 1;
-        _roleBaseInfo2.HairColor = 1;
-        _roleBaseInfo2.InnerColor = 1;
-        _roleBaseInfo2.EyeBall = 1;
-        _roleBaseInfo2.EyeColor = 1;
+        // _roleBaseInfo2 = new CSRoleBaseInfo();
+        // _roleBaseInfo2.RoleID = 1;
+        // _roleBaseInfo2.RoleIndex = 1;
+        // _roleBaseInfo2.Name = "Moon";
+        // _roleBaseInfo2.Gender = 1;
+        // _roleBaseInfo2.Level = 1;
+        // _roleBaseInfo2.FaceId = 1;
+        // _roleBaseInfo2.HairId = 1;
+        // _roleBaseInfo2.UnderclothesId = 1;
+        // _roleBaseInfo2.SkinColor = 1;
+        // _roleBaseInfo2.HairColor = 1;
+        // _roleBaseInfo2.InnerColor = 1;
+        // _roleBaseInfo2.EyeBall = 1;
+        // _roleBaseInfo2.EyeColor = 1;
 
         _playerInitInfo = new CSPlayerInitInfo();
         _playerInitInfo.AccountID = 1;
@@ -83,17 +85,17 @@ public class PlayerState
         _playerInitInfo.FirstEnterLevel = 0;
         _playerInitInfo.FirstEnterMap = 0;
         _playerInitInfo.PvpPrepareStageState = 0;
-        _playerInitInfo.Pose.t.x = 100;
-        _playerInitInfo.Pose.t.y = 1000;
-        _playerInitInfo.Pose.t.z = 100;
-        _playerInitInfo.Pose.q.v.x= 100;
-        _playerInitInfo.Pose.q.v.y = 1000;
-        _playerInitInfo.Pose.q.v.z = 100;
-        _playerInitInfo.Pose.q.w = 100;
+        _playerInitInfo.Pose.t.x = 409.91379f;
+        _playerInitInfo.Pose.t.y = 358.74976f;
+        _playerInitInfo.Pose.t.z = 100.0f; // height
+        _playerInitInfo.Pose.q.v.x = 0;
+        _playerInitInfo.Pose.q.v.y = 0;
+        _playerInitInfo.Pose.q.v.z = 0;
+        _playerInitInfo.Pose.q.w = 0;
 
         _instanceInitInfo = new CSInstanceInitInfo();
         _instanceInitInfo.BattleGroundID = 0;
-        _instanceInitInfo.LevelID = 214010;
+        _instanceInitInfo.LevelID = 150301;
         _instanceInitInfo.CreateMaxPlayerCount = 4;
         _instanceInitInfo.GameMode = 99;
         _instanceInitInfo.TimeType = 1;
@@ -106,8 +108,8 @@ public class PlayerState
         _playerLevelInitInfo = new CSPlayerLevelInitInfo();
 
         _spawnPlayer = new CSSpawnPlayer();
-        _spawnPlayer.PlayerId = 0;
-        _spawnPlayer.NetObjId = 0;
+        _spawnPlayer.PlayerId = 1;
+        _spawnPlayer.NetObjId = 1;
         _spawnPlayer.Name = _roleBaseInfo.Name;
         _spawnPlayer.Gender = _roleBaseInfo.Gender;
         _spawnPlayer.Scale = 1.0f;
@@ -133,24 +135,71 @@ public class PlayerState
         _reselectRoleRsp = new CSReselectRoleRsp();
     }
 
-
     /// <summary>
-    /// This is called when the client finished all checks.
-    /// At the moment it looks like we need to manually send the Roles,
-    /// this will cause characters to show up.
-    /// if the role list is empty, you will be put into character creation screen.
+    /// Since FileCheck could occur multiple times during connection,
+    /// i chose multi_net_ip info, hoping that its only once on game startup called.
+    /// ideally want to only send this packet once when the game loaded.
+    /// the problem is via the CsProto over TDPU connection, is that we do not get a tcp connection / disconnect event.
+    /// but for future battle server connectivity weg get those, but we still need to be able to manage both the same way.
     /// </summary>
-    public void OnFileCheckCompleted()
+    public void OnReady()
     {
         SendListRoleRsp();
     }
 
+    /// <summary>
+    /// client selected a role to play, unsure as of yet what to reply.
+    /// Based on logs we are hitting the right spots, but there is still more missing.
+    /// </summary>
+    public void OnRoleSelected()
+    {
+        _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
+        SendTownSessionStart();
+        SendPlayerInitNtf();
+    }
+    
+    /// <summary>
+    /// client used menu from level -> char selection
+    /// </summary>
+    public void OnRoleReSelected()
+    {
+        SendListRoleRsp();
+    }
+
+    /// <summary>
+    /// Need to send after client has processed player init ntf, currently choose a random packet, that occurs after.
+    /// Hoping it will not be asked again in the future.
+    /// </summary>
+    public void OnPlayerInitFinished()
+    {
+        SendTownServerInitNtf();
+    }
+
+    /// <summary>
+    /// we have entered level, now need a way to assing a NetID for movement sync.
+    /// </summary>
+    public void OnEnterLevel()
+    {
+        _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
+        {
+            PlayerId = 1
+        }));
+        //SendPlayerSpawn();
+    }
+
+    public void OnBattleSvr()
+    {
+        //SendPlayerLevelInitNtf();
+        //SendTownServerInitNtf();
+        //SendPlayerSpawn();
+        //SendLoadLevelNtf();
+        //SendInstanceInitNtf();
+        //SendPlayerInitNtf();
+    }
 
     public void OnCreateRole(CSRoleCreateInfo info)
     {
         CSListRoleRsp roleRsp = new CSListRoleRsp();
-
-
         _roleBaseInfo.Name = info.Name;
         _roleBaseInfo.Gender = info.Gender;
         _roleBaseInfo.FaceId = info.FaceId;
@@ -164,73 +213,8 @@ public class PlayerState
         _roleBaseInfo.FaceTattooIndex = info.FaceTattooIndex;
         _roleBaseInfo.FaceTattooColor = info.FaceTattooColor;
         _roleBaseInfo.FacialInfo = info.FacialInfo;
-
-
         roleRsp.RoleList.Role.Add(_roleBaseInfo);
         _client.SendCsPacket(NewCsPacket.CreateRoleRsp(roleRsp));
-    }
-
-    /// <summary>
-    /// client selected a role to play, unsure as of yet what to reply.
-    /// Based on logs we are hitting the right spots, but there is still more missing.
-    /// </summary>
-    public void OnRoleSelected()
-    {
-        _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
-
-        //  _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
-   
-        SendTownSessionStart();
-   //     SendLoadLevelNtf();
-        SendPlayerInitNtf();
-
-   //    NewCsPacket.PlayerLevelInitNtf(new CSPlayerLevelInitInfo());
-   //     _client.SendCsPacket(NewCsPacket.BuffInitList(new CSBuffInitList()));
-   //     _client.SendCsPacket(NewCsPacket.AttrInfo(new CSAttrInitInfo()));
-   //     _client.SendCsPacket(NewCsPacket.PetInitList(new CSPetInitList()));
-   //     _client.SendCsPacket(NewCsPacket.RoomInitInfo(new CSRoomInitInfo()));
-   //     _client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()));
-   //     _client.SendCsPacket(NewCsPacket.SupplyBoxInitItemNtf(new CSSupplyBoxInitItemNtf()));
-   //     _client.SendCsPacket(NewCsPacket.InstanceUnlockNotify(new CSInstanceUnlockNotify()));
-   //    SendPlayerSpawn();
-        
-     //   SendTownServerInitNtf();
-
-        //  SendReselectRoleRsp();
-
-        //     SendLoadLevelNtf();
-        // _client.SendCsPacket(NewCsPacket.EnterLevelNtf(new CSEnterLevelNtf(){}));
-
-        //   SendTownServerInitNtf();
-
-        //  _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
-
-        //  SendBruteForceT();
-
-    //    SendReselectRoleRsp();
-
-        //  SendPlayerInitNtf();
-        //  SendLoadLevelNtf();
-        //   SendPlayerSpawn();
-
-        //SendEnterInstanceRsp();
-
-
-    }
-    
-    public void LastP()
-    {
-        SendTownServerInitNtf();
-    }
-    
-    public void OnBattleSvr()
-    {
-        //SendPlayerLevelInitNtf();
-        //SendTownServerInitNtf();
-        //SendPlayerSpawn();
-        //SendLoadLevelNtf();
-        //SendInstanceInitNtf();
-        SendPlayerInitNtf();
     }
 
     public void SendBruteForceT()
@@ -441,7 +425,7 @@ public class PlayerState
         CSListRoleRsp roleRsp = new CSListRoleRsp();
         // if role list is empty, client will auto move to char creation
         roleRsp.RoleList.Role.Add(_roleBaseInfo);
-        roleRsp.RoleList.Role.Add(_roleBaseInfo2);
+        // roleRsp.RoleList.Role.Add(_roleBaseInfo2);
         _client.SendCsPacket(NewCsPacket.ListRoleRsp(roleRsp));
     }
 
@@ -504,6 +488,4 @@ public class PlayerState
     {
         _client.SendCsPacket(NewCsPacket.ReselectRoleRsp(_reselectRoleRsp));
     }
-
-
 }

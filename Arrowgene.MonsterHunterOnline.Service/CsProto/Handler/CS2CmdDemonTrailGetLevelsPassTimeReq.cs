@@ -5,17 +5,17 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
-public class CsCmdItemReBuildLimitDataHandler : ICsProtoHandler
+public class CS2CmdDemonTrailGetLevelsPassTimeReq : ICsProtoHandler
 {
     private static readonly ServiceLogger Logger =
-        LogProvider.Logger<ServiceLogger>(typeof(CsCmdItemReBuildLimitDataHandler));
+        LogProvider.Logger<ServiceLogger>(typeof(CS2CmdDemonTrailGetLevelsPassTimeReq));
 
-    public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_ITEMREBUILD_LIMITDATA_REQ;
+
+    public CS_CMD_ID Cmd => CS_CMD_ID.C2S_CMD_DEMON_TRIAL_GET_LEVELS_PASS_TIME_REQ;
+
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-        CSItemRebuildLimitInfo rsp = new CSItemRebuildLimitInfo();
-        client.SendCsPacket(NewCsPacket.ItemRebuildLimitDataNtf(rsp));
-        client.State.OnPlayerInitFinished();
+        client.SendCsPacket(NewCsPacket.DemonTrialGetLevelPassTimeRsp(new SCDemonTrialGetLevelPassTimeRsp()));
     }
 }

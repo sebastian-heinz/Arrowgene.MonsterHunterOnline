@@ -35,7 +35,5 @@ public class CsCmdFileCheckHandler : ICsProtoHandler
         resp.Body = res.GetAllBytes();
         resp.Cmd = CS_CMD_ID.SC_CMD_FILE_CHECK_RLT;
         client.SendCsProto(resp);
-        
-        client.State.OnFileCheckCompleted();
     }
 }

@@ -42,25 +42,33 @@ namespace Arrowgene.MonsterHunterOnline.Service
             handlers.Add(new C2SCmdPetRngHandler());
             handlers.Add(new C2SCmdSActivityListReqHandler());
             handlers.Add(new C2SCmdShopRefreshShopsHandler());
+            handlers.Add(new CS2CmdDemonTrailGetLevelsPassTimeReq());
+            handlers.Add(new CsCmdBattleActorBeginMoveHandler());
             handlers.Add(new CsCmdBattleActorFifoSyncHandler());
+            handlers.Add(new CsCmdBattleActorIdleMoveHandler());
+            handlers.Add(new CsCmdBattleActorMoveStateHandler());
             handlers.Add(new CsCmdCheckVersionHandler());
             handlers.Add(new CsCmdClientSendLogHandler());
             handlers.Add(new CsCmdCreateRoleReqHandler());
             handlers.Add(new CsCmdDataLoadHandler());
             handlers.Add(new CsCmdDragonBoxDetailReqHandler());
+            handlers.Add(new CsCmdEnterLevelNtfHandler());
             handlers.Add(new CsCmdFileCheckHandler());
             handlers.Add(new CsCmdFriendsOnlineReqHandler());
             handlers.Add(new CsCmdGiftBagGroupStateReqHandler());
             handlers.Add(new CsCmdInstanceVerifyReq());
             handlers.Add(new CsCmdItemReBuildLimitDataHandler());
+            handlers.Add(new CsCmdMailUnreadGetReqHandler());
             handlers.Add(new CsCmdMartGoodsListReqHandler());
             handlers.Add(new CsCmdMultiNetIpInfoHandler());
             handlers.Add(new CsCmdPlayerExtNotifyHandler());
+            handlers.Add(new CsCmdReselectRoleReqHandler());
             handlers.Add(new CsCmdSelectRoleHandler());
             handlers.Add(new CsCmdSystemEncryptData(_battleServerConsumer));
             handlers.Add(new CsCmdSystemPkgTimerRecordHandler());
             handlers.Add(new CsCmdSystemTransAntiDataHandler());
             handlers.Add(new CsCmdTeamInfoGetReqHandler());
+            handlers.Add(new CsCmdVipServiceExpireReqHandler());
 
             foreach (ICsProtoHandler handler in handlers)
             {
@@ -88,6 +96,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
                 _battleServerConsumer,
                 _setting.SocketSettings
             );
+            
+            // TODO both servers require same cleanup for disconnect over tcp events
 
             // OTHER SERVICES - START
             // For now all other services are not handled, as there seems to be no need to.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
@@ -27,7 +28,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public uint NoUse { get; set; }
         public byte[] Header { get; set; }
         public byte[] Body { get; set; }
-        
+
         public bool WrappedCrypto { get; set; }
 
         public string PrintHeader()
@@ -51,6 +52,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public override string ToString()
         {
             return $"{PrintHeader()}{Environment.NewLine}{PrintData()}";
+        }
+
+        public IBuffer NewBuffer()
+        {
+            IBuffer buf = new StreamBuffer(Body);
+            buf.SetPositionStart();
+            return buf;
         }
     }
 }

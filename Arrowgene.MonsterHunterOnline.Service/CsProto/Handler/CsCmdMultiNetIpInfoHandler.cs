@@ -54,5 +54,7 @@ public class CsCmdMultiNetIpInfoHandler : ICsProtoHandler
         resp.Body = res.GetAllBytes();
         resp.Cmd = CS_CMD_ID.CS_CMD_MULTI_ISP_SEQUENCE_NTF;
         client.SendCsProto(resp);
+
+        client.State.OnReady();
     }
 }
