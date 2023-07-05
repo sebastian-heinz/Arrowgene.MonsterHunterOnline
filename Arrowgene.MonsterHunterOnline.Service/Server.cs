@@ -43,10 +43,12 @@ namespace Arrowgene.MonsterHunterOnline.Service
             handlers.Add(new C2SCmdSActivityListReqHandler());
             handlers.Add(new C2SCmdShopRefreshShopsHandler());
             handlers.Add(new CS2CmdDemonTrailGetLevelsPassTimeReq());
+            handlers.Add(new CS2CmdDemonTrailGetLevelsReqHandler());
             handlers.Add(new CsCmdBattleActorBeginMoveHandler());
             handlers.Add(new CsCmdBattleActorFifoSyncHandler());
             handlers.Add(new CsCmdBattleActorIdleMoveHandler());
             handlers.Add(new CsCmdBattleActorMoveStateHandler());
+            handlers.Add(new CsCmdChangeTownInstanceReqHandler());
             handlers.Add(new CsCmdCheckVersionHandler());
             handlers.Add(new CsCmdClientSendLogHandler());
             handlers.Add(new CsCmdCreateRoleReqHandler());

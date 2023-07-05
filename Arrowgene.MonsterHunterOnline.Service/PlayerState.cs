@@ -33,6 +33,7 @@ public class PlayerState
     public CSEnterInstanceRsp _enterInstanceRsp;
     public CSInstanceVerifyRsp _verifyRsp;
     public CSReselectRoleRsp _reselectRoleRsp;
+    public CSPlayerAppearNtf _playerAppearNtf;
 
 
     public PlayerState(Client client)
@@ -43,6 +44,7 @@ public class PlayerState
         _roleBaseInfo.RoleIndex = 0;
         _roleBaseInfo.Name = "Star";
         _roleBaseInfo.Gender = 1;
+        _roleBaseInfo.AvatarSetID = 1;
         _roleBaseInfo.Level = 1;
         _roleBaseInfo.FaceId = 1;
         _roleBaseInfo.HairId = 1;
@@ -79,11 +81,12 @@ public class PlayerState
         _playerInitInfo.Name = _roleBaseInfo.Name;
         _playerInitInfo.Gender = _roleBaseInfo.Gender;
         _playerInitInfo.IsGM = 0;
+        _playerInitInfo.AvatarSetID = _roleBaseInfo.AvatarSetID;
         _playerInitInfo.ParentEntityGUID = 0;
         _playerInitInfo.RandSeed = 0;
         _playerInitInfo.CatCuisineID = 0;
-        _playerInitInfo.FirstEnterLevel = 0;
-        _playerInitInfo.FirstEnterMap = 0;
+        _playerInitInfo.FirstEnterLevel = 1;
+        _playerInitInfo.FirstEnterMap = 1;
         _playerInitInfo.PvpPrepareStageState = 0;
         _playerInitInfo.Pose.t.x = 409.91379f;
         _playerInitInfo.Pose.t.y = 358.74976f;
@@ -115,6 +118,7 @@ public class PlayerState
         _spawnPlayer.Scale = 1.0f;
         _spawnPlayer.NewConnect = 0;
         _spawnPlayer.SendSrvId = 0;
+        _spawnPlayer.AvatarSetID = _roleBaseInfo.AvatarSetID;
 
         _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
         _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
@@ -133,6 +137,15 @@ public class PlayerState
         _verifyRsp.ErrNo = 0;
 
         _reselectRoleRsp = new CSReselectRoleRsp();
+
+
+        _playerAppearNtf = new CSPlayerAppearNtf();
+        _playerAppearNtf.NetID = 1;
+        _playerAppearNtf.SessionID = 1;
+        _playerAppearNtf.Name = _roleBaseInfo.Name;
+        _playerAppearNtf.Gender = _roleBaseInfo.Gender;
+        _playerAppearNtf.Pose = _playerInitInfo.Pose;
+        _playerAppearNtf.AvatarSetID = _roleBaseInfo.AvatarSetID;
     }
 
     /// <summary>
@@ -157,7 +170,7 @@ public class PlayerState
         SendTownSessionStart();
         SendPlayerInitNtf();
     }
-    
+
     /// <summary>
     /// client used menu from level -> char selection
     /// </summary>
@@ -180,13 +193,33 @@ public class PlayerState
     /// </summary>
     public void OnEnterLevel()
     {
-        _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
-        {
-            PlayerId = 1
-        }));
-        //SendPlayerSpawn();
+        SendPlayerLevelInitNtf();
+      // _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
+      // {
+      //     PlayerId = 1
+      // }));
+      // //SendPlayerSpawn();
+
+      // //_client.SendCsPacket(NewCsPacket.PlayerAppearNtf(_playerAppearNtf));
+      // _client.SendCsPacket(NewCsPacket.NewPlayer(new CSSpawnNewPlayer()
+      // {
+      //     Name = _roleBaseInfo.Name
+      // }));
     }
 
+    /// <summary>
+    /// in game press M-key -> select another town
+    /// </summary>
+    public void OnChangeTownInstance(CSChangeTownInstanceReq req)
+    {
+        _client.SendCsPacket(NewCsPacket.ChangeTownInstanceRsp(new CSChangeTownInstanceRsp()
+        {
+            ErrCode = 0,
+            LevelID = req.LevelId
+        }));
+        _instanceInitInfo.LevelID = req.LevelId;
+        SendTownServerInitNtf();
+    }
     public void OnBattleSvr()
     {
         //SendPlayerLevelInitNtf();
@@ -488,4 +521,5 @@ public class PlayerState
     {
         _client.SendCsPacket(NewCsPacket.ReselectRoleRsp(_reselectRoleRsp));
     }
+
 }
