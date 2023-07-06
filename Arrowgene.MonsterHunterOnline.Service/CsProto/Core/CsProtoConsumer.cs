@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.Networking.Tcp;
 using Arrowgene.Networking.Tcp.Consumer.BlockingQueueConsumption;
 
@@ -14,34 +13,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         private readonly Dictionary<ITcpSocket, Client> _clients;
         private readonly object _lock;
         private readonly Setting _setting;
+        private readonly CsProtoPacketHandler _packetHandler;
 
         public Action<Client> ClientDisconnected;
         public Action<Client> ClientConnected;
-        private Dictionary<CS_CMD_ID, ICsProtoHandler> _handlerLookup;
 
-        public CsProtoConsumer(Setting setting) : base(setting.SocketSettings, setting.Name)
+        public CsProtoConsumer(Setting setting, CsProtoPacketHandler packetHandler) : base(setting.SocketSettings,
+            setting.Name)
         {
             _setting = setting;
+            _packetHandler = packetHandler;
             _lock = new object();
             _clients = new Dictionary<ITcpSocket, Client>();
-            _handlerLookup = new Dictionary<CS_CMD_ID, ICsProtoHandler>();
-        }
-
-        public void AddHandler(ICsProtoHandler packetHandler)
-        {
-            if (_handlerLookup.ContainsKey(packetHandler.Cmd))
-            {
-                Logger.Error($"CsProtoHandler: {packetHandler.Cmd} already exists");
-            }
-            else
-            {
-                _handlerLookup.Add(packetHandler.Cmd, packetHandler);
-            }
-        }
-
-        public void HandleCustom(ITcpSocket socket, byte[] data)
-        {
-            HandleReceived(socket, data);
         }
 
         protected override void HandleReceived(ITcpSocket socket, byte[] data)
@@ -66,27 +49,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             List<CsProtoPacket> packets = client.ReceiveCsProto(data);
             foreach (CsProtoPacket packet in packets)
             {
-                HandlePacket(client, packet);
-            }
-        }
-
-        private void HandlePacket(Client client, CsProtoPacket packet)
-        {
-            if (!_handlerLookup.ContainsKey(packet.Cmd))
-            {
-                Logger.LogUnhandledPacket(client, packet);
-                return;
-            }
-
-            ICsProtoHandler packetHandler = _handlerLookup[packet.Cmd];
-            try
-            {
-                packetHandler.Handle(client, packet);
-            }
-            catch (Exception ex)
-            {
-                Logger.Exception(client, ex);
-                Logger.LogPacketError(client, packet);
+                _packetHandler.HandleReceived(client, packet);
             }
         }
 

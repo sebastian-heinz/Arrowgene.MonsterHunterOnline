@@ -6,6 +6,7 @@ using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System.Chat;
 
 namespace Arrowgene.MonsterHunterOnline.Service;
 
@@ -86,7 +87,7 @@ public class PlayerState
         _playerInitInfo.WorldSvrID = 1;
         _playerInitInfo.Name = _roleBaseInfo.Name;
         _playerInitInfo.Gender = _roleBaseInfo.Gender;
-        _playerInitInfo.IsGM = 0;
+        _playerInitInfo.IsGM = 1;
         _playerInitInfo.AvatarSetID = _roleBaseInfo.AvatarSetID;
         _playerInitInfo.ParentEntityGUID = 0;
         _playerInitInfo.RandSeed = 1;
@@ -95,12 +96,12 @@ public class PlayerState
         _playerInitInfo.FirstEnterMap = 0;
         _playerInitInfo.PvpPrepareStageState = 0;
         _playerInitInfo.ServerTime = 100;
-        
+
         //spawn location
         _playerInitInfo.Pose.t.x = 409.91379f;
         _playerInitInfo.Pose.t.y = 358.74976f;
         _playerInitInfo.Pose.t.z = 100.0f; // height
-        
+
         _playerInitInfo.Pose.q.v.x = 10;
         _playerInitInfo.Pose.q.v.y = 10;
         _playerInitInfo.Pose.q.v.z = 10;
@@ -137,62 +138,62 @@ public class PlayerState
         _instanceInitInfo.LevelRandSeed = 1;
         _instanceInitInfo.WarningFlag = 0;
         _instanceInitInfo.CreatePlayerMaxLv = 99;
-       //    <LevelInfo>
-       //    <Difficulty>
-       //    <Info Name="Easy" ID="1"/>
-       //    <Info Name="Normal" ID="2"/>
-       //    <Info Name="Hard" ID="3"/>
-       //    <Info Name="Insane" ID="4"/>
-       //    </Difficulty>
-       //    <GameMode>
-       //    <Info Name="Standard" ID="1"/>
-       //    <Info Name="Adventure" ID="2"/>
-       //    <Info Name="Casual" ID="3"/>
-       //    <Info Name="Arena" ID="4"/>
-       //    <Info Name="ThousandsHunter" ID="5"/>
-       //    <Info Name="Raid" ID="6"/>
-       //    <Info Name="Survive" ID="7"/>
-       //    <Info Name="Story" ID="8"/>
-       //    <Info Name="Training" ID="9"/>
-       //    <Info Name="Testing" ID="10"/>
-       //    <Info Name="WaterFight" ID="11"/>
-       //    <Info Name="HunterCraft" ID="12"/>
-       //    <Info Name="DuelOfHunter" ID="13"/>
-       //    <Info Name="Airship" ID="14"/>
-       //    <Info Name="Extreme" ID="15"/>
-       //    <Info Name="Bouns" ID="16"/>
-       //    <Info Name="PvP" ID="17"/>
-       //    <Info Name="Tutorial" ID="23"/>
-       //    <Info Name="Elite" ID="26"/>
-       //    <Info Name="Extreme" ID="33"/>
-       //    <Info Name="SingleElite" ID="34"/>
-       //    <Info Name="Town" ID="99"/>
-       //    </GameMode>
-       //    <Weather>
-       //    <Info Name="Sunny" ID="1"/>
-       //    <Info Name="SmallRain" ID="2"/>
-       //    <Info Name="HeavyRain" ID="4"/>
-       //    <Info Name="Snow" ID="8"/>
-       //    <Info Name="Blizzard" ID="16"/>
-       //    <Info Name="Foggy" ID="32"/>
-       //    <Info Name="Cloudy" ID="64"/>
-       //    <Info Name="AfterRain" ID="128"/>
-       //    <Info Name="SandStorm" ID="256"/>
-       //    </Weather>
-       //    <Time>
-       //    <Info Name="Morning" ID="1"/>
-       //    <Info Name="Noon" ID="2"/>
-       //    <Info Name="Dusk" ID="4"/>
-       //    <Info Name="Night" ID="8"/>
-       //    </Time>
-       //    <RegionType>
-       //    <Info Name="type1" ID="1"/>
-       //    <Info Name="type2" ID="2"/>
-       //    <Info Name="type3" ID="3"/>
-       //    </RegionType>
-       //    </LevelInfo>
+        //    <LevelInfo>
+        //    <Difficulty>
+        //    <Info Name="Easy" ID="1"/>
+        //    <Info Name="Normal" ID="2"/>
+        //    <Info Name="Hard" ID="3"/>
+        //    <Info Name="Insane" ID="4"/>
+        //    </Difficulty>
+        //    <GameMode>
+        //    <Info Name="Standard" ID="1"/>
+        //    <Info Name="Adventure" ID="2"/>
+        //    <Info Name="Casual" ID="3"/>
+        //    <Info Name="Arena" ID="4"/>
+        //    <Info Name="ThousandsHunter" ID="5"/>
+        //    <Info Name="Raid" ID="6"/>
+        //    <Info Name="Survive" ID="7"/>
+        //    <Info Name="Story" ID="8"/>
+        //    <Info Name="Training" ID="9"/>
+        //    <Info Name="Testing" ID="10"/>
+        //    <Info Name="WaterFight" ID="11"/>
+        //    <Info Name="HunterCraft" ID="12"/>
+        //    <Info Name="DuelOfHunter" ID="13"/>
+        //    <Info Name="Airship" ID="14"/>
+        //    <Info Name="Extreme" ID="15"/>
+        //    <Info Name="Bouns" ID="16"/>
+        //    <Info Name="PvP" ID="17"/>
+        //    <Info Name="Tutorial" ID="23"/>
+        //    <Info Name="Elite" ID="26"/>
+        //    <Info Name="Extreme" ID="33"/>
+        //    <Info Name="SingleElite" ID="34"/>
+        //    <Info Name="Town" ID="99"/>
+        //    </GameMode>
+        //    <Weather>
+        //    <Info Name="Sunny" ID="1"/>
+        //    <Info Name="SmallRain" ID="2"/>
+        //    <Info Name="HeavyRain" ID="4"/>
+        //    <Info Name="Snow" ID="8"/>
+        //    <Info Name="Blizzard" ID="16"/>
+        //    <Info Name="Foggy" ID="32"/>
+        //    <Info Name="Cloudy" ID="64"/>
+        //    <Info Name="AfterRain" ID="128"/>
+        //    <Info Name="SandStorm" ID="256"/>
+        //    </Weather>
+        //    <Time>
+        //    <Info Name="Morning" ID="1"/>
+        //    <Info Name="Noon" ID="2"/>
+        //    <Info Name="Dusk" ID="4"/>
+        //    <Info Name="Night" ID="8"/>
+        //    </Time>
+        //    <RegionType>
+        //    <Info Name="type1" ID="1"/>
+        //    <Info Name="type2" ID="2"/>
+        //    <Info Name="type3" ID="3"/>
+        //    </RegionType>
+        //    </LevelInfo>
 
-              _playerLevelInitInfo = new CSPlayerLevelInitInfo();
+        _playerLevelInitInfo = new CSPlayerLevelInitInfo();
 
         _spawnPlayer = new CSSpawnPlayer();
         _spawnPlayer.PlayerId = 1;
@@ -235,7 +236,7 @@ public class PlayerState
 
         _TeamMemberInfo = new TeamMemberInfo();
         _TeamMemberInfo.NetId = (uint)_playerInitInfo.NetID;
-        _TeamMemberInfo.DBId =  _playerInitInfo.DBId;
+        _TeamMemberInfo.DBId = _playerInitInfo.DBId;
         _TeamMemberInfo.Name = _roleBaseInfo.Name;
         _TeamMemberInfo.Level = (uint)_roleBaseInfo.Level;
         _TeamMemberInfo.LevelId = (uint)LevelId;
@@ -279,6 +280,27 @@ public class PlayerState
         _teamInfoNtf.Team.TownSvr = 1;
         _teamInfoNtf.Team.BattleSvr = 1;
         _teamInfoNtf.Team.Members.Add(_TeamMemberInfo);
+    }
+
+    public void OnChatMsg(ChatMessage chatMessage)
+    {
+        if (chatMessage.Message == "test")
+        {
+            _client.SendCsPacket(NewCsPacket.ObjectAction(new CSObjectActionSyncEntry(
+                    new CSTeleportParam()
+                    {
+                        targetPos = new CSVec3() { x = 1.0f, y = 1.0f, z = 1.0f }
+                    })
+                {
+                    EntityId = 1
+                }
+            ));
+
+            //    CSBTObjSimpleLocomotion
+            //        CSDragPlayer
+            //    CSActorLocomotion
+            //        CSGotoTargetPosParam
+        }
     }
 
     /// <summary>

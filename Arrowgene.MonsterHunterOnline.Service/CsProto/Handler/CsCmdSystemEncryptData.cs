@@ -14,11 +14,11 @@ public class CsCmdSystemEncryptData : ICsProtoHandler
 
     private static string Key = "MultiByteToWideC";
 
-    private CsProtoConsumer _csProtoConsumer;
+    private CsProtoPacketHandler _csProtoPacketHandler;
 
-    public CsCmdSystemEncryptData(CsProtoConsumer csProtoConsumer)
+    public CsCmdSystemEncryptData(CsProtoPacketHandler csProtoPacketHandler)
     {
-        _csProtoConsumer = csProtoConsumer;
+        _csProtoPacketHandler = csProtoPacketHandler;
     }
 
     public void Handle(Client client, CsProtoPacket packet)
@@ -35,6 +35,6 @@ public class CsCmdSystemEncryptData : ICsProtoHandler
             decData[i] = (byte)(Key[i % Key.Length] ^ encData[i]);
         }
         
-        _csProtoConsumer.HandleCustom(client.Socket, decData);
+        _csProtoPacketHandler.HandleReceived(client, decData);
     }
 }

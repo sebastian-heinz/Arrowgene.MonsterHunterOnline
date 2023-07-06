@@ -4,17 +4,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
 
 public class TpduCmdNoneHandler : ITpduHandler
 {
-    private readonly CsProtoOverTpduConsumer _csProtoOverTpduConsumer;
+    private readonly CsProtoPacketHandler _csProtoPacketHandler;
 
-    public TpduCmdNoneHandler(CsProtoOverTpduConsumer csProtoOverTpduConsumer)
+    public TpduCmdNoneHandler(CsProtoPacketHandler csProtoPacketHandler)
     {
-        _csProtoOverTpduConsumer = csProtoOverTpduConsumer;
+        _csProtoPacketHandler = csProtoPacketHandler;
     }
 
     public TpduCmd Cmd => TpduCmd.TPDU_CMD_NONE;
 
     public void Handle(Client client, TpduPacket packet)
     {
-        _csProtoOverTpduConsumer.HandleReceived(client, packet.Body);
+        _csProtoPacketHandler.HandleReceived(client, packet.Body);
     }
 }

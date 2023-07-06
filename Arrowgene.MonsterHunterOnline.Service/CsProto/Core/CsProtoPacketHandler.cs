@@ -5,14 +5,14 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
-public class CsProtoOverTpduConsumer
+public class CsProtoPacketHandler
 {
-    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(CsProtoOverTpduConsumer));
+    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(CsProtoPacketHandler));
 
     private readonly Setting _setting;
     private readonly Dictionary<CS_CMD_ID, ICsProtoHandler> _handlerLookup;
 
-    public CsProtoOverTpduConsumer(Setting setting)
+    public CsProtoPacketHandler(Setting setting)
     {
         _setting = setting;
         _handlerLookup = new Dictionary<CS_CMD_ID, ICsProtoHandler>();
@@ -37,6 +37,11 @@ public class CsProtoOverTpduConsumer
         {
             HandlePacket(client, packet);
         }
+    }
+
+    public void HandleReceived(Client client, CsProtoPacket packet)
+    {
+        HandlePacket(client, packet);
     }
 
     private void HandlePacket(Client client, CsProtoPacket packet)
