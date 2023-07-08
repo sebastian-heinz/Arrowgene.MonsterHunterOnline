@@ -106,7 +106,7 @@ public class IIPSFile
         uint hetUnk = b.ReadUInt32();
         uint hetDataLength = b.ReadUInt32();
         byte[] hetData = b.ReadBytes((int)hetDataLength);
-        IIPSCrypto.Crypt(hetData);
+        IIPSCrypto.IfsSectionCrypt(hetData);
         Logger.Info(Environment.NewLine + Util.HexDump(hetData));
 
         b.Position = (int)BetOffset;
@@ -114,7 +114,7 @@ public class IIPSFile
         uint betUnk = b.ReadUInt32();
         uint betDataLength = b.ReadUInt32();
         byte[] betData = b.ReadBytes((int)betDataLength);
-        IIPSCrypto.Crypt(betData);
+        IIPSCrypto.IfsSectionCrypt(betData);
         Logger.Info(Environment.NewLine + Util.HexDump(betData));
 
 

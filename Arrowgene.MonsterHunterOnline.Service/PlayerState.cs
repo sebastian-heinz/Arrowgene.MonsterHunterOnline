@@ -5,6 +5,7 @@ using System.Threading;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat;
 
@@ -112,16 +113,21 @@ public class PlayerState
         _playerInitInfo.NormalSize = 20;
         _playerInitInfo.MaterialStoreSize = 20;
 
-        _playerInitInfo.EquipItem.Add(1);
-        _playerInitInfo.EquipItem.Add(2);
-        _playerInitInfo.EquipItem.Add(3);
-        _playerInitInfo.EquipItem.Add(4);
-        _playerInitInfo.EquipItem.Add(5);
+        _playerInitInfo.Weapon = 1;
 
-        _playerInitInfo.Attr.Add(1);
-        _playerInitInfo.Attr.Add(2);
-        _playerInitInfo.Attr.Add(3);
-        _playerInitInfo.Attr.Add(4);
+        for (int i = 1; i < 40; i++)
+        {
+            _playerInitInfo.EquipItem.Add((byte)i);
+            _playerInitInfo.Attr.Add((byte)i);
+            _playerInitInfo.BagItem.Add((byte)i);
+            _playerInitInfo.StoreItem.Add((byte)i);
+            _playerInitInfo.Buff.Add((byte)i);
+            _playerInitInfo.Skill.Add((byte)i);
+            _playerInitInfo.CD.Add((byte)i);
+            _playerInitInfo.Star.Add((byte)i);
+            _playerInitInfo.FacialInfo[i] = (byte)i;
+            _playerInitInfo.Spoor.Add((byte)i);
+        }
 
 
         _playerInitInfo.FacialInfo[0] = 1;
@@ -194,6 +200,10 @@ public class PlayerState
         //    </LevelInfo>
 
         _playerLevelInitInfo = new CSPlayerLevelInitInfo();
+        _playerLevelInitInfo.UnLockLevelData.Add(new PlayerUnlockLevelInfo()
+        {
+            LevelID = 1
+        });
 
         _spawnPlayer = new CSSpawnPlayer();
         _spawnPlayer.PlayerId = 1;
@@ -201,9 +211,15 @@ public class PlayerState
         _spawnPlayer.Name = _roleBaseInfo.Name;
         _spawnPlayer.Gender = _roleBaseInfo.Gender;
         _spawnPlayer.Scale = 1.0f;
-        _spawnPlayer.NewConnect = 0;
-        _spawnPlayer.SendSrvId = 0;
+        _spawnPlayer.NewConnect = 1;
+        _spawnPlayer.SendSrvId = 1;
         _spawnPlayer.AvatarSetID = _roleBaseInfo.AvatarSetID;
+        _spawnPlayer.Position = new XYZPosition()
+        {
+            x = _playerInitInfo.Pose.t.x,
+            y = _playerInitInfo.Pose.t.y,
+            z = _playerInitInfo.Pose.t.z
+        };
 
         _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
         _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
@@ -286,6 +302,83 @@ public class PlayerState
     {
         if (chatMessage.Message == "test")
         {
+            _client.SendCsPacket(NewCsPacket.TokenSync(new CSTokenSync()
+            {
+                Entries = new List<CSTokenSyncEntry>()
+                {
+                    new CSTokenSyncEntry(
+                        new CSTokenSyncVar(CS_TOKEN_SYNC_TYPE.CS_TOKEN_SYNC_ENTITYID)
+                        {
+                            EntityID = 1
+                        }
+                    )
+                    {
+                        Name = "localplayer"
+                    }
+                }
+            }));
+
+            _client.SendCsPacket(NewCsPacket.EntityAppearNtfIDList(new CSEntityAppearNtfIDList()
+            {
+                InitType = 1,
+                LogicEntityID = new List<uint>() { 1 },
+                LogicEntityType = new List<uint>() { 1 }
+            }));
+            return;
+            _client.SendCsPacket(NewCsPacket.PlayerQueryInfo(new CSPlayerQueryInfo()
+            {
+                ErrNo = 0,
+                NetID = 1,
+                SessionID = 1,
+                Name = "FAFA",
+                Gender = 0,
+                AvatarSetID = 1,
+                Weapon = 0,
+                WeaponAtkFlag = 0,
+                HunterStar = "asdasd"
+            }));
+
+            _client.SendCsPacket(NewCsPacket.SpawnSrvEnt(new CSSpawnSrvEnt()
+            {
+                Name = _roleBaseInfo.Name,
+                NetObjID = 1,
+                Position = new XYZPosition()
+                {
+                    x = _playerInitInfo.Pose.t.x,
+                    y = _playerInitInfo.Pose.t.y,
+                    z = _playerInitInfo.Pose.t.z
+                },
+                Rotation = new Quaternion(),
+                Scale = 2.0f
+            }));
+
+            _client.SendCsPacket(NewCsPacket.NewPlayer(new CSSpawnNewPlayer()
+            {
+                Name = _roleBaseInfo.Name
+            }));
+
+            _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
+            {
+                PlayerId = 1
+            }));
+
+            SendPlayerSpawn();
+
+            _client.SendCsPacket(NewCsPacket.PlayerAppearNtf(_playerAppearNtf));
+
+            CSBattleEntitySpeed spd = new CSBattleEntitySpeed();
+            spd.NetObjId = 1;
+            spd.IsStart = 1;
+            spd.InitSpeed.x = 10;
+            spd.InitSpeed.y = 10;
+            spd.InitSpeed.z = 10;
+            spd.Accelator.x = 10;
+            spd.Accelator.y = 10;
+            spd.Accelator.z = 10;
+            spd.InitAngleSpeed = 10;
+            spd.AngleAccelator = 10;
+            _client.SendCsPacket(NewCsPacket.EntitySpeed(spd));
+
             _client.SendCsPacket(NewCsPacket.ObjectAction(new CSObjectActionSyncEntry(
                     new CSTeleportParam()
                     {
@@ -296,10 +389,23 @@ public class PlayerState
                 }
             ));
 
-            //    CSBTObjSimpleLocomotion
-            //        CSDragPlayer
-            //    CSActorLocomotion
-            //        CSGotoTargetPosParam
+            _client.SendCsPacket(NewCsPacket.ActorLocomotion(new CSActorLocomotion()
+            {
+                NetObjId = 1,
+                SyncTime = 0,
+                MoveType = 1,
+                UserDataF1 = 10.0f,
+                UserDataF2 = 10.0f,
+                UserDataF3 = 10.0f,
+                UserDataF4 = 10.0f,
+                UserDataF5 = 10.0f,
+                UserDataV1 = new CSVec3() { x = 10.0f, y = 10.0f, z = 10.0f },
+                UserDataU1 = 10,
+                UserDataU2 = 10,
+                UserDataI1 = 10,
+                UserDataS1 = "",
+                UserDataS2 = "",
+            }));
         }
     }
 
@@ -353,33 +459,6 @@ public class PlayerState
 
         SendPlayerLevelInitNtf();
 
-
-        _client.SendCsPacket(NewCsPacket.NewPlayer(new CSSpawnNewPlayer()
-        {
-            Name = _roleBaseInfo.Name
-        }));
-
-        _client.SendCsPacket(NewCsPacket.AssignId(new CSAssignPlayerId()
-        {
-            PlayerId = 1
-        }));
-
-        SendPlayerSpawn();
-
-        _client.SendCsPacket(NewCsPacket.PlayerAppearNtf(_playerAppearNtf));
-
-        CSBattleEntitySpeed spd = new CSBattleEntitySpeed();
-        spd.NetObjId = 1;
-        spd.IsStart = 1;
-        spd.InitSpeed.x = 10;
-        spd.InitSpeed.y = 10;
-        spd.InitSpeed.z = 10;
-        spd.Accelator.x = 10;
-        spd.Accelator.y = 10;
-        spd.Accelator.z = 10;
-        spd.InitAngleSpeed = 10;
-        spd.AngleAccelator = 10;
-        _client.SendCsPacket(NewCsPacket.EntitySpeed(spd));
 
         //  SendBruteForce();
 

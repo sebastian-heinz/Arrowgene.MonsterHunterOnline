@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using Arrowgene.Buffers;
 
 namespace Arrowgene.MonsterHunterOnline.Service.IIPS;
 
 public class IIPSCrypto
 {
-    public static uint[] HetTable = new uint[256]
+    private static uint[] IfsSectionTable = new uint[256]
     {
         0x193AA698, 0x5496F7D5, 0x4208931B, 0x7A4106EC, 0x83E86840, 0xF49B6F8C, 0xBA3D9A51, 0x55F54DDD,
         0x2DE51372, 0x9AFB571B, 0x3AB35406, 0xAD64FF1F, 0xC77764FE, 0x7F864466, 0x416D9CD4, 0xA2489278,
@@ -41,8 +42,13 @@ public class IIPSCrypto
         0xE8370D61, 0x98109520, 0xADE23CAC, 0x99F82E04, 0x41DE7EA3, 0x84A1C295, 0x09191BE0, 0x30930D02,
         0x1C9FA44A, 0xC406B6D7, 0xEEDCA152, 0x6149809C, 0xB0099EF4, 0xC5F653A5, 0x4C10790D, 0x7303286C,
     };
-
-    public static void Crypt(byte[] data)
+    
+    private static byte[] DatKey = new byte[16]
+    {
+        0x01, 0x09, 0x08, 0x00, 0x00, 0x02, 0x01, 0x06, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11
+    };
+    
+    public static void IfsSectionCrypt(byte[] data)
     {
         uint ecx;
         uint edx = 0x863;
@@ -57,7 +63,7 @@ public class IIPSCrypto
                 (uint)data[i + 2] << 16 |
                 (uint)data[i + 3] << 24;
             ecx = edx;
-            eax = eax + HetTable[(byte)ecx];
+            eax = eax + IfsSectionTable[(byte)ecx];
             ebx = edx;
             ebx = ~ebx;
             ebx = ebx << 0x15;
@@ -75,6 +81,18 @@ public class IIPSCrypto
             data[i + 3] = (byte)(ecx >> 24);
             eax = eax + ebx + 0x03;
         }
+    }
+
+
+
+    public static byte[] DecryptDat(byte[] data)
+    {
+        Aes aes = Aes.Create();
+        aes.Mode = CipherMode.ECB;
+        aes.Padding = PaddingMode.None;
+        aes.Key = DatKey;
+        ICryptoTransform encryptor = aes.CreateEncryptor();
+        return encryptor.TransformFinalBlock(data, 0, data.Length);
     }
 
     public static string Md5(byte[] inputData)
