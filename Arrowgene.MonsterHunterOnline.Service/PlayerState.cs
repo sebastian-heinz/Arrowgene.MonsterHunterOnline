@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
@@ -115,22 +116,58 @@ public class PlayerState
 
         _playerInitInfo.Weapon = 1;
 
-        for (int i = 1; i < 40; i++)
-        {
-            _playerInitInfo.EquipItem.Add((byte)i);
-            _playerInitInfo.Attr.Add((byte)i);
-            _playerInitInfo.BagItem.Add((byte)i);
-            _playerInitInfo.StoreItem.Add((byte)i);
-            _playerInitInfo.Buff.Add((byte)i);
-            _playerInitInfo.Skill.Add((byte)i);
-            _playerInitInfo.CD.Add((byte)i);
-            _playerInitInfo.Star.Add((byte)i);
-            _playerInitInfo.FacialInfo[i] = (byte)i;
-            _playerInitInfo.Spoor.Add((byte)i);
-        }
+        //   for (int i = 1; i < 40; i++)
+        //   {
+        //       _playerInitInfo.EquipItem.Add((byte)i);
+        //       _playerInitInfo.Attr.Add((byte)i);
+        //       _playerInitInfo.BagItem.Add((byte)i);
+        //       _playerInitInfo.StoreItem.Add((byte)i);
+        //       _playerInitInfo.Buff.Add((byte)i);
+        //       _playerInitInfo.Skill.Add((byte)i);
+        //       _playerInitInfo.CD.Add((byte)i);
+        //       _playerInitInfo.Star.Add((byte)i);
+        //       _playerInitInfo.FacialInfo[i] = (byte)i;
+        //       _playerInitInfo.Spoor.Add((byte)i);
+        //   }
 
+        StreamBuffer ast = new StreamBuffer();
+        ast.WriteUInt32(1, Endianness.Big); //attr id
+        ast.WriteUInt16(1, Endianness.Big); //attr type = CS_ATTR_DATA_BASE
+        ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+        ast.WriteInt32(20, Endianness.Big);
 
-        _playerInitInfo.FacialInfo[0] = 1;
+        _playerInitInfo.Attr = new List<byte>(ast.GetAllBytes());
+        
+      //    <macrosgroup name="CS_PROP_SYNC_TYPE">
+      //    <macro name="CS_PROP_SYNC_INT" value="1" desc="符号整数" />
+      //    <macro name="CS_PROP_SYNC_FLOAT" value="2" desc="单精度浮点数" />
+      //    <macro name="CS_PROP_SYNC_STRING" value="3" desc="字符串" />
+      //    <macro name="CS_PROP_SYNC_BOOL" value="4" desc="布尔" />
+      //    <macro name="CS_PROP_SYNC_VEC3" value="5" desc="向量" />
+      //    <macro name="CS_PROP_SYNC_UINT64" value="6" desc="uint64" />
+      //    </macrosgroup>
+              //    <struct name="CSAttrBaseData" version="1">
+              //    <entry name="Type" type="ushort" desc="类型枚举" bindmacrosgroup="CS_PROP_SYNC_TYPE"/>
+              //    <entry name="Value" type="CSAttrValue" desc="变量值" select="Type"/>
+              //    </struct>
+              //       <struct name="CSAttrData" version="1">
+              //       <entry name="AttrID" type="uint"/>
+              //       <entry name="Type" type="ushort" desc="类型枚举" bindmacrosgroup="CS_ATTR_DATA_TYPE"/>
+              //       <entry name="Value" type="CSAttrDataUnion" desc="变量值" select="Type"/>
+              //       </struct>
+
+              //   <struct name="CSAttrInit" version="1">
+              //       <entry name="EntityID" type="uint"/>
+              //       <entry name="Count" type="short"/>
+              //       <entry name="Attr" type="CSAttrData" count="CS_ATTR_INIT_MAX" refer="Count"/>
+              //       </struct>
+  
+// <macrosgroup name="CS_ATTR_DATA_TYPE">
+//           <macro name="CS_ATTR_DATA_BASE" value="1" />
+//           <macro name="CS_ATTR_DATA_BONUS" value="2" />
+//           </macrosgroup>
+
+              _playerInitInfo.FacialInfo[0] = 1;
         _playerInitInfo.FacialInfo[1] = 1;
 
         _instanceInitInfo = new CSInstanceInitInfo();
@@ -302,28 +339,102 @@ public class PlayerState
     {
         if (chatMessage.Message == "test")
         {
-            _client.SendCsPacket(NewCsPacket.TokenSync(new CSTokenSync()
-            {
-                Entries = new List<CSTokenSyncEntry>()
-                {
-                    new CSTokenSyncEntry(
-                        new CSTokenSyncVar(CS_TOKEN_SYNC_TYPE.CS_TOKEN_SYNC_ENTITYID)
-                        {
-                            EntityID = 1
-                        }
-                    )
-                    {
-                        Name = "localplayer"
-                    }
-                }
-            }));
+            
 
-            _client.SendCsPacket(NewCsPacket.EntityAppearNtfIDList(new CSEntityAppearNtfIDList()
-            {
-                InitType = 1,
-                LogicEntityID = new List<uint>() { 1 },
-                LogicEntityType = new List<uint>() { 1 }
-            }));
+            StreamBuffer ast = new StreamBuffer();
+            ast.WriteUInt32(1, Endianness.Big); //EntityID
+            ast.WriteUInt32(73, Endianness.Big); //attr id
+            ast.WriteInt16(1, Endianness.Big); //BonusID
+            ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+            ast.WriteInt32(100, Endianness.Big);
+            CsProtoPacket csp = new CsProtoPacket();
+            csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+            csp.Body = ast.GetAllBytes();
+            _client.SendCsProto(csp);
+                        
+    //   ast.SetPositionStart();
+    //   ast.WriteUInt32(1, Endianness.Big); //EntityID
+    //   ast.WriteUInt32(1, Endianness.Big); //attr id
+    //   ast.WriteInt16(1, Endianness.Big); //BonusID
+    //   ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+    //   ast.WriteInt32(22, Endianness.Big);
+    //   csp = new CsProtoPacket();
+    //   csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+    //   csp.Body = ast.GetAllBytes();
+    //   _client.SendCsProto(csp);
+    //   
+    //   ast.SetPositionStart();
+    //   ast.WriteUInt32(1, Endianness.Big); //EntityID
+    //   ast.WriteUInt32(74, Endianness.Big); //attr id
+    //   ast.WriteInt16(1, Endianness.Big); //BonusID
+    //   ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+    //   ast.WriteInt32(1000, Endianness.Big);
+    //   csp = new CsProtoPacket();
+    //   csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+    //   csp.Body = ast.GetAllBytes();
+    //   _client.SendCsProto(csp);
+    //   
+    //   ast.SetPositionStart();
+    //   ast.WriteUInt32(1, Endianness.Big); //EntityID
+    //   ast.WriteUInt32(20, Endianness.Big); //attr id
+    //   ast.WriteInt16(20, Endianness.Big); //BonusID
+    //   ast.WriteUInt16(2, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+    //   ast.WriteFloat(100, Endianness.Big);
+    //   csp = new CsProtoPacket();
+    //   csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+    //   csp.Body = ast.GetAllBytes();
+    //   _client.SendCsProto(csp);
+    //   
+    //   ast.SetPositionStart();
+    //   ast.WriteUInt32(1, Endianness.Big); //EntityID
+    //   ast.WriteUInt32(21, Endianness.Big); //attr id
+    //   ast.WriteInt16(21, Endianness.Big); //BonusID
+    //   ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+    //   ast.WriteFloat(100, Endianness.Big);
+    //   csp = new CsProtoPacket();
+    //   csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+    //   csp.Body = ast.GetAllBytes();
+    //   _client.SendCsProto(csp);
+    //   
+    //   ast.SetPositionStart();
+    //   ast.WriteUInt32(1, Endianness.Big); //EntityID
+    //   ast.WriteUInt32(2, Endianness.Big); //attr id
+    //   ast.WriteInt16(2, Endianness.Big); //BonusID
+    //   ast.WriteUInt16(3, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
+    //   string name = "testa";
+    //   ast.WriteInt32(name.Length + 1, Endianness.Big);
+    //   ast.WriteCString(name);
+    //   csp = new CsProtoPacket();
+    //   csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
+    //   csp.Body = ast.GetAllBytes();
+    //   _client.SendCsProto(csp);
+
+             //  <entry name="EntityID" type="uint"/>
+             //  <entry name="AttrID" type="uint"/>
+             //  <entry name="BonusID" type="short"/>
+             //  <entry name="Data" type="CSAttrBaseData" desc="变量值"/>
+       //   _client.SendCsPacket(NewCsPacket.TokenSync(new CSTokenSync()
+       //   {
+       //       Entries = new List<CSTokenSyncEntry>()
+       //       {
+       //           new CSTokenSyncEntry(
+       //               new CSTokenSyncVar(CS_TOKEN_SYNC_TYPE.CS_TOKEN_SYNC_ENTITYID)
+       //               {
+       //                   EntityID = 1
+       //               }
+       //           )
+       //           {
+       //               Name = "localplayer"
+       //           }
+       //       }
+       //   }));
+
+       //   _client.SendCsPacket(NewCsPacket.EntityAppearNtfIDList(new CSEntityAppearNtfIDList()
+       //   {
+       //       InitType = 1,
+       //       LogicEntityID = new List<uint>() { 1 },
+       //       LogicEntityType = new List<uint>() { 1 }
+       //   }));
             return;
             _client.SendCsPacket(NewCsPacket.PlayerQueryInfo(new CSPlayerQueryInfo()
             {
