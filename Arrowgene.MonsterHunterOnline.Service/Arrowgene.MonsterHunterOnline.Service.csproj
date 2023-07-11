@@ -19,8 +19,4 @@
         </ContentWithTargetPath>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="CsProto\Old" />
-    </ItemGroup>
-
 </Project>
