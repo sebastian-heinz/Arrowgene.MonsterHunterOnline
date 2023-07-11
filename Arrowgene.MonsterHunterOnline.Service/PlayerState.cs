@@ -141,72 +141,72 @@ public class PlayerState
         // case 0
         uint tag = TdrTlv.MakeTag(2, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
+        ast.WriteInt32(5, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(1, Endianness.Big);
         }
         
         // case 1
         // skips X bytes
         tag = TdrTlv.MakeTag(3, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big); 
+        ast.WriteInt32(11, Endianness.Big); 
         
         // case 2
         // read int32
         tag = TdrTlv.MakeTag(4, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(12, Endianness.Big);
         
-                
-        // case 3
+        
+        // case 3 / skip bytes??
         // read int32
         tag = TdrTlv.MakeTag(5, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(13, Endianness.Big);
         
                 
         // case 4
         // read int32
         tag = TdrTlv.MakeTag(6, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(14, Endianness.Big);
         
                 
         // case 5
         // read int32
         tag = TdrTlv.MakeTag(7, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(15, Endianness.Big);
         
                 
         // case 6
         // read int32
         tag = TdrTlv.MakeTag(8, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(16, Endianness.Big);
         
                 
         // case 7
         // read int32
         tag = TdrTlv.MakeTag(9, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(17, Endianness.Big);
         
                 
         // case 8
         // read int32
         tag = TdrTlv.MakeTag(10, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(18, Endianness.Big);
         
                 
         // case 9
         // read int32
         tag = TdrTlv.MakeTag(11, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(19, Endianness.Big);
         
         // case 10
         // read int32
@@ -218,25 +218,25 @@ public class PlayerState
         // read int32
         tag = TdrTlv.MakeTag(13, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(21, Endianness.Big);
         
         // case 12
         // read int32
         tag = TdrTlv.MakeTag(14, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(22, Endianness.Big);
         
         // case 13
         // read int32
         tag = TdrTlv.MakeTag(15, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(23, Endianness.Big);
         
         // case 14
         // read int32
         tag = TdrTlv.MakeTag(16, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big);
+        ast.WriteInt32(24, Endianness.Big);
         
         // case 15
         // read int32
@@ -245,7 +245,7 @@ public class PlayerState
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(25, Endianness.Big);
         }
         
         // case 16 - 0x10
@@ -255,88 +255,98 @@ public class PlayerState
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(26, Endianness.Big);
         }
         
-        // case 17 - 0x10
+        // 17 - readx7 1878525
         tag = TdrTlv.MakeTag(19, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(27, Endianness.Big);
         }
+
+  //18 - readint32 1878660
+  tag = TdrTlv.MakeTag(20, TdrTlvType.ID_2_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt16(28, Endianness.Big);
+
+//19 - readint32 1878706
+        tag = TdrTlv.MakeTag(21, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(29, Endianness.Big);
         
-        // case 18 - 0x11
-        tag = TdrTlv.MakeTag(20, TdrTlvType.ID_4_BYTE);
+// 20 - readx7 1878752
+        tag = TdrTlv.MakeTag(22, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
-        }
+            ast.WriteInt32(30, Endianness.Big);
+        }        
         
-        // case 19 - 0x12
-        tag = TdrTlv.MakeTag(21, TdrTlvType.ID_2_BYTE);
-        TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt16(30, Endianness.Big);
-
-        // case 20 - 0x13
-        tag = TdrTlv.MakeTag(22, TdrTlvType.ID_4_BYTE);
-        TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(40, Endianness.Big);
-        
-        // case 21 - 0x14
+// 21 - readx7 1878893
         tag = TdrTlv.MakeTag(23, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
-        }        
-        
-        // case 22 - 0x15
-        tag = TdrTlv.MakeTag(24, TdrTlvType.ID_4_BYTE);
-        TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
-        for (int i = 0; i < 7; i++)
-        {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(31, Endianness.Big);
         }
         
-        // case 23 - 0x16
-        tag = TdrTlv.MakeTag(25, TdrTlvType.ID_4_BYTE);
+    //22 - readx7 1879037
+    tag = TdrTlv.MakeTag(24, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
-            ast.WriteInt32(10, Endianness.Big);
+            ast.WriteInt32(32, Endianness.Big);
         }        
         
-        // case 24 - 0x17
+   //23 - readx7 1879181
+   tag = TdrTlv.MakeTag(25, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
+        for (int i = 0; i < 7; i++)
+        {
+            ast.WriteInt32(33, Endianness.Big);
+        }
+        
+//24 - skip 1900773
         tag = TdrTlv.MakeTag(26, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
-        for (int i = 0; i < 7; i++)
-        {
-            ast.WriteInt32(10, Endianness.Big);
-        }
-        
-        // skip bytes
-        // case 25 - 0x18
+        ast.WriteInt32(34, Endianness.Big); 
+
+
         tag = TdrTlv.MakeTag(27, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big); 
-        
-        // skip bytes
-        // case 26 - 0x19
+        ast.WriteInt32(34, Endianness.Big); 
+
+
         tag = TdrTlv.MakeTag(28, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(20, Endianness.Big); 
-        
-        // skip bytes
-        // case 27 - 0x20
+        ast.WriteInt32(34, Endianness.Big); 
+
         tag = TdrTlv.MakeTag(29, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(34, Endianness.Big); 
+
+
+        tag = TdrTlv.MakeTag(30, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(34, Endianness.Big); 
+
+// 29
+        tag = TdrTlv.MakeTag(31, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(34, Endianness.Big); 
+
+        
+        
+       // 30 - readx7 1879325
+ 
+        tag = TdrTlv.MakeTag(32, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
@@ -344,10 +354,38 @@ public class PlayerState
             ast.WriteInt32(10, Endianness.Big);
         }
         
+        tag = TdrTlv.MakeTag(33, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
+        for (int i = 0; i < 7; i++)
+        {
+            ast.WriteInt32(10, Endianness.Big);
+        }
         
+        tag = TdrTlv.MakeTag(34, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
+        for (int i = 0; i < 7; i++)
+        {
+            ast.WriteInt32(10, Endianness.Big);
+        }
         
+        tag = TdrTlv.MakeTag(35, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
+        for (int i = 0; i < 7; i++)
+        {
+            ast.WriteInt32(10, Endianness.Big);
+        }
         
-        for (int i = 28; i < 200; i++)
+       //34 - readint32 1879901
+       tag = TdrTlv.MakeTag(36, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(35, Endianness.Big); 
+        
+
+ 
+        for (int i = 37; i < 200; i++)
         {
             tag = TdrTlv.MakeTag(i, TdrTlvType.ID_4_BYTE);
             TdrBuffer.WriteVarUInt32(ast, tag);

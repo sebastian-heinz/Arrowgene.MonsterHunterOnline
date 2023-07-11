@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
@@ -126,6 +128,16 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public void SendCsPacket(CsPacket packet)
         {
             SendCsProto(packet.BuildPacket());
+        }
+        
+        public void SendStructure(CS_CMD_ID cmd, IStructure structure)
+        {
+            IBuffer buffer = new StreamBuffer();
+            structure.Write(buffer);
+            CsProtoPacket packet = new CsProtoPacket();
+            packet.Body = buffer.GetAllBytes();
+            packet.Cmd = cmd;
+            SendCsProto(packet);
         }
 
         public void SendCsProto(CsProtoPacket packet)

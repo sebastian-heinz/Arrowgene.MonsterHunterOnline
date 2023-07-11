@@ -29,8 +29,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public byte[] Header { get; set; }
         public byte[] Body { get; set; }
 
-        public bool WrappedCrypto { get; set; }
-
         public string PrintHeader()
         {
             return

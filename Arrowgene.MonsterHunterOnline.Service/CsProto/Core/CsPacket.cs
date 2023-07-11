@@ -1,8 +1,11 @@
+using System;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Buffer = Arrowgene.Buffers.Buffer;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
+    // TODO remove
     public abstract class CsPacket
     {
         public abstract CS_CMD_ID Cmd { get; }
