@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
 
         private Program()
         {
-            _logDir = new DirectoryInfo(Path.Combine(Util.ExecutingDirectory(), "Logs"));
+            _logDir = new DirectoryInfo(Path.Combine(Util.ExecutingDirectory(), "Files/Logs"));
             if (!_logDir.Exists)
             {
                 Directory.CreateDirectory(_logDir.FullName);

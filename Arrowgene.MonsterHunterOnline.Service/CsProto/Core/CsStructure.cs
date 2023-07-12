@@ -24,6 +24,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             return val;
         }
 
+        protected long ReadInt64(IBuffer buffer)
+        {
+            return buffer.ReadInt64(Endianness.Big);
+        }
+
+        protected void WriteInt64(IBuffer buffer, long val)
+        {
+            buffer.WriteInt64(val, Endianness.Big);
+        }
+
+        protected ulong ReadUInt64(IBuffer buffer)
+        {
+            return buffer.ReadUInt64(Endianness.Big);
+        }
+
+        protected void WriteUInt64(IBuffer buffer, ulong val)
+        {
+            buffer.WriteUInt64(val, Endianness.Big);
+        }
+
         protected int ReadInt32(IBuffer buffer)
         {
             return buffer.ReadInt32(Endianness.Big);
@@ -32,6 +52,36 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         protected void WriteInt32(IBuffer buffer, int val)
         {
             buffer.WriteInt32(val, Endianness.Big);
+        }
+
+        protected uint ReadUInt32(IBuffer buffer)
+        {
+            return buffer.ReadUInt32(Endianness.Big);
+        }
+
+        protected void WriteUInt32(IBuffer buffer, uint val)
+        {
+            buffer.WriteUInt32(val, Endianness.Big);
+        }
+
+        protected ushort ReadUInt16(IBuffer buffer)
+        {
+            return buffer.ReadUInt16(Endianness.Big);
+        }
+
+        protected void WriteUInt16(IBuffer buffer, ushort val)
+        {
+            buffer.WriteUInt16(val, Endianness.Big);
+        }
+
+        protected short ReadInt16(IBuffer buffer)
+        {
+            return buffer.ReadInt16(Endianness.Big);
+        }
+
+        protected void WriteInt16(IBuffer buffer, short val)
+        {
+            buffer.WriteInt16(val, Endianness.Big);
         }
 
         protected byte ReadByte(IBuffer buffer)
@@ -44,34 +94,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             buffer.WriteByte(val);
         }
 
-        protected void ReadArray<T>(IBuffer buffer, int count, T[] dst, Func<IBuffer, T> readFn)
+        protected void ReadArray<T>(IBuffer buffer, T[] dst, int limit, Func<IBuffer, T> readFn)
         {
-            if (count >= dst.Length)
+            if (limit >= dst.Length)
             {
                 // Err
             }
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < limit; i++)
             {
                 dst[i] = readFn(buffer);
             }
         }
 
-        protected void WriteArray<T>(IBuffer buffer, T[] src, Action<IBuffer, T> writeFn)
+        protected void WriteArray<T>(IBuffer buffer, T[] src, int limit, Action<IBuffer, T> writeFn)
         {
+            if (limit >= src.Length)
+            {
+                // Err
+            }
+
             for (int i = 0; i < src.Length; i++)
             {
                 writeFn(buffer, src[i]);
-            }
-        }
-
-        protected void ReadList<T>(IBuffer buffer, int count, List<T> dst, Func<IBuffer, T> readFn)
-        {
-            dst.Clear();
-            for (int i = 0; i < count; i++)
-            {
-                T val = readFn(buffer);
-                dst.Add(val);
             }
         }
 
@@ -97,18 +142,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
         }
 
-        protected void ReadList<TSize, TVal>(IBuffer buffer, List<TVal> dst, Func<IBuffer, TSize> readSizeFn,
-            Func<IBuffer, TVal> readValFn) where TSize : IBinaryInteger<TSize>
-        {
-            TSize size = readSizeFn(buffer);
-            dst.Clear();
-            for (TSize i = TSize.Zero; i < size; i++)
-            {
-                TVal val = readValFn(buffer);
-                dst.Add(val);
-            }
-        }
-
         protected void WriteList<TSize, TVal>(IBuffer buffer,
             List<TVal> src,
             TSize limit,
@@ -130,19 +163,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
         }
 
-        protected void WriteList<TSize, TVal>(IBuffer buffer,
-            List<TVal> src,
-            Action<IBuffer, TSize> writeSizeFn,
-            Action<IBuffer, TVal> writeValFn
-        ) where TSize : IBinaryInteger<TSize>
+        protected void WriteStructure(IBuffer buffer, IStructure val)
         {
-            TSize size = TSize.CreateChecked(src.Count);
-            writeSizeFn(buffer, size);
-            for (int i = 0; i < src.Count; i++)
-            {
-                TVal val = src[i];
-                writeValFn(buffer, val);
-            }
+            val.Write(buffer);
+        }
+
+        protected TStructure ReadStructure<TStructure>(IBuffer buffer) where TStructure : IStructure, new()
+        {
+            TStructure val = new TStructure();
+            val.Read(buffer);
+            return val;
         }
 
         protected T[] InitArray<T>(int count) where T : new()

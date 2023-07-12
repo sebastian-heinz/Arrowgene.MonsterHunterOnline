@@ -1,6 +1,9 @@
-﻿using Arrowgene.Logging;
+﻿using System.IO;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
+using Arrowgene.MonsterHunterOnline.Service.Database;
+using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
@@ -20,35 +23,48 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private readonly AsyncEventServer _battleServer;
         private readonly Setting _setting;
         private readonly MhoWebServer _webServer;
+        private readonly IDatabase _database;
 
         public Server(Setting setting)
         {
             _setting = new Setting(setting);
+            _database = CreateDatabase();
             _tpduConsumer = new TpduConsumer(_setting);
             _csProtoPacketHandler = new CsProtoPacketHandler(_setting);
             _battleServerConsumer = new CsProtoConsumer(_setting, _csProtoPacketHandler);
             _webServer = new MhoWebServer();
-
             _server = new AsyncEventServer(
                 _setting.ListenIpAddress,
                 _setting.ServerPort,
                 _tpduConsumer,
                 _setting.SocketSettings
             );
-
             _battleServer = new AsyncEventServer(
                 _setting.ListenIpAddress,
                 _setting.BattleServerPort,
                 _battleServerConsumer,
                 _setting.SocketSettings
             );
-
             Chat = new ChatSystem();
-
             LoadPacketHandler();
         }
 
         public ChatSystem Chat { get; }
+
+        private IDatabase CreateDatabase()
+        {
+            string sqliteFolder = Path.Combine(Util.ExecutingDirectory(), "Files/SQLite");
+
+            string sqLitePath = Path.Combine(sqliteFolder, $"db.v{SQLiteDb.Version}.sqlite");
+            SQLiteDb db = new SQLiteDb(sqLitePath);
+            if (db.CreateDatabase())
+            {
+                ScriptRunner scriptRunner = new ScriptRunner(db);
+                scriptRunner.Run(Path.Combine(sqliteFolder, "schema_sqlite.sql"));
+            }
+
+            return db;
+        }
 
         private void LoadPacketHandler()
         {
@@ -88,12 +104,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdTeamInfoGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdVipServiceExpireReqHandler());
 
-            _tpduConsumer.AddHandler(new TpduCmdAuthHandler());
+            _tpduConsumer.AddHandler(new TpduCmdAuthHandler(_database));
             _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
             _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoPacketHandler));
             _tpduConsumer.AddHandler(new TpduCmdCloseHandler());
         }
-
 
         public void Start()
         {

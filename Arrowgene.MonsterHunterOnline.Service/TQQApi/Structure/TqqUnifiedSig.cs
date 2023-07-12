@@ -5,9 +5,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Model;
 /// <summary>
 /// 0X82签名协议
 /// </summary>
-public class TQQUnifiedSig
+public class TqqUnifiedSig
 {
-    public TQQUnifiedSig()
+    public TqqUnifiedSig()
     {
         EncryptSignData = Array.Empty<byte>();
     }

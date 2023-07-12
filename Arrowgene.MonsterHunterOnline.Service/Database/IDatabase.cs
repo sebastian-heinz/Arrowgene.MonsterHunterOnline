@@ -10,20 +10,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         bool CreateDatabase();
 
         // Account
-        Account CreateAccount(string name, string mail, string hash);
-        Account SelectAccountById(int accountId);
-        Account SelectAccountByName(string accountName);
-        Account SelectAccountByLoginToken(string loginToken);
+        Account CreateAccount(uint uin, string passwordHash);
+        Account SelectAccountById(uint accountId);
+        Account SelectAccountByUin(uint uin);
         bool UpdateAccount(Account account);
-        bool DeleteAccount(int accountId);
+        bool DeleteAccount(uint accountId);
 
         // Character
         bool CreateCharacter(Character character);
-        Character SelectCharacter(uint characterId);
-        List<Character> SelectCharactersByAccountId(int accountId);
+        Character SelectCharacterById(uint characterId);
+        bool UpdateCharacter(Character character);
+        List<Character> SelectCharactersByAccountId(uint accountId);
         bool DeleteCharacter(uint characterId);
-        bool UpdateCharacterBaseInfo(Character character);
-        bool UpdateCharacterMatchingProfile(Character character);
-        bool UpdateCharacterArisenProfile(Character character);
     }
 }

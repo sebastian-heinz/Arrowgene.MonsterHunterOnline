@@ -6,6 +6,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
 using Arrowgene.Networking.Tcp;
@@ -41,6 +42,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public PlayerState State { get; set; }
 
         public TConnSecEnc TConnSecEnc => _tdpuCrypto?.TConnSecEnc ?? TConnSecEnc.TCONN_SEC_NONE;
+        public Account Account { get; set; }
+        public Character Character { get; set; }
 
         public TdpuCrypto GetTdpuCrypto()
         {
@@ -129,7 +132,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         {
             SendCsProto(packet.BuildPacket());
         }
-        
+
         public void SendStructure(CS_CMD_ID cmd, IStructure structure)
         {
             IBuffer buffer = new StreamBuffer();

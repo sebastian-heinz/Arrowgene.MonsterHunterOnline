@@ -21,6 +21,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         [DataMember(Order = 6)] public ushort ServerPort { get; set; }
         [DataMember(Order = 7)] public ushort BattleServerPort { get; set; }
         [DataMember(Order = 20)] public int LogLevel { get; set; }
+
         [DataMember(Order = 100)] public AsyncEventSettings SocketSettings { get; set; }
 
         public Setting()

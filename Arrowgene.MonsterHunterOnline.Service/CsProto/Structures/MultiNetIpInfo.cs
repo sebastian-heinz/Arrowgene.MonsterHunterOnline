@@ -82,13 +82,13 @@ public class MultiNetIpInfo : CsStructure
         WriteString(buffer, DomainName);
         WriteString(buffer, DomainAnalyseIp);
         WriteInt32(buffer, PingDomainIp);
-        WriteArray(buffer, ConfigIp, WriteString);
-        WriteArray(buffer, PingIp, WriteInt32);
+        WriteArray(buffer, ConfigIp, CsProtoConstant.CS_MAX_IP_STRING_COUNT, WriteString);
+        WriteArray(buffer, PingIp, CsProtoConstant.CS_MAX_IP_STRING_COUNT, WriteInt32);
         WriteInt32(buffer, Port);
-        WriteList<int, byte>(buffer, Signature, CsProtoConstant.CS_MAX_SIGNATURE_LEN, WriteInt32, WriteByte);
+        WriteList(buffer, Signature, CsProtoConstant.CS_MAX_SIGNATURE_LEN, WriteInt32, WriteByte);
         WriteInt32(buffer, Isp);
         WriteInt32(buffer, Mode);
-        WriteArray(buffer, HistoryPingWeight, WriteInt32);
+        WriteArray(buffer, HistoryPingWeight, CsProtoConstant.CS_MAX_IP_STRING_COUNT, WriteInt32);
     }
 
     public override void Read(IBuffer buffer)
@@ -97,12 +97,12 @@ public class MultiNetIpInfo : CsStructure
         DomainName = ReadString(buffer);
         DomainAnalyseIp = ReadString(buffer);
         PingDomainIp = ReadInt32(buffer);
-        ReadArray(buffer, CsProtoConstant.CS_MAX_IP_STRING_COUNT, ConfigIp, ReadString);
-        ReadArray(buffer, CsProtoConstant.CS_MAX_IP_STRING_COUNT, PingIp, ReadInt32);
+        ReadArray(buffer, ConfigIp, CsProtoConstant.CS_MAX_IP_STRING_COUNT, ReadString);
+        ReadArray(buffer, PingIp, CsProtoConstant.CS_MAX_IP_STRING_COUNT, ReadInt32);
         Port = ReadInt32(buffer);
         ReadList<int, byte>(buffer, Signature, CsProtoConstant.CS_MAX_SIGNATURE_LEN, ReadInt32, ReadByte);
         Isp = ReadInt32(buffer);
         Mode = ReadInt32(buffer);
-        ReadArray(buffer, CsProtoConstant.CS_MAX_IP_STRING_COUNT, HistoryPingWeight, ReadInt32);
+        ReadArray(buffer, HistoryPingWeight, CsProtoConstant.CS_MAX_IP_STRING_COUNT, ReadInt32);
     }
 }

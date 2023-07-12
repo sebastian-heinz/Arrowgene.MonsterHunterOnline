@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Arrowgene.Buffers;
 
 namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
 {
@@ -58,6 +59,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
             sb.Append(Environment.NewLine);
             sb.Append(Util.HexDump(Body));
             return sb.ToString();
+        }
+
+        public IBuffer NewHeaderExtBuffer()
+        {
+            IBuffer buf = new StreamBuffer(HeaderExt);
+            buf.SetPositionStart();
+            return buf;
         }
 
         public override string ToString()
