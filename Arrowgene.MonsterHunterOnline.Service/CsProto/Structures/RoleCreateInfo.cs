@@ -1,9 +1,10 @@
 ﻿using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RoleCreateInfo : CsStructure
+public class RoleCreateInfo : Structure
 {
     public RoleCreateInfo()
     {

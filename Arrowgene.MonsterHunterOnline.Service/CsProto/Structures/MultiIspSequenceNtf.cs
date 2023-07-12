@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class MultiIspSequenceNtf : CsStructure
+public class MultiIspSequenceNtf : Structure
 {
     /// <summary>
     /// 双线机房运营商顺序

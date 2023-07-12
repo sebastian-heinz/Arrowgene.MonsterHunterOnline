@@ -4,10 +4,10 @@ using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Structure;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 
 public class TpduCmdAuthHandler : TdpuStructureHandler<TqqExtAuthInfo>
 {

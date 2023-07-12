@@ -5,7 +5,7 @@ using Arrowgene.Buffers;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
-    public abstract class CsStructure : IStructure
+    public abstract class Structure : IStructure
     {
         public abstract void Write(IBuffer buffer);
         public abstract void Read(IBuffer buffer);

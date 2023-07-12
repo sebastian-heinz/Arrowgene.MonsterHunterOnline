@@ -2,7 +2,7 @@
 using System.Text;
 using Arrowgene.Buffers;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
 {
     /// <summary>
     /// Transport Protocol Data Unit

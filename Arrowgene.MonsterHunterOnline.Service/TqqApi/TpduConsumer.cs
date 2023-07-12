@@ -4,7 +4,7 @@ using Arrowgene.Logging;
 using Arrowgene.Networking.Tcp;
 using Arrowgene.Networking.Tcp.Consumer.BlockingQueueConsumption;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
 {
     public class TpduConsumer : ThreadedBlockingQueueConsumer
     {

@@ -45,6 +45,6 @@ public class CsCmdCheckVersionHandler : ICsProtoHandler
         CsProtoPacket resp = new CsProtoPacket();
         resp.Body = res.GetAllBytes();
         resp.Cmd = CS_CMD_ID.CS_CMD_CHECK_VERSION_RSP;
-        client.SendCsProto(resp);
+        client.SendCsProtoPacket(resp);
     }
 }

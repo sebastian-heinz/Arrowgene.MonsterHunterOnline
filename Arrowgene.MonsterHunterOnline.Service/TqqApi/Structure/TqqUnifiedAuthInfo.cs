@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Constant;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Constant;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Structure;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-public class TqqUnifiedAuthInfo : CsStructure, ITpduExtAuthData
+public class TqqUnifiedAuthInfo : CsProto.Core.Structure, ITpduExtAuthData
 {
     public TqqUnifiedAuthInfo()
     {

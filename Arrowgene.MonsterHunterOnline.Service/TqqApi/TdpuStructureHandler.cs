@@ -1,5 +1,4 @@
 ﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi;
 

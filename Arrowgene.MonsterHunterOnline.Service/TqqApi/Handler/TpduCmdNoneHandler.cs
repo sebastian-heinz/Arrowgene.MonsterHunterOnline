@@ -1,6 +1,6 @@
 ﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 
 public class TpduCmdNoneHandler : ITpduHandler
 {

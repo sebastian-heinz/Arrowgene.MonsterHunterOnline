@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
 {
     public class TpduPacketFactory
     {

@@ -1,7 +1,7 @@
 ﻿using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 
 public class TpduCmdSynAckHandler : ITpduHandler
 {

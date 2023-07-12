@@ -1,6 +1,6 @@
 ﻿using Arrowgene.Logging;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 
 public class TpduCmdCloseHandler : ITpduHandler
 {

@@ -1,4 +1,4 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Constant;
+﻿namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Constant;
 
 public class TqqApiConstant
 {

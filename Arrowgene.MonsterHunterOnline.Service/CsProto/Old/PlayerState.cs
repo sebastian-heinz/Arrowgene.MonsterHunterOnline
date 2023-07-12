@@ -615,7 +615,7 @@ public class PlayerState
             CsProtoPacket csp = new CsProtoPacket();
             csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
             csp.Body = ast.GetAllBytes();
-            _client.SendCsProto(csp);
+            _client.SendCsProtoPacket(csp);
 
             //   ast.SetPositionStart();
             //   ast.WriteUInt32(1, Endianness.Big); //EntityID

@@ -7,8 +7,8 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 using Arrowgene.Networking.Tcp;
 
 namespace Arrowgene.MonsterHunterOnline.Service
@@ -128,22 +128,28 @@ namespace Arrowgene.MonsterHunterOnline.Service
             return packets;
         }
 
+        // TODO remove this, CSPacket is obsolete
         public void SendCsPacket(CsPacket packet)
         {
-            SendCsProto(packet.BuildPacket());
+            SendCsProtoPacket(packet.BuildPacket());
         }
-
-        public void SendStructure(CS_CMD_ID cmd, IStructure structure)
+        
+        public void SendCsProtoStructurePacket(ICsProtoStructurePacket packet)
+        {
+            SendCsProtoStructure(packet.Cmd, packet);
+        }
+        
+        public void SendCsProtoStructure(CS_CMD_ID cmd, IStructure structure)
         {
             IBuffer buffer = new StreamBuffer();
             structure.Write(buffer);
             CsProtoPacket packet = new CsProtoPacket();
             packet.Body = buffer.GetAllBytes();
             packet.Cmd = cmd;
-            SendCsProto(packet);
+            SendCsProtoPacket(packet);
         }
-
-        public void SendCsProto(CsProtoPacket packet)
+        
+        public void SendCsProtoPacket(CsProtoPacket packet)
         {
             byte[] csProtoData;
             try
@@ -159,6 +165,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
             if (SystemEncryptData)
             {
+                // TODO this should  probably be a setting on packet level
                 SendRaw(csProtoData);
                 Logger.LogPacket(this, packet);
                 return;

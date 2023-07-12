@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class MultiNetIpInfo : CsStructure
+public class MultiNetIpInfo : Structure
 {
     public MultiNetIpInfo()
     {

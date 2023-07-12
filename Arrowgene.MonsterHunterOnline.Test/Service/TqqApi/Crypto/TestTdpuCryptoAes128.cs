@@ -1,7 +1,7 @@
-﻿using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+﻿using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 using Xunit;
 
-namespace Arrowgene.MonsterHunterOnline.Test.Service.TQQApi.Crypto;
+namespace Arrowgene.MonsterHunterOnline.Test.Service.TqqApi.Crypto;
 
 public class TestTdpuCryptoAes128
 {

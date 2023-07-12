@@ -1,7 +1,7 @@
 ﻿using System;
 using Arrowgene.Logging;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 
 public abstract class TdpuCrypto
 {

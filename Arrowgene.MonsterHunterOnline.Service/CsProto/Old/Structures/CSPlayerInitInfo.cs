@@ -25,6 +25,7 @@
 using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 

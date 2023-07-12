@@ -4,9 +4,10 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
+using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Web;
 using Arrowgene.Networking.Tcp.Server.AsyncEvent;
 
@@ -21,35 +22,40 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private readonly CsProtoConsumer _battleServerConsumer;
         private readonly AsyncEventServer _server;
         private readonly AsyncEventServer _battleServer;
-        private readonly Setting _setting;
         private readonly MhoWebServer _webServer;
-        private readonly IDatabase _database;
 
         public Server(Setting setting)
         {
-            _setting = new Setting(setting);
-            _database = CreateDatabase();
-            _tpduConsumer = new TpduConsumer(_setting);
-            _csProtoPacketHandler = new CsProtoPacketHandler(_setting);
-            _battleServerConsumer = new CsProtoConsumer(_setting, _csProtoPacketHandler);
+            Setting = new Setting(setting);
+
+            Database = CreateDatabase();
+
+            _tpduConsumer = new TpduConsumer(Setting);
+            _csProtoPacketHandler = new CsProtoPacketHandler(Setting);
+            _battleServerConsumer = new CsProtoConsumer(Setting, _csProtoPacketHandler);
             _webServer = new MhoWebServer();
             _server = new AsyncEventServer(
-                _setting.ListenIpAddress,
-                _setting.ServerPort,
+                Setting.ListenIpAddress,
+                Setting.ServerPort,
                 _tpduConsumer,
-                _setting.SocketSettings
+                Setting.SocketSettings
             );
             _battleServer = new AsyncEventServer(
-                _setting.ListenIpAddress,
-                _setting.BattleServerPort,
+                Setting.ListenIpAddress,
+                Setting.BattleServerPort,
                 _battleServerConsumer,
-                _setting.SocketSettings
+                Setting.SocketSettings
             );
             Chat = new ChatSystem();
+            CharacterManager = new CharacterManager(Database);
+
             LoadPacketHandler();
         }
 
+        public Setting Setting { get; }
         public ChatSystem Chat { get; }
+        public CharacterManager CharacterManager { get; }
+        public IDatabase Database { get; }
 
         private IDatabase CreateDatabase()
         {
@@ -83,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdClientSendLogHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdCreateRoleReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdCreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new CsCmdDataLoadHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdDragonBoxDetailReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdEnterLevelNtfHandler());
@@ -94,7 +100,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdItemReBuildLimitDataHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMailUnreadGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMartGoodsListReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdMultiNetIpInfoHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdMultiNetIpInfoHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new CsCmdPlayerExtNotifyHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdReselectRoleReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdSelectRoleHandler());
@@ -104,7 +110,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdTeamInfoGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdVipServiceExpireReqHandler());
 
-            _tpduConsumer.AddHandler(new TpduCmdAuthHandler(_database));
+            _tpduConsumer.AddHandler(new TpduCmdAuthHandler(Database));
             _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
             _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoPacketHandler));
             _tpduConsumer.AddHandler(new TpduCmdCloseHandler());

@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 
 public class TdpuCryptoAes128 : TdpuCrypto
 {

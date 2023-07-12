@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.Networking.Tcp;
 
 namespace Arrowgene.MonsterHunterOnline.Service
@@ -47,6 +47,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public void Debug(Client client, string message)
         {
             Debug($"{client.Identity} {message}");
+        }
+
+        public void Trace(Client client, string message)
+        {
+            Trace($"{client.Identity} {message}");
         }
 
         public void Error(Client client, string message)

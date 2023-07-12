@@ -1,4 +1,4 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.TQQApi;
+﻿namespace Arrowgene.MonsterHunterOnline.Service.TqqApi;
 
 public interface ITpduHandler
 {

@@ -1,6 +1,6 @@
 ﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TQQApi.Structure;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
 public interface ITpduExtAuthData : IStructure
 {
