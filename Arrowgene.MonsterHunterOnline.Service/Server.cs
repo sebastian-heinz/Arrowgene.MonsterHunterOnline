@@ -74,6 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         private void LoadPacketHandler()
         {
+            // old handler
             _csProtoPacketHandler.AddHandler(new C2SCmdActivityAddSecretQuestHandler());
             _csProtoPacketHandler.AddHandler(new C2SCmdPetRngHandler());
             _csProtoPacketHandler.AddHandler(new C2SCmdSActivityListReqHandler());
@@ -89,7 +90,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdClientSendLogHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdCreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new CsCmdDataLoadHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdDragonBoxDetailReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdEnterLevelNtfHandler());
@@ -100,7 +100,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdItemReBuildLimitDataHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMailUnreadGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMartGoodsListReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdMultiNetIpInfoHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new CsCmdPlayerExtNotifyHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdReselectRoleReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdSelectRoleHandler());
@@ -109,8 +108,14 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdSystemTransAntiDataHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdTeamInfoGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdVipServiceExpireReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdDeleteRoleReqHandler(CharacterManager));
-            _csProtoPacketHandler.AddHandler(new CsCmdWorldAccountReqHandler());
+            
+            // new handler
+            _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
+            
             
             _tpduConsumer.AddHandler(new TpduCmdAuthHandler(Database));
             _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());

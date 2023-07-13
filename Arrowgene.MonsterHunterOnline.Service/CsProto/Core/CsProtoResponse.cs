@@ -25,7 +25,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsProtoStructurePacket<DeleteRoleRsp> DeleteRoleRsp =>
             new(CS_CMD_ID.CS_CMD_DELETE_ROLE_RSP);
+
         public static CsProtoStructurePacket<AccountRsp> AccountRsp =>
             new(CS_CMD_ID.SC_CMD_WORLD_ACCOUNT_RSP);
+
+        public static CsProtoStructurePacket<ModifyFaceRsp> ModifyFaceRsp =>
+            new(CS_CMD_ID.CS_CMD_MODIFY_FACE_RSP);
     }
 }

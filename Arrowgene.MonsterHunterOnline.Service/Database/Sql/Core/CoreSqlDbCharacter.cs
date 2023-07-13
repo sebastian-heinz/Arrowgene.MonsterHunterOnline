@@ -13,10 +13,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
         private static readonly string[] CharacterFields = new string[]
         {
             "account_id", "role_index", "gender", "level", "name", "role_state", "role_state_end_left_time",
-            "avatar_set_id",
-            "face_id", "hair_id", "underclothes_id", "skin_color", "hair_color", "inner_color", "eye_ball", "eye_color",
-            "face_tattoo_index", "face_tattoo_color", "facial_info", "star_level", "hr_level", "soul_stone_lv",
-            "hide_helm", "hide_fashion", "hide_suite", "created"
+            "avatar_set_id", "face_id", "hair_id", "underclothes_id", "skin_color", "hair_color", "inner_color",
+            "eye_ball", "eye_color", "face_tattoo_index", "face_tattoo_color", "facial_info", "star_level", "hr_level",
+            "soul_stone_lv", "hide_helm", "hide_fashion", "hide_suite", "created"
         };
 
         private readonly string SqlInsertCharacter =

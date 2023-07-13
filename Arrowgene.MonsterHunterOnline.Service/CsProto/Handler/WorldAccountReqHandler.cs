@@ -2,21 +2,19 @@
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-using Arrowgene.MonsterHunterOnline.Service.System;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
-public class CsCmdWorldAccountReqHandler : CsProtoStructureHandler<AccountReq>
+public class WorldAccountReqHandler : CsProtoStructureHandler<AccountReq>
 {
     private static readonly ServiceLogger Logger =
-        LogProvider.Logger<ServiceLogger>(typeof(CsCmdWorldAccountReqHandler));
+        LogProvider.Logger<ServiceLogger>(typeof(WorldAccountReqHandler));
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_WORLD_ACCOUNT_REQ;
 
 
-    public CsCmdWorldAccountReqHandler()
+    public WorldAccountReqHandler()
     {
-
     }
 
     public override void Handle(Client client, AccountReq req)

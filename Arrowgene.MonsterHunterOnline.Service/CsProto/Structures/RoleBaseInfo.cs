@@ -180,6 +180,13 @@ public class RoleBaseInfo : Structure
         WriteUInt16(buffer, FaceId);
         WriteUInt16(buffer, HairId);
         WriteUInt16(buffer, UnderclothesId);
+        ushort equipSize = (ushort)Equip.Count;
+        if (equipSize > CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE)
+        {
+            equipSize = CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE;
+        }
+
+        WriteUInt16(buffer, equipSize);
         WriteInt32(buffer, SkinColor);
         WriteInt32(buffer, HairColor);
         WriteInt32(buffer, InnerColor);
@@ -187,7 +194,7 @@ public class RoleBaseInfo : Structure
         WriteInt32(buffer, EyeColor);
         WriteInt32(buffer, FaceTattooIndex);
         WriteInt32(buffer, FaceTattooColor);
-        WriteList(buffer, Equip, (ushort)CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, WriteUInt16, WriteStructure);
+        WriteList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, WriteStructure);
         WriteByte(buffer, HideHelm);
         WriteByte(buffer, HideFashion);
         WriteByte(buffer, HideSuite);
@@ -210,6 +217,12 @@ public class RoleBaseInfo : Structure
         FaceId = ReadUInt16(buffer);
         HairId = ReadUInt16(buffer);
         UnderclothesId = ReadUInt16(buffer);
+        ushort equipSize = ReadUInt16(buffer);
+        if (equipSize > CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE)
+        {
+            equipSize = CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE;
+        }
+
         SkinColor = ReadInt32(buffer);
         HairColor = ReadInt32(buffer);
         InnerColor = ReadInt32(buffer);
@@ -218,13 +231,7 @@ public class RoleBaseInfo : Structure
         FaceTattooIndex = ReadInt32(buffer);
         FaceTattooColor = ReadInt32(buffer);
         Equip.Clear();
-        ReadList(
-            buffer,
-            Equip,
-            (ushort)CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE,
-            ReadUInt16,
-            ReadStructure<CSAvatarItem>
-        );
+        ReadList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, ReadStructure<CSAvatarItem>);
         HideHelm = ReadByte(buffer);
         HideFashion = ReadByte(buffer);
         HideSuite = ReadByte(buffer);

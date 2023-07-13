@@ -53,15 +53,15 @@ and construct a `CsProtoPacket` this contains a Id and the data.
 Based on the Id the server will then call a `ICsProtoHandler` implementation.
 The implementations can be found in the `/CsProto/Handler/` folder.
 
-A newly created handler should be named after its Id with the `Handler` suffix.
+A newly created handler should be named after its Id but dropping the `CsCmd` prefix and adding a`Handler` suffix.
 ```
-`CS_CMD_ID.CS_CMD_MULTI_NET_IPINFO` -> `CsCmdMultiNetIpInfoHandler`
+`CS_CMD_ID.CS_CMD_MULTI_NET_IPINFO` -> `MultiNetIpInfoHandler`
 ```
 
 The handler implementation should extend `CsProtoStructureHandler<TStructure>`
 where `TStructure` is the corresponding packet structure class.
 ```
-public class CsCmdMultiNetIpInfoHandler : CsProtoStructureHandler<MultiNetIpInfo>
+public class MultiNetIpInfoHandler : CsProtoStructureHandler<MultiNetIpInfo>
 ```
 
 The handler needs to provide the Id which should trigger a call to the handler.

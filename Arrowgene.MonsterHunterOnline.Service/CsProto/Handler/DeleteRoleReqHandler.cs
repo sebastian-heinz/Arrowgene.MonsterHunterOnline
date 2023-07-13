@@ -6,16 +6,16 @@ using Arrowgene.MonsterHunterOnline.Service.System;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
-public class CsCmdDeleteRoleReqHandler : CsProtoStructureHandler<DeleteRoleReq>
+public class DeleteRoleReqHandler : CsProtoStructureHandler<DeleteRoleReq>
 {
     private static readonly ServiceLogger Logger =
-        LogProvider.Logger<ServiceLogger>(typeof(CsCmdDeleteRoleReqHandler));
+        LogProvider.Logger<ServiceLogger>(typeof(DeleteRoleReqHandler));
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_DELETE_ROLE_REQ;
 
     private readonly CharacterManager _characterManager;
 
-    public CsCmdDeleteRoleReqHandler(CharacterManager characterManager)
+    public DeleteRoleReqHandler(CharacterManager characterManager)
     {
         _characterManager = characterManager;
     }
@@ -27,6 +27,10 @@ public class CsCmdDeleteRoleReqHandler : CsProtoStructureHandler<DeleteRoleReq>
         {
             Logger.Info(client, $"Failed to delete character:{req.RoleIndex}");
         }
+
+        CsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
+        _characterManager.PopulateRoleList(client, listRoleRsp.Structure);
+        client.SendCsProtoStructurePacket(listRoleRsp);
 
         Logger.Info(client, $"Deleted character:{req.RoleIndex}");
     }

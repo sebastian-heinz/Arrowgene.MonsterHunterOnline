@@ -18,6 +18,38 @@ public class CharacterManager
         _database = database;
     }
 
+    public bool ModifyCharacter(Client client, ModifyFaceReq req)
+    {
+        Character character = _database.SelectCharacterByRoleIndex(client.Account.Id, (byte)req.RoleIndex);
+        if (character == null)
+        {
+            return false;
+        }
+
+        character.AccountId = client.Account.Id;
+        //req.Uin;
+        //req.DbId;
+        //req.ChangeGender;
+        character.Gender = (byte)req.Gender;
+
+        character.FaceId = req.FaceId;
+        character.HairId = req.HairId;
+        character.UnderclothesId = req.UnderclothesId;
+        character.SkinColor = req.SkinColor;
+        character.HairColor = req.HairColor;
+        character.InnerColor = req.InnerColor;
+        character.EyeBall = req.EyeBall;
+        character.EyeColor = req.EyeColor;
+        character.FaceTattooIndex = req.FaceTattooIndex;
+        character.FaceTattooColor = req.FaceTattooColor;
+        for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+        {
+            character.FacialInfo[i] = req.FacialInfo[i];
+        }
+
+        return _database.UpdateCharacter(character);
+    }
+
     public bool DeleteCharacter(Client client, byte roleIndex)
     {
         // TODO it looks like there is a grace period, but not sure about the mechanic, for now just delete it
@@ -40,15 +72,15 @@ public class CharacterManager
             return false;
         }
 
-        SendRoleList(client, CsProtoResponse.ListRoleRsp);
         return true;
     }
 
     /// <summary>
     /// Creates a new character with default values
     /// </summary>
-    public bool CreateCharacter(Client client, RoleCreateInfo req)
+    public Character CreateCharacter(Client client, RoleCreateInfo req)
     {
+        Logger.Trace(client, "CreateCharacter");
         Character character = new Character();
         character.AccountId = client.Account.Id;
         character.Index = 0;
@@ -80,18 +112,20 @@ public class CharacterManager
         character.HideFashion = 0;
         character.HideSuite = 0;
 
-        return _database.CreateCharacter(character);
+        if (!_database.CreateCharacter(character))
+        {
+            return null;
+        }
+
+        return character;
     }
 
     /// <summary>
-    /// Sends RoleBaseInfo to client.
-    /// Since this structure has two possible ids
-    /// it is required to provide the desired response as second argument.
-    /// Either CsProtoResponse.ListRoleRsp or CsProtoResponse.CreateRoleRsp
+    /// Adds all roles for given client to `RoleList`
     /// </summary>
-    public void SendRoleList(Client client, CsProtoStructurePacket<ListRoleRsp> rsp)
+    public void PopulateRoleList(Client client, ListRoleRsp rsp)
     {
-        Logger.Trace(client, "SendRoleList");
+        Logger.Trace(client, "PopulateRoleList");
         List<Character> characters = _database.SelectCharactersByAccountId(client.Account.Id);
         foreach (Character character in characters)
         {
@@ -123,9 +157,7 @@ public class CharacterManager
             role.StarLevel = character.StarLevel;
             role.HrLevel = character.HrLevel;
             role.SoulStoneLv = character.SoulStoneLv;
-            rsp.Structure.RoleList.Add(role);
+            rsp.RoleList.Add(role);
         }
-
-        client.SendCsProtoStructurePacket(rsp);
     }
 }

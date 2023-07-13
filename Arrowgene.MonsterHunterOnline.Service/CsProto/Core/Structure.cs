@@ -142,6 +142,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
         }
 
+        protected void ReadList<TVal>(
+            IBuffer buffer,
+            List<TVal> dst,
+            int count,
+            int limit,
+            Func<IBuffer, TVal> readValFn
+        )
+        {
+            if (count > limit)
+            {
+                count = limit;
+            }
+
+            dst.Clear();
+            for (int i = 0; i < count; i++)
+            {
+                TVal val = readValFn(buffer);
+                dst.Add(val);
+            }
+        }
+
         protected void WriteList<TSize, TVal>(IBuffer buffer,
             List<TVal> src,
             TSize limit,
@@ -157,6 +178,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
             writeSizeFn(buffer, size);
             for (int i = 0; i < src.Count; i++)
+            {
+                TVal val = src[i];
+                writeValFn(buffer, val);
+            }
+        }
+
+        protected void WriteList<TVal>(IBuffer buffer,
+            List<TVal> src,
+            int count,
+            int limit,
+            Action<IBuffer, TVal> writeValFn
+        )
+        {
+            int size = src.Count;
+            if (count > size)
+            {
+                count = size;
+            }
+
+            if (count > limit)
+            {
+                count = limit;
+            }
+
+            for (int i = 0; i < size; i++)
             {
                 TVal val = src[i];
                 writeValFn(buffer, val);
