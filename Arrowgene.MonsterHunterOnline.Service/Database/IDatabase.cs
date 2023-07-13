@@ -19,6 +19,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         // Character
         bool CreateCharacter(Character character);
         Character SelectCharacterById(uint characterId);
+        Character SelectCharacterByRoleIndex(uint accountId, byte roleIndex);
         bool UpdateCharacter(Character character);
         List<Character> SelectCharactersByAccountId(uint accountId);
         bool DeleteCharacter(uint characterId);

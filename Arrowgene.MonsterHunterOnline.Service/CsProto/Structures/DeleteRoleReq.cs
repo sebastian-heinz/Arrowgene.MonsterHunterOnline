@@ -3,25 +3,22 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RoleDataErrorRsp : Structure
+public class DeleteRoleReq : Structure
 {
-    public RoleDataErrorRsp()
+    public DeleteRoleReq()
     {
-        ErrNo = 0;
+        RoleIndex = 0;
     }
 
-    /// <summary>
-    /// 0为成功
-    /// </summary>
-    public int ErrNo { get; set; }
+    public int RoleIndex { get; set; }
 
     public override void Write(IBuffer buffer)
     {
-        WriteInt32(buffer, ErrNo);
+        WriteInt32(buffer, RoleIndex);
     }
 
     public override void Read(IBuffer buffer)
     {
-        ErrNo = ReadInt32(buffer);
+        RoleIndex = ReadInt32(buffer);
     }
 }

@@ -22,5 +22,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsProtoStructurePacket<NotifyInfo> NotifyInfo =>
             new(CS_CMD_ID.CS_CMD_SYSTEM_NOTIFY_INFO);
+
+        public static CsProtoStructurePacket<DeleteRoleRsp> DeleteRoleRsp =>
+            new(CS_CMD_ID.CS_CMD_DELETE_ROLE_RSP);
+        public static CsProtoStructurePacket<AccountRsp> AccountRsp =>
+            new(CS_CMD_ID.SC_CMD_WORLD_ACCOUNT_RSP);
     }
 }

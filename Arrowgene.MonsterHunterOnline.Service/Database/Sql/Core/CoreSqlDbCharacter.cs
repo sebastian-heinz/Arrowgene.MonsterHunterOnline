@@ -31,6 +31,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
         private static readonly string SqlSelectCharactersByAccountId =
             $"SELECT `character`.`id`, {BuildQueryField(CharacterFields)} FROM `character` WHERE `account_id` = @account_id;";
 
+        private static readonly string SqlSelectCharactersByRoleIndex =
+            $"SELECT `character`.`id`, {BuildQueryField(CharacterFields)} FROM `character` WHERE `account_id` = @account_id AND `role_index` = @role_index;";
+
         private const string SqlDeleteCharacter =
             "DELETE FROM `character` WHERE `id`=@id;";
 
@@ -102,6 +105,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
                     character = ReadCharacter(reader);
                 }
             });
+            return character;
+        }
+
+        public Character SelectCharacterByRoleIndex(uint accountId, byte roleIndex)
+        {
+            Character character = null;
+            ExecuteReader(SqlSelectCharactersByRoleIndex,
+                command =>
+                {
+                    AddParameter(command, "@account_id", accountId);
+                    AddParameter(command, "@role_index", roleIndex);
+                }, reader =>
+                {
+                    if (reader.Read())
+                    {
+                        character = ReadCharacter(reader);
+                    }
+                });
             return character;
         }
 

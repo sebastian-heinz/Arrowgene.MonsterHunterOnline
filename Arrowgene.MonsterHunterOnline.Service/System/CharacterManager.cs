@@ -18,6 +18,32 @@ public class CharacterManager
         _database = database;
     }
 
+    public bool DeleteCharacter(Client client, byte roleIndex)
+    {
+        // TODO it looks like there is a grace period, but not sure about the mechanic, for now just delete it
+        CsProtoStructurePacket<DeleteRoleRsp> rsp = CsProtoResponse.DeleteRoleRsp;
+        rsp.Structure.RoleState = 0;
+        // 2 = removing role failed -> login protection
+        // 3 = the leader cant delete the guild
+        // 4 = you are the leader, you can not transfer the role
+        rsp.Structure.RoleStateEndLeftTime = 0;
+        client.SendCsProtoStructurePacket(rsp);
+
+        Character character = _database.SelectCharacterByRoleIndex(client.Account.Id, roleIndex);
+        if (character == null)
+        {
+            return false;
+        }
+
+        if (!_database.DeleteCharacter(character.Id))
+        {
+            return false;
+        }
+
+        SendRoleList(client, CsProtoResponse.ListRoleRsp);
+        return true;
+    }
+
     /// <summary>
     /// Creates a new character with default values
     /// </summary>

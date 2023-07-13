@@ -58,7 +58,7 @@ public class SQLiteDbTest : TestBase
         Assert.Equal(2, cha3.Index);
         Assert.True(db.GetFreeCharacterIndex(acc.Id, out byte index3));
         Assert.Equal(3, index3);
-        
+
         Assert.True(db.DeleteCharacter(cha2.Id));
 
         Character cha4 = new Character();
@@ -81,13 +81,29 @@ public class SQLiteDbTest : TestBase
         Character cha = new Character();
         cha.AccountId = acc.Id;
         cha.Name = "Test";
-
-        bool success = db.CreateCharacter(cha);
-        Assert.True(success);
+        Assert.True(db.CreateCharacter(cha));
 
         List<Character> chas = db.SelectCharactersByAccountId(acc.Id);
         Assert.NotEmpty(chas);
         Assert.True(chas[0].Name == "Test");
+    }
+
+    [Fact]
+    public void TestSQLiteDbCharacter_SelectCharacterByRoleIndex()
+    {
+        SQLiteDb db = CreateDb(4);
+
+        Account acc = db.CreateAccount(1234, "pw");
+        Assert.NotNull(acc);
+
+        Character cha = new Character();
+        cha.AccountId = acc.Id;
+        cha.Name = "Test";
+        Assert.True(db.CreateCharacter(cha));
+
+        Character selectedCharacter = db.SelectCharacterByRoleIndex(acc.Id, cha.Index);
+        Assert.NotNull(selectedCharacter);
+        Assert.True(cha.Name == selectedCharacter.Name);
     }
 
     private SQLiteDb CreateDb(int testId)
