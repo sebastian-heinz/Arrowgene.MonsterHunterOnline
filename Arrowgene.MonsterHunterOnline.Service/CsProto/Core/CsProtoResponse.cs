@@ -16,5 +16,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsProtoStructurePacket<MultiIspSequenceNtf> MultiIspSequenceNtf =>
             new(CS_CMD_ID.CS_CMD_MULTI_ISP_SEQUENCE_NTF);
+
+        public static CsProtoStructurePacket<RoleDataErrorRsp> RoleDataErrorRsp =>
+            new(CS_CMD_ID.CS_CMD_ROLEDATA_ERR_RSP);
+
+        public static CsProtoStructurePacket<NotifyInfo> NotifyInfo =>
+            new(CS_CMD_ID.CS_CMD_SYSTEM_NOTIFY_INFO);
     }
 }

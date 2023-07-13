@@ -18,6 +18,9 @@ public class CharacterManager
         _database = database;
     }
 
+    /// <summary>
+    /// Creates a new character with default values
+    /// </summary>
     public bool CreateCharacter(Client client, RoleCreateInfo req)
     {
         Character character = new Character();

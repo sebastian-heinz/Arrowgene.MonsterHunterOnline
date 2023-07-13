@@ -22,5 +22,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         bool UpdateCharacter(Character character);
         List<Character> SelectCharactersByAccountId(uint accountId);
         bool DeleteCharacter(uint characterId);
+        bool GetFreeCharacterIndex(uint accountId, out byte freeIndex);
     }
 }

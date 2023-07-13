@@ -25,18 +25,23 @@ public class CsCmdCreateRoleReqHandler : CsProtoStructureHandler<RoleCreateInfo>
         Logger.Info(client, $"Creating new character:{req.Name} ...");
         CsProtoStructurePacket<ListRoleRsp> rsp = CsProtoResponse.CreateRoleRsp;
 
-        if (!_characterManager.CreateCharacter(client, req))
+        if (_characterManager.CreateCharacter(client, req))
+        {
+            Logger.Info(client, $"Created new character:{req.Name} success");
+        }
+        else
         {
             Logger.Error(client, $"Failed to create new character:{req.Name}");
-            // TODO maybe
-            // <struct name="CSRoleDataErrorRsp" version="1" desc="角色数据错误">
-            // <entry name="ErrNo" type="int" desc="0为成功"/>
-            // </struct>
-           
-            //return;
+            CsProtoStructurePacket<RoleDataErrorRsp> err = CsProtoResponse.RoleDataErrorRsp;
+            err.Structure.ErrNo = 0;
+            client.SendCsProtoStructurePacket(err);
+            
+            // TODO cover error cases
+            CsProtoStructurePacket<NotifyInfo> notify = CsProtoResponse.NotifyInfo;
+            notify.Structure.Info = "Character Name exists, or other error";
+            client.SendCsProtoStructurePacket(notify);
         }
 
         _characterManager.SendRoleList(client, rsp);
-        Logger.Info(client, $"Created new character:{req.Name} success");
     }
 }

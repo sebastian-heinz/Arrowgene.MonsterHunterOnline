@@ -12,7 +12,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
     {
         private static readonly string[] CharacterFields = new string[]
         {
-            "account_id", "index", "gender", "level", "name", "role_state", "role_state_end_left_time", "avatar_set_id",
+            "account_id", "role_index", "gender", "level", "name", "role_state", "role_state_end_left_time",
+            "avatar_set_id",
             "face_id", "hair_id", "underclothes_id", "skin_color", "hair_color", "inner_color", "eye_ball", "eye_color",
             "face_tattoo_index", "face_tattoo_color", "facial_info", "star_level", "hr_level", "soul_stone_lv",
             "hide_helm", "hide_fashion", "hide_suite", "created"
@@ -33,8 +34,48 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
         private const string SqlDeleteCharacter =
             "DELETE FROM `character` WHERE `id`=@id;";
 
+        private const string SqlFreeCharacterIndex =
+            "SELECT MIN(`role_index`)+1 AS `free_index` FROM `character` WHERE `role_index`+1 NOT IN (SELECT `role_index` FROM `character` WHERE `account_id`=@account_id);";
+
+
+        public bool GetFreeCharacterIndex(uint accountId, out byte freeIndex)
+        {
+            freeIndex = 0;
+            byte index = 0;
+            bool result = false;
+            ExecuteReader(
+                SqlFreeCharacterIndex,
+                command => { AddParameter(command, "@account_id", accountId); },
+                reader =>
+                {
+                    if (reader.Read())
+                    {
+                        int ordinal = reader.GetOrdinal("free_index");
+                        if (reader.IsDBNull(ordinal))
+                        {
+                            result = true;
+                            index = 0;
+                        }
+                        else
+                        {
+                            index = GetByte(reader, "free_index");
+                            result = true;
+                        }
+                    }
+                });
+
+            freeIndex = index;
+            return result;
+        }
+
         public bool CreateCharacter(Character character)
         {
+            if (!GetFreeCharacterIndex(character.AccountId, out byte freeIndex))
+            {
+                return false;
+            }
+
+            character.Index = freeIndex;
             character.Created = DateTime.Now;
             int rowsAffected = ExecuteNonQuery(
                 SqlInsertCharacter,
@@ -72,7 +113,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
                 command => { AddParameter(command, "@account_id", accountId); },
                 reader =>
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         Character character = ReadCharacter(reader);
                         characters.Add(character);
@@ -104,7 +145,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
 
             character.Id = GetUInt32(reader, "id");
             character.AccountId = GetUInt32(reader, "account_id");
-            character.Index = GetByte(reader, "index");
+            character.Index = GetByte(reader, "role_index");
             character.Gender = GetByte(reader, "gender");
             character.Level = GetUInt32(reader, "level");
             character.Name = GetString(reader, "name");
@@ -139,7 +180,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
         private void AddParameter(TCom command, Character character)
         {
             AddParameter(command, "@account_id", character.AccountId);
-            AddParameter(command, "@index", character.Index);
+            AddParameter(command, "@role_index", character.Index);
             AddParameter(command, "@gender", character.Gender);
             AddParameter(command, "@level", character.Level);
             AddParameter(command, "@name", character.Name);

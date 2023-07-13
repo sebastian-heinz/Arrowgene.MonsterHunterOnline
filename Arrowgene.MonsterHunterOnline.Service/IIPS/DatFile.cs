@@ -111,6 +111,16 @@ public class DatFile
 
             while (true)
             {
+                if (dec.Position >= dec.Size)
+                {
+                    byte[] sheetBytes = buffer.ToArray();
+                    string sheet = Encoding.UTF8.GetString(sheetBytes, 0, sheetBytes.Length);
+                    sheet = sheet.TrimEnd('\n').TrimEnd('\r');
+                    TsvSheet tsvSheet = new TsvSheet(sheet);
+                    Sheets.Add(tsvSheet);
+                    buffer.Clear();
+                    break;
+                }
                 byte read = dec.ReadByte();
                 if (read == endBuffer[endBufferIndex])
                 {

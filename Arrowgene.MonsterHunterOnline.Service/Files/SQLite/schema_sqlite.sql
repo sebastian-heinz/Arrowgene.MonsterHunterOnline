@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `character`
 (
     `id`                       INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     `account_id`               INTEGER                           NOT NULL,
-    `index`                    TINYINT                           NOT NULL,
+    `role_index`               TINYINT                           NOT NULL,
     `gender`                   TINYINT                           NOT NULL,
     `level`                    INTEGER                           NOT NULL,
     `name`                     TEXT                              NOT NULL,
@@ -48,5 +48,5 @@ CREATE TABLE IF NOT EXISTS `character`
     `created`                  DATETIME                          NOT NULL,
     CONSTRAINT `fk_character_account_id` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE,
     CONSTRAINT `uq_character_name` UNIQUE (`name`),
-    CONSTRAINT `uq_character_account_id_index` UNIQUE (`account_id`, `index`)
+    CONSTRAINT `uq_character_account_id_role_index` UNIQUE (`account_id`, `role_index`)
 );
