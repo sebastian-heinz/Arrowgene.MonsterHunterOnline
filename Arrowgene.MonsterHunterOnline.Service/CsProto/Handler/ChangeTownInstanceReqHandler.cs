@@ -105,22 +105,23 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                                 },
                                 t = new CSVec3() { x = posX, y = posY, z = posZ }
                             };
-                            client.SendCsPacket(NewCsPacket.ChangeTownInstanceRsp(new CSChangeTownInstanceRsp()
-                            {
-                                ErrCode = 0,
 
-                                LevelID = level,
-                            }));
+                            CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
+                            ChangeTownInstance.Structure.ErrCode = 0;
+                            ChangeTownInstance.Structure.LevelID = level;
 
-                            client.SendCsPacket(NewCsPacket.PlayerTeleport(new CSPlayerTeleport()
-                            {
-                                SyncTime = 1,
-                                NetObjId = 1,
-                                Region = 1,
-                                TargetPos = TargetPosition,
-                                ParentGUID = 1,
-                                InitState = 1
-                            }));
+                            client.SendCsProtoStructurePacket(ChangeTownInstance);
+
+
+                            CsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
+                            PlayerTeleport.Structure.SyncTime = 1;
+                            PlayerTeleport.Structure.NetObjId = 1;
+                            PlayerTeleport.Structure.Region = 1;
+                            PlayerTeleport.Structure.TargetPos = TargetPosition;
+                            PlayerTeleport.Structure.ParentGUID = 1;
+                            PlayerTeleport.Structure.InitState = 1;
+                            client.SendCsProtoStructurePacket(PlayerTeleport);
+
                             client.SendCsProtoStructurePacket(townServerInitNtf);
                             return;
                         }
@@ -132,13 +133,12 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
         }
         else
         {
-            //  TODO req tells us spawn position name, the coordinates should be in levels/xx/mission .xml 
-            client.SendCsPacket(NewCsPacket.ChangeTownInstanceRsp(new CSChangeTownInstanceRsp()
-            {
-                ErrCode = 0,
 
-                LevelID = level,
-            }));
+            CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
+            ChangeTownInstance.Structure.ErrCode = 0;
+            ChangeTownInstance.Structure.LevelID = level;
+            client.SendCsProtoStructurePacket(ChangeTownInstance);
+
             client.SendCsPacket(NewCsPacket.PlayerTeleport(new CSPlayerTeleport()
             {
                 SyncTime = 1,

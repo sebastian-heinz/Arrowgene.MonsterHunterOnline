@@ -21,13 +21,13 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
         CSVec3 coords = req.PlayerPos;
         string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
         //Logger.Info($"Teleport Info: ({triggerName})");
-        
+
         //the warp zones for mezeporta since its handled attrociously 
-        if (triggerName == "Teleport_To_MainArea")
+        if (triggerName == "Teleport_To_Main_Area")
         {
             triggerName = "Teleport_To_Main_Area_Point";
         }
-        if (triggerName == "Teleport_To_Main_Area")
+        if (triggerName == "Teleport_To_MainArea")
         {
             triggerName = "Teleport_To_Main_AreaPoint";
         }
@@ -86,13 +86,13 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                             },
                             t = new CSVec3() { x = posX, y = posY, z = posZ }
                         };
-                        client.SendCsPacket(NewCsPacket.PlayerRegionJumpRsp(new CSPlayerRegionJumpRsp()
-                        {
-                            ErrorCode = 0,
-                            RegionId = 0,
-                            Transform = TargetPos
 
-                        }));
+                        CsProtoStructurePacket<PlayerRegionJumpRsp> PlayerRegionJump = CsProtoResponse.PlayerRegionJumpRsp;
+                        PlayerRegionJump.Structure.ErrorCode = 0;
+                        PlayerRegionJump.Structure.RegionId = 0;
+                        PlayerRegionJump.Structure.Transform = TargetPos;
+
+                        client.SendCsProtoStructurePacket(PlayerRegionJump);
                     }
                 }
             }
