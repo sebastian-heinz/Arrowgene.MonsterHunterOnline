@@ -65,6 +65,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public static CsProtoStructurePacket<ActorBeginMoveNtf> ActorBeginMoveNtf =>
             new(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE_NTF);
 
+        /*public static CsProtoStructurePacket<ActorStopMoveNtf> ActorStopMoveNtf =>
+            new(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_STOPMOVE);*/
+
         /// <summary>
         /// C2表现FIFO同步消息
         /// C2 represents FIFO synchronization messages
