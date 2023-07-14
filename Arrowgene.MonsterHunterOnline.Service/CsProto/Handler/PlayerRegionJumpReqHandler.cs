@@ -18,21 +18,21 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
 
     public override void Handle(Client client, PlayerRegionJumpReq req)
     {
-        CSVec3 coords = req.PlayerPos;
+        //CSVec3 coords = req.PlayerPos;
         string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
         //Logger.Info($"Teleport Info: ({triggerName})");
 
         //the warp zones for mezeporta since its handled attrociously 
-        if (triggerName == "Teleport_To_Main_Area")
+        if (triggerName == "Teleport_To_Main_Area" && client.State.levelId == 180201)
         {
             triggerName = "Teleport_To_Main_Area_Point";
         }
-        if (triggerName == "Teleport_To_MainArea")
+        if (triggerName == "Teleport_To_MainArea" && client.State.levelId == 180201)
         {
             triggerName = "Teleport_To_Main_AreaPoint";
         }
 
-        //string instanceLevelId = _instanceInitInfo.LevelID.ToString();
+        string instanceLevelId = client.State.levelId.ToString();
         string csvFile = "RegionJump.csv";
         string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
         string filePath = Path.Combine(desiredDirectory, csvFile);
@@ -47,11 +47,11 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
             while (!parser.EndOfData)
             {
                 string[] fields = parser.ReadFields();
-                //string levelId = fields[0];
-                //bool isMatch = !string.IsNullOrEmpty(levelId) &&
-                //    !string.IsNullOrEmpty(instanceLevelId) &&
-                //    (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
-                bool isMatch = true;
+                string levelId = fields[0];
+                bool isMatch = !string.IsNullOrEmpty(levelId) &&
+                    !string.IsNullOrEmpty(instanceLevelId) &&
+                    (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
+
                 if (isMatch)
                 {
                     string filename = fields[1];

@@ -22,6 +22,10 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
         string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
         string csvPath = Path.Combine(desiredDirectory, csvFile);
         int level = req.LevelId;
+        if (level < 100)
+        {
+            level = client.State.levelId;
+        }
         string triggerName = (req.trigger_name).Trim(' ', '\t', '\u00A0', '\x00');
         if (triggerName.Length < 5)
         {
@@ -75,7 +79,12 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
                         if (name.Contains(triggerName) || triggerName.Contains(name))
                         {
-                            if (dstPoint.Length > 4)
+                            
+                            if (("FarmToVillageTrigger".Contains(triggerName) || triggerName.Contains("FarmToVillageTrigger")) || ("FromGuildCampToVillage".Contains(triggerName) || triggerName.Contains("FromGuildCampToVillage")))
+                            {
+                                level = client.State.prevLevelId;
+                            }
+                            else if (dstPoint.Length > 4)
                             {
                                 level = int.Parse(dstPoint);
                             }
@@ -123,6 +132,8 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                             client.SendCsProtoStructurePacket(PlayerTeleport);
 
                             client.SendCsProtoStructurePacket(townServerInitNtf);
+                            client.State.prevLevelId = client.State.levelId;
+                            client.State.levelId = instanceInitInfo.LevelId;
                             return;
                         }
                     }
@@ -158,6 +169,8 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
             }));
 
             client.SendCsProtoStructurePacket(townServerInitNtf);
+            client.State.prevLevelId = client.State.levelId;
+            client.State.levelId = instanceInitInfo.LevelId;
         }
     }
 }

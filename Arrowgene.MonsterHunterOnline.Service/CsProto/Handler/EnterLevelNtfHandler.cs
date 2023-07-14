@@ -49,6 +49,8 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
 
             client.SendCsProtoStructurePacket(townServerInitNtf);
             client.Character.IsSync = true;
+            client.State.prevLevelId = client.State.levelId;
+            client.State.levelId = instanceInitInfo.LevelId;
         }
     }
 }

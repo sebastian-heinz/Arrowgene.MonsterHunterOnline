@@ -27,7 +27,8 @@ public class PlayerState
 
     private Client _client;
     public static Server Server;
-
+    public int levelId { get; set; }
+    public int prevLevelId { get; set; }
 
     public PlayerState(Client client)
     {
@@ -361,6 +362,8 @@ public class PlayerState
             instanceInitInfo.CreatePlayerMaxLv = 99;
 
             _client.SendCsProtoStructurePacket(townServerInitNtf);
+            prevLevelId = levelId;
+            levelId = instanceInitInfo.LevelId;
         }
     }
 
