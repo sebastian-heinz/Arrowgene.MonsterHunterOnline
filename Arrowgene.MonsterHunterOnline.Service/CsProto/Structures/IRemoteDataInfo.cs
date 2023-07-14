@@ -1,6 +1,10 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
-public interface IRemoteDataInfo : IStructure
+namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public RemoteDataType DataType { get; }
+    public interface IRemoteDataInfo : IStructure
+    {
+        public ROMTE_DATA_TYPE DataType { get; }
+    }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>Arrowgene.MonsterHunterOnline.Service</RootNamespace>
     </PropertyGroup>
 
@@ -10,6 +10,14 @@
       <PackageReference Include="Arrowgene.Logging" Version="1.2.1" />
       <PackageReference Include="Arrowgene.Networking" Version="1.0.6" />
       <PackageReference Include="Arrowgene.WebServer" Version="1.1.8" />
+      <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ContentWithTargetPath Include="Files\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <TargetPath>Files\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
+        </ContentWithTargetPath>
     </ItemGroup>
 
 </Project>

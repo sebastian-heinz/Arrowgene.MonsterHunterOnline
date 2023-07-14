@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Packets;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Crypto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 using Arrowgene.Networking.Tcp;
 
 namespace Arrowgene.MonsterHunterOnline.Service
@@ -19,6 +23,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         private TdpuCrypto _tdpuCrypto;
 
+        public bool SystemEncryptData { get; set; }
+
         public Client(ITcpSocket socket, Setting setting)
         {
             _socket = socket;
@@ -32,10 +38,12 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public string Identity { get; protected set; }
 
         public DateTime PingTime { get; set; }
-        
+
         public PlayerState State { get; set; }
 
         public TConnSecEnc TConnSecEnc => _tdpuCrypto?.TConnSecEnc ?? TConnSecEnc.TCONN_SEC_NONE;
+        public Account Account { get; set; }
+        public Character Character { get; set; }
 
         public TdpuCrypto GetTdpuCrypto()
         {
@@ -120,12 +128,28 @@ namespace Arrowgene.MonsterHunterOnline.Service
             return packets;
         }
 
+        // TODO remove this, CSPacket is obsolete
         public void SendCsPacket(CsPacket packet)
         {
-            SendCsProto(packet.BuildPacket());
+            SendCsProtoPacket(packet.BuildPacket());
         }
-
-        public void SendCsProto(CsProtoPacket packet)
+        
+        public void SendCsProtoStructurePacket(ICsProtoStructurePacket packet)
+        {
+            SendCsProtoStructure(packet.Cmd, packet);
+        }
+        
+        public void SendCsProtoStructure(CS_CMD_ID cmd, IStructure structure)
+        {
+            IBuffer buffer = new StreamBuffer();
+            structure.Write(buffer);
+            CsProtoPacket packet = new CsProtoPacket();
+            packet.Body = buffer.GetAllBytes();
+            packet.Cmd = cmd;
+            SendCsProtoPacket(packet);
+        }
+        
+        public void SendCsProtoPacket(CsProtoPacket packet)
         {
             byte[] csProtoData;
             try
@@ -136,6 +160,36 @@ namespace Arrowgene.MonsterHunterOnline.Service
             catch (Exception ex)
             {
                 Logger.Exception(this, ex);
+                return;
+            }
+
+            if (SystemEncryptData)
+            {
+                // TODO this should  probably be a setting on packet level
+                SendRaw(csProtoData);
+                Logger.LogPacket(this, packet);
+                return;
+
+                //string key = "MultiByteToWideC";
+                string key = "GetSystemDirecto";
+                byte[] encData = new byte[csProtoData.Length];
+                for (int i = 0; i < csProtoData.Length; i++)
+                {
+                    encData[i] = (byte)(key[i % key.Length] ^ csProtoData[i]);
+                }
+
+                CsTPacket<CSPkgEncryptData> resp = NewCsPacket.PkgEncryptData(new CSPkgEncryptData()
+                {
+                    EncryptData = new List<byte>(encData),
+                });
+
+                CsProtoPacket csProtoSystemEncryptPacket = resp.BuildPacket();
+                csProtoSystemEncryptPacket.Source = PacketSource.Server;
+                byte[] respData = _csProtoPacketFactory.Write(csProtoSystemEncryptPacket);
+
+                SendRaw(respData);
+                Logger.LogPacket(this, packet);
+                Logger.LogPacket(this, csProtoSystemEncryptPacket);
                 return;
             }
 

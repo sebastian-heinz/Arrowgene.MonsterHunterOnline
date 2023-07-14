@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
 
         private Program()
         {
-            _logDir = new DirectoryInfo(Path.Combine(Util.ExecutingDirectory(), "Logs"));
+            _logDir = new DirectoryInfo(Path.Combine(Util.ExecutingDirectory(), "Files/Logs"));
             if (!_logDir.Exists)
             {
                 Directory.CreateDirectory(_logDir.FullName);
@@ -74,6 +74,8 @@ namespace Arrowgene.MonsterHunterOnline.Cli
             AddCommand(new ShowCommand());
             AddCommand(new HelpCommand(_commands));
             AddCommand(new ServiceCommand());
+            AddCommand(new IIPSCommand());
+            AddCommand(new TestCommand());
         }
 
         private void RunArguments(string[] arguments)
@@ -261,7 +263,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
                 if (log.LoggerIdentity.StartsWith("Arrowgene.WebServer.Route.WebRouter"))
                 {
                     // ignore web route logs
-                    return;
+                    //return;
                 }
             }
 

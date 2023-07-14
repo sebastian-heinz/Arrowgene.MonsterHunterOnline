@@ -362,5 +362,39 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
             return path;
         }
+
+        public static List<List<T>> Chunk<T>(List<T> list, int chunkSize)
+        {
+            List<List<T>> chunks = new List<List<T>>();
+
+            int chunkNumber = list.Count / chunkSize;
+            int chunkRemainder = list.Count % chunkSize;
+
+            for (int chunkIndex = 0; chunkIndex < chunkNumber; chunkIndex++)
+            {
+                List<T> chunk = new List<T>();
+                for (int i = 0; i < chunkSize; i++)
+                {
+                    int idx = (chunkIndex * chunkSize) + i;
+                    chunk.Add(list[idx]);
+                }
+
+                chunks.Add(chunk);
+            }
+
+            if (chunkRemainder > 0)
+            {
+                List<T> chunk = new List<T>();
+                for (int i = 0; i < chunkRemainder; i++)
+                {
+                    int idx = (chunkNumber * chunkSize) + i;
+                    chunk.Add(list[idx]);
+                }
+
+                chunks.Add(chunk);
+            }
+
+            return chunks;
+        }
     }
 }

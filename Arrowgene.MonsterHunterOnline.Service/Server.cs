@@ -1,19 +1,15 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
-using Arrowgene.MonsterHunterOnline.Service.ScaleformAmp;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi;
-using Arrowgene.MonsterHunterOnline.Service.TQQApi.Handler;
+using Arrowgene.MonsterHunterOnline.Service.Database;
+using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
+using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.Chat;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi;
+using Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
+using Arrowgene.MonsterHunterOnline.Service.Web;
 using Arrowgene.Networking.Tcp.Server.AsyncEvent;
-using Arrowgene.Networking.Udp;
-using Arrowgene.WebServer;
-using Arrowgene.WebServer.Route;
-using Arrowgene.WebServer.Server.Kestrel;
-using WebRequest = Arrowgene.WebServer.WebRequest;
-using WebResponse = Arrowgene.WebServer.WebResponse;
 
 namespace Arrowgene.MonsterHunterOnline.Service
 {
@@ -22,119 +18,125 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(Server));
 
         private readonly TpduConsumer _tpduConsumer;
-        private readonly CsProtoConsumer _csProtoConsumer;
+        private readonly CsProtoPacketHandler _csProtoPacketHandler;
+        private readonly CsProtoConsumer _battleServerConsumer;
         private readonly AsyncEventServer _server;
-        private readonly Setting _setting;
-        private readonly AmpClient _ampClient;
+        private readonly AsyncEventServer _battleServer;
+        private readonly MhoWebServer _webServer;
 
         public Server(Setting setting)
         {
-            _setting = new Setting(setting);
+            Setting = new Setting(setting);
 
-            _csProtoConsumer = new CsProtoConsumer(_setting);
-            _csProtoConsumer.AddHandler(new CsCmdCheckVersionHandler());
-            _csProtoConsumer.AddHandler(new CsCmdMultiNetIpInfoHandler());
-            _csProtoConsumer.AddHandler(new CsCmdFileCheckHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSystemPkgTimerRecordHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSelectRoleHandler());
-            _csProtoConsumer.AddHandler(new CsCmdSystemTransAntiDataHandler());
-            _csProtoConsumer.AddHandler(new CsCmdDataLoadHandler());
-            _csProtoConsumer.AddHandler(new CsCmdItemReBuildLimitDataHandler());
+            Database = CreateDatabase();
 
-            _tpduConsumer = new TpduConsumer(_setting);
-            _tpduConsumer.ClientConnected += ClientConnected;
-            _tpduConsumer.ClientDisconnected += ClientDisconnected;
-            _tpduConsumer.AddHandler(new TpduCmdAuthHandler());
-            _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
-            _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoConsumer));
-            _tpduConsumer.AddHandler(new TpduCmdCloseHandler());
-
+            _tpduConsumer = new TpduConsumer(Setting);
+            _csProtoPacketHandler = new CsProtoPacketHandler(Setting);
+            _battleServerConsumer = new CsProtoConsumer(Setting, _csProtoPacketHandler);
+            _webServer = new MhoWebServer();
             _server = new AsyncEventServer(
-                _setting.ListenIpAddress,
-                _setting.ServerPort,
+                Setting.ListenIpAddress,
+                Setting.ServerPort,
                 _tpduConsumer,
-                _setting.SocketSettings
+                Setting.SocketSettings
             );
+            _battleServer = new AsyncEventServer(
+                Setting.ListenIpAddress,
+                Setting.BattleServerPort,
+                _battleServerConsumer,
+                Setting.SocketSettings
+            );
+            Chat = new ChatSystem();
+            CharacterManager = new CharacterManager(Database);
 
-            // OTHER SERVICES - START
-            // For now all other services are not handled, as there seems to be no need to.
-            
-            // port 7533/UDP and 7534/TCP are most likely related to Scaleform AMP protocol for client perf analysis.
-            //_ampClient = new AmpClient();
-            //_ampClient.Start();
-            
-            // client hits a few web routes but hard to know original content
-            WebSetting webSetting = new WebSetting();
-            WebService webService = new WebService(new KestrelWebServer(webSetting));
-            webService.AddRoute(new WebRouter());
-            //webService.Start();
-
-            // this seems to be for anti cheat stuff
-            // tqos.gamesafe.qq.com
-            UdpSocket gamesafeSocket = new UdpSocket(DefaultMaxPayloadSizeBytes);
-            gamesafeSocket.ReceivedPacket += GamesafeSocketOnReceivedPacket;
-            IPEndPoint gamesafeSocketIpEndPoint = new IPEndPoint(IPAddress.Any, 8081);
-            // gamesafeSocket.StartListen(gamesafeSocketIpEndPoint);
-
-            // this seems to be a logging server, receiving system/game logs
-            // ied-tqos.qq.com 
-            UdpSocket iedSocket = new UdpSocket(DefaultMaxPayloadSizeBytes);
-            iedSocket.ReceivedPacket += IedSocketOnReceivedPacket;
-            IPEndPoint iedSocketSocketIpEndPoint = new IPEndPoint(IPAddress.Any, 8000);
-            //iedSocket.StartListen(iedSocketSocketIpEndPoint);
-            
-            // OTHER SERVICES - END
+            LoadPacketHandler();
         }
 
+        public Setting Setting { get; }
+        public ChatSystem Chat { get; }
+        public CharacterManager CharacterManager { get; }
+        public IDatabase Database { get; }
 
-        private class WebRouter : WebRoute
+        private IDatabase CreateDatabase()
         {
-            public override string Route => "/mho/*";
+            string sqliteFolder = Path.Combine(Util.ExecutingDirectory(), "Files/SQLite");
 
-            public override async Task<WebResponse> Post(WebRequest request)
+            string sqLitePath = Path.Combine(sqliteFolder, $"db.v{SQLiteDb.Version}.sqlite");
+            SQLiteDb db = new SQLiteDb(sqLitePath);
+            if (db.CreateDatabase())
             {
-                string body = await request.ReadStringAsync();
-
-                Logger.Debug(request.ToString());
-                Logger.Debug(body);
-
-                WebResponse response = new WebResponse();
-                response.StatusCode = 200;
-                await response.WriteAsync("");
-                return response;
+                ScriptRunner scriptRunner = new ScriptRunner(db);
+                scriptRunner.Run(Path.Combine(sqliteFolder, "schema_sqlite.sql"));
             }
+
+            return db;
         }
 
-        public const int DefaultMaxPayloadSizeBytes = 1024;
-
-        private void IedSocketOnReceivedPacket(object sender, ReceivedUdpPacketEventArgs e)
+        private void LoadPacketHandler()
         {
-            Logger.Debug("Te " + e.RemoteIpEndPoint + Environment.NewLine + Util.HexDump(e.Received));
-        }
+            // old handler
+            _csProtoPacketHandler.AddHandler(new C2SCmdActivityAddSecretQuestHandler());
+            _csProtoPacketHandler.AddHandler(new C2SCmdPetRngHandler());
+            _csProtoPacketHandler.AddHandler(new C2SCmdSActivityListReqHandler());
+            _csProtoPacketHandler.AddHandler(new C2SCmdShopRefreshShopsHandler());
+            _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsPassTimeReq());
+            _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdChangeTownInstanceReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdChatBroadcastReqHandler(Chat));
+            _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
+            _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdClientSendLogHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdDragonBoxDetailReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdFileCheckHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdFriendsOnlineReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdGiftBagGroupStateReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdInstanceVerifyReq());
+            _csProtoPacketHandler.AddHandler(new CsCmdItemReBuildLimitDataHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdMailUnreadGetReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdMartGoodsListReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdPlayerExtNotifyHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdSystemEncryptData(_csProtoPacketHandler));
+            _csProtoPacketHandler.AddHandler(new CsCmdSystemPkgTimerRecordHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdSystemTransAntiDataHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdTeamInfoGetReqHandler());
+            _csProtoPacketHandler.AddHandler(new CsCmdVipServiceExpireReqHandler());
 
-        private void GamesafeSocketOnReceivedPacket(object sender, ReceivedUdpPacketEventArgs e)
-        {
-            Logger.Debug("GS " + e.RemoteIpEndPoint + Environment.NewLine + Util.HexDump(e.Received));
+            // new handler
+            _csProtoPacketHandler.AddHandler(new BattleActorBeginMoveHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorFifoSyncHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorIdleMoveHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorMoveStateHandler());
+            _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new DataLoadHandler());
+            _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
+            _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
+
+
+            _tpduConsumer.AddHandler(new TdpuCmdRelay(Database));
+            _tpduConsumer.AddHandler(new TpduCmdAuthHandler(Database));
+            _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
+            _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoPacketHandler));
+            _tpduConsumer.AddHandler(new TpduCmdCloseHandler());
         }
 
         public void Start()
         {
+            _webServer.Start();
             _server.Start();
+            _battleServer.Start();
         }
 
         public void Stop()
         {
+            _webServer.Stop();
             _server.Stop();
-        }
-
-        private void ClientConnected(Client client)
-        {
-            Logger.Info("Client Connected");
-        }
-
-        private void ClientDisconnected(Client client)
-        {
-            Logger.Info("Client Disconnected");
+            _battleServer.Stop();
         }
     }
 }

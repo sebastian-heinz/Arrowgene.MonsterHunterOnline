@@ -1,42 +1,34 @@
-﻿using Arrowgene.Buffers;
-using Arrowgene.Logging;
+using System.Collections.Generic;
+using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
-namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-
-public class RemoteDataInitInfo : IRemoteDataInfo
+namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(RemoteDataInitInfo));
-
-    /// <summary>
-    /// 数据长度
-    /// </summary>
-    public const uint CS_MAX_ROMTE_DATA_LEN = 61440;
-
-    public RemoteDataInitInfo(RemoteDataType remoteDataType)
+    public class RemoteDataInitInfo : Structure, IRemoteDataInfo
     {
-        DataType = remoteDataType;
-        DataPacket = new byte[0];
-    }
-
-    /// <summary>
-    /// 数据内容
-    /// </summary>
-    public byte[] DataPacket { get; set; }
-
-
-    public void Write(IBuffer buffer)
-    {
-        if (DataPacket.Length > CS_MAX_ROMTE_DATA_LEN)
+        public RemoteDataInitInfo(ROMTE_DATA_TYPE dataType)
         {
-            buffer.WriteInt32(0, Endianness.Big);
-            Logger.Error(
-                $"DataPacket length, larger than maximum allowed. (len:{DataPacket.Length} > max:{CS_MAX_ROMTE_DATA_LEN}) ");
-            return;
+            DataPacket = new List<byte>();
+            DataType = dataType;
         }
 
-        buffer.WriteInt32(DataPacket.Length, Endianness.Big);
-        buffer.WriteBytes(DataPacket);
-    }
+        public ROMTE_DATA_TYPE DataType { get; }
 
-    public RemoteDataType DataType { get; }
+        /// <summary>
+        /// 数据内容
+        /// </summary>
+        public List<byte> DataPacket { get; }
+
+        public override void Write(IBuffer buffer)
+        {
+            WriteList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, WriteInt32, WriteByte);
+        }
+
+        public override void Read(IBuffer buffer)
+        {
+            ReadList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, ReadInt32, ReadByte);
+        }
+    }
 }
