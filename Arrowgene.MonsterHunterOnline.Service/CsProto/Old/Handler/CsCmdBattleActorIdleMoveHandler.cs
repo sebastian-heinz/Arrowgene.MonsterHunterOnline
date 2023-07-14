@@ -21,7 +21,7 @@ public class CsCmdBattleActorIdleMoveHandler : ICsProtoHandler
         
         client.SendCsPacket(NewCsPacket.ActorIdlemoveNtf(new CSActorIdlemoveNtf()
         {
-            NetObjId  = client.State._spawnPlayer.NetObjId,
+            NetObjId  = client.Character.Id,
             ActorIdlemove = req
         }));
     }

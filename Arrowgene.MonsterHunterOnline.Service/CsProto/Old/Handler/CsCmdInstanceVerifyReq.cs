@@ -30,7 +30,7 @@ public class CsCmdInstanceVerifyReq : ICsProtoHandler
         int Reserve2 = req.ReadInt32(Endianness.Big);
 
 
-        client.State.OnBattleSvr();
+      //  client.State.OnBattleSvr();
 
     }
 }

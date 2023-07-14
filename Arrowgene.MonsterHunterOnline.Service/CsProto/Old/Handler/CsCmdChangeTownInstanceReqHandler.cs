@@ -14,6 +14,6 @@ public class CsCmdChangeTownInstanceReqHandler : ICsProtoHandler
         CSChangeTownInstanceReq req = new CSChangeTownInstanceReq();
         req.Read(packet.NewBuffer());
 
-        client.State.OnChangeTownInstance(req);
+      //  client.State.OnChangeTownInstance(req);
     }
 }

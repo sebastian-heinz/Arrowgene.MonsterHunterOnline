@@ -91,7 +91,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdClientSendLogHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdDragonBoxDetailReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdEnterLevelNtfHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdFileCheckHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdFriendsOnlineReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdGiftBagGroupStateReqHandler());
@@ -111,6 +110,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DataLoadHandler());
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager));

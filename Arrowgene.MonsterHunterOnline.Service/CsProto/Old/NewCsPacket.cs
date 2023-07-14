@@ -391,13 +391,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSPvpInsInfoNtf>(CS_CMD_ID.CS_CMD_PVP_INS_INFO_NTF, structure);
         }
 
-        /// <summary>
-        /// 验证进入TOWN服务器响应
-        /// </summary>
-        public static CsTPacket<CSTownInstanceVerifyRsp> TownServerInitNtf(CSTownInstanceVerifyRsp structure)
-        {
-            return new CsTPacket<CSTownInstanceVerifyRsp>(CS_CMD_ID.CS_CMD_TOWN_SERVER_INIT_NTF, structure);
-        }
 
         /// <summary>
         /// 通报服务器状态的协议
@@ -1965,14 +1958,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public static CsTPacket<CSObjectActionSyncEntry> ObjectAction(CSObjectActionSyncEntry structure)
         {
             return new CsTPacket<CSObjectActionSyncEntry>(CS_CMD_ID.CS_CMD_BATTLE_OBJECT_ACTION, structure);
-        }
-
-        /// <summary>
-        /// 副本初始化
-        /// </summary>
-        public static CsTPacket<CSInstanceInitInfo> InstanceInitNtf(CSInstanceInitInfo structure)
-        {
-            return new CsTPacket<CSInstanceInitInfo>(CS_CMD_ID.CS_CMD_INSTANCE_INIT_NTF, structure);
         }
 
         /// <summary>

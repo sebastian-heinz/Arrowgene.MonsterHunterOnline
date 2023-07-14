@@ -17,6 +17,6 @@ public class CsCmdReselectRoleReqHandler : ICsProtoHandler
     public void Handle(Client client, CsProtoPacket packet)
     {
         client.SendCsPacket(NewCsPacket.ReselectRoleRsp(new CSReselectRoleRsp()));
-        client.State.OnRoleReSelected();
+       // client.State.OnRoleReSelected();
     }
 }

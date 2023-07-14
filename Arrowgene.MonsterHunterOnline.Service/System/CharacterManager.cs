@@ -187,7 +187,15 @@ public class CharacterManager
         structure.Name = character.Name;
         structure.Gender = character.Gender;
         structure.IsGm = 0;
-        //structure.Pose;
+        //spawn location
+        structure.Pose.t.x = 409.91379f;
+        structure.Pose.t.y = 358.74976f;
+        structure.Pose.t.z = 100.0f; // height
+        structure.Pose.q.v.x = 10;
+        structure.Pose.q.v.y = 10;
+        structure.Pose.q.v.z = 10;
+        structure.Pose.q.w = 10;
+        //
         structure.ParentEntityGuid = 0;
         structure.AvatarSetId = 0;
         structure.Faction = 0;
@@ -210,6 +218,209 @@ public class CharacterManager
         structure.IsSpectating = 0;
         structure.DragonShopBox = 0;
         structure.CanGetRewarded = 0;
+        for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+        {
+            structure.FacialInfo[i] = character.FacialInfo[i];
+        }
         // TODO figure out attr and other binary blobs
+    }
+
+    public List<AttrSync> GetAllAttrSync(Client client, Character character)
+    {
+        List<AttrSync> attrs = new List<AttrSync>();
+
+        AttrSync sync;
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 1;
+        sync.BonusId = 1;
+        sync.Data.Int = (int)character.Level;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 2;
+        sync.BonusId = 0;
+        sync.Data.String = character.Name;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 3;
+        sync.BonusId = 0;
+        sync.Data.Int = character.Gender;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 16;
+        sync.BonusId = 1;
+        sync.Data.Int = 100; // max hp
+        attrs.Add(sync);
+        
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 21;
+        sync.BonusId = 1;
+        sync.Data.Int = 100; // max stamina
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 25;
+        sync.BonusId = 1;
+        sync.Data.Int = 1; // str
+        attrs.Add(sync);
+        
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 26;
+        sync.BonusId = 1;
+        sync.Data.Int = 1; // bst
+        attrs.Add(sync);
+        
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 27;
+        sync.BonusId = 1;
+        sync.Data.Int = 1; // lck
+        attrs.Add(sync);
+        
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 28;
+        sync.BonusId = 1;
+        sync.Data.Int = 1; // vir
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 73;
+        sync.BonusId = 1;
+        sync.Data.Int = 100; // speed
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 107;
+        sync.BonusId = 0;
+        sync.Data.Int = character.FaceId;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 108;
+        sync.BonusId = 0;
+        sync.Data.Int = character.HairId;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 172;
+        sync.BonusId = 0;
+        sync.Data.Int = character.UnderclothesId;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 200;
+        sync.BonusId = 0;
+        sync.Data.Int = character.SkinColor;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 201;
+        sync.BonusId = 0;
+        sync.Data.Int = character.HairColor;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 202;
+        sync.BonusId = 0;
+        sync.Data.Int = character.InnerColor;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 203;
+        sync.BonusId = 0;
+        sync.Data.Int = character.FaceTattooIndex;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 204;
+        sync.BonusId = 0;
+        sync.Data.Int = character.EyeBall;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 215;
+        sync.BonusId = 0;
+        sync.Data.Int = character.FaceTattooColor;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 216;
+        sync.BonusId = 0;
+        sync.Data.Int = character.EyeColor;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 222;
+        sync.BonusId = 0;
+        sync.Data.Bool = character.HideFashion != 0;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 223;
+        sync.BonusId = 0;
+        sync.Data.Bool = character.HideSuite != 0;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 224;
+        sync.BonusId = 0;
+        sync.Data.Bool = character.HideHelm != 0;
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 317;
+        sync.BonusId = 0;
+        sync.Data.Int = character.HrLevel;
+        attrs.Add(sync);
+
+        uint faceAttrId = 247;
+        for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+        {
+            sync = new AttrSync();
+            sync.EntityId = character.Id;
+            sync.AttrId = faceAttrId;
+            sync.BonusId = 0;
+            sync.Data.Int = character.FacialInfo[i];
+            attrs.Add(sync);
+            faceAttrId++;
+            if (faceAttrId == 272)
+            {
+                faceAttrId = 324;
+            }
+
+            if (faceAttrId == 346)
+            {
+                break;
+            }
+        }
+
+
+        return attrs;
     }
 }

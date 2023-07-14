@@ -16,6 +16,6 @@ public class CsCmdTeamInfoGetReqHandler : ICsProtoHandler
 
     public void Handle(Client client, CsProtoPacket packet)
     {
-        client.SendCsPacket(NewCsPacket.TeamInfoNtf(client.State._teamInfoNtf));
+        client.SendCsPacket(NewCsPacket.TeamInfoNtf(new CSTeamInfoNtf()));
     }
 }

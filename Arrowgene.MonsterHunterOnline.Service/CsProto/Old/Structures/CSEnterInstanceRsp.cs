@@ -46,7 +46,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BattleSvr = "";
             ServiceID = 0;
             Key = "";
-            InstanceInfo = new CSInstanceInitInfo();
+            InstanceInfo = new InstanceInitInfo();
             SameBS = 0;
             CrossRegion = 0;
             MatchRoom = 0;
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Key;
 
-        public CSInstanceInitInfo InstanceInfo;
+        public InstanceInitInfo InstanceInfo;
 
         /// <summary>
         /// 是否切换BS

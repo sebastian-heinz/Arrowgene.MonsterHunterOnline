@@ -16,6 +16,5 @@ public class CsCmdItemReBuildLimitDataHandler : ICsProtoHandler
     {
         CSItemRebuildLimitInfo rsp = new CSItemRebuildLimitInfo();
         client.SendCsPacket(NewCsPacket.ItemRebuildLimitDataNtf(rsp));
-        client.State.OnPlayerInitFinished();
     }
 }

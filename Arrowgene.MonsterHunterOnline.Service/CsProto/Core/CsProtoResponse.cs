@@ -41,7 +41,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public static CsProtoStructurePacket<PlayerInitInfo> PlayerInitInfo =>
             new(CS_CMD_ID.CS_CMD_PLAYER_INIT_NTF);
 
-        public static CsProtoStructurePacket DataLoadRsp(IStructure structure) =>
+        public static CsProtoStructurePacket DataLoadRsp(RemoteDataLoadRsp structure) =>
             new(CS_CMD_ID.CS_CMD_DATA_LOAD_RSP, structure);
+
+        public static CsProtoStructurePacket<TownInstanceVerifyRsp> TownServerInitNtf =>
+            new(CS_CMD_ID.CS_CMD_TOWN_SERVER_INIT_NTF);
+
+        public static CsProtoStructurePacket<AttrSyncList> AttrSyncList =>
+            new(CS_CMD_ID.CS_CMD_ATTR_SYNC_LIST_NTF);
+
+        public static CsProtoStructurePacket<AttrSync> AttrSync =>
+            new(CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF);
     }
 }

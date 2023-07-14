@@ -94,6 +94,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             buffer.WriteByte(val);
         }
 
+        protected void WriteFloat(IBuffer buffer, float val)
+        {
+            buffer.WriteFloat(val, Endianness.Big);
+        }
+
+        protected float ReadFloat(IBuffer buffer)
+        {
+            return buffer.ReadFloat(Endianness.Big);
+        }
+
         protected void ReadArray<T>(IBuffer buffer, T[] dst, int limit, Func<IBuffer, T> readFn)
         {
             if (limit >= dst.Length)
@@ -220,7 +230,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             val.Read(buffer);
             return val;
         }
-        
+
         protected TStructure ReadStructure<TStructure>(IBuffer buffer, TStructure val) where TStructure : IStructure
         {
             val.Read(buffer);
