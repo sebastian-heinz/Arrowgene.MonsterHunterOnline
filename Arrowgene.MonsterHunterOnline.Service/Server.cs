@@ -81,10 +81,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new C2SCmdShopRefreshShopsHandler());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsPassTimeReq());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdBattleActorBeginMoveHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdBattleActorFifoSyncHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdBattleActorIdleMoveHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdBattleActorMoveStateHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdChangeTownInstanceReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdChatBroadcastReqHandler(Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
@@ -99,7 +95,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdMailUnreadGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMartGoodsListReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdPlayerExtNotifyHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdReselectRoleReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdSystemEncryptData(_csProtoPacketHandler));
             _csProtoPacketHandler.AddHandler(new CsCmdSystemPkgTimerRecordHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdSystemTransAntiDataHandler());
@@ -107,13 +102,19 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdVipServiceExpireReqHandler());
 
             // new handler
+            _csProtoPacketHandler.AddHandler(new BattleActorBeginMoveHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorFifoSyncHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorIdleMoveHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorMoveStateHandler());
             _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DataLoadHandler());
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
 
 

@@ -142,21 +142,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSLeaveInstanceRsp>(CS_CMD_ID.CS_CMD_LEAVE_INSTANCE_RSP, structure);
         }
 
-        /// <summary>
-        /// 小退请求
-        /// </summary>
-        public static CsTPacket<CSReselectRoleReq> ReselectRoleReq(CSReselectRoleReq structure)
-        {
-            return new CsTPacket<CSReselectRoleReq>(CS_CMD_ID.CS_CMD_RESELECT_ROLE_REQ, structure);
-        }
-
-        /// <summary>
-        /// 小退响应
-        /// </summary>
-        public static CsTPacket<CSReselectRoleRsp> ReselectRoleRsp(CSReselectRoleRsp structure)
-        {
-            return new CsTPacket<CSReselectRoleRsp>(CS_CMD_ID.CS_CMD_RESELECT_ROLE_RSP, structure);
-        }
 
 
         /// <summary>
@@ -1390,13 +1375,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSAGSyncInfo>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_AG_SYNC, structure);
         }
 
-        /// <summary>
-        /// FIFO同步消息
-        /// </summary>
-        public static CsTPacket<CSFIFOSyncInfo> FIFOSyncMsg(CSFIFOSyncInfo structure)
-        {
-            return new CsTPacket<CSFIFOSyncInfo>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_FIFO_SYNC, structure);
-        }
 
         /// <summary>
         /// 同步所有AGInput值
@@ -1494,21 +1472,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSPlayFxNtf>(CS_CMD_ID.CS_CMD_PLAY_FX, structure);
         }
 
-        /// <summary>
-        /// C2表现FIFO同步消息
-        /// </summary>
-        public static CsTPacket<CSFIFOSyncInfoNtf> FIFOSyncMsgNtf(CSFIFOSyncInfoNtf structure)
-        {
-            return new CsTPacket<CSFIFOSyncInfoNtf>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_FIFO_SYNC_NTF, structure);
-        }
 
-        /// <summary>
-        /// 服务器强制状态变化消息
-        /// </summary>
-        public static CsTPacket<CSServerSyncInfoNtf> ServerSyncMsgNtf(CSServerSyncInfoNtf structure)
-        {
-            return new CsTPacket<CSServerSyncInfoNtf>(CS_CMD_ID.CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF, structure);
-        }
+
 
         /// <summary>
         /// 场景物件同步信息
@@ -1518,21 +1483,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSPlayerSceneObjSync>(CS_CMD_ID.CS_CMD_PLAYER_SCENEOBJ_INTE, structure);
         }
 
-        /// <summary>
-        /// 开始移动消息
-        /// </summary>
-        public static CsTPacket<CSActorBeginmoveNtf> ActorBeginmoveNtf(CSActorBeginmoveNtf structure)
-        {
-            return new CsTPacket<CSActorBeginmoveNtf>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE_NTF, structure);
-        }
-
-        /// <summary>
-        /// 定时位置同步消息
-        /// </summary>
-        public static CsTPacket<CSActorMovestateNtf> ActorMovestateNtf(CSActorMovestateNtf structure)
-        {
-            return new CsTPacket<CSActorMovestateNtf>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_MOVESTATE_NTF, structure);
-        }
 
         /// <summary>
         /// 停止移动消息
@@ -1542,21 +1492,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSActorStopmoveNtf>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_STOPMOVE_NTF, structure);
         }
 
-        /// <summary>
-        /// 位置更新消息
-        /// </summary>
-        public static CsTPacket<CSActorIdlemoveNtf> ActorIdlemoveNtf(CSActorIdlemoveNtf structure)
-        {
-            return new CsTPacket<CSActorIdlemoveNtf>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_IDLEMOVE_NTF, structure);
-        }
-
-        /// <summary>
-        /// 服务器强制状态变化的确认
-        /// </summary>
-        public static CsTPacket<CSServerSyncInfoAck> ServerSyncInfoAck(CSServerSyncInfoAck structure)
-        {
-            return new CsTPacket<CSServerSyncInfoAck>(CS_CMD_ID.CS_CMD_SERVER_ACTOR_FIFO_SYNC_ACK, structure);
-        }
 
         /// <summary>
         /// 服务器强制状态变化的确认
@@ -1792,13 +1727,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSMonsterLocoInfo>(CS_CMD_ID.CS_CMD_BATTLE_MONSTER_LOCOINFO, structure);
         }
 
-        /// <summary>
-        /// 位置更新消息
-        /// </summary>
-        public static CsTPacket<CSActorIdlemove> ActorIdlemove(CSActorIdlemove structure)
-        {
-            return new CsTPacket<CSActorIdlemove>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_IDLEMOVE, structure);
-        }
 
         /// <summary>
         /// hit信息用于统计
@@ -1880,21 +1808,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSBattleTimesync>(CS_CMD_ID.CS_CMD_BATTLE_TIMESYNC, structure);
         }
 
-        /// <summary>
-        /// 开始移动消息
-        /// </summary>
-        public static CsTPacket<CSActorBeginmove> ActorBeginmove(CSActorBeginmove structure)
-        {
-            return new CsTPacket<CSActorBeginmove>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE, structure);
-        }
+ 
 
-        /// <summary>
-        /// 定时位置同步消息
-        /// </summary>
-        public static CsTPacket<CSActorMovestate> ActorMovestate(CSActorMovestate structure)
-        {
-            return new CsTPacket<CSActorMovestate>(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_MOVESTATE, structure);
-        }
+ 
 
         /// <summary>
         /// 停止移动消息

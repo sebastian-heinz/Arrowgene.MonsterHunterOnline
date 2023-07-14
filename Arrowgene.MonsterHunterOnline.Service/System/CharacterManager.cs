@@ -400,6 +400,7 @@ public class CharacterManager
         attrs.Add(sync);
 
         uint faceAttrId = 247;
+        // TODO verify this logic
         for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
         {
             sync = new AttrSync();
@@ -412,11 +413,6 @@ public class CharacterManager
             if (faceAttrId == 272)
             {
                 faceAttrId = 324;
-            }
-
-            if (faceAttrId == 346)
-            {
-                break;
             }
         }
 

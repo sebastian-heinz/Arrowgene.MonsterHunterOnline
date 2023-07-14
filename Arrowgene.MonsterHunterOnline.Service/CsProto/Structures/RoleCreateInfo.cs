@@ -92,7 +92,7 @@ public class RoleCreateInfo : Structure
     /// <summary>
     /// DBID,客户端不必填写,从NameSvr返回后查找
     /// </summary>
-    public ulong DbId { get; }
+    public ulong DbId { get; set; }
 
     public override void Write(IBuffer buffer)
     {
@@ -127,5 +127,6 @@ public class RoleCreateInfo : Structure
         FaceTattooIndex = ReadInt32(buffer);
         FaceTattooColor = ReadInt32(buffer);
         ReadArray(buffer, FacialInfo, CsProtoConstant.CS_MAX_FACIALINFO_COUNT, ReadInt16);
+        DbId = ReadUInt64(buffer);
     }
 }
