@@ -80,7 +80,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                                 level = int.Parse(dstPoint);
                             }
                             instanceInitInfo.LevelId = level;
-                            Logger.Info($"warp point match found: ({levelId})({filename})({areaName})({name})");
+                            //Logger.Info($"warp point match found: ({levelId})({filename})({areaName})({name})");
                             // Process the position (Pos) and rotation (Rotate) values
                             string[] posValues = pos.Split(',');
                             string[] rotateValues = rotate.Split(',');

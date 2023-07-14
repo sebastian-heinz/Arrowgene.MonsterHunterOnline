@@ -22,11 +22,11 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
         string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
         Logger.Info($"Teleport Info: ({triggerName})");
 
-        //triggerName = triggerName.Replace("MainArea", "MainArea".Insert("MainArea".IndexOf("Main") + 4, "_"));
+        triggerName = triggerName.Replace("MainArea", "MainArea".Insert("MainArea".IndexOf("Main") + 4, "_"));
         //client.
         //string instanceLevelId = _instanceInitInfo.LevelID.ToString();
         string csvFile = "RegionJump.csv";
-        string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.Parent.FullName);
+        string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
         string filePath = Path.Combine(desiredDirectory, csvFile);
 
         using (TextFieldParser parser = new TextFieldParser(filePath))
@@ -78,7 +78,6 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                             },
                             t = new CSVec3() { x = posX, y = posY, z = posZ }
                         };
-                        Logger.Info($"Sending Response");
                         client.SendCsPacket(NewCsPacket.PlayerRegionJumpRsp(new CSPlayerRegionJumpRsp()
                         {
                             ErrorCode = 0,

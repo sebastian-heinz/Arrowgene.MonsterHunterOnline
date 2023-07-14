@@ -1,0 +1,16 @@
+name,ID,bonus,val_type,val
+CharLevel,1,1,1,180
+CharLvlXP,5,0,1,352000
+CharSpeed,73,1,1,300
+CharHRLevel,317,0,1,250
+CharHRPoint,318,0,1,6617590
+Newbie,173,0,1,1
+FarmOpenFlag,196,0,2,1
+FarmExp,197,0,1,42389
+FarmEval,198,0,1,234
+UnderClothes,172,0,1,1
+EyeBall,204,0,1,2
+EyeColor,216,0,1,2
+Hair,108,0,1,1
+Face,107,0,1,1
+HairColor,201,0,1,13574935
