@@ -22,6 +22,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
             CS_CMD_ID.CS_CMD_BATTLE_ACTOR_IDLEMOVE_NTF,
             CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE,
             CS_CMD_ID.CS_CMD_BATTLE_ACTOR_BEGINMOVE_NTF,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_STOPMOVE,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_STOPMOVE_NTF,
+            CS_CMD_ID.CS_CMD_BATTLE_ACTOR_FIFO_SYNC,
+            CS_CMD_ID.CS_CMD_UPDATE_RUSHSTATE,
+
         };
 
         public override void Initialize(string identity, string name, Action<Log> write)

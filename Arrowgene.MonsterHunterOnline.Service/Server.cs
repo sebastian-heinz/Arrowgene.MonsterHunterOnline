@@ -109,6 +109,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new BattleActorFifoSyncHandler());
             _csProtoPacketHandler.AddHandler(new BattleActorIdleMoveHandler());
             _csProtoPacketHandler.AddHandler(new BattleActorMoveStateHandler());
+            _csProtoPacketHandler.AddHandler(new BattleActorStopMoveHandler());
+            _csProtoPacketHandler.AddHandler(new UpdateRushStateHandler());
             _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));

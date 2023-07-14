@@ -283,9 +283,16 @@ public class CharacterManager
 
         sync = new AttrSync();
         sync.EntityId = character.Id;
+        sync.AttrId = 20;
+        sync.BonusId = 0;
+        sync.Data.Int = 100; // stamina (needed to move around)
+        attrs.Add(sync);
+
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
         sync.AttrId = 21;
-        sync.BonusId = 1;
-        sync.Data.Int = 100; // max stamina
+        sync.BonusId = 0;
+        sync.Data.Int = 100; // max stamina (not needed to move around)
         attrs.Add(sync);
 
         sync = new AttrSync();
