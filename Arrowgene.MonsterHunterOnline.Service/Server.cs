@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new C2SCmdShopRefreshShopsHandler());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsPassTimeReq());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdChangeTownInstanceReqHandler());
+            //_csProtoPacketHandler.AddHandler(new CsCmdChangeTownInstanceReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdChatBroadcastReqHandler(Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
@@ -119,6 +119,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
+            _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
+            _csProtoPacketHandler.AddHandler(new ChangeTownInstanceReqHandler());
 
 
             _tpduConsumer.AddHandler(new TdpuCmdRelay(Database));
