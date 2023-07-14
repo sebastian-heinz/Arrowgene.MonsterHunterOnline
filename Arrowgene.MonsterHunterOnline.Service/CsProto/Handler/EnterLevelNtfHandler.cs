@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Arrowgene.Logging;
+﻿using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
@@ -24,23 +23,32 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
 
     public override void Handle(Client client, EnterLevelNtf req)
     {
-        List<AttrSync> attrs = _characterManager.GetAllAttrSync(client, client.Character);
-        List<List<AttrSync>> attrChunks = Util.Chunk(attrs, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX);
+        _characterManager.SyncAllAttr(client);
 
-        foreach (List<AttrSync> attrChunk in attrChunks)
+        if (!client.Character.IsSync)
         {
-            if (attrChunk.Count > CsProtoConstant.CS_ATTR_SYNC_LIST_MAX)
-            {
-                Logger.Error(client, "Chunk error");
-            }
 
-            CsProtoStructurePacket<AttrSyncList> attrSyncList = CsProtoResponse.AttrSyncList;
-            for (int i = 0; i < attrChunk.Count; i++)
-            {
-                attrSyncList.Structure.Attr.Add(attrChunk[i]);
-            }
+            // TODO hack to get visuals working
+            CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
+            TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
+            verifyRsp.ErrNo = 0;
+            verifyRsp.LineId = 0;
+            verifyRsp.LevelEnterType = 0;
 
-            client.SendCsProtoStructurePacket(attrSyncList);
+            InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
+            instanceInitInfo.BattleGroundId = 0;
+            instanceInitInfo.LevelId = 150301;
+            instanceInitInfo.CreateMaxPlayerCount = 4;
+            instanceInitInfo.GameMode = GameMode.Town;
+            instanceInitInfo.TimeType = TimeType.Noon;
+            instanceInitInfo.WeatherType = WeatherType.Sunny;
+            instanceInitInfo.Time = 1;
+            instanceInitInfo.LevelRandSeed = 1;
+            instanceInitInfo.WarningFlag = 0;
+            instanceInitInfo.CreatePlayerMaxLv = 99;
+
+            client.SendCsProtoStructurePacket(townServerInitNtf);
+            client.Character.IsSync = true;
         }
     }
 }

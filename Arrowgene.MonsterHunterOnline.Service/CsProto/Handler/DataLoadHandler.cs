@@ -3,6 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -12,6 +13,12 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_DATA_LOAD_REQ;
 
+    private readonly CharacterManager _characterManager;
+
+    public DataLoadHandler(CharacterManager characterManager)
+    {
+        _characterManager = characterManager;
+    }
 
     public override void Handle(Client client, RemoteDataLoadReq req)
     {
