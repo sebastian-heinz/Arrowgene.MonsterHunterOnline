@@ -5,6 +5,7 @@ using System.Threading;
 using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
@@ -25,6 +26,7 @@ public class PlayerState
     private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(PlayerState));
 
     private Client _client;
+    public static Server Server;
 
 
     public PlayerState(Client client)
@@ -304,16 +306,61 @@ public class PlayerState
     {
         if (chatMessage.Message == "test")
         {
-            StreamBuffer ast = new StreamBuffer();
-            ast.WriteUInt32(1, Endianness.Big); //EntityID
-            ast.WriteUInt32(73, Endianness.Big); //attr id
-            ast.WriteInt16(1, Endianness.Big); //BonusID
-            ast.WriteUInt16(1, Endianness.Big); //attr type (CS_PROP_SYNC_TYPE) = CS_PROP_SYNC_INT
-            ast.WriteInt32(100, Endianness.Big);
-            CsProtoPacket csp = new CsProtoPacket();
-            csp.Cmd = CS_CMD_ID.CS_CMD_ATTR_SYNC_NTF;
-            csp.Body = ast.GetAllBytes();
-            _client.SendCsProtoPacket(csp);
+            CSSpawnPlayer _spawnPlayer = new CSSpawnPlayer();
+            _spawnPlayer.PlayerId = 1;
+            _spawnPlayer.NetObjId = 1;
+            _spawnPlayer.Name = "Name";
+            _spawnPlayer.Gender = 1;
+            _spawnPlayer.Scale = 1.0f;
+            _spawnPlayer.NewConnect = 1;
+            _spawnPlayer.SendSrvId = 1;
+            _spawnPlayer.AvatarSetID = 1;
+            _spawnPlayer.Position = new XYZPosition();
+
+            _client.SendCsPacket(NewCsPacket.SpawnPlayer(_spawnPlayer));
+        }
+        else if (chatMessage.Message == "sync")
+        {
+            List<AttrSync> attrs = Server.CharacterManager.GetAllAttrSync(_client, _client.Character);
+            List<List<AttrSync>> attrChunks = Util.Chunk(attrs, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX);
+
+            foreach (List<AttrSync> attrChunk in attrChunks)
+            {
+                if (attrChunk.Count > CsProtoConstant.CS_ATTR_SYNC_LIST_MAX)
+                {
+                    Logger.Error(_client, "Chunk error");
+                }
+
+                CsProtoStructurePacket<AttrSyncList> attrSyncList = CsProtoResponse.AttrSyncList;
+                for (int i = 0; i < attrChunk.Count; i++)
+                {
+                    attrSyncList.Structure.Attr.Add(attrChunk[i]);
+                }
+
+                _client.SendCsProtoStructurePacket(attrSyncList);
+            }
+        }
+        else if (chatMessage.Message == "town_init")
+        {
+            CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
+            TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
+            verifyRsp.ErrNo = 0;
+            verifyRsp.LineId = 0;
+            verifyRsp.LevelEnterType = 0;
+
+            InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
+            instanceInitInfo.BattleGroundId = 0;
+            instanceInitInfo.LevelId = 150301;
+            instanceInitInfo.CreateMaxPlayerCount = 4;
+            instanceInitInfo.GameMode = GameMode.Town;
+            instanceInitInfo.TimeType = TimeType.Noon;
+            instanceInitInfo.WeatherType = WeatherType.Sunny;
+            instanceInitInfo.Time = 1;
+            instanceInitInfo.LevelRandSeed = 1;
+            instanceInitInfo.WarningFlag = 0;
+            instanceInitInfo.CreatePlayerMaxLv = 99;
+
+            _client.SendCsProtoStructurePacket(townServerInitNtf);
         }
     }
 

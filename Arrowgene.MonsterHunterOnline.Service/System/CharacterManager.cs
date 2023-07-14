@@ -225,6 +225,28 @@ public class CharacterManager
         // TODO figure out attr and other binary blobs
     }
 
+    public void SyncAllAttr(Client client)
+    {
+        List<AttrSync> attrs = GetAllAttrSync(client, client.Character);
+        List<List<AttrSync>> attrChunks = Util.Chunk(attrs, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX);
+
+        foreach (List<AttrSync> attrChunk in attrChunks)
+        {
+            if (attrChunk.Count > CsProtoConstant.CS_ATTR_SYNC_LIST_MAX)
+            {
+                Logger.Error(client, "Chunk error");
+            }
+
+            CsProtoStructurePacket<AttrSyncList> attrSyncList = CsProtoResponse.AttrSyncList;
+            for (int i = 0; i < attrChunk.Count; i++)
+            {
+                attrSyncList.Structure.Attr.Add(attrChunk[i]);
+            }
+
+            client.SendCsProtoStructurePacket(attrSyncList);
+        }
+    }
+
     public List<AttrSync> GetAllAttrSync(Client client, Character character)
     {
         List<AttrSync> attrs = new List<AttrSync>();
@@ -258,7 +280,7 @@ public class CharacterManager
         sync.BonusId = 1;
         sync.Data.Int = 100; // max hp
         attrs.Add(sync);
-        
+
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 21;
@@ -272,21 +294,21 @@ public class CharacterManager
         sync.BonusId = 1;
         sync.Data.Int = 1; // str
         attrs.Add(sync);
-        
+
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 26;
         sync.BonusId = 1;
         sync.Data.Int = 1; // bst
         attrs.Add(sync);
-        
+
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 27;
         sync.BonusId = 1;
         sync.Data.Int = 1; // lck
         attrs.Add(sync);
-        
+
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 28;

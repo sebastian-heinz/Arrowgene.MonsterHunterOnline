@@ -10,8 +10,13 @@ public class Character
         FacialInfo = new short[CsProtoConstant.CS_MAX_FACIALINFO_COUNT];
         StarLevel = "";
         Name = "";
+
+        // TODO hack for visuals
+        IsSync = false;
     }
 
+    public bool IsSync { get; set; }
+    
     public uint Id { get; set; }
     public uint AccountId { get; set; }
     public byte Index { get; set; }

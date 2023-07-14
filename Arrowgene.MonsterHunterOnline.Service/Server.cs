@@ -50,6 +50,9 @@ namespace Arrowgene.MonsterHunterOnline.Service
             CharacterManager = new CharacterManager(Database);
 
             LoadPacketHandler();
+
+            // TODO remove hack
+            PlayerState.Server = this;
         }
 
         public Setting Setting { get; }
@@ -107,7 +110,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new BattleActorIdleMoveHandler());
             _csProtoPacketHandler.AddHandler(new BattleActorMoveStateHandler());
             _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
-            _csProtoPacketHandler.AddHandler(new DataLoadHandler());
+            _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
