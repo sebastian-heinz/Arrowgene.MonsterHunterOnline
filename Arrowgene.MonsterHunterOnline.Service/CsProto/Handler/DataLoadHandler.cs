@@ -72,6 +72,8 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
             instanceInitInfo.CreatePlayerMaxLv = 99;
 
             client.SendCsProtoStructurePacket(townServerInitNtf);
+            client.State.prevLevelId = client.State.levelId;
+            client.State.levelId = instanceInitInfo.LevelId;
         }
     }
 }

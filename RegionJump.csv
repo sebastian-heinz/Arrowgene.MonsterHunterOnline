@@ -1,0 +1,6 @@
+﻿LevelId,Filename,Area_Name,Name,Pos,Rotate
+180201,village_02,Mezeporta,Teleport_To_Government_Building_Point,"254.51402,594.03662,261.03903","-0.46174863,0,0,0.88701081"
+180201,village_02,Mezeporta,Teleport_To_Cat_Area_Point,"1326.8115,1063.345,15.543652","0.24192192,0,0,0.97029573"
+180201,village_02,Mezeporta,Teleport_To_Main_AreaPoint,"1337.2423,1185.7333,19.770189","0.63607824,0,0,0.77162457"
+180201,village_02,Mezeporta,SpawnPointFromArena,"1260.8256,1150.1462,24.598204","0.94832367,0,0,-0.31730464"
+180201,village_02,Mezeporta,Teleport_To_Main_Area_Point,"1122.36,1297.8098,32.387268","0.82412618,0,0,-0.56640619"

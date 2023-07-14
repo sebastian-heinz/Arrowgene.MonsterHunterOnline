@@ -85,6 +85,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public static CsProtoStructurePacket<ServerSyncInfoNtf> ServerSyncInfoNtf =>
             new(CS_CMD_ID.CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF);
 
+        public static CsProtoStructurePacket<PlayerRegionJumpRsp> PlayerRegionJumpRsp =>
+            new(CS_CMD_ID.CS_CMD_PLAYER_REGION_JUMP_RSP);
+
+        public static CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstanceRsp =>
+            new(CS_CMD_ID.CS_CMD_CHANGE_TOWN_INSTANCE_RSP);
+
+        public static CsProtoStructurePacket<PlayerTeleport> PlayerTeleport =>
+            new(CS_CMD_ID.CS_CMD_PLAYER_TELEPORT_NTF);
+
         //CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF - registered by client
         //CS_CMD_BATTLE_ACTOR_FIFO_SYNC_NTF - registered by client
 

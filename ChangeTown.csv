@@ -1,0 +1,28 @@
+﻿LevelId,Filename,Area_Name,Name,Matching_Name,Pos,Rotate,dstLevel,Type
+150101,hub_001,Cinnamon Mountain,HubToVillageTrigger,EntryPoint_FromHubS,"687.25659,673.74487,135.20961","0.98325491,0,0,0.18223555",180101,ProximityTrigger
+150101,hub_001,Cinnamon Mountain,Minimap_Teleport,EntryPointFromHub01,"404.53613,396.77765,84.06369","0.13052619,0,0,0.99144489",150101,MHPlayerSpawnPoint
+150101,hub_001,Cinnamon Mountain,Hub1ToHub2Triigger,Teleporter_To_Hub001_BackPoint,"503.66687,519.0766,119.17596","-0.18223552,0,0,0.98325491",150201,ProximityTrigger
+150201,hub_002,Longzhi Lake,Teleporter_To_Hub001,EntryPointFromHub2,"431.55576,378.61368,84.615326","0.84339154,0,0,0.53729951",150101,ProximityTrigger
+150201,hub_002,Longzhi Lake,Teleporter_To_Village02,Arrive_From_Hub02,"1309.4305,1270.1383,14.131046","0.49999973,0,0,0.86602557",180201,ProximityTrigger
+150201,hub_002,Longzhi Lake,Minimap_Teleport,EnterInstance2_BackPoint,"474.3399,484.77094,116.0913","0.87881708,0,0,-0.47715881",150201,MHPlayerSpawnPoint
+150301,hub_003,Moonbeam Forest,TeleporterToHub04,Teleporter_To_Hub003_BackPoint,"548.19733,522.58051,29.824791","0.25881895,0,0,0.96592581",150401,ProximityTrigger
+150301,hub_003,Moonbeam Forest,Minimap_Teleport,Initial_SpawnPoiont,"517.36304,391.93173,49.096535","0.98901588,0,0,-0.14780945",150301,MHPlayerSpawnPoint
+150301,hub_003,Moonbeam Forest,TeleporterToVillage02,Arrive_From_Hub03,"1169.375,1186.6145,32.703117","0.86162919,0,0,-0.50753826",180201,ProximityTrigger
+150401,hub_004,Burning Fortress,TeleportToHub03,Arrive_From_Hub04,"547.31561,392.17645,49.115135","0.95105648,0,0,0.30901712",150301,ProximityTrigger
+150401,hub_004,Burning Fortress,Minimap_Teleport,SafeSpawnPoint,"550.51465,523.17902,29.696609","0.13052626,0,0,0.99144489",150401,MHPlayerSpawnPoint
+150401,hub_004,Burning Fortress,TeleportToHub05,Teleporter_To_Hub004_BackPoint,"1010.6843,1155.6472,45.524193","1,0,0,0",150501,ProximityTrigger
+150501,hub_005,Sprint Wind Post,Minimap_Teleport,Minimap_Teleport,"1028.1249,1173.3152,47.247326","0.52991927,0,0,0.84804809",150501,MHPlayerSpawnPoint
+150501,hub_005,Sprint Wind Post,TeleportToHub04,Arrive_From_OtherPlaces,"542.49908,451.64084,36.631306","0.99452192,0,0,-0.10452837",150401,ProximityTrigger
+160101,farm_01,Farm,FarmToVillageTrigger,EntryPoint_FromFarm,"635.36932,682.52539,140.25","0.67559028,0,0,-0.73727733",180101,ProximityTrigger
+160101,farm_01,Farm,Minimap_Teleport,EnterPoint,"869.81116,960.40442,17.264408","0.97629601,0,0,0.21643963",160101,MHPlayerSpawnPoint
+180101,village_01,Milard Village,VillageToFarmTriiger,EnterPoint,"869.81116,960.40442,17.264408","0.97629601,0,0,0.21643963",160101,ProximityTrigger
+180101,village_01,Milard,VillageToHubTrigger,EntryPointFromVillage,"372.43442,368.92905,89.42038","0.69465828,0,0,-0.71933991",150101,ProximityTrigger
+180101,village_01,Milard,Minimap_Teleport,Minimap_Teleport,"656.78711,740.2207,143.72086","-0.31730461,0,0,0.94832367",180101,MHPlayerSpawnPoint
+180101,village_01,Milard Village,Village01_To_GuildCamp_Trigger,MHPlayerSpawnPoint1,"1025.3853,1286.7659,104.88641","0.29237163,0,0,0.95630479",160201,ProximityTrigger
+180201,village_02,Mezeporta,Village2_To_Hub3_Trigger,Arrive_From_Village02,"506.26965,401.89761,48.088387","0.97029573,0,0,-0.24192192",150301,ProximityTrigger
+180201,village_02,Mezeporta,Minimap_Teleport,Minimap_Teleport,"1245.8522,1240.337,23.608009","0.87035573,0,0,-0.4924235",180201,MHPlayerSpawnPoint
+180201,village_02,Mezeporta,Village2_To_Hub2_Trigger,Teleporter_To_Village02_BackPoint,"550.32245,482.12671,117.56145","0.95630479,0,0,0.29237166",150201,ProximityTrigger
+180201,village_02,Mezeporta,Village2_To_GuildCamp_Trigger,MHPlayerSpawnPoint1,"1025.3853,1286.7659,104.88641","0.29237163,0,0,0.95630479",160201,ProximityTrigger
+180201,village_02,Mezeporta,Village2_To_Farm_Trigger,EnterPoint,"869.81116,960.40442,17.264408","0.97629601,0,0,0.21643963",160101,ProximityTrigger
+160201,guild_01,Guild Camp,Minimap_Teleport,Minimap_Teleport,"1017.164,1283.4886,105.23875","0.25881904,0,0,0.96592581",160201,MHPlayerSpawnPoint
+160201,guild_01,Guild Camp,FromGuildCampToVillage,MHPlayerSpawnPointFromGuildCamp,"1256.9218,1143.5562,24.769239","0.92050487,0,0,-0.39073107",180201,ProximityTrigger
