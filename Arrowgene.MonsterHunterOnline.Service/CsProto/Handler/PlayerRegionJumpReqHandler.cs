@@ -20,10 +20,18 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
     {
         CSVec3 coords = req.PlayerPos;
         string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
-        Logger.Info($"Teleport Info: ({triggerName})");
+        //Logger.Info($"Teleport Info: ({triggerName})");
+        
+        //the warp zones for mezeporta since its handled attrociously 
+        if (triggerName == "Teleport_To_MainArea")
+        {
+            triggerName = "Teleport_To_Main_Area_Point";
+        }
+        if (triggerName == "Teleport_To_Main_Area")
+        {
+            triggerName = "Teleport_To_Main_AreaPoint";
+        }
 
-        triggerName = triggerName.Replace("MainArea", "MainArea".Insert("MainArea".IndexOf("Main") + 4, "_"));
-        //client.
         //string instanceLevelId = _instanceInitInfo.LevelID.ToString();
         string csvFile = "RegionJump.csv";
         string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
