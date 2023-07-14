@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSItemListRsp : RemoteDataInfo
+    public class CSItemListRsp : IRemoteDataInfo
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemListRsp));
 

@@ -14,6 +14,10 @@ public class TpduCmdSynAckHandler : ITpduHandler
         IBuffer identHeadExt = new StreamBuffer();
 
 
+// TODO write uin in identity
+        // StreamBuffer sb = new StreamBuffer();
+        //   sb.WriteUInt32(client.Account.Uin);
+
         byte[] encryptIdent = new byte[20] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         TdpuCrypto crypto = client.GetTdpuCrypto();
         if (crypto != null)

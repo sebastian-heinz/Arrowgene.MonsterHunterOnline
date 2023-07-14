@@ -34,78 +34,78 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// Apparently this should be the QQ number, but it seems to be "RoleIndex" too.
         /// </summary>
-        public uint Uin;
+        public uint Uin { get; set; }
 
         /// <summary>
         /// Originally this is defined as "DbId" however testing shows that it returns the "RoleIndex"
         /// defined via the "ListRoleRsp"
         /// </summary>
-        public ulong RoleIndex;
+        public ulong RoleIndex { get; set; }
 
         /// <summary>
         /// 角色是否变性
         /// </summary>
-        public ushort ChangeGender;
+        public ushort ChangeGender { get; set; }
 
         /// <summary>
         /// 角色性别
         /// </summary>
-        public ushort Gender;
+        public ushort Gender { get; set; }
 
         /// <summary>
         /// 脸型ID
         /// </summary>
-        public ushort FaceId;
+        public ushort FaceId { get; set; }
 
         /// <summary>
         /// 发型ID
         /// </summary>
-        public ushort HairId;
+        public ushort HairId { get; set; }
 
         /// <summary>
         /// 内衣ID
         /// </summary>
-        public ushort UnderclothesId;
+        public ushort UnderclothesId { get; set; }
 
         /// <summary>
         /// 皮肤颜色
         /// </summary>
-        public int SkinColor;
+        public int SkinColor { get; set; }
 
         /// <summary>
         /// 头发颜色
         /// </summary>
-        public int HairColor;
+        public int HairColor { get; set; }
 
         /// <summary>
         /// 内衣颜色
         /// </summary>
-        public int InnerColor;
+        public int InnerColor { get; set; }
 
         /// <summary>
         /// 眼睛
         /// </summary>
-        public int EyeBall;
+        public int EyeBall { get; set; }
 
         /// <summary>
         /// 眼睛颜色
         /// </summary>
-        public int EyeColor;
+        public int EyeColor { get; set; }
 
         /// <summary>
         /// 脸部贴花
         /// </summary>
-        public int FaceTattooIndex;
+        public int FaceTattooIndex { get; set; }
 
         /// <summary>
         /// 脸部贴花颜色
         /// </summary>
-        public int FaceTattooColor;
+        public int FaceTattooColor { get; set; }
 
         /// <summary>
         /// 捏脸数据集合
         /// </summary>
-        public short[] FacialInfo;
+        public short[] FacialInfo { get; }
 
         public override void Write(IBuffer buffer)
         {

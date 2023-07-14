@@ -27,72 +27,72 @@ public class RoleCreateInfo : Structure
     /// <summary>
     /// 角色名
     /// </summary>
-    public string Name;
+    public string Name { get; set; }
 
     /// <summary>
     /// 角色性别
     /// </summary>
-    public byte Gender;
+    public byte Gender { get; set; }
 
     /// <summary>
     /// 脸型ID
     /// </summary>
-    public ushort FaceId;
+    public ushort FaceId { get; set; }
 
     /// <summary>
     /// 发型ID
     /// </summary>
-    public ushort HairId;
+    public ushort HairId { get; set; }
 
     /// <summary>
     /// 内衣ID
     /// </summary>
-    public ushort UnderclothesId;
+    public ushort UnderclothesId { get; set; }
 
     /// <summary>
     /// 皮肤颜色
     /// </summary>
-    public int SkinColor;
+    public int SkinColor { get; set; }
 
     /// <summary>
     /// 头发颜色
     /// </summary>
-    public int HairColor;
+    public int HairColor { get; set; }
 
     /// <summary>
     /// 内衣颜色
     /// </summary>
-    public int InnerColor;
+    public int InnerColor { get; set; }
 
     /// <summary>
     /// 眼睛
     /// </summary>
-    public int EyeBall;
+    public int EyeBall { get; set; }
 
     /// <summary>
     /// 眼睛颜色
     /// </summary>
-    public int EyeColor;
+    public int EyeColor { get; set; }
 
     /// <summary>
     /// 脸部贴花
     /// </summary>
-    public int FaceTattooIndex;
+    public int FaceTattooIndex { get; set; }
 
     /// <summary>
     /// 脸部贴花颜色
     /// </summary>
-    public int FaceTattooColor;
+    public int FaceTattooColor { get; set; }
 
     /// <summary>
     /// 捏脸数据集合
     /// </summary>
-    public short[] FacialInfo;
+    public short[] FacialInfo { get; }
 
     /// <summary>
     /// DBID,客户端不必填写,从NameSvr返回后查找
     /// </summary>
-    public ulong DbId;
+    public ulong DbId { get; }
 
     public override void Write(IBuffer buffer)
     {

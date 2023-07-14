@@ -1,34 +1,31 @@
 using Arrowgene.Buffers;
-using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
     /// <summary>
-    /// 付费重新捏脸响应
+    /// TownSession建立
     /// </summary>
-    public class ModifyFaceRsp : Structure
+    public class TownSessionStart : Structure
     {
-        private static readonly ILogger Logger = LogProvider.Logger(typeof(ModifyFaceRsp));
-
-        public ModifyFaceRsp()
+        public TownSessionStart()
         {
-            Result = 0;
+            ErrNo = 0;
         }
 
         /// <summary>
-        /// 结果
+        /// 0为成功，其他是错误码
         /// </summary>
-        public int Result { get; set; }
+        public byte ErrNo { get; set; }
 
         public override void Write(IBuffer buffer)
         {
-            WriteInt32(buffer, Result);
+            WriteByte(buffer, ErrNo);
         }
 
         public override void Read(IBuffer buffer)
         {
-            Result = ReadInt32(buffer);
+            ErrNo = ReadByte(buffer);
         }
     }
 }

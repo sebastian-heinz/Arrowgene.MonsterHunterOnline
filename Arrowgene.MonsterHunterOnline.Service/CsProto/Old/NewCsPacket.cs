@@ -28,10 +28,8 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
-
     public static class NewCsPacket
     {
-
         /// <summary>
         /// 角色列表请求
         /// </summary>
@@ -78,22 +76,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public static CsTPacket<CSDeleteRoleRsp> DeleteRoleRsp(CSDeleteRoleRsp structure)
         {
             return new CsTPacket<CSDeleteRoleRsp>(CS_CMD_ID.CS_CMD_DELETE_ROLE_RSP, structure);
-        }
-
-        /// <summary>
-        /// 角色选择请求
-        /// </summary>
-        public static CsTPacket<CSSelectRoleReq> SelectRoleReq(CSSelectRoleReq structure)
-        {
-            return new CsTPacket<CSSelectRoleReq>(CS_CMD_ID.CS_CMD_SELECT_ROLE_REQ, structure);
-        }
-
-        /// <summary>
-        /// 角色选择响应
-        /// </summary>
-        public static CsTPacket<CSSelectRoleRsp> SelecteRoleRsp(CSSelectRoleRsp structure)
-        {
-            return new CsTPacket<CSSelectRoleRsp>(CS_CMD_ID.CS_CMD_SELECT_ROLE_RSP, structure);
         }
 
         /// <summary>
@@ -176,13 +158,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSReselectRoleRsp>(CS_CMD_ID.CS_CMD_RESELECT_ROLE_RSP, structure);
         }
 
-        /// <summary>
-        /// TownSession建立
-        /// </summary>
-        public static CsTPacket<CSTownSessionStart> TownSessionStart(CSTownSessionStart structure)
-        {
-            return new CsTPacket<CSTownSessionStart>(CS_CMD_ID.CS_CMD_TOWN_SESSION_START, structure);
-        }
 
         /// <summary>
         /// 双线机房运营商顺序通知
@@ -607,9 +582,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 赛制周期信息
         /// </summary>
-        public static CsTPacket<CSLevelTournamentPeriodLimitNotify> LevelTournamentPeriodLimitNotify(CSLevelTournamentPeriodLimitNotify structure)
+        public static CsTPacket<CSLevelTournamentPeriodLimitNotify> LevelTournamentPeriodLimitNotify(
+            CSLevelTournamentPeriodLimitNotify structure)
         {
-            return new CsTPacket<CSLevelTournamentPeriodLimitNotify>(CS_CMD_ID.CS_CMD_LEVEL_TOURNAMENTS_LIMIT_INFO_NTF, structure);
+            return new CsTPacket<CSLevelTournamentPeriodLimitNotify>(CS_CMD_ID.CS_CMD_LEVEL_TOURNAMENTS_LIMIT_INFO_NTF,
+                structure);
         }
 
         /// <summary>
@@ -719,9 +696,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 赛制周期信息清理
         /// </summary>
-        public static CsTPacket<CSLevelTournamentPeriodLimitClearNotify> LevelTournamentPeriodLimitClearNotify(CSLevelTournamentPeriodLimitClearNotify structure)
+        public static CsTPacket<CSLevelTournamentPeriodLimitClearNotify> LevelTournamentPeriodLimitClearNotify(
+            CSLevelTournamentPeriodLimitClearNotify structure)
         {
-            return new CsTPacket<CSLevelTournamentPeriodLimitClearNotify>(CS_CMD_ID.CS_CMD_LEVEL_TOURNAMENTS_LIMIT_CLEAR_NTF, structure);
+            return new CsTPacket<CSLevelTournamentPeriodLimitClearNotify>(
+                CS_CMD_ID.CS_CMD_LEVEL_TOURNAMENTS_LIMIT_CLEAR_NTF, structure);
         }
 
         /// <summary>
@@ -889,17 +868,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 玩家参加猎团预选赛
         /// </summary>
-        public static CsTPacket<CSEnterGuildMatchQualifierReq> EnterGuildMatchQualifierReq(CSEnterGuildMatchQualifierReq structure)
+        public static CsTPacket<CSEnterGuildMatchQualifierReq> EnterGuildMatchQualifierReq(
+            CSEnterGuildMatchQualifierReq structure)
         {
-            return new CsTPacket<CSEnterGuildMatchQualifierReq>(CS_CMD_ID.CS_CMD_ENTER_GUILD_MATCH_QUALIFIER_REQ, structure);
+            return new CsTPacket<CSEnterGuildMatchQualifierReq>(CS_CMD_ID.CS_CMD_ENTER_GUILD_MATCH_QUALIFIER_REQ,
+                structure);
         }
 
         /// <summary>
         /// 玩家参加猎团预选赛
         /// </summary>
-        public static CsTPacket<CSEnterGuildMatchQualifierRsp> EnterGuildMatchQualifierRsp(CSEnterGuildMatchQualifierRsp structure)
+        public static CsTPacket<CSEnterGuildMatchQualifierRsp> EnterGuildMatchQualifierRsp(
+            CSEnterGuildMatchQualifierRsp structure)
         {
-            return new CsTPacket<CSEnterGuildMatchQualifierRsp>(CS_CMD_ID.CS_CMD_ENTER_GUILD_MATCH_QUALIFIER_RSP, structure);
+            return new CsTPacket<CSEnterGuildMatchQualifierRsp>(CS_CMD_ID.CS_CMD_ENTER_GUILD_MATCH_QUALIFIER_RSP,
+                structure);
         }
 
         /// <summary>
@@ -1633,7 +1616,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 大剑劲力爆发
         /// </summary>
-        public static CsTPacket<CSGiantSwordJinLiExplodeReq> GiantSwordJinLiExplodeReq(CSGiantSwordJinLiExplodeReq structure)
+        public static CsTPacket<CSGiantSwordJinLiExplodeReq> GiantSwordJinLiExplodeReq(
+            CSGiantSwordJinLiExplodeReq structure)
         {
             return new CsTPacket<CSGiantSwordJinLiExplodeReq>(CS_CMD_ID.CS_CMD_GIANTSWORD_EXPLODE_REQ, structure);
         }
@@ -1683,7 +1667,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSPlayerTeleportResponse> PlayerTeleportResponse(CSPlayerTeleportResponse structure)
         {
-            return new CsTPacket<CSPlayerTeleportResponse>(CS_CMD_ID.CS_CMD_C2S_PLAYER_TELEPORT_NTF_RESPONSE, structure);
+            return new CsTPacket<CSPlayerTeleportResponse>(CS_CMD_ID.CS_CMD_C2S_PLAYER_TELEPORT_NTF_RESPONSE,
+                structure);
         }
 
         /// <summary>
@@ -1980,14 +1965,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public static CsTPacket<CSObjectActionSyncEntry> ObjectAction(CSObjectActionSyncEntry structure)
         {
             return new CsTPacket<CSObjectActionSyncEntry>(CS_CMD_ID.CS_CMD_BATTLE_OBJECT_ACTION, structure);
-        }
-
-        /// <summary>
-        /// 玩家初始化
-        /// </summary>
-        public static CsTPacket<CSPlayerInitInfo> PlayerInitNtf(CSPlayerInitInfo structure)
-        {
-            return new CsTPacket<CSPlayerInitInfo>(CS_CMD_ID.CS_CMD_PLAYER_INIT_NTF, structure);
         }
 
         /// <summary>
@@ -2326,20 +2303,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSBattlePVPDMGNtf>(CS_CMD_ID.CS_CMD_BATTLE_PVP_DMG_NTF, structure);
         }
 
-        /// <summary>
-        /// 玩家关卡初始化
-        /// </summary>
-        public static CsTPacket<CSPlayerLevelInitInfo> PlayerLevelInitNtf(CSPlayerLevelInitInfo structure)
-        {
-            return new CsTPacket<CSPlayerLevelInitInfo>(CS_CMD_ID.CS_CMD_PLAYER_LEVEL_INIT_NTF, structure);
-        }
 
         /// <summary>
         /// 被控制怪物出现通知
         /// </summary>
         public static CsTPacket<CSCtrledMonsterAppearNtf> CtrledMonsterAppearNtf(CSCtrledMonsterAppearNtf structure)
         {
-            return new CsTPacket<CSCtrledMonsterAppearNtf>(CS_CMD_ID.CS_CMD_BATTLE_CTRLED_MONSTER_APPEAR_NTF, structure);
+            return new CsTPacket<CSCtrledMonsterAppearNtf>(CS_CMD_ID.CS_CMD_BATTLE_CTRLED_MONSTER_APPEAR_NTF,
+                structure);
         }
 
         /// <summary>
@@ -2358,21 +2329,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSSvrTestReq>(CS_CMD_ID.CS_CMD_SVR_TEST_REQ, structure);
         }
 
-        /// <summary>
-        /// 玩家数据初始化请求
-        /// </summary>
-        public static CsTPacket<CSRemoteDataLoadReq> DataLoadReq(CSRemoteDataLoadReq structure)
-        {
-            return new CsTPacket<CSRemoteDataLoadReq>(CS_CMD_ID.CS_CMD_DATA_LOAD_REQ, structure);
-        }
-
-        /// <summary>
-        /// 玩家数据初始化回报
-        /// </summary>
-        public static CsTPacket<CSRemoteDataLoadRsp> DataLoadRsp(CSRemoteDataLoadRsp structure)
-        {
-            return new CsTPacket<CSRemoteDataLoadRsp>(CS_CMD_ID.CS_CMD_DATA_LOAD_RSP, structure);
-        }
 
         /// <summary>
         /// 玩家交互同步数据
@@ -2660,14 +2616,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSFarmPlantRsp>(CS_CMD_ID.CS_CMD_FARM_PLANT_RSP, structure);
         }
 
-        public static CsTPacket<CSFarmFacilitySetGatherLevelReq> FarmFacilitySetGatherLevelReq(CSFarmFacilitySetGatherLevelReq structure)
+        public static CsTPacket<CSFarmFacilitySetGatherLevelReq> FarmFacilitySetGatherLevelReq(
+            CSFarmFacilitySetGatherLevelReq structure)
         {
-            return new CsTPacket<CSFarmFacilitySetGatherLevelReq>(CS_CMD_ID.CS_CMD_FARM_FACILITY_SET_GATHER_LEVEL_REQ, structure);
+            return new CsTPacket<CSFarmFacilitySetGatherLevelReq>(CS_CMD_ID.CS_CMD_FARM_FACILITY_SET_GATHER_LEVEL_REQ,
+                structure);
         }
 
-        public static CsTPacket<CSFarmFacilitySetGatherLevelRsp> FarmFacilitySetGatherLevelRsp(CSFarmFacilitySetGatherLevelRsp structure)
+        public static CsTPacket<CSFarmFacilitySetGatherLevelRsp> FarmFacilitySetGatherLevelRsp(
+            CSFarmFacilitySetGatherLevelRsp structure)
         {
-            return new CsTPacket<CSFarmFacilitySetGatherLevelRsp>(CS_CMD_ID.CS_CMD_FARM_FACILITY_SET_GATHER_LEVEL_RSP, structure);
+            return new CsTPacket<CSFarmFacilitySetGatherLevelRsp>(CS_CMD_ID.CS_CMD_FARM_FACILITY_SET_GATHER_LEVEL_RSP,
+                structure);
         }
 
         public static CsTPacket<CSFarmTrainResultNtf> FarmTrainResultNtf(CSFarmTrainResultNtf structure)
@@ -2675,9 +2635,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSFarmTrainResultNtf>(CS_CMD_ID.CS_CMD_FARM_TRAIN_RESULT_NTF, structure);
         }
 
-        public static CsTPacket<CSFarmAdvancedFacilityOpenNtf> FarmAdvancedFacilityOpenNtf(CSFarmAdvancedFacilityOpenNtf structure)
+        public static CsTPacket<CSFarmAdvancedFacilityOpenNtf> FarmAdvancedFacilityOpenNtf(
+            CSFarmAdvancedFacilityOpenNtf structure)
         {
-            return new CsTPacket<CSFarmAdvancedFacilityOpenNtf>(CS_CMD_ID.CS_CMD_FARM_ADVANCED_FACILITY_OPEN_NTF, structure);
+            return new CsTPacket<CSFarmAdvancedFacilityOpenNtf>(CS_CMD_ID.CS_CMD_FARM_ADVANCED_FACILITY_OPEN_NTF,
+                structure);
         }
 
         /// <summary>
@@ -3192,7 +3154,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 队员属性变更通知
         /// </summary>
-        public static CsTPacket<CSTeamMemberAttrsUpdateNtf> TeamMemberAttrsUpdateNtf(CSTeamMemberAttrsUpdateNtf structure)
+        public static CsTPacket<CSTeamMemberAttrsUpdateNtf> TeamMemberAttrsUpdateNtf(
+            CSTeamMemberAttrsUpdateNtf structure)
         {
             return new CsTPacket<CSTeamMemberAttrsUpdateNtf>(CS_CMD_ID.CS_CMD_TEAM_MEMBER_ATTRS_UPDATE_NTF, structure);
         }
@@ -4021,17 +3984,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 物品购买限制数据添加
         /// </summary>
-        public static CsTPacket<CSNpcShopAddBuyItemLimitNtf> NpcShopAddBuyItemLimitNtf(CSNpcShopAddBuyItemLimitNtf structure)
+        public static CsTPacket<CSNpcShopAddBuyItemLimitNtf> NpcShopAddBuyItemLimitNtf(
+            CSNpcShopAddBuyItemLimitNtf structure)
         {
-            return new CsTPacket<CSNpcShopAddBuyItemLimitNtf>(CS_CMD_ID.CS_CMD_NPCSHOP_ADD_BUY_ITEM_LIMIT_NTF, structure);
+            return new CsTPacket<CSNpcShopAddBuyItemLimitNtf>(CS_CMD_ID.CS_CMD_NPCSHOP_ADD_BUY_ITEM_LIMIT_NTF,
+                structure);
         }
 
         /// <summary>
         /// 物品购买限制数据删除
         /// </summary>
-        public static CsTPacket<CSNpcShopDelBuyItemLimitNtf> NpcShopDelBuyItemLimitNtf(CSNpcShopDelBuyItemLimitNtf structure)
+        public static CsTPacket<CSNpcShopDelBuyItemLimitNtf> NpcShopDelBuyItemLimitNtf(
+            CSNpcShopDelBuyItemLimitNtf structure)
         {
-            return new CsTPacket<CSNpcShopDelBuyItemLimitNtf>(CS_CMD_ID.CS_CMD_NPCSHOP_DEL_BUY_ITEM_LIMIT_NTF, structure);
+            return new CsTPacket<CSNpcShopDelBuyItemLimitNtf>(CS_CMD_ID.CS_CMD_NPCSHOP_DEL_BUY_ITEM_LIMIT_NTF,
+                structure);
         }
 
         /// <summary>
@@ -4125,23 +4092,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 学习生产配方请求
         /// </summary>
-        public static CsTPacket<CSManufactureLearnIngredientReq> ManufactureLearnIngredientReq(CSManufactureLearnIngredientReq structure)
+        public static CsTPacket<CSManufactureLearnIngredientReq> ManufactureLearnIngredientReq(
+            CSManufactureLearnIngredientReq structure)
         {
-            return new CsTPacket<CSManufactureLearnIngredientReq>(CS_CMD_ID.CS_CMD_MANUFACTURE_LEARNINGREDIENT_REQ, structure);
+            return new CsTPacket<CSManufactureLearnIngredientReq>(CS_CMD_ID.CS_CMD_MANUFACTURE_LEARNINGREDIENT_REQ,
+                structure);
         }
 
         /// <summary>
         /// 学习生产配方结果
         /// </summary>
-        public static CsTPacket<CSManufactureLearnIngredientRsp> ManufactureLearnIngredientRsp(CSManufactureLearnIngredientRsp structure)
+        public static CsTPacket<CSManufactureLearnIngredientRsp> ManufactureLearnIngredientRsp(
+            CSManufactureLearnIngredientRsp structure)
         {
-            return new CsTPacket<CSManufactureLearnIngredientRsp>(CS_CMD_ID.CS_CMD_MANUFACTURE_LEARNINGREDIENT_RSP, structure);
+            return new CsTPacket<CSManufactureLearnIngredientRsp>(CS_CMD_ID.CS_CMD_MANUFACTURE_LEARNINGREDIENT_RSP,
+                structure);
         }
 
         /// <summary>
         /// 更新生产技能通知
         /// </summary>
-        public static CsTPacket<CSManufactureUpdateSkillNtf> ManufactureUpdateSkillNtf(CSManufactureUpdateSkillNtf structure)
+        public static CsTPacket<CSManufactureUpdateSkillNtf> ManufactureUpdateSkillNtf(
+            CSManufactureUpdateSkillNtf structure)
         {
             return new CsTPacket<CSManufactureUpdateSkillNtf>(CS_CMD_ID.CS_CMD_MANUFACTURE_UPDATESKILL_NTF, structure);
         }
@@ -4149,9 +4121,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 更新生产配方通知
         /// </summary>
-        public static CsTPacket<CSManufactureUpdateIngredientNtf> ManufactureUpdateIngredientNtf(CSManufactureUpdateIngredientNtf structure)
+        public static CsTPacket<CSManufactureUpdateIngredientNtf> ManufactureUpdateIngredientNtf(
+            CSManufactureUpdateIngredientNtf structure)
         {
-            return new CsTPacket<CSManufactureUpdateIngredientNtf>(CS_CMD_ID.CS_CMD_MANUFACTURE_UPDATEINGREDIENT_NTF, structure);
+            return new CsTPacket<CSManufactureUpdateIngredientNtf>(CS_CMD_ID.CS_CMD_MANUFACTURE_UPDATEINGREDIENT_NTF,
+                structure);
         }
 
         /// <summary>
@@ -4701,7 +4675,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 农场点数变化通知
         /// </summary>
-        public static CsTPacket<CSFriendFarmPointUpdateNtf> FriendFarmPointUpdateNtf(CSFriendFarmPointUpdateNtf structure)
+        public static CsTPacket<CSFriendFarmPointUpdateNtf> FriendFarmPointUpdateNtf(
+            CSFriendFarmPointUpdateNtf structure)
         {
             return new CsTPacket<CSFriendFarmPointUpdateNtf>(CS_CMD_ID.CS_CMD_FRIEND_FARMPOINT_UPDATE_NTF, structure);
         }
@@ -4949,17 +4924,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 宠物支援技能升级请求
         /// </summary>
-        public static CsTPacket<CSPetSupportSkillLevelupReq> PetSupportSkillLevelupReq(CSPetSupportSkillLevelupReq structure)
+        public static CsTPacket<CSPetSupportSkillLevelupReq> PetSupportSkillLevelupReq(
+            CSPetSupportSkillLevelupReq structure)
         {
-            return new CsTPacket<CSPetSupportSkillLevelupReq>(CS_CMD_ID.CS_CMD_PET_SUPPORT_SKILL_LEVELUP_REQ, structure);
+            return new CsTPacket<CSPetSupportSkillLevelupReq>(CS_CMD_ID.CS_CMD_PET_SUPPORT_SKILL_LEVELUP_REQ,
+                structure);
         }
 
         /// <summary>
         /// 宠物支援技能升级应答
         /// </summary>
-        public static CsTPacket<CSPetSupportSkillLevelupRsp> PetSupportSkillLevelupRsp(CSPetSupportSkillLevelupRsp structure)
+        public static CsTPacket<CSPetSupportSkillLevelupRsp> PetSupportSkillLevelupRsp(
+            CSPetSupportSkillLevelupRsp structure)
         {
-            return new CsTPacket<CSPetSupportSkillLevelupRsp>(CS_CMD_ID.CS_CMD_PET_SUPPORT_SKILL_LEVELUP_RSP, structure);
+            return new CsTPacket<CSPetSupportSkillLevelupRsp>(CS_CMD_ID.CS_CMD_PET_SUPPORT_SKILL_LEVELUP_RSP,
+                structure);
         }
 
         /// <summary>
@@ -5449,9 +5428,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 批量提取邮件附件请求
         /// </summary>
-        public static CsTPacket<CSMailGroupAccessoriesGetReq> MailGroupAccessoriesGetReq(CSMailGroupAccessoriesGetReq structure)
+        public static CsTPacket<CSMailGroupAccessoriesGetReq> MailGroupAccessoriesGetReq(
+            CSMailGroupAccessoriesGetReq structure)
         {
-            return new CsTPacket<CSMailGroupAccessoriesGetReq>(CS_CMD_ID.CS_CMD_MAIL_GROUP_ACCESSORIESGET_REQ, structure);
+            return new CsTPacket<CSMailGroupAccessoriesGetReq>(CS_CMD_ID.CS_CMD_MAIL_GROUP_ACCESSORIESGET_REQ,
+                structure);
         }
 
         /// <summary>
@@ -5491,7 +5472,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSObtainDailyRewardListReq> ObtainRewardListReq(CSObtainDailyRewardListReq structure)
         {
-            return new CsTPacket<CSObtainDailyRewardListReq>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_REWARD_LIST_REQ, structure);
+            return new CsTPacket<CSObtainDailyRewardListReq>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_REWARD_LIST_REQ,
+                structure);
         }
 
         /// <summary>
@@ -5499,7 +5481,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSObtainDailyRewardListRes> ObtainRewardListRes(CSObtainDailyRewardListRes structure)
         {
-            return new CsTPacket<CSObtainDailyRewardListRes>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_REWARD_LIST_RES, structure);
+            return new CsTPacket<CSObtainDailyRewardListRes>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_REWARD_LIST_RES,
+                structure);
         }
 
         /// <summary>
@@ -5507,7 +5490,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSObtainDailyTargetListReq> ObtainTargetListReq(CSObtainDailyTargetListReq structure)
         {
-            return new CsTPacket<CSObtainDailyTargetListReq>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_TARGET_LIST_REQ, structure);
+            return new CsTPacket<CSObtainDailyTargetListReq>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_TARGET_LIST_REQ,
+                structure);
         }
 
         /// <summary>
@@ -5515,7 +5499,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSObtainDailyTargetListRes> ObtainTargetListRes(CSObtainDailyTargetListRes structure)
         {
-            return new CsTPacket<CSObtainDailyTargetListRes>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_TARGET_LIST_RES, structure);
+            return new CsTPacket<CSObtainDailyTargetListRes>(CS_CMD_ID.CS_CMD_SCHEDULE_OBTAIN_TARGET_LIST_RES,
+                structure);
         }
 
         /// <summary>
@@ -5625,7 +5610,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战报名确认请求
         /// </summary>
-        public static CsTPacket<CSGuildMatchSignUpAgreeReq> GuildMatchSignUpAgreeReq(CSGuildMatchSignUpAgreeReq structure)
+        public static CsTPacket<CSGuildMatchSignUpAgreeReq> GuildMatchSignUpAgreeReq(
+            CSGuildMatchSignUpAgreeReq structure)
         {
             return new CsTPacket<CSGuildMatchSignUpAgreeReq>(CS_CMD_ID.CS_CMD_GUILD_MATCH_SIGN_UP_AGREE_REQ, structure);
         }
@@ -5633,7 +5619,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战报名确认响应
         /// </summary>
-        public static CsTPacket<CSGuildMatchSignUpAgreeRsp> GuildMatchSignUpAgreeRsp(CSGuildMatchSignUpAgreeRsp structure)
+        public static CsTPacket<CSGuildMatchSignUpAgreeRsp> GuildMatchSignUpAgreeRsp(
+            CSGuildMatchSignUpAgreeRsp structure)
         {
             return new CsTPacket<CSGuildMatchSignUpAgreeRsp>(CS_CMD_ID.CS_CMD_GUILD_MATCH_SIGN_UP_AGREE_RSP, structure);
         }
@@ -5641,7 +5628,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战报名确认准备
         /// </summary>
-        public static CsTPacket<CSGuildMatchSignUpReadyNtf> GuildMatchSignUpReadyNtf(CSGuildMatchSignUpReadyNtf structure)
+        public static CsTPacket<CSGuildMatchSignUpReadyNtf> GuildMatchSignUpReadyNtf(
+            CSGuildMatchSignUpReadyNtf structure)
         {
             return new CsTPacket<CSGuildMatchSignUpReadyNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_SIGN_UP_READY_NTF, structure);
         }
@@ -5673,33 +5661,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战预选赛排序列表
         /// </summary>
-        public static CsTPacket<CSGuildMatchQualifierResultListNtf> GuildMatchQualifierResultListNtf(CSGuildMatchQualifierResultListNtf structure)
+        public static CsTPacket<CSGuildMatchQualifierResultListNtf> GuildMatchQualifierResultListNtf(
+            CSGuildMatchQualifierResultListNtf structure)
         {
-            return new CsTPacket<CSGuildMatchQualifierResultListNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_LIST_NTF, structure);
+            return new CsTPacket<CSGuildMatchQualifierResultListNtf>(
+                CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_LIST_NTF, structure);
         }
 
         /// <summary>
         /// 猎团战预选赛排序列表增加
         /// </summary>
-        public static CsTPacket<CSGuildMatchQualifierResultAdd> GuildMatchQualifierResultAdd(CSGuildMatchQualifierResultAdd structure)
+        public static CsTPacket<CSGuildMatchQualifierResultAdd> GuildMatchQualifierResultAdd(
+            CSGuildMatchQualifierResultAdd structure)
         {
-            return new CsTPacket<CSGuildMatchQualifierResultAdd>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_ADD, structure);
+            return new CsTPacket<CSGuildMatchQualifierResultAdd>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_ADD,
+                structure);
         }
 
         /// <summary>
         /// 猎团战预选赛排序列表删除
         /// </summary>
-        public static CsTPacket<CSGuildMatchQualifierResultDel> GuildMatchQualifierResultDel(CSGuildMatchQualifierResultDel structure)
+        public static CsTPacket<CSGuildMatchQualifierResultDel> GuildMatchQualifierResultDel(
+            CSGuildMatchQualifierResultDel structure)
         {
-            return new CsTPacket<CSGuildMatchQualifierResultDel>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_DEL, structure);
+            return new CsTPacket<CSGuildMatchQualifierResultDel>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_RESULT_DEL,
+                structure);
         }
 
         /// <summary>
         /// 猎团战预选赛第一名通知
         /// </summary>
-        public static CsTPacket<CSGuildMatchQualifierFirstNtf> GuildMatchQualifierFirstNtf(CSGuildMatchQualifierFirstNtf structure)
+        public static CsTPacket<CSGuildMatchQualifierFirstNtf> GuildMatchQualifierFirstNtf(
+            CSGuildMatchQualifierFirstNtf structure)
         {
-            return new CsTPacket<CSGuildMatchQualifierFirstNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_FIRST_NTF, structure);
+            return new CsTPacket<CSGuildMatchQualifierFirstNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_QUALIFIER_FIRST_NTF,
+                structure);
         }
 
         /// <summary>
@@ -5745,9 +5741,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战淘汰赛进入失败通知
         /// </summary>
-        public static CsTPacket<CSGuildMatchPairEnterErrNtf> GuildMatchPairEnterErrNtf(CSGuildMatchPairEnterErrNtf structure)
+        public static CsTPacket<CSGuildMatchPairEnterErrNtf> GuildMatchPairEnterErrNtf(
+            CSGuildMatchPairEnterErrNtf structure)
         {
-            return new CsTPacket<CSGuildMatchPairEnterErrNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_PAIR_ENTER_ERR_NTF, structure);
+            return new CsTPacket<CSGuildMatchPairEnterErrNtf>(CS_CMD_ID.CS_CMD_GUILD_MATCH_PAIR_ENTER_ERR_NTF,
+                structure);
         }
 
         /// <summary>
@@ -6105,7 +6103,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取未被学习的猎团技能
         /// </summary>
-        public static CsTPacket<C2SGuildGetCandidateSkills> C2SGuildGetCandidateSkills(C2SGuildGetCandidateSkills structure)
+        public static CsTPacket<C2SGuildGetCandidateSkills> C2SGuildGetCandidateSkills(
+            C2SGuildGetCandidateSkills structure)
         {
             return new CsTPacket<C2SGuildGetCandidateSkills>(CS_CMD_ID.C2S_CMD_GUILD_GETCANDIDATESKILLS, structure);
         }
@@ -6145,7 +6144,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 设置仓库权限
         /// </summary>
-        public static CsTPacket<C2SGuildDepotRightSetting> C2SGuildDepotRightSetting(C2SGuildDepotRightSetting structure)
+        public static CsTPacket<C2SGuildDepotRightSetting> C2SGuildDepotRightSetting(
+            C2SGuildDepotRightSetting structure)
         {
             return new CsTPacket<C2SGuildDepotRightSetting>(CS_CMD_ID.C2S_CMD_GUILD_DEPOTRIGHTSETTING, structure);
         }
@@ -6369,7 +6369,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取未被学习的猎团技能
         /// </summary>
-        public static CsTPacket<S2CGetGuildCandidateSkills> S2CGetGuildCandidateSkills(S2CGetGuildCandidateSkills structure)
+        public static CsTPacket<S2CGetGuildCandidateSkills> S2CGetGuildCandidateSkills(
+            S2CGetGuildCandidateSkills structure)
         {
             return new CsTPacket<S2CGetGuildCandidateSkills>(CS_CMD_ID.S2C_CMD_GUILD_GETCANDIDATESKILLS, structure);
         }
@@ -6433,7 +6434,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取猎团限购商品集
         /// </summary>
-        public static CsTPacket<S2CGetGuildRandCommodities> S2CGetGuildRandCommodities(S2CGetGuildRandCommodities structure)
+        public static CsTPacket<S2CGetGuildRandCommodities> S2CGetGuildRandCommodities(
+            S2CGetGuildRandCommodities structure)
         {
             return new CsTPacket<S2CGetGuildRandCommodities>(CS_CMD_ID.S2C_CMD_GUILD_GETRANDCOMMODITIES, structure);
         }
@@ -6481,17 +6483,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战选择商船请求
         /// </summary>
-        public static CsTPacket<CSGuildSelectComerceBoatReq> GuildSelectComerceBoatReq(CSGuildSelectComerceBoatReq structure)
+        public static CsTPacket<CSGuildSelectComerceBoatReq> GuildSelectComerceBoatReq(
+            CSGuildSelectComerceBoatReq structure)
         {
-            return new CsTPacket<CSGuildSelectComerceBoatReq>(CS_CMD_ID.CS_CMD_GUILD_SELECT_COMERCE_BOAT_REQ, structure);
+            return new CsTPacket<CSGuildSelectComerceBoatReq>(CS_CMD_ID.CS_CMD_GUILD_SELECT_COMERCE_BOAT_REQ,
+                structure);
         }
 
         /// <summary>
         /// 猎团战选择商船响应
         /// </summary>
-        public static CsTPacket<CSGuildSelectComerceBoatRsp> GuildSelectComerceBoatRsp(CSGuildSelectComerceBoatRsp structure)
+        public static CsTPacket<CSGuildSelectComerceBoatRsp> GuildSelectComerceBoatRsp(
+            CSGuildSelectComerceBoatRsp structure)
         {
-            return new CsTPacket<CSGuildSelectComerceBoatRsp>(CS_CMD_ID.CS_CMD_GUILD_SELECT_COMERCE_BOAT_RSP, structure);
+            return new CsTPacket<CSGuildSelectComerceBoatRsp>(CS_CMD_ID.CS_CMD_GUILD_SELECT_COMERCE_BOAT_RSP,
+                structure);
         }
 
         /// <summary>
@@ -6529,25 +6535,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战获取商船情报请求
         /// </summary>
-        public static CsTPacket<CSGuildGetCommerceBoatStatusReq> GuildGetCommerceBoatStatusReq(CSGuildGetCommerceBoatStatusReq structure)
+        public static CsTPacket<CSGuildGetCommerceBoatStatusReq> GuildGetCommerceBoatStatusReq(
+            CSGuildGetCommerceBoatStatusReq structure)
         {
-            return new CsTPacket<CSGuildGetCommerceBoatStatusReq>(CS_CMD_ID.CS_CMD_GUILD_GET_COMERCE_BOAT_STATUS_REQ, structure);
+            return new CsTPacket<CSGuildGetCommerceBoatStatusReq>(CS_CMD_ID.CS_CMD_GUILD_GET_COMERCE_BOAT_STATUS_REQ,
+                structure);
         }
 
         /// <summary>
         /// 猎团战获取商船情报响应
         /// </summary>
-        public static CsTPacket<CSGuildGetCommerceBoatStatusRsp> GuildGetCommerceBoatStatusRsp(CSGuildGetCommerceBoatStatusRsp structure)
+        public static CsTPacket<CSGuildGetCommerceBoatStatusRsp> GuildGetCommerceBoatStatusRsp(
+            CSGuildGetCommerceBoatStatusRsp structure)
         {
-            return new CsTPacket<CSGuildGetCommerceBoatStatusRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_COMERCE_BOAT_STATUS_RSP, structure);
+            return new CsTPacket<CSGuildGetCommerceBoatStatusRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_COMERCE_BOAT_STATUS_RSP,
+                structure);
         }
 
         /// <summary>
         /// 猎团战商船信息变化通知
         /// </summary>
-        public static CsTPacket<CSGuildCommerceBoatStatusNtf> GuildCommerceBoatStatusNtf(CSGuildCommerceBoatStatusNtf structure)
+        public static CsTPacket<CSGuildCommerceBoatStatusNtf> GuildCommerceBoatStatusNtf(
+            CSGuildCommerceBoatStatusNtf structure)
         {
-            return new CsTPacket<CSGuildCommerceBoatStatusNtf>(CS_CMD_ID.CS_CMD_GUILD_COMERCE_BOAT_STATUS_NTF, structure);
+            return new CsTPacket<CSGuildCommerceBoatStatusNtf>(CS_CMD_ID.CS_CMD_GUILD_COMERCE_BOAT_STATUS_NTF,
+                structure);
         }
 
         /// <summary>
@@ -6561,7 +6573,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取所有的商会请求
         /// </summary>
-        public static CsTPacket<CSGuildWarGetAllCommerceReq> GuildWarGetAllCommerceReq(CSGuildWarGetAllCommerceReq structure)
+        public static CsTPacket<CSGuildWarGetAllCommerceReq> GuildWarGetAllCommerceReq(
+            CSGuildWarGetAllCommerceReq structure)
         {
             return new CsTPacket<CSGuildWarGetAllCommerceReq>(CS_CMD_ID.CS_CMD_GUILD_GET_ALL_COMMERCE_REQ, structure);
         }
@@ -6569,7 +6582,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取所有的商会响应
         /// </summary>
-        public static CsTPacket<CSGuildWarGetAllCommerceRsp> GuildWarGetAllCommerceRsp(CSGuildWarGetAllCommerceRsp structure)
+        public static CsTPacket<CSGuildWarGetAllCommerceRsp> GuildWarGetAllCommerceRsp(
+            CSGuildWarGetAllCommerceRsp structure)
         {
             return new CsTPacket<CSGuildWarGetAllCommerceRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_ALL_COMMERCE_RSP, structure);
         }
@@ -6577,7 +6591,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取猎团商船信息请求
         /// </summary>
-        public static CsTPacket<CSGuildWarGetGuildBoatsReq> GuildWarGetGuildBoatsReq(CSGuildWarGetGuildBoatsReq structure)
+        public static CsTPacket<CSGuildWarGetGuildBoatsReq> GuildWarGetGuildBoatsReq(
+            CSGuildWarGetGuildBoatsReq structure)
         {
             return new CsTPacket<CSGuildWarGetGuildBoatsReq>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_BOATS_REQ, structure);
         }
@@ -6585,7 +6600,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取猎团商船信息响应
         /// </summary>
-        public static CsTPacket<CSGuildWarGetGuildBoatsRsp> GuildWarGetGuildBoatsRsp(CSGuildWarGetGuildBoatsRsp structure)
+        public static CsTPacket<CSGuildWarGetGuildBoatsRsp> GuildWarGetGuildBoatsRsp(
+            CSGuildWarGetGuildBoatsRsp structure)
         {
             return new CsTPacket<CSGuildWarGetGuildBoatsRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_BOATS_RSP, structure);
         }
@@ -6609,7 +6625,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猎团战猎团商会物资变更通知
         /// </summary>
-        public static CsTPacket<CSGuildWarGuildCommerceNtf> GuildWarGuildCommerceNtf(CSGuildWarGuildCommerceNtf structure)
+        public static CsTPacket<CSGuildWarGuildCommerceNtf> GuildWarGuildCommerceNtf(
+            CSGuildWarGuildCommerceNtf structure)
         {
             return new CsTPacket<CSGuildWarGuildCommerceNtf>(CS_CMD_ID.CS_CMD_GUILD_COMMERCE_CHANGE_NTF, structure);
         }
@@ -6617,23 +6634,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取猎团信息只有猎团id 猎团名字 请求
         /// </summary>
-        public static CsTPacket<CSGuildWarSimpleGuildInfoReq> GuildWarSimpleGuildInfoReq(CSGuildWarSimpleGuildInfoReq structure)
+        public static CsTPacket<CSGuildWarSimpleGuildInfoReq> GuildWarSimpleGuildInfoReq(
+            CSGuildWarSimpleGuildInfoReq structure)
         {
-            return new CsTPacket<CSGuildWarSimpleGuildInfoReq>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_SIMPLE_INFO_REQ, structure);
+            return new CsTPacket<CSGuildWarSimpleGuildInfoReq>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_SIMPLE_INFO_REQ,
+                structure);
         }
 
         /// <summary>
         /// 获取猎团信息只有猎团id 猎团名字 响应
         /// </summary>
-        public static CsTPacket<CSGuildWarSimpleGuildInfoRsp> GuildWarSimpleGuildInfoRsp(CSGuildWarSimpleGuildInfoRsp structure)
+        public static CsTPacket<CSGuildWarSimpleGuildInfoRsp> GuildWarSimpleGuildInfoRsp(
+            CSGuildWarSimpleGuildInfoRsp structure)
         {
-            return new CsTPacket<CSGuildWarSimpleGuildInfoRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_SIMPLE_INFO_RSP, structure);
+            return new CsTPacket<CSGuildWarSimpleGuildInfoRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_GUILD_SIMPLE_INFO_RSP,
+                structure);
         }
 
         /// <summary>
         /// 获取猎团商会buff 请求
         /// </summary>
-        public static CsTPacket<CSGuildWarGetCommerceBuffReq> GuildWarGetCommerceBuffReq(CSGuildWarGetCommerceBuffReq structure)
+        public static CsTPacket<CSGuildWarGetCommerceBuffReq> GuildWarGetCommerceBuffReq(
+            CSGuildWarGetCommerceBuffReq structure)
         {
             return new CsTPacket<CSGuildWarGetCommerceBuffReq>(CS_CMD_ID.CS_CMD_GUILD_GET_COMMERCE_BUFF_REQ, structure);
         }
@@ -6641,7 +6663,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取猎团商会buff 响应
         /// </summary>
-        public static CsTPacket<CSGuildWarGetCommerceBuffRsp> GuildWarGetCommerceBuffRsp(CSGuildWarGetCommerceBuffRsp structure)
+        public static CsTPacket<CSGuildWarGetCommerceBuffRsp> GuildWarGetCommerceBuffRsp(
+            CSGuildWarGetCommerceBuffRsp structure)
         {
             return new CsTPacket<CSGuildWarGetCommerceBuffRsp>(CS_CMD_ID.CS_CMD_GUILD_GET_COMMERCE_BUFF_RSP, structure);
         }
@@ -6705,9 +6728,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 同步猎团战所有侦查信息
         /// </summary>
-        public static CsTPacket<SCGuildWarAllInformationNtf> GuildWarAllInformationNtf(SCGuildWarAllInformationNtf structure)
+        public static CsTPacket<SCGuildWarAllInformationNtf> GuildWarAllInformationNtf(
+            SCGuildWarAllInformationNtf structure)
         {
-            return new CsTPacket<SCGuildWarAllInformationNtf>(CS_CMD_ID.CS_CMD_GUILD_WAR_ALL_INFORMATION_NTF, structure);
+            return new CsTPacket<SCGuildWarAllInformationNtf>(CS_CMD_ID.CS_CMD_GUILD_WAR_ALL_INFORMATION_NTF,
+                structure);
         }
 
         /// <summary>
@@ -6785,17 +6810,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 猫饭解锁状态变更请求
         /// </summary>
-        public static CsTPacket<CSCatCuisineUnlockStateChangeReq> CatCuisineUnlockStateChangeReq(CSCatCuisineUnlockStateChangeReq structure)
+        public static CsTPacket<CSCatCuisineUnlockStateChangeReq> CatCuisineUnlockStateChangeReq(
+            CSCatCuisineUnlockStateChangeReq structure)
         {
-            return new CsTPacket<CSCatCuisineUnlockStateChangeReq>(CS_CMD_ID.CS_CMD_CATCUISINE_UNLOCK_CHANGE_STATE_REQ, structure);
+            return new CsTPacket<CSCatCuisineUnlockStateChangeReq>(CS_CMD_ID.CS_CMD_CATCUISINE_UNLOCK_CHANGE_STATE_REQ,
+                structure);
         }
 
         /// <summary>
         /// 猫饭解锁状态变更回复
         /// </summary>
-        public static CsTPacket<CSCatCuisineUnlockStateChangeRsp> CatCuisineUnlockStateChangeRsp(CSCatCuisineUnlockStateChangeRsp structure)
+        public static CsTPacket<CSCatCuisineUnlockStateChangeRsp> CatCuisineUnlockStateChangeRsp(
+            CSCatCuisineUnlockStateChangeRsp structure)
         {
-            return new CsTPacket<CSCatCuisineUnlockStateChangeRsp>(CS_CMD_ID.CS_CMD_CATCUISINE_UNLOCK_CHANGE_STATE_RSP, structure);
+            return new CsTPacket<CSCatCuisineUnlockStateChangeRsp>(CS_CMD_ID.CS_CMD_CATCUISINE_UNLOCK_CHANGE_STATE_RSP,
+                structure);
         }
 
         /// <summary>
@@ -6937,7 +6966,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 怪物骨骼受击同步
         /// </summary>
-        public static CsTPacket<CSEnableSkeletonPhysPartSYNC> EnableSkeletonPhysPartSync(CSEnableSkeletonPhysPartSYNC structure)
+        public static CsTPacket<CSEnableSkeletonPhysPartSYNC> EnableSkeletonPhysPartSync(
+            CSEnableSkeletonPhysPartSYNC structure)
         {
             return new CsTPacket<CSEnableSkeletonPhysPartSYNC>(CS_CMD_ID.CS_CMD_ENABLE_SKELETONPHYSPART_REQ, structure);
         }
@@ -6945,7 +6975,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 怪物移动碰撞同步
         /// </summary>
-        public static CsTPacket<CSEnableDamageCollisionSYNC> EnableDamageCollisionSync(CSEnableDamageCollisionSYNC structure)
+        public static CsTPacket<CSEnableDamageCollisionSYNC> EnableDamageCollisionSync(
+            CSEnableDamageCollisionSYNC structure)
         {
             return new CsTPacket<CSEnableDamageCollisionSYNC>(CS_CMD_ID.CS_CMD_ENABLE_DAMAGECOLLISION_REQ, structure);
         }
@@ -6953,7 +6984,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 战斗NPC之间移动碰撞同步
         /// </summary>
-        public static CsTPacket<CSEnableCombatNPCMovColSYNC> EnableCombatNPCMovColSync(CSEnableCombatNPCMovColSYNC structure)
+        public static CsTPacket<CSEnableCombatNPCMovColSYNC> EnableCombatNPCMovColSync(
+            CSEnableCombatNPCMovColSYNC structure)
         {
             return new CsTPacket<CSEnableCombatNPCMovColSYNC>(CS_CMD_ID.CS_CMD_ENABLE_COMBATNPCMOVCOL_REQ, structure);
         }
@@ -6977,7 +7009,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 红黄对抗请求secretquest
         /// </summary>
-        public static CsTPacket<C2SActivityGetSecretQuest> C2SActivityGetSecretQuest(C2SActivityGetSecretQuest structure)
+        public static CsTPacket<C2SActivityGetSecretQuest> C2SActivityGetSecretQuest(
+            C2SActivityGetSecretQuest structure)
         {
             return new CsTPacket<C2SActivityGetSecretQuest>(CS_CMD_ID.C2S_CMD_ACTIVITY_ADDSECRETQUEST, structure);
         }
@@ -6985,9 +7018,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 红黄对抗重置任务
         /// </summary>
-        public static CsTPacket<C2SActivityResetWildHuntTasks> C2SActivityResetWildHuntTasks(C2SActivityResetWildHuntTasks structure)
+        public static CsTPacket<C2SActivityResetWildHuntTasks> C2SActivityResetWildHuntTasks(
+            C2SActivityResetWildHuntTasks structure)
         {
-            return new CsTPacket<C2SActivityResetWildHuntTasks>(CS_CMD_ID.C2S_CMD_ACTIVITY_RESETWILDHUNTTASKS, structure);
+            return new CsTPacket<C2SActivityResetWildHuntTasks>(CS_CMD_ID.C2S_CMD_ACTIVITY_RESETWILDHUNTTASKS,
+                structure);
         }
 
         /// <summary>
@@ -7001,25 +7036,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 大富翁遥控骰子
         /// </summary>
-        public static CsTPacket<C2SActivityMonolopyFixedDice> C2SActivityMonolopyFixedDice(C2SActivityMonolopyFixedDice structure)
+        public static CsTPacket<C2SActivityMonolopyFixedDice> C2SActivityMonolopyFixedDice(
+            C2SActivityMonolopyFixedDice structure)
         {
-            return new CsTPacket<C2SActivityMonolopyFixedDice>(CS_CMD_ID.C2S_CMD_ACTIVITY_MONOLOPY_FIXEDDICE, structure);
+            return new CsTPacket<C2SActivityMonolopyFixedDice>(CS_CMD_ID.C2S_CMD_ACTIVITY_MONOLOPY_FIXEDDICE,
+                structure);
         }
 
         /// <summary>
         /// 支付路障
         /// </summary>
-        public static CsTPacket<C2SActivityMonolopyPayForBlock> C2SActivityMonolopyPayForBlock(C2SActivityMonolopyPayForBlock structure)
+        public static CsTPacket<C2SActivityMonolopyPayForBlock> C2SActivityMonolopyPayForBlock(
+            C2SActivityMonolopyPayForBlock structure)
         {
-            return new CsTPacket<C2SActivityMonolopyPayForBlock>(CS_CMD_ID.C2S_CMD_ACTIVITY_MONOLOPY_PAYFORBLOCK, structure);
+            return new CsTPacket<C2SActivityMonolopyPayForBlock>(CS_CMD_ID.C2S_CMD_ACTIVITY_MONOLOPY_PAYFORBLOCK,
+                structure);
         }
 
         /// <summary>
         /// 狂猎祭领取额外的任务完成次数
         /// </summary>
-        public static CsTPacket<C2SActivityWildFetchTaskCount> C2SActivityWildFetchTaskCount(C2SActivityWildFetchTaskCount structure)
+        public static CsTPacket<C2SActivityWildFetchTaskCount> C2SActivityWildFetchTaskCount(
+            C2SActivityWildFetchTaskCount structure)
         {
-            return new CsTPacket<C2SActivityWildFetchTaskCount>(CS_CMD_ID.C2S_CMD_ACTIVITY_WILDHUNT_FETCHTASKCOUNT, structure);
+            return new CsTPacket<C2SActivityWildFetchTaskCount>(CS_CMD_ID.C2S_CMD_ACTIVITY_WILDHUNT_FETCHTASKCOUNT,
+                structure);
         }
 
         /// <summary>
@@ -7073,7 +7114,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 活动在线时长计算
         /// </summary>
-        public static CsTPacket<S2CActivityAddStOnlineTime> S2CActivityAddStOnlineTime(S2CActivityAddStOnlineTime structure)
+        public static CsTPacket<S2CActivityAddStOnlineTime> S2CActivityAddStOnlineTime(
+            S2CActivityAddStOnlineTime structure)
         {
             return new CsTPacket<S2CActivityAddStOnlineTime>(CS_CMD_ID.S2C_CMD_ACTIVITY_ADD_ONLINETIME, structure);
         }
@@ -7089,7 +7131,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求狂猎祭详细信息
         /// </summary>
-        public static CsTPacket<C2SActivityGetWildHuntDetail> C2SActivityGetWildHuntDetail(C2SActivityGetWildHuntDetail structure)
+        public static CsTPacket<C2SActivityGetWildHuntDetail> C2SActivityGetWildHuntDetail(
+            C2SActivityGetWildHuntDetail structure)
         {
             return new CsTPacket<C2SActivityGetWildHuntDetail>(CS_CMD_ID.C2S_CMD_ACTIVITY_GETWILDHUNT_REQ, structure);
         }
@@ -7097,7 +7140,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求狂猎祭详细信息
         /// </summary>
-        public static CsTPacket<S2CActivityGetWildHuntDetail> S2CActivityGetWildHuntDetail(S2CActivityGetWildHuntDetail structure)
+        public static CsTPacket<S2CActivityGetWildHuntDetail> S2CActivityGetWildHuntDetail(
+            S2CActivityGetWildHuntDetail structure)
         {
             return new CsTPacket<S2CActivityGetWildHuntDetail>(CS_CMD_ID.S2C_CMD_ACTIVITY_GETWILDHUNT_RSP, structure);
         }
@@ -7105,7 +7149,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// fetchproc清理
         /// </summary>
-        public static CsTPacket<S2CActivityFetchProcClear> S2CActivityFetchProcClear(S2CActivityFetchProcClear structure)
+        public static CsTPacket<S2CActivityFetchProcClear> S2CActivityFetchProcClear(
+            S2CActivityFetchProcClear structure)
         {
             return new CsTPacket<S2CActivityFetchProcClear>(CS_CMD_ID.S2C_CMD_ACTIVITY_FETCH_PROC_CLEAR, structure);
         }
@@ -7113,7 +7158,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 红黄对抗添加secretquest
         /// </summary>
-        public static CsTPacket<S2CActivityAddSecretQuest> S2CActivityAddSecretQuest(S2CActivityAddSecretQuest structure)
+        public static CsTPacket<S2CActivityAddSecretQuest> S2CActivityAddSecretQuest(
+            S2CActivityAddSecretQuest structure)
         {
             return new CsTPacket<S2CActivityAddSecretQuest>(CS_CMD_ID.S2C_CMD_ACTIVITY_ADDSECRETQUEST, structure);
         }
@@ -7121,7 +7167,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 红黄对抗取消secretquest
         /// </summary>
-        public static CsTPacket<S2CActivityRemoveSecretQuest> S2CActivityRemoveSecretQuest(S2CActivityRemoveSecretQuest structure)
+        public static CsTPacket<S2CActivityRemoveSecretQuest> S2CActivityRemoveSecretQuest(
+            S2CActivityRemoveSecretQuest structure)
         {
             return new CsTPacket<S2CActivityRemoveSecretQuest>(CS_CMD_ID.S2C_CMD_ACTIVITY_REMOVESECRETQUEST, structure);
         }
@@ -7129,7 +7176,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 红黄对抗获得任务
         /// </summary>
-        public static CsTPacket<S2CActivityGetWildHuntTasks> S2CActivityGetWildHuntTasks(S2CActivityGetWildHuntTasks structure)
+        public static CsTPacket<S2CActivityGetWildHuntTasks> S2CActivityGetWildHuntTasks(
+            S2CActivityGetWildHuntTasks structure)
         {
             return new CsTPacket<S2CActivityGetWildHuntTasks>(CS_CMD_ID.S2C_CMD_ACTIVITY_GETWILDHUNTTASKS, structure);
         }
@@ -7153,9 +7201,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 千层塔补给箱玩家选择物品（双向）
         /// </summary>
-        public static CsTPacket<CSTowerSupplyPlayerSelectedNtf> TowerSupplyPlayerSelectedNtf(CSTowerSupplyPlayerSelectedNtf structure)
+        public static CsTPacket<CSTowerSupplyPlayerSelectedNtf> TowerSupplyPlayerSelectedNtf(
+            CSTowerSupplyPlayerSelectedNtf structure)
         {
-            return new CsTPacket<CSTowerSupplyPlayerSelectedNtf>(CS_CMD_ID.CS_CMD_TOWER_SUPPLY_PLAYER_SELECTED_NTF, structure);
+            return new CsTPacket<CSTowerSupplyPlayerSelectedNtf>(CS_CMD_ID.CS_CMD_TOWER_SUPPLY_PLAYER_SELECTED_NTF,
+                structure);
         }
 
         /// <summary>
@@ -7545,7 +7595,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求觉醒升级
         /// </summary>
-        public static CsTPacket<CSItemRebuildWakeLevelupReq> ItemRebuildWakeLevelupReq(CSItemRebuildWakeLevelupReq structure)
+        public static CsTPacket<CSItemRebuildWakeLevelupReq> ItemRebuildWakeLevelupReq(
+            CSItemRebuildWakeLevelupReq structure)
         {
             return new CsTPacket<CSItemRebuildWakeLevelupReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_WAKE_LEVELUP_REQ, structure);
         }
@@ -7553,7 +7604,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求觉醒升级
         /// </summary>
-        public static CsTPacket<CSItemRebuildWakeLevelupRes> ItemRebuildWakeLevelupRes(CSItemRebuildWakeLevelupRes structure)
+        public static CsTPacket<CSItemRebuildWakeLevelupRes> ItemRebuildWakeLevelupRes(
+            CSItemRebuildWakeLevelupRes structure)
         {
             return new CsTPacket<CSItemRebuildWakeLevelupRes>(CS_CMD_ID.CS_CMD_ITEMREBUILD_WAKE_LEVELUP_RES, structure);
         }
@@ -7577,7 +7629,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 护石精铸REQ
         /// </summary>
-        public static CsTPacket<CSItemRebuildCharmFoundReq> ItemRebuildCharmFoundReq(CSItemRebuildCharmFoundReq structure)
+        public static CsTPacket<CSItemRebuildCharmFoundReq> ItemRebuildCharmFoundReq(
+            CSItemRebuildCharmFoundReq structure)
         {
             return new CsTPacket<CSItemRebuildCharmFoundReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_CHARM_FOUND_REQ, structure);
         }
@@ -7585,7 +7638,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 护石精铸RES
         /// </summary>
-        public static CsTPacket<CSItemRebuildCharmFoundRes> ItemRebuildCharmFoundRes(CSItemRebuildCharmFoundRes structure)
+        public static CsTPacket<CSItemRebuildCharmFoundRes> ItemRebuildCharmFoundRes(
+            CSItemRebuildCharmFoundRes structure)
         {
             return new CsTPacket<CSItemRebuildCharmFoundRes>(CS_CMD_ID.CS_CMD_ITEMREBUILD_CHARM_FOUND_RES, structure);
         }
@@ -7593,17 +7647,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 道具拆解REQ
         /// </summary>
-        public static CsTPacket<CSItemRebuildItemDecomposeReq> ItemRebuildItemDecomposeReq(CSItemRebuildItemDecomposeReq structure)
+        public static CsTPacket<CSItemRebuildItemDecomposeReq> ItemRebuildItemDecomposeReq(
+            CSItemRebuildItemDecomposeReq structure)
         {
-            return new CsTPacket<CSItemRebuildItemDecomposeReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_ITEM_DECOMPOSE_REQ, structure);
+            return new CsTPacket<CSItemRebuildItemDecomposeReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_ITEM_DECOMPOSE_REQ,
+                structure);
         }
 
         /// <summary>
         /// 道具拆解RES
         /// </summary>
-        public static CsTPacket<CSItemRebuildItemDecomposeRes> ItemRebuildItemDecomposeRes(CSItemRebuildItemDecomposeRes structure)
+        public static CsTPacket<CSItemRebuildItemDecomposeRes> ItemRebuildItemDecomposeRes(
+            CSItemRebuildItemDecomposeRes structure)
         {
-            return new CsTPacket<CSItemRebuildItemDecomposeRes>(CS_CMD_ID.CS_CMD_ITEMREBUILD_ITEM_DECOMPOSE_RES, structure);
+            return new CsTPacket<CSItemRebuildItemDecomposeRes>(CS_CMD_ID.CS_CMD_ITEMREBUILD_ITEM_DECOMPOSE_RES,
+                structure);
         }
 
         /// <summary>
@@ -7633,17 +7691,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 重置觉醒次数REQ
         /// </summary>
-        public static CsTPacket<CSItemRebuildResetWakeTimesReq> ItemRebuildResetWakeTimesReq(CSItemRebuildResetWakeTimesReq structure)
+        public static CsTPacket<CSItemRebuildResetWakeTimesReq> ItemRebuildResetWakeTimesReq(
+            CSItemRebuildResetWakeTimesReq structure)
         {
-            return new CsTPacket<CSItemRebuildResetWakeTimesReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_RESET_WAKE_TIMES_REQ, structure);
+            return new CsTPacket<CSItemRebuildResetWakeTimesReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_RESET_WAKE_TIMES_REQ,
+                structure);
         }
 
         /// <summary>
         /// 重置觉醒次数RSP
         /// </summary>
-        public static CsTPacket<CSItemRebuildResetWakeTimesRsp> ItemRebuildResetWakeTimesRsp(CSItemRebuildResetWakeTimesRsp structure)
+        public static CsTPacket<CSItemRebuildResetWakeTimesRsp> ItemRebuildResetWakeTimesRsp(
+            CSItemRebuildResetWakeTimesRsp structure)
         {
-            return new CsTPacket<CSItemRebuildResetWakeTimesRsp>(CS_CMD_ID.CS_CMD_ITEMREBUILD_RESET_WAKE_TIMES_RSP, structure);
+            return new CsTPacket<CSItemRebuildResetWakeTimesRsp>(CS_CMD_ID.CS_CMD_ITEMREBUILD_RESET_WAKE_TIMES_RSP,
+                structure);
         }
 
         /// <summary>
@@ -7689,7 +7751,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 移除技能珠
         /// </summary>
-        public static CsTPacket<CSItemRebuildRemoveBeamReq> ItemRebuildRemoveBeamReq(CSItemRebuildRemoveBeamReq structure)
+        public static CsTPacket<CSItemRebuildRemoveBeamReq> ItemRebuildRemoveBeamReq(
+            CSItemRebuildRemoveBeamReq structure)
         {
             return new CsTPacket<CSItemRebuildRemoveBeamReq>(CS_CMD_ID.CS_CMD_ITEMREBUILD_REMOVEBEAM_REQ, structure);
         }
@@ -7697,7 +7760,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 移除技能珠
         /// </summary>
-        public static CsTPacket<CSItemRebuildRemoveBeamRes> ItemRebuildRemoveBeamRes(CSItemRebuildRemoveBeamRes structure)
+        public static CsTPacket<CSItemRebuildRemoveBeamRes> ItemRebuildRemoveBeamRes(
+            CSItemRebuildRemoveBeamRes structure)
         {
             return new CsTPacket<CSItemRebuildRemoveBeamRes>(CS_CMD_ID.CS_CMD_ITEMREBUILD_REMOVEBEAM_RES, structure);
         }
@@ -7803,7 +7867,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSRebuildRandomWeaponReq> RebuildRandWeaoponReq(CSRebuildRandomWeaponReq structure)
         {
-            return new CsTPacket<CSRebuildRandomWeaponReq>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_RANDOMWEAPON_REBUILD_REQ, structure);
+            return new CsTPacket<CSRebuildRandomWeaponReq>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_RANDOMWEAPON_REBUILD_REQ,
+                structure);
         }
 
         /// <summary>
@@ -7811,7 +7876,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSRebuildRandomWeaponRsp> RebuildRandWeaoponRes(CSRebuildRandomWeaponRsp structure)
         {
-            return new CsTPacket<CSRebuildRandomWeaponRsp>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_RANDOMWEAPON_REBUILD_REP, structure);
+            return new CsTPacket<CSRebuildRandomWeaponRsp>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_RANDOMWEAPON_REBUILD_REP,
+                structure);
         }
 
         /// <summary>
@@ -7851,7 +7917,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSEquipQuickUpgradeReq> EquipQuickUpgradeReq(CSEquipQuickUpgradeReq structure)
         {
-            return new CsTPacket<CSEquipQuickUpgradeReq>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_EQUIP_QUICK_UPGRADE_REQ, structure);
+            return new CsTPacket<CSEquipQuickUpgradeReq>(CS_CMD_ID.C2S_CMD_ITEMREBUILD_EQUIP_QUICK_UPGRADE_REQ,
+                structure);
         }
 
         /// <summary>
@@ -7859,7 +7926,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSEquipQuickUpgradeRsp> EquipQuickUpgradeRsp(CSEquipQuickUpgradeRsp structure)
         {
-            return new CsTPacket<CSEquipQuickUpgradeRsp>(CS_CMD_ID.S2C_CMD_ITEMREBUILD_EQUIP_QUICK_UPGRADE_RSP, structure);
+            return new CsTPacket<CSEquipQuickUpgradeRsp>(CS_CMD_ID.S2C_CMD_ITEMREBUILD_EQUIP_QUICK_UPGRADE_RSP,
+                structure);
         }
 
         /// <summary>
@@ -7913,7 +7981,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求刷新龙人秘宝棋盘
         /// </summary>
-        public static CsTPacket<CSDragonBoxRefreshChessReq> DragonBoxRefreshChessReq(CSDragonBoxRefreshChessReq structure)
+        public static CsTPacket<CSDragonBoxRefreshChessReq> DragonBoxRefreshChessReq(
+            CSDragonBoxRefreshChessReq structure)
         {
             return new CsTPacket<CSDragonBoxRefreshChessReq>(CS_CMD_ID.CS_CMD_DRAGONBOX_REFRESH_CHESS_REQ, structure);
         }
@@ -7945,9 +8014,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取可选宝箱的道具
         /// </summary>
-        public static CsTPacket<CSFetchSelectItemBoxOpenBoxNtf> FetchSelectItemBoxOpenBoxNtf(CSFetchSelectItemBoxOpenBoxNtf structure)
+        public static CsTPacket<CSFetchSelectItemBoxOpenBoxNtf> FetchSelectItemBoxOpenBoxNtf(
+            CSFetchSelectItemBoxOpenBoxNtf structure)
         {
-            return new CsTPacket<CSFetchSelectItemBoxOpenBoxNtf>(CS_CMD_ID.CS_CMD_FECTCH_SELECT_ITEMBOX_OPEN_BOX_NTF, structure);
+            return new CsTPacket<CSFetchSelectItemBoxOpenBoxNtf>(CS_CMD_ID.CS_CMD_FECTCH_SELECT_ITEMBOX_OPEN_BOX_NTF,
+                structure);
         }
 
         /// <summary>
@@ -7961,7 +8032,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 酋长奖励通知
         /// </summary>
-        public static CsTPacket<CSDragonBoxBlackFaceGiftNtf> DragonBoxBlackFaceGiftNtf(CSDragonBoxBlackFaceGiftNtf structure)
+        public static CsTPacket<CSDragonBoxBlackFaceGiftNtf> DragonBoxBlackFaceGiftNtf(
+            CSDragonBoxBlackFaceGiftNtf structure)
         {
             return new CsTPacket<CSDragonBoxBlackFaceGiftNtf>(CS_CMD_ID.CS_CMD_DRAGONBOX_BLACKFACE_GIFT_NTF, structure);
         }
@@ -8001,7 +8073,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求打开刷新界面
         /// </summary>
-        public static CsTPacket<CSDragonBoxFreshNumOpenReq> DragonBoxFreshNumOpenReq(CSDragonBoxFreshNumOpenReq structure)
+        public static CsTPacket<CSDragonBoxFreshNumOpenReq> DragonBoxFreshNumOpenReq(
+            CSDragonBoxFreshNumOpenReq structure)
         {
             return new CsTPacket<CSDragonBoxFreshNumOpenReq>(CS_CMD_ID.CS_CMD_DRAGONBOX_FREASHNUM_OPEN_REQ, structure);
         }
@@ -8009,7 +8082,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 请求打开刷新界面返回
         /// </summary>
-        public static CsTPacket<CSDragonBoxFreshNumOpenRsp> DragonBoxFreshNumOpenRsp(CSDragonBoxFreshNumOpenRsp structure)
+        public static CsTPacket<CSDragonBoxFreshNumOpenRsp> DragonBoxFreshNumOpenRsp(
+            CSDragonBoxFreshNumOpenRsp structure)
         {
             return new CsTPacket<CSDragonBoxFreshNumOpenRsp>(CS_CMD_ID.CS_CMD_DRAGONBOX_FREASHNUM_OPEN_RSP, structure);
         }
@@ -8568,7 +8642,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 搜索玩家
         /// </summary>
-        public static CsTPacket<C2STournamentsSearchPlayer> C2STournamentsSearchPlayer(C2STournamentsSearchPlayer structure)
+        public static CsTPacket<C2STournamentsSearchPlayer> C2STournamentsSearchPlayer(
+            C2STournamentsSearchPlayer structure)
         {
             return new CsTPacket<C2STournamentsSearchPlayer>(CS_CMD_ID.C2S_CMD_TOURNAMENTS_SEARCHPLAYER, structure);
         }
@@ -8616,7 +8691,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 搜索玩家
         /// </summary>
-        public static CsTPacket<S2CTournamentsSearchPlayer> S2CTournamentsSearchPlayer(S2CTournamentsSearchPlayer structure)
+        public static CsTPacket<S2CTournamentsSearchPlayer> S2CTournamentsSearchPlayer(
+            S2CTournamentsSearchPlayer structure)
         {
             return new CsTPacket<S2CTournamentsSearchPlayer>(CS_CMD_ID.S2C_CMD_TOURNAMENTS_SEARCHPLAYER, structure);
         }
@@ -8792,7 +8868,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 雕像Avatar
         /// </summary>
-        public static CsTPacket<S2CSculptureAvatarSnapshot> S2CSculptureAvatarSnapshot(S2CSculptureAvatarSnapshot structure)
+        public static CsTPacket<S2CSculptureAvatarSnapshot> S2CSculptureAvatarSnapshot(
+            S2CSculptureAvatarSnapshot structure)
         {
             return new CsTPacket<S2CSculptureAvatarSnapshot>(CS_CMD_ID.S2C_CMD_SCULPTURE_AVATAR_SNAPSHOT, structure);
         }
@@ -8952,23 +9029,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 查询我的出售记录请求
         /// </summary>
-        public static CsTPacket<CSExchangeGetMySaleRecordReq> ExchangeGetMySaleRecordReq(CSExchangeGetMySaleRecordReq structure)
+        public static CsTPacket<CSExchangeGetMySaleRecordReq> ExchangeGetMySaleRecordReq(
+            CSExchangeGetMySaleRecordReq structure)
         {
-            return new CsTPacket<CSExchangeGetMySaleRecordReq>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYSALE_RECORD_REQ, structure);
+            return new CsTPacket<CSExchangeGetMySaleRecordReq>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYSALE_RECORD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 查询我的出售记录回复
         /// </summary>
-        public static CsTPacket<CSExchangeGetMySaleRecordRes> ExchangeGetMySaleRecordRes(CSExchangeGetMySaleRecordRes structure)
+        public static CsTPacket<CSExchangeGetMySaleRecordRes> ExchangeGetMySaleRecordRes(
+            CSExchangeGetMySaleRecordRes structure)
         {
-            return new CsTPacket<CSExchangeGetMySaleRecordRes>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYSALE_RECORD_RES, structure);
+            return new CsTPacket<CSExchangeGetMySaleRecordRes>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYSALE_RECORD_RES,
+                structure);
         }
 
         /// <summary>
         /// 查询我的购买记录请求
         /// </summary>
-        public static CsTPacket<CSExchangeGetMyBuyRecordReq> ExchangeGetMyBuyRecordReq(CSExchangeGetMyBuyRecordReq structure)
+        public static CsTPacket<CSExchangeGetMyBuyRecordReq> ExchangeGetMyBuyRecordReq(
+            CSExchangeGetMyBuyRecordReq structure)
         {
             return new CsTPacket<CSExchangeGetMyBuyRecordReq>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYBUY_RECORD_REQ, structure);
         }
@@ -8976,7 +9058,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 查询我的购买记录回复
         /// </summary>
-        public static CsTPacket<CSExchangeGetMyBuyRecordRes> ExchangeGetMyBuyRecordRes(CSExchangeGetMyBuyRecordRes structure)
+        public static CsTPacket<CSExchangeGetMyBuyRecordRes> ExchangeGetMyBuyRecordRes(
+            CSExchangeGetMyBuyRecordRes structure)
         {
             return new CsTPacket<CSExchangeGetMyBuyRecordRes>(CS_CMD_ID.CS_CMD_EXCHANGE_GETMYBUY_RECORD_RES, structure);
         }
@@ -9120,33 +9203,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 领取奖励
         /// </summary>
-        public static CsTPacket<CSGetConsumeActivityOpenRewardReq> GetConsumeActivityOpenRewardReq(CSGetConsumeActivityOpenRewardReq structure)
+        public static CsTPacket<CSGetConsumeActivityOpenRewardReq> GetConsumeActivityOpenRewardReq(
+            CSGetConsumeActivityOpenRewardReq structure)
         {
-            return new CsTPacket<CSGetConsumeActivityOpenRewardReq>(CS_CMD_ID.CS_CONSUME_ACTIVITY_GETREWARD_REQ, structure);
+            return new CsTPacket<CSGetConsumeActivityOpenRewardReq>(CS_CMD_ID.CS_CONSUME_ACTIVITY_GETREWARD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 领取奖励返回
         /// </summary>
-        public static CsTPacket<CSGetConsumeActivityOpenRewardRsp> GetConsumeActivityOpenRewardRsp(CSGetConsumeActivityOpenRewardRsp structure)
+        public static CsTPacket<CSGetConsumeActivityOpenRewardRsp> GetConsumeActivityOpenRewardRsp(
+            CSGetConsumeActivityOpenRewardRsp structure)
         {
-            return new CsTPacket<CSGetConsumeActivityOpenRewardRsp>(CS_CMD_ID.CS_CONSUME_ACTIVITY_GETREWARD_RSP, structure);
+            return new CsTPacket<CSGetConsumeActivityOpenRewardRsp>(CS_CMD_ID.CS_CONSUME_ACTIVITY_GETREWARD_RSP,
+                structure);
         }
 
         /// <summary>
         /// 红点请求
         /// </summary>
-        public static CsTPacket<CSGetConsumeActivityHongDianReq> GetConsumeActivityHongDianReq(CSGetConsumeActivityHongDianReq structure)
+        public static CsTPacket<CSGetConsumeActivityHongDianReq> GetConsumeActivityHongDianReq(
+            CSGetConsumeActivityHongDianReq structure)
         {
-            return new CsTPacket<CSGetConsumeActivityHongDianReq>(CS_CMD_ID.CS_CONSUME_ACTIVITY_HONGDIAN_REQ, structure);
+            return new CsTPacket<CSGetConsumeActivityHongDianReq>(CS_CMD_ID.CS_CONSUME_ACTIVITY_HONGDIAN_REQ,
+                structure);
         }
 
         /// <summary>
         /// 红点返回
         /// </summary>
-        public static CsTPacket<CSGetConsumeActivityHongDianRsp> GetConsumeActivityHongDianRsp(CSGetConsumeActivityHongDianRsp structure)
+        public static CsTPacket<CSGetConsumeActivityHongDianRsp> GetConsumeActivityHongDianRsp(
+            CSGetConsumeActivityHongDianRsp structure)
         {
-            return new CsTPacket<CSGetConsumeActivityHongDianRsp>(CS_CMD_ID.CS_CONSUME_ACTIVITY_HONGDIAN_RSP, structure);
+            return new CsTPacket<CSGetConsumeActivityHongDianRsp>(CS_CMD_ID.CS_CONSUME_ACTIVITY_HONGDIAN_RSP,
+                structure);
         }
 
         /// <summary>
@@ -9216,7 +9307,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 客户端请求活动详细信息
         /// </summary>
-        public static CsTPacket<C2SScriptActivityDetailReq> ScriptActivityDetailReq(C2SScriptActivityDetailReq structure)
+        public static CsTPacket<C2SScriptActivityDetailReq> ScriptActivityDetailReq(
+            C2SScriptActivityDetailReq structure)
         {
             return new CsTPacket<C2SScriptActivityDetailReq>(CS_CMD_ID.C2S_CMD_SACTIVITY_DETAIL_REQ, structure);
         }
@@ -9224,7 +9316,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 服务器返回活动详细信息
         /// </summary>
-        public static CsTPacket<S2CScriptActivityDetailRsp> ScriptActivityDetailRsp(S2CScriptActivityDetailRsp structure)
+        public static CsTPacket<S2CScriptActivityDetailRsp> ScriptActivityDetailRsp(
+            S2CScriptActivityDetailRsp structure)
         {
             return new CsTPacket<S2CScriptActivityDetailRsp>(CS_CMD_ID.S2C_CMD_SACTIVITY_DETAIL_RSP, structure);
         }
@@ -9240,7 +9333,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 服务器通知活动变量变化
         /// </summary>
-        public static CsTPacket<S2CScriptActivityVarUpdateNtf> ScriptActivityVarUpdateNtf(S2CScriptActivityVarUpdateNtf structure)
+        public static CsTPacket<S2CScriptActivityVarUpdateNtf> ScriptActivityVarUpdateNtf(
+            S2CScriptActivityVarUpdateNtf structure)
         {
             return new CsTPacket<S2CScriptActivityVarUpdateNtf>(CS_CMD_ID.S2C_CMD_SACTIVITY_VAR_UPDATE_NTF, structure);
         }
@@ -9248,7 +9342,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// Client->Server: 执行Data的操作请求
         /// </summary>
-        public static CsTPacket<C2SScriptActivityDataExecReq> C2SScriptActivityDataExecReq(C2SScriptActivityDataExecReq structure)
+        public static CsTPacket<C2SScriptActivityDataExecReq> C2SScriptActivityDataExecReq(
+            C2SScriptActivityDataExecReq structure)
         {
             return new CsTPacket<C2SScriptActivityDataExecReq>(CS_CMD_ID.C2S_CMD_SACTIVITY_DATA_EXEC_REQ, structure);
         }
@@ -9256,7 +9351,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// Server->Client: 执行Data的操作的结果
         /// </summary>
-        public static CsTPacket<S2CScriptActivityDataExecRsp> S2CScriptActivityDataExecRsp(S2CScriptActivityDataExecRsp structure)
+        public static CsTPacket<S2CScriptActivityDataExecRsp> S2CScriptActivityDataExecRsp(
+            S2CScriptActivityDataExecRsp structure)
         {
             return new CsTPacket<S2CScriptActivityDataExecRsp>(CS_CMD_ID.S2C_CMD_SACTIVITY_DATA_EXEC_RSP, structure);
         }
@@ -9264,15 +9360,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 服务器通知活动计数器变化
         /// </summary>
-        public static CsTPacket<S2CScriptActivityCounterUpdateNtf> S2CScriptActivityCounterUpdateNtf(S2CScriptActivityCounterUpdateNtf structure)
+        public static CsTPacket<S2CScriptActivityCounterUpdateNtf> S2CScriptActivityCounterUpdateNtf(
+            S2CScriptActivityCounterUpdateNtf structure)
         {
-            return new CsTPacket<S2CScriptActivityCounterUpdateNtf>(CS_CMD_ID.S2C_CMD_SACTIVITY_COUNTER_UPDATE_NTF, structure);
+            return new CsTPacket<S2CScriptActivityCounterUpdateNtf>(CS_CMD_ID.S2C_CMD_SACTIVITY_COUNTER_UPDATE_NTF,
+                structure);
         }
 
         /// <summary>
         /// 服务器通知活动开始结束时间变化
         /// </summary>
-        public static CsTPacket<S2CScriptActivityTimeUpdateNtf> S2CScriptActivityTimeUpdateNtf(S2CScriptActivityTimeUpdateNtf structure)
+        public static CsTPacket<S2CScriptActivityTimeUpdateNtf> S2CScriptActivityTimeUpdateNtf(
+            S2CScriptActivityTimeUpdateNtf structure)
         {
             return new CsTPacket<S2CScriptActivityTimeUpdateNtf>(CS_CMD_ID.S2C_CMD_SACTIVITY_TIME_UPATE_NTF, structure);
         }
@@ -9280,15 +9379,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// global token
         /// </summary>
-        public static CsTPacket<S2CScriptActivityGetGlobalTokens> S2CScriptActivityGetGlobalTokens(S2CScriptActivityGetGlobalTokens structure)
+        public static CsTPacket<S2CScriptActivityGetGlobalTokens> S2CScriptActivityGetGlobalTokens(
+            S2CScriptActivityGetGlobalTokens structure)
         {
-            return new CsTPacket<S2CScriptActivityGetGlobalTokens>(CS_CMD_ID.S2C_CMD_SACTIVITY_GETGLOBALTOKENS, structure);
+            return new CsTPacket<S2CScriptActivityGetGlobalTokens>(CS_CMD_ID.S2C_CMD_SACTIVITY_GETGLOBALTOKENS,
+                structure);
         }
 
         /// <summary>
         /// UpdateBGStat
         /// </summary>
-        public static CsTPacket<S2CScriptActivityUpdateBGStat> S2CScriptActivityUpdateBGStat(S2CScriptActivityUpdateBGStat structure)
+        public static CsTPacket<S2CScriptActivityUpdateBGStat> S2CScriptActivityUpdateBGStat(
+            S2CScriptActivityUpdateBGStat structure)
         {
             return new CsTPacket<S2CScriptActivityUpdateBGStat>(CS_CMD_ID.S2C_CMD_SACTIVITY_UPDATEBGSTAT, structure);
         }
@@ -9352,17 +9454,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 委托关卡评价奖励请求
         /// </summary>
-        public static CsTPacket<CSEntrustLevelGainRewardReq> EntrustLevelGainRewardReq(CSEntrustLevelGainRewardReq structure)
+        public static CsTPacket<CSEntrustLevelGainRewardReq> EntrustLevelGainRewardReq(
+            CSEntrustLevelGainRewardReq structure)
         {
-            return new CsTPacket<CSEntrustLevelGainRewardReq>(CS_CMD_ID.CS_CMD_ENTRUST_LEVEL_GAIN_REWARD_REQ, structure);
+            return new CsTPacket<CSEntrustLevelGainRewardReq>(CS_CMD_ID.CS_CMD_ENTRUST_LEVEL_GAIN_REWARD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 委托关卡评价奖励回应
         /// </summary>
-        public static CsTPacket<CSEntrustLevelGainRewardRsp> EntrustLevelGainRewardRsp(CSEntrustLevelGainRewardRsp structure)
+        public static CsTPacket<CSEntrustLevelGainRewardRsp> EntrustLevelGainRewardRsp(
+            CSEntrustLevelGainRewardRsp structure)
         {
-            return new CsTPacket<CSEntrustLevelGainRewardRsp>(CS_CMD_ID.CS_CMD_ENTRUST_LEVEL_GAIN_REWARD_RSP, structure);
+            return new CsTPacket<CSEntrustLevelGainRewardRsp>(CS_CMD_ID.CS_CMD_ENTRUST_LEVEL_GAIN_REWARD_RSP,
+                structure);
         }
 
         /// <summary>
@@ -9376,7 +9482,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 副本解锁变化
         /// </summary>
-        public static CsTPacket<CSInstanceUnlockChangeNotify> InstanceUnlockChangeNotify(CSInstanceUnlockChangeNotify structure)
+        public static CsTPacket<CSInstanceUnlockChangeNotify> InstanceUnlockChangeNotify(
+            CSInstanceUnlockChangeNotify structure)
         {
             return new CsTPacket<CSInstanceUnlockChangeNotify>(CS_CMD_ID.CS_CMD_INSTANCE_UNLOCK_CHANGE_NTF, structure);
         }
@@ -9432,9 +9539,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 千层成绩
         /// </summary>
-        public static CsTPacket<CSLevelThousandLayerUpdateNtf> LevelThousandLayerUpdateNtf(CSLevelThousandLayerUpdateNtf structure)
+        public static CsTPacket<CSLevelThousandLayerUpdateNtf> LevelThousandLayerUpdateNtf(
+            CSLevelThousandLayerUpdateNtf structure)
         {
-            return new CsTPacket<CSLevelThousandLayerUpdateNtf>(CS_CMD_ID.CS_CMD_LEVEL_THOUSAND_LAYER_UPDATE_NTF, structure);
+            return new CsTPacket<CSLevelThousandLayerUpdateNtf>(CS_CMD_ID.CS_CMD_LEVEL_THOUSAND_LAYER_UPDATE_NTF,
+                structure);
         }
 
         /// <summary>
@@ -9456,25 +9565,31 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 所有玩家PVP副本内选择狩猎包开始
         /// </summary>
-        public static CsTPacket<CSPVPSelectHuntingBagStartNtf> PVPSelectHuntingBagStartNtf(CSPVPSelectHuntingBagStartNtf structure)
+        public static CsTPacket<CSPVPSelectHuntingBagStartNtf> PVPSelectHuntingBagStartNtf(
+            CSPVPSelectHuntingBagStartNtf structure)
         {
-            return new CsTPacket<CSPVPSelectHuntingBagStartNtf>(CS_CMD_ID.CS_CMD_PVP_SELECT_HUNTING_BAG_START_NTF, structure);
+            return new CsTPacket<CSPVPSelectHuntingBagStartNtf>(CS_CMD_ID.CS_CMD_PVP_SELECT_HUNTING_BAG_START_NTF,
+                structure);
         }
 
         /// <summary>
         /// 同阵营PVP副本内选择狩猎包结束
         /// </summary>
-        public static CsTPacket<CSPVPSelectHuntingBagFinishNtf> PVPSelectHuntingBagFinishNtf(CSPVPSelectHuntingBagFinishNtf structure)
+        public static CsTPacket<CSPVPSelectHuntingBagFinishNtf> PVPSelectHuntingBagFinishNtf(
+            CSPVPSelectHuntingBagFinishNtf structure)
         {
-            return new CsTPacket<CSPVPSelectHuntingBagFinishNtf>(CS_CMD_ID.CS_CMD_PVP_SELECT_HUNTING_BAG_FINISH_NTF, structure);
+            return new CsTPacket<CSPVPSelectHuntingBagFinishNtf>(CS_CMD_ID.CS_CMD_PVP_SELECT_HUNTING_BAG_FINISH_NTF,
+                structure);
         }
 
         /// <summary>
         /// 所有玩家PVP副本内选择狩猎包结束
         /// </summary>
-        public static CsTPacket<CSPVPAllSelectHuntingBagFinishNtf> PVPAllSelectHuntingBagFinishNtf(CSPVPAllSelectHuntingBagFinishNtf structure)
+        public static CsTPacket<CSPVPAllSelectHuntingBagFinishNtf> PVPAllSelectHuntingBagFinishNtf(
+            CSPVPAllSelectHuntingBagFinishNtf structure)
         {
-            return new CsTPacket<CSPVPAllSelectHuntingBagFinishNtf>(CS_CMD_ID.CS_CMD_PVP_ALL_SELECT_HUNTING_BAG_FINISH_NTF, structure);
+            return new CsTPacket<CSPVPAllSelectHuntingBagFinishNtf>(
+                CS_CMD_ID.CS_CMD_PVP_ALL_SELECT_HUNTING_BAG_FINISH_NTF, structure);
         }
 
         /// <summary>
@@ -9488,7 +9603,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 所有玩家副本准备阶段结束
         /// </summary>
-        public static CsTPacket<CSPVPPrepareStageFinishNtf> PVPPrepareStageFinishNtf(CSPVPPrepareStageFinishNtf structure)
+        public static CsTPacket<CSPVPPrepareStageFinishNtf> PVPPrepareStageFinishNtf(
+            CSPVPPrepareStageFinishNtf structure)
         {
             return new CsTPacket<CSPVPPrepareStageFinishNtf>(CS_CMD_ID.CS_CMD_PVP_PREPARE_STAGE_FINISH, structure);
         }
@@ -9528,9 +9644,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 玩家加入PVP选择列表
         /// </summary>
-        public static CsTPacket<CSPVPPlayerJoinHuntingBagStartNtf> PVPPlayerJoinHuntingBagStartNtf(CSPVPPlayerJoinHuntingBagStartNtf structure)
+        public static CsTPacket<CSPVPPlayerJoinHuntingBagStartNtf> PVPPlayerJoinHuntingBagStartNtf(
+            CSPVPPlayerJoinHuntingBagStartNtf structure)
         {
-            return new CsTPacket<CSPVPPlayerJoinHuntingBagStartNtf>(CS_CMD_ID.CS_CMD_PVP_PLAYER_JOIN_HUNTING_BAG_START_NTF, structure);
+            return new CsTPacket<CSPVPPlayerJoinHuntingBagStartNtf>(
+                CS_CMD_ID.CS_CMD_PVP_PLAYER_JOIN_HUNTING_BAG_START_NTF, structure);
         }
 
         /// <summary>
@@ -9568,33 +9686,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 超级大连续领取挑战奖励请求
         /// </summary>
-        public static CsTPacket<CSSuperSeriesGainChallangeRewardReq> SuperSeriesGainChallangeRewardReq(CSSuperSeriesGainChallangeRewardReq structure)
+        public static CsTPacket<CSSuperSeriesGainChallangeRewardReq> SuperSeriesGainChallangeRewardReq(
+            CSSuperSeriesGainChallangeRewardReq structure)
         {
-            return new CsTPacket<CSSuperSeriesGainChallangeRewardReq>(CS_CMD_ID.CS_CMD_SUPER_GAIN_CHALLANGE_REWARD_REQ, structure);
+            return new CsTPacket<CSSuperSeriesGainChallangeRewardReq>(CS_CMD_ID.CS_CMD_SUPER_GAIN_CHALLANGE_REWARD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 超级大连续领取挑战奖励响应
         /// </summary>
-        public static CsTPacket<CSSuperSeriesGainChallangeRewardRsp> SuperSeriesGainChallangeRewardRsp(CSSuperSeriesGainChallangeRewardRsp structure)
+        public static CsTPacket<CSSuperSeriesGainChallangeRewardRsp> SuperSeriesGainChallangeRewardRsp(
+            CSSuperSeriesGainChallangeRewardRsp structure)
         {
-            return new CsTPacket<CSSuperSeriesGainChallangeRewardRsp>(CS_CMD_ID.CS_CMD_SUPER_GAIN_CHALLANGE_REWARD_RSP, structure);
+            return new CsTPacket<CSSuperSeriesGainChallangeRewardRsp>(CS_CMD_ID.CS_CMD_SUPER_GAIN_CHALLANGE_REWARD_RSP,
+                structure);
         }
 
         /// <summary>
         /// 超级大连续领取成功奖励请求
         /// </summary>
-        public static CsTPacket<CSSuperSeriesGainSuccessRewardReq> SuperSeriesGainSuccessRewardReq(CSSuperSeriesGainSuccessRewardReq structure)
+        public static CsTPacket<CSSuperSeriesGainSuccessRewardReq> SuperSeriesGainSuccessRewardReq(
+            CSSuperSeriesGainSuccessRewardReq structure)
         {
-            return new CsTPacket<CSSuperSeriesGainSuccessRewardReq>(CS_CMD_ID.CS_CMD_SUPER_GAIN_SUCCESS_REWARD_REQ, structure);
+            return new CsTPacket<CSSuperSeriesGainSuccessRewardReq>(CS_CMD_ID.CS_CMD_SUPER_GAIN_SUCCESS_REWARD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 超级大连续领取成功奖励响应
         /// </summary>
-        public static CsTPacket<CSSuperSeriesGainSuccessRewardRsp> SuperSeriesGainSuccessRewardRsp(CSSuperSeriesGainSuccessRewardRsp structure)
+        public static CsTPacket<CSSuperSeriesGainSuccessRewardRsp> SuperSeriesGainSuccessRewardRsp(
+            CSSuperSeriesGainSuccessRewardRsp structure)
         {
-            return new CsTPacket<CSSuperSeriesGainSuccessRewardRsp>(CS_CMD_ID.CS_CMD_SUPER_GAIN_SUCCESS_REWARD_RSP, structure);
+            return new CsTPacket<CSSuperSeriesGainSuccessRewardRsp>(CS_CMD_ID.CS_CMD_SUPER_GAIN_SUCCESS_REWARD_RSP,
+                structure);
         }
 
         /// <summary>
@@ -10371,7 +10497,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 狩魂兽出现通知列表
         /// </summary>
-        public static CsTPacket<S2CSoulBeastAppearNtfList> S2CSoulBeastAppearNtfList(S2CSoulBeastAppearNtfList structure)
+        public static CsTPacket<S2CSoulBeastAppearNtfList> S2CSoulBeastAppearNtfList(
+            S2CSoulBeastAppearNtfList structure)
         {
             return new CsTPacket<S2CSoulBeastAppearNtfList>(CS_CMD_ID.S2C_CMD_SOULBEAST_APPEAR_NTF_LIST, structure);
         }
@@ -10491,23 +10618,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 传奇技能珠-确认替换修正属性-请求
         /// </summary>
-        public static CsTPacket<CSLegendPearlConfirmReplaceAbilityReq> LegendPearlConfirmReplaceAbilityReq(CSLegendPearlConfirmReplaceAbilityReq structure)
+        public static CsTPacket<CSLegendPearlConfirmReplaceAbilityReq> LegendPearlConfirmReplaceAbilityReq(
+            CSLegendPearlConfirmReplaceAbilityReq structure)
         {
-            return new CsTPacket<CSLegendPearlConfirmReplaceAbilityReq>(CS_CMD_ID.C2S_CMD_LEGENDPEARL_CONFIRM_REPLACE_ABILITY_REQ, structure);
+            return new CsTPacket<CSLegendPearlConfirmReplaceAbilityReq>(
+                CS_CMD_ID.C2S_CMD_LEGENDPEARL_CONFIRM_REPLACE_ABILITY_REQ, structure);
         }
 
         /// <summary>
         /// 传奇技能珠-确认替换修正属性-应答
         /// </summary>
-        public static CsTPacket<CSLegendPearlConfirmReplaceAbilityRsp> LegendPearlConfirmReplaceAbilityRsp(CSLegendPearlConfirmReplaceAbilityRsp structure)
+        public static CsTPacket<CSLegendPearlConfirmReplaceAbilityRsp> LegendPearlConfirmReplaceAbilityRsp(
+            CSLegendPearlConfirmReplaceAbilityRsp structure)
         {
-            return new CsTPacket<CSLegendPearlConfirmReplaceAbilityRsp>(CS_CMD_ID.S2C_CMD_LEGENDPEARL_CONFIRM_REPLACE_ABILITY_RSP, structure);
+            return new CsTPacket<CSLegendPearlConfirmReplaceAbilityRsp>(
+                CS_CMD_ID.S2C_CMD_LEGENDPEARL_CONFIRM_REPLACE_ABILITY_RSP, structure);
         }
 
         /// <summary>
         /// 传奇技能珠派生-请求
         /// </summary>
-        public static CsTPacket<CSLegendPearlRebuildUpgradeReq> LegendPearlRebuildUpgradeReq(CSLegendPearlRebuildUpgradeReq structure)
+        public static CsTPacket<CSLegendPearlRebuildUpgradeReq> LegendPearlRebuildUpgradeReq(
+            CSLegendPearlRebuildUpgradeReq structure)
         {
             return new CsTPacket<CSLegendPearlRebuildUpgradeReq>(CS_CMD_ID.C2S_CMD_LEGENDPEARL_UPGRADE_REQ, structure);
         }
@@ -10515,7 +10647,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 传奇技能珠派生—应答
         /// </summary>
-        public static CsTPacket<CSLegendPearlRebuildUpgradeRes> LegendPearlRebuildUpgradeRes(CSLegendPearlRebuildUpgradeRes structure)
+        public static CsTPacket<CSLegendPearlRebuildUpgradeRes> LegendPearlRebuildUpgradeRes(
+            CSLegendPearlRebuildUpgradeRes structure)
         {
             return new CsTPacket<CSLegendPearlRebuildUpgradeRes>(CS_CMD_ID.S2C_CMD_LEGENDPEARL_UPGRADE_RSP, structure);
         }
@@ -10523,7 +10656,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 银币收纳箱提取-请求
         /// </summary>
-        public static CsTPacket<CSStorageBoxFetchSilverReq> StorageBoxFetchSilverReq(CSStorageBoxFetchSilverReq structure)
+        public static CsTPacket<CSStorageBoxFetchSilverReq> StorageBoxFetchSilverReq(
+            CSStorageBoxFetchSilverReq structure)
         {
             return new CsTPacket<CSStorageBoxFetchSilverReq>(CS_CMD_ID.C2S_CMD_SILVERBOX_FETCH_REQ, structure);
         }
@@ -10531,7 +10665,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 银币收纳箱提取-回应
         /// </summary>
-        public static CsTPacket<CSStorageBoxFetchSilverRsp> StorageBoxFetchSilverRsp(CSStorageBoxFetchSilverRsp structure)
+        public static CsTPacket<CSStorageBoxFetchSilverRsp> StorageBoxFetchSilverRsp(
+            CSStorageBoxFetchSilverRsp structure)
         {
             return new CsTPacket<CSStorageBoxFetchSilverRsp>(CS_CMD_ID.S2C_CMD_SILVERBOX_FETCH_RSP, structure);
         }
@@ -10539,49 +10674,61 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 银币收纳箱数据同步-通知
         /// </summary>
-        public static CsTPacket<CSStorageBoxSyncSilverDataNtf> StorageBoxSyncSilverDataNtf(CSStorageBoxSyncSilverDataNtf structure)
+        public static CsTPacket<CSStorageBoxSyncSilverDataNtf> StorageBoxSyncSilverDataNtf(
+            CSStorageBoxSyncSilverDataNtf structure)
         {
-            return new CsTPacket<CSStorageBoxSyncSilverDataNtf>(CS_CMD_ID.S2C_CMD_SILVERBOX_SYNC_DATA_NOTIFY, structure);
+            return new CsTPacket<CSStorageBoxSyncSilverDataNtf>(CS_CMD_ID.S2C_CMD_SILVERBOX_SYNC_DATA_NOTIFY,
+                structure);
         }
 
         /// <summary>
         /// 新手引导书 设置自动打开标识请求
         /// </summary>
-        public static CsTPacket<CSGuideBookAutoFirstOpenReq> GuideBookAutoFirstOpenReq(CSGuideBookAutoFirstOpenReq structure)
+        public static CsTPacket<CSGuideBookAutoFirstOpenReq> GuideBookAutoFirstOpenReq(
+            CSGuideBookAutoFirstOpenReq structure)
         {
-            return new CsTPacket<CSGuideBookAutoFirstOpenReq>(CS_CMD_ID.C2S_CMD_GUIDE_BOOK_AUTO_FIRST_OPEN_REQ, structure);
+            return new CsTPacket<CSGuideBookAutoFirstOpenReq>(CS_CMD_ID.C2S_CMD_GUIDE_BOOK_AUTO_FIRST_OPEN_REQ,
+                structure);
         }
 
         /// <summary>
         /// 新手引导书 设置自动打开标识回应
         /// </summary>
-        public static CsTPacket<SCGuideBookAutoFirstOpenRsp> GuideBookAutoFirstOpenRsp(SCGuideBookAutoFirstOpenRsp structure)
+        public static CsTPacket<SCGuideBookAutoFirstOpenRsp> GuideBookAutoFirstOpenRsp(
+            SCGuideBookAutoFirstOpenRsp structure)
         {
-            return new CsTPacket<SCGuideBookAutoFirstOpenRsp>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_AUTO_FIRST_OPEN_RSP, structure);
+            return new CsTPacket<SCGuideBookAutoFirstOpenRsp>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_AUTO_FIRST_OPEN_RSP,
+                structure);
         }
 
         /// <summary>
         /// 新手引导书 领取奖励请
         /// </summary>
-        public static CsTPacket<CSGuideBookGetChapterRewardReq> GuideBookGetChapterRewardReq(CSGuideBookGetChapterRewardReq structure)
+        public static CsTPacket<CSGuideBookGetChapterRewardReq> GuideBookGetChapterRewardReq(
+            CSGuideBookGetChapterRewardReq structure)
         {
-            return new CsTPacket<CSGuideBookGetChapterRewardReq>(CS_CMD_ID.C2S_CMD_GUIDE_BOOK_GET_CHAPTER_REWARD_REQ, structure);
+            return new CsTPacket<CSGuideBookGetChapterRewardReq>(CS_CMD_ID.C2S_CMD_GUIDE_BOOK_GET_CHAPTER_REWARD_REQ,
+                structure);
         }
 
         /// <summary>
         /// 新手引导书 领取奖励回应
         /// </summary>
-        public static CsTPacket<SCGuideBookGetChapterRewardRsp> GuideBookGetChapterRewardRsp(SCGuideBookGetChapterRewardRsp structure)
+        public static CsTPacket<SCGuideBookGetChapterRewardRsp> GuideBookGetChapterRewardRsp(
+            SCGuideBookGetChapterRewardRsp structure)
         {
-            return new CsTPacket<SCGuideBookGetChapterRewardRsp>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_GET_CHAPTER_REWARD_RSP, structure);
+            return new CsTPacket<SCGuideBookGetChapterRewardRsp>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_GET_CHAPTER_REWARD_RSP,
+                structure);
         }
 
         /// <summary>
         /// 新手引导书完成任务通知
         /// </summary>
-        public static CsTPacket<S2CGuideBookActionFinishNtf> GuideBookActionFinishNtf(S2CGuideBookActionFinishNtf structure)
+        public static CsTPacket<S2CGuideBookActionFinishNtf> GuideBookActionFinishNtf(
+            S2CGuideBookActionFinishNtf structure)
         {
-            return new CsTPacket<S2CGuideBookActionFinishNtf>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_ACTION_FINISH_NTF, structure);
+            return new CsTPacket<S2CGuideBookActionFinishNtf>(CS_CMD_ID.S2C_CMD_GUIDE_BOOK_ACTION_FINISH_NTF,
+                structure);
         }
 
         /// <summary>
@@ -10643,73 +10790,91 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 获取关卡最短时间请求
         /// </summary>
-        public static CsTPacket<CSDemonTrialGetLevelPassTimeReq> DemonTrialGetLevelPassTimeReq(CSDemonTrialGetLevelPassTimeReq structure)
+        public static CsTPacket<CSDemonTrialGetLevelPassTimeReq> DemonTrialGetLevelPassTimeReq(
+            CSDemonTrialGetLevelPassTimeReq structure)
         {
-            return new CsTPacket<CSDemonTrialGetLevelPassTimeReq>(CS_CMD_ID.C2S_CMD_DEMON_TRIAL_GET_LEVELS_PASS_TIME_REQ, structure);
+            return new CsTPacket<CSDemonTrialGetLevelPassTimeReq>(
+                CS_CMD_ID.C2S_CMD_DEMON_TRIAL_GET_LEVELS_PASS_TIME_REQ, structure);
         }
 
         /// <summary>
         /// 获取关卡最短时间响应
         /// </summary>
-        public static CsTPacket<SCDemonTrialGetLevelPassTimeRsp> DemonTrialGetLevelPassTimeRsp(SCDemonTrialGetLevelPassTimeRsp structure)
+        public static CsTPacket<SCDemonTrialGetLevelPassTimeRsp> DemonTrialGetLevelPassTimeRsp(
+            SCDemonTrialGetLevelPassTimeRsp structure)
         {
-            return new CsTPacket<SCDemonTrialGetLevelPassTimeRsp>(CS_CMD_ID.S2C_CMD_DEMON_TRIAL_GET_LEVELS_PASS_TIME_RSP, structure);
+            return new CsTPacket<SCDemonTrialGetLevelPassTimeRsp>(
+                CS_CMD_ID.S2C_CMD_DEMON_TRIAL_GET_LEVELS_PASS_TIME_RSP, structure);
         }
 
         /// <summary>
         /// 机密研究院手动刷新 客户端->服务端
         /// </summary>
-        public static CsTPacket<C2SSecretResearchLabHandleRefreshReq> SecretResearchLabHandleRefreshReq(C2SSecretResearchLabHandleRefreshReq structure)
+        public static CsTPacket<C2SSecretResearchLabHandleRefreshReq> SecretResearchLabHandleRefreshReq(
+            C2SSecretResearchLabHandleRefreshReq structure)
         {
-            return new CsTPacket<C2SSecretResearchLabHandleRefreshReq>(CS_CMD_ID.C2S_CMD_SECRET_RESEARCH_LAB_HANDLE_REFRESH_REQ, structure);
+            return new CsTPacket<C2SSecretResearchLabHandleRefreshReq>(
+                CS_CMD_ID.C2S_CMD_SECRET_RESEARCH_LAB_HANDLE_REFRESH_REQ, structure);
         }
 
         /// <summary>
         /// 机密研究院手动刷新 服务端->客户端
         /// </summary>
-        public static CsTPacket<S2CSecretResearchLabHandleRefreshRsp> SecretResearchLabHandleRefreshRsp(S2CSecretResearchLabHandleRefreshRsp structure)
+        public static CsTPacket<S2CSecretResearchLabHandleRefreshRsp> SecretResearchLabHandleRefreshRsp(
+            S2CSecretResearchLabHandleRefreshRsp structure)
         {
-            return new CsTPacket<S2CSecretResearchLabHandleRefreshRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_HANDLE_REFRESH_RSP, structure);
+            return new CsTPacket<S2CSecretResearchLabHandleRefreshRsp>(
+                CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_HANDLE_REFRESH_RSP, structure);
         }
 
         /// <summary>
         /// 机密研究院研究 客户端->服务端
         /// </summary>
-        public static CsTPacket<C2SSecretResearchLabResearchReq> SecretResearchLabResearchReq(C2SSecretResearchLabResearchReq structure)
+        public static CsTPacket<C2SSecretResearchLabResearchReq> SecretResearchLabResearchReq(
+            C2SSecretResearchLabResearchReq structure)
         {
-            return new CsTPacket<C2SSecretResearchLabResearchReq>(CS_CMD_ID.C2S_CMD_SECRET_RESEARCH_LAB_RESEARCH_REQ, structure);
+            return new CsTPacket<C2SSecretResearchLabResearchReq>(CS_CMD_ID.C2S_CMD_SECRET_RESEARCH_LAB_RESEARCH_REQ,
+                structure);
         }
 
         /// <summary>
         /// 机密研究院研究 服务端->客户端
         /// </summary>
-        public static CsTPacket<S2CSecretResearchLabResearchRsp> SecretResearchLabResearchRsp(S2CSecretResearchLabResearchRsp structure)
+        public static CsTPacket<S2CSecretResearchLabResearchRsp> SecretResearchLabResearchRsp(
+            S2CSecretResearchLabResearchRsp structure)
         {
-            return new CsTPacket<S2CSecretResearchLabResearchRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_RESEARCH_RSP, structure);
+            return new CsTPacket<S2CSecretResearchLabResearchRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_RESEARCH_RSP,
+                structure);
         }
 
         /// <summary>
         /// 机密研究院每日刷新 服务端->客户端
         /// </summary>
-        public static CsTPacket<S2CSecretResearchLabDaliyRefreshRsp> SecretResearchLabDaliyRefreshRsp(S2CSecretResearchLabDaliyRefreshRsp structure)
+        public static CsTPacket<S2CSecretResearchLabDaliyRefreshRsp> SecretResearchLabDaliyRefreshRsp(
+            S2CSecretResearchLabDaliyRefreshRsp structure)
         {
-            return new CsTPacket<S2CSecretResearchLabDaliyRefreshRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_DALIY_REFRESH_RSP, structure);
+            return new CsTPacket<S2CSecretResearchLabDaliyRefreshRsp>(
+                CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_DALIY_REFRESH_RSP, structure);
         }
 
         /// <summary>
         /// 机密研究院定时刷新 服务端->客户端
         /// </summary>
-        public static CsTPacket<S2CSecretResearchLabClockRefreshRsp> SecretResearchLabClockRefreshRsp(S2CSecretResearchLabClockRefreshRsp structure)
+        public static CsTPacket<S2CSecretResearchLabClockRefreshRsp> SecretResearchLabClockRefreshRsp(
+            S2CSecretResearchLabClockRefreshRsp structure)
         {
-            return new CsTPacket<S2CSecretResearchLabClockRefreshRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_CLOCK_REFRESH_RSP, structure);
+            return new CsTPacket<S2CSecretResearchLabClockRefreshRsp>(
+                CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_CLOCK_REFRESH_RSP, structure);
         }
 
         /// <summary>
         /// 机密研究院数据同步 服务端->客户端
         /// </summary>
-        public static CsTPacket<S2CSecretResearchLabDataSynchronizationRsp> SecretResearchLabDataSynchronizationRsp(S2CSecretResearchLabDataSynchronizationRsp structure)
+        public static CsTPacket<S2CSecretResearchLabDataSynchronizationRsp> SecretResearchLabDataSynchronizationRsp(
+            S2CSecretResearchLabDataSynchronizationRsp structure)
         {
-            return new CsTPacket<S2CSecretResearchLabDataSynchronizationRsp>(CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_DATA_SYNCHRONIZATION_RSP, structure);
+            return new CsTPacket<S2CSecretResearchLabDataSynchronizationRsp>(
+                CS_CMD_ID.S2C_CMD_SECRET_RESEARCH_LAB_DATA_SYNCHRONIZATION_RSP, structure);
         }
 
         /// <summary>
@@ -10749,7 +10914,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<CSExchangeCardRewardReq> PhyCardExchangeCardRewardReq(CSExchangeCardRewardReq structure)
         {
-            return new CsTPacket<CSExchangeCardRewardReq>(CS_CMD_ID.C2S_CMD_PHY_CARD_EXCHANGE_CARD_REWARD_REQ, structure);
+            return new CsTPacket<CSExchangeCardRewardReq>(CS_CMD_ID.C2S_CMD_PHY_CARD_EXCHANGE_CARD_REWARD_REQ,
+                structure);
         }
 
         /// <summary>
@@ -10757,7 +10923,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// </summary>
         public static CsTPacket<SCExchangeCardRewardRsp> PhyCardExchangeCardRewardRsp(SCExchangeCardRewardRsp structure)
         {
-            return new CsTPacket<SCExchangeCardRewardRsp>(CS_CMD_ID.S2C_CMD_PHY_CARD_EXCHANGE_CARD_REWARD_RSP, structure);
+            return new CsTPacket<SCExchangeCardRewardRsp>(CS_CMD_ID.S2C_CMD_PHY_CARD_EXCHANGE_CARD_REWARD_RSP,
+                structure);
         }
 
         /// <summary>
@@ -10775,6 +10942,5 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSShakeHand>(CS_CMD_ID.CS_CMD_SYSTEM_SHAKEHAND, structure);
         }
-
     }
 }

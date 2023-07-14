@@ -31,5 +31,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsProtoStructurePacket<ModifyFaceRsp> ModifyFaceRsp =>
             new(CS_CMD_ID.CS_CMD_MODIFY_FACE_RSP);
+
+        public static CsProtoStructurePacket<SelectRoleRsp> SelectRoleRsp =>
+            new(CS_CMD_ID.CS_CMD_SELECT_ROLE_RSP);
+
+        public static CsProtoStructurePacket<TownSessionStart> TownSessionStart =>
+            new(CS_CMD_ID.CS_CMD_TOWN_SESSION_START);
+
+        public static CsProtoStructurePacket<PlayerInitInfo> PlayerInitInfo =>
+            new(CS_CMD_ID.CS_CMD_PLAYER_INIT_NTF);
+
+        public static CsProtoStructurePacket DataLoadRsp(IStructure structure) =>
+            new(CS_CMD_ID.CS_CMD_DATA_LOAD_RSP, structure);
     }
 }

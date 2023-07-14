@@ -28,10 +28,8 @@ public class PlayerState
 
     public CSRoleBaseInfo _roleBaseInfo;
 
-    //  public CSRoleBaseInfo _roleBaseInfo2;
-    public CSPlayerInitInfo _playerInitInfo;
     public CSInstanceInitInfo _instanceInitInfo;
-    public CSPlayerLevelInitInfo _playerLevelInitInfo;
+
     public CSSpawnPlayer _spawnPlayer;
     public CSTownInstanceVerifyRsp _townInstanceVerifyRsp;
     public CSEnterInstanceRsp _enterInstanceRsp;
@@ -80,42 +78,9 @@ public class PlayerState
         // _roleBaseInfo2.EyeBall = 1;
         // _roleBaseInfo2.EyeColor = 1;
 
-        _playerInitInfo = new CSPlayerInitInfo();
-        _playerInitInfo.AccountID = 1;
-        _playerInitInfo.NetID = 1;
-        _playerInitInfo.DBId = 1;
-        _playerInitInfo.SessionID = 1;
-        _playerInitInfo.WorldID = 1;
-        _playerInitInfo.ServerID = 1;
-        _playerInitInfo.WorldSvrID = 1;
-        _playerInitInfo.Name = _roleBaseInfo.Name;
-        _playerInitInfo.Gender = _roleBaseInfo.Gender;
-        _playerInitInfo.IsGM = 1;
-        _playerInitInfo.AvatarSetID = _roleBaseInfo.AvatarSetID;
-        _playerInitInfo.ParentEntityGUID = 0;
-        _playerInitInfo.RandSeed = 1;
-        _playerInitInfo.CatCuisineID = 0;
-        _playerInitInfo.FirstEnterLevel = 0;
-        _playerInitInfo.FirstEnterMap = 0;
-        _playerInitInfo.PvpPrepareStageState = 0;
-        _playerInitInfo.ServerTime = 100;
 
         //spawn location
-        _playerInitInfo.Pose.t.x = 409.91379f;
-        _playerInitInfo.Pose.t.y = 358.74976f;
-        _playerInitInfo.Pose.t.z = 100.0f; // height
 
-        _playerInitInfo.Pose.q.v.x = 10;
-        _playerInitInfo.Pose.q.v.y = 10;
-        _playerInitInfo.Pose.q.v.z = 10;
-        _playerInitInfo.Pose.q.w = 10;
-
-
-        _playerInitInfo.StoreSize = 20;
-        _playerInitInfo.NormalSize = 20;
-        _playerInitInfo.MaterialStoreSize = 20;
-
-        _playerInitInfo.Weapon = 1;
 
         //   for (int i = 1; i < 40; i++)
         //   {
@@ -137,7 +102,7 @@ public class PlayerState
 
         int sizePos = ast.Position;
         ast.WriteInt32(0, Endianness.Big); // size
-        
+
         // case 0
         uint tag = TdrTlv.MakeTag(2, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
@@ -146,98 +111,98 @@ public class PlayerState
         {
             ast.WriteInt32(1, Endianness.Big);
         }
-        
+
         // case 1
         // skips X bytes
         tag = TdrTlv.MakeTag(3, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(11, Endianness.Big); 
-        
+        ast.WriteInt32(11, Endianness.Big);
+
         // case 2
         // read int32
         tag = TdrTlv.MakeTag(4, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(12, Endianness.Big);
-        
-        
+
+
         // case 3 / skip bytes??
         // read int32
         tag = TdrTlv.MakeTag(5, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(13, Endianness.Big);
-        
-                
+
+
         // case 4
         // read int32
         tag = TdrTlv.MakeTag(6, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(14, Endianness.Big);
-        
-                
+
+
         // case 5
         // read int32
         tag = TdrTlv.MakeTag(7, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(15, Endianness.Big);
-        
-                
+
+
         // case 6
         // read int32
         tag = TdrTlv.MakeTag(8, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(16, Endianness.Big);
-        
-                
+
+
         // case 7
         // read int32
         tag = TdrTlv.MakeTag(9, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(17, Endianness.Big);
-        
-                
+
+
         // case 8
         // read int32
         tag = TdrTlv.MakeTag(10, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(18, Endianness.Big);
-        
-                
+
+
         // case 9
         // read int32
         tag = TdrTlv.MakeTag(11, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(19, Endianness.Big);
-        
+
         // case 10
         // read int32
         tag = TdrTlv.MakeTag(12, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(20, Endianness.Big);
-        
+
         // case 11
         // read int32
         tag = TdrTlv.MakeTag(13, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(21, Endianness.Big);
-        
+
         // case 12
         // read int32
         tag = TdrTlv.MakeTag(14, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(22, Endianness.Big);
-        
+
         // case 13
         // read int32
         tag = TdrTlv.MakeTag(15, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(23, Endianness.Big);
-        
+
         // case 14
         // read int32
         tag = TdrTlv.MakeTag(16, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(24, Endianness.Big);
-        
+
         // case 15
         // read int32
         tag = TdrTlv.MakeTag(17, TdrTlvType.ID_4_BYTE);
@@ -247,7 +212,7 @@ public class PlayerState
         {
             ast.WriteInt32(25, Endianness.Big);
         }
-        
+
         // case 16 - 0x10
         // read int32
         tag = TdrTlv.MakeTag(18, TdrTlvType.ID_4_BYTE);
@@ -257,7 +222,7 @@ public class PlayerState
         {
             ast.WriteInt32(26, Endianness.Big);
         }
-        
+
         // 17 - readx7 1878525
         tag = TdrTlv.MakeTag(19, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
@@ -267,8 +232,8 @@ public class PlayerState
             ast.WriteInt32(27, Endianness.Big);
         }
 
-  //18 - readint32 1878660
-  tag = TdrTlv.MakeTag(20, TdrTlvType.ID_2_BYTE);
+        //18 - readint32 1878660
+        tag = TdrTlv.MakeTag(20, TdrTlvType.ID_2_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt16(28, Endianness.Big);
 
@@ -276,7 +241,7 @@ public class PlayerState
         tag = TdrTlv.MakeTag(21, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(29, Endianness.Big);
-        
+
 // 20 - readx7 1878752
         tag = TdrTlv.MakeTag(22, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
@@ -284,8 +249,8 @@ public class PlayerState
         for (int i = 0; i < 7; i++)
         {
             ast.WriteInt32(30, Endianness.Big);
-        }        
-        
+        }
+
 // 21 - readx7 1878893
         tag = TdrTlv.MakeTag(23, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
@@ -294,58 +259,57 @@ public class PlayerState
         {
             ast.WriteInt32(31, Endianness.Big);
         }
-        
-    //22 - readx7 1879037
-    tag = TdrTlv.MakeTag(24, TdrTlvType.ID_4_BYTE);
+
+        //22 - readx7 1879037
+        tag = TdrTlv.MakeTag(24, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
             ast.WriteInt32(32, Endianness.Big);
-        }        
-        
-   //23 - readx7 1879181
-   tag = TdrTlv.MakeTag(25, TdrTlvType.ID_4_BYTE);
+        }
+
+        //23 - readx7 1879181
+        tag = TdrTlv.MakeTag(25, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
         for (int i = 0; i < 7; i++)
         {
             ast.WriteInt32(33, Endianness.Big);
         }
-        
+
 //24 - skip 1900773
         tag = TdrTlv.MakeTag(26, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
 
         tag = TdrTlv.MakeTag(27, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
 
         tag = TdrTlv.MakeTag(28, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
         tag = TdrTlv.MakeTag(29, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
 
         tag = TdrTlv.MakeTag(30, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
 // 29
         tag = TdrTlv.MakeTag(31, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(34, Endianness.Big); 
+        ast.WriteInt32(34, Endianness.Big);
 
-        
-        
-       // 30 - readx7 1879325
- 
+
+        // 30 - readx7 1879325
+
         tag = TdrTlv.MakeTag(32, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
@@ -353,7 +317,7 @@ public class PlayerState
         {
             ast.WriteInt32(10, Endianness.Big);
         }
-        
+
         tag = TdrTlv.MakeTag(33, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
@@ -361,7 +325,7 @@ public class PlayerState
         {
             ast.WriteInt32(10, Endianness.Big);
         }
-        
+
         tag = TdrTlv.MakeTag(34, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
@@ -369,7 +333,7 @@ public class PlayerState
         {
             ast.WriteInt32(10, Endianness.Big);
         }
-        
+
         tag = TdrTlv.MakeTag(35, TdrTlvType.ID_4_BYTE);
         TdrBuffer.WriteVarUInt32(ast, tag);
         ast.WriteInt32(7 * 4, Endianness.Big); // size, max 7*4
@@ -377,14 +341,13 @@ public class PlayerState
         {
             ast.WriteInt32(10, Endianness.Big);
         }
-        
-       //34 - readint32 1879901
-       tag = TdrTlv.MakeTag(36, TdrTlvType.ID_4_BYTE);
-        TdrBuffer.WriteVarUInt32(ast, tag);
-        ast.WriteInt32(35, Endianness.Big); 
-        
 
- 
+        //34 - readint32 1879901
+        tag = TdrTlv.MakeTag(36, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt32(35, Endianness.Big);
+
+
         for (int i = 37; i < 200; i++)
         {
             tag = TdrTlv.MakeTag(i, TdrTlvType.ID_4_BYTE);
@@ -397,13 +360,10 @@ public class PlayerState
         }
 
 
-
         int size = ast.Position - sizePos;
         ast.Position = sizePos;
         ast.WriteInt32(size, Endianness.Big); // size
 
-
-        _playerInitInfo.Attr = new List<byte>(ast.GetAllBytes());
 
         //    <macrosgroup name="CS_PROP_SYNC_TYPE">
         //    <macro name="CS_PROP_SYNC_INT" value="1" desc="符号整数" />
@@ -433,9 +393,6 @@ public class PlayerState
 //           <macro name="CS_ATTR_DATA_BASE" value="1" />
 //           <macro name="CS_ATTR_DATA_BONUS" value="2" />
 //           </macrosgroup>
-
-        _playerInitInfo.FacialInfo[0] = 1;
-        _playerInitInfo.FacialInfo[1] = 1;
 
         _instanceInitInfo = new CSInstanceInitInfo();
         _instanceInitInfo.BattleGroundID = 0;
@@ -503,11 +460,6 @@ public class PlayerState
         //    </RegionType>
         //    </LevelInfo>
 
-        _playerLevelInitInfo = new CSPlayerLevelInitInfo();
-        _playerLevelInitInfo.UnLockLevelData.Add(new PlayerUnlockLevelInfo()
-        {
-            LevelID = 1
-        });
 
         _spawnPlayer = new CSSpawnPlayer();
         _spawnPlayer.PlayerId = 1;
@@ -518,12 +470,7 @@ public class PlayerState
         _spawnPlayer.NewConnect = 1;
         _spawnPlayer.SendSrvId = 1;
         _spawnPlayer.AvatarSetID = _roleBaseInfo.AvatarSetID;
-        _spawnPlayer.Position = new XYZPosition()
-        {
-            x = _playerInitInfo.Pose.t.x,
-            y = _playerInitInfo.Pose.t.y,
-            z = _playerInitInfo.Pose.t.z
-        };
+
 
         _townInstanceVerifyRsp = new CSTownInstanceVerifyRsp();
         _townInstanceVerifyRsp.IntanceInitInfo = _instanceInitInfo;
@@ -549,14 +496,12 @@ public class PlayerState
         _playerAppearNtf.SessionID = 1;
         _playerAppearNtf.Name = _roleBaseInfo.Name;
         _playerAppearNtf.Gender = _roleBaseInfo.Gender;
-        _playerAppearNtf.Pose = _playerInitInfo.Pose;
         _playerAppearNtf.AvatarSetID = _roleBaseInfo.AvatarSetID;
 
         _ItemListRsp = new CSItemListRsp();
 
         _TeamMemberInfo = new TeamMemberInfo();
-        _TeamMemberInfo.NetId = (uint)_playerInitInfo.NetID;
-        _TeamMemberInfo.DBId = _playerInitInfo.DBId;
+
         _TeamMemberInfo.Name = _roleBaseInfo.Name;
         _TeamMemberInfo.Level = (uint)_roleBaseInfo.Level;
         _TeamMemberInfo.LevelId = (uint)LevelId;
@@ -720,9 +665,6 @@ public class PlayerState
                 NetObjID = 1,
                 Position = new XYZPosition()
                 {
-                    x = _playerInitInfo.Pose.t.x,
-                    y = _playerInitInfo.Pose.t.y,
-                    z = _playerInitInfo.Pose.t.z
                 },
                 Rotation = new Quaternion(),
                 Scale = 2.0f
@@ -785,28 +727,6 @@ public class PlayerState
         }
     }
 
-    /// <summary>
-    /// Since FileCheck could occur multiple times during connection,
-    /// i chose multi_net_ip info, hoping that its only once on game startup called.
-    /// ideally want to only send this packet once when the game loaded.
-    /// the problem is via the CsProto over TDPU connection, is that we do not get a tcp connection / disconnect event.
-    /// but for future battle server connectivity weg get those, but we still need to be able to manage both the same way.
-    /// </summary>
-    public void OnReady()
-    {
-        SendListRoleRsp();
-    }
-
-    /// <summary>
-    /// client selected a role to play, unsure as of yet what to reply.
-    /// Based on logs we are hitting the right spots, but there is still more missing.
-    /// </summary>
-    public void OnRoleSelected()
-    {
-        _client.SendCsPacket(NewCsPacket.SelecteRoleRsp(new CSSelectRoleRsp()));
-        SendTownSessionStart();
-        SendPlayerInitNtf();
-    }
 
     /// <summary>
     /// client used menu from level -> char selection
@@ -832,8 +752,6 @@ public class PlayerState
     {
         // all packets here seem not to be required
         // just testing
-
-        SendPlayerLevelInitNtf();
 
 
         //  SendBruteForce();
@@ -1109,25 +1027,12 @@ public class PlayerState
         _client.SendCsPacket(NewCsPacket.TimeOfDayNtf(timeOfDayNtf));
     }
 
-    public void SendTownSessionStart()
-    {
-        _client.SendCsPacket(NewCsPacket.TownSessionStart(new CSTownSessionStart()));
-    }
-
-    public void SendPlayerInitNtf()
-    {
-        _client.SendCsPacket(NewCsPacket.PlayerInitNtf(_playerInitInfo));
-    }
 
     public void SendInstanceInitNtf()
     {
         _client.SendCsPacket(NewCsPacket.InstanceInitNtf(_instanceInitInfo));
     }
 
-    public void SendPlayerLevelInitNtf()
-    {
-        _client.SendCsPacket(NewCsPacket.PlayerLevelInitNtf(_playerLevelInitInfo));
-    }
 
     public void SendPlayerSpawn()
     {

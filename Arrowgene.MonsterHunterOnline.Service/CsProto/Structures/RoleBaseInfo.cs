@@ -40,132 +40,132 @@ public class RoleBaseInfo : Structure
     /// <summary>
     /// 角色ID
     /// </summary>
-    public ulong RoleId;
+    public ulong RoleId { get; set; }
 
     /// <summary>
     /// 角色Index
     /// </summary>
-    public int RoleIndex;
+    public int RoleIndex { get; set; }
 
     /// <summary>
     /// 角色名
     /// </summary>
-    public string Name;
+    public string Name { get; set; }
 
     /// <summary>
     /// 角色性别
     /// </summary>
-    public byte Gender;
+    public byte Gender { get; set; }
 
     /// <summary>
     /// 角色等级
     /// </summary>
-    public int Level;
+    public int Level { get; set; }
 
     /// <summary>
     /// 角色状态
     /// </summary>
-    public int RoleState;
+    public int RoleState { get; set; }
 
     /// <summary>
     /// 角色状态结束的剩余时间
     /// </summary>
-    public uint RoleStateEndLeftTime;
+    public uint RoleStateEndLeftTime { get; set; }
 
     /// <summary>
     /// Avatar Set
     /// </summary>
-    public byte AvatarSetId;
+    public byte AvatarSetId { get; set; }
 
     /// <summary>
     /// 脸型
     /// </summary>
-    public ushort FaceId;
+    public ushort FaceId { get; set; }
 
     /// <summary>
     /// 发型
     /// </summary>
-    public ushort HairId;
+    public ushort HairId { get; set; }
 
     /// <summary>
     /// 内衣
     /// </summary>
-    public ushort UnderclothesId;
+    public ushort UnderclothesId { get; set; }
 
     /// <summary>
     /// 皮肤颜色
     /// </summary>
-    public int SkinColor;
+    public int SkinColor { get; set; }
 
     /// <summary>
     /// 头发颜色
     /// </summary>
-    public int HairColor;
+    public int HairColor { get; set; }
 
     /// <summary>
     /// 内衣颜色
     /// </summary>
-    public int InnerColor;
+    public int InnerColor { get; set; }
 
     /// <summary>
     /// 眼睛
     /// </summary>
-    public int EyeBall;
+    public int EyeBall { get; set; }
 
     /// <summary>
     /// 眼睛颜色
     /// </summary>
-    public int EyeColor;
+    public int EyeColor { get; set; }
 
     /// <summary>
     /// 脸部贴花
     /// </summary>
-    public int FaceTattooIndex;
+    public int FaceTattooIndex { get; set; }
 
     /// <summary>
     /// 脸部贴花颜色
     /// </summary>
-    public int FaceTattooColor;
+    public int FaceTattooColor { get; set; }
 
     /// <summary>
     /// 装备物品
     /// </summary>
-    public List<CSAvatarItem> Equip;
+    public List<CSAvatarItem> Equip { get; }
 
     /// <summary>
     /// 是否隐藏头盔
     /// </summary>
-    public byte HideHelm;
+    public byte HideHelm { get; set; }
 
     /// <summary>
     /// 是否隐藏时装
     /// </summary>
-    public byte HideFashion;
+    public byte HideFashion { get; set; }
 
     /// <summary>
     /// 是否隐藏套件
     /// </summary>
-    public byte HideSuite;
+    public byte HideSuite { get; set; }
 
     /// <summary>
     /// 捏脸数据集合
     /// </summary>
-    public short[] FacialInfo;
+    public short[] FacialInfo { get; }
 
     /// <summary>
     /// 星级
     /// </summary>
-    public string StarLevel;
+    public string StarLevel { get; set; }
 
     /// <summary>
     /// 角色HR等级
     /// </summary>
-    public int HrLevel;
+    public int HrLevel { get; set; }
 
     /// <summary>
     /// 兽魂石等级
     /// </summary>
-    public int SoulStoneLv;
+    public int SoulStoneLv { get; set; }
 
     public override void Write(IBuffer buffer)
     {

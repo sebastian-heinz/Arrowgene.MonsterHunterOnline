@@ -25,57 +25,57 @@ public class MultiNetIpInfo : Structure
     /// <summary>
     /// 最终选择的IP
     /// </summary>
-    public string SelectIp;
+    public string SelectIp { get; set; }
 
     /// <summary>
     /// 域名信息
     /// </summary>
-    public string DomainName;
+    public string DomainName { get; set; }
 
     /// <summary>
     /// 当前玩家解析域名获得的IP
     /// </summary>
-    public string DomainAnalyseIp;
+    public string DomainAnalyseIp { get; set; }
 
     /// <summary>
     /// 解析域名获得的IP的ping值
     /// </summary>
-    public int PingDomainIp;
+    public int PingDomainIp { get; set; }
 
     /// <summary>
     /// 配置的IP
     /// </summary>
-    public string[] ConfigIp;
+    public string[] ConfigIp { get; }
 
     /// <summary>
     /// IP的ping值
     /// </summary>
-    public int[] PingIp;
+    public int[] PingIp { get; }
 
     /// <summary>
     /// 连接服务器的端口
     /// </summary>
-    public int Port;
+    public int Port { get; set; }
 
     /// <summary>
     /// 签名数据
     /// </summary>
-    public List<byte> Signature;
+    public List<byte> Signature { get; }
 
     /// <summary>
     /// 运营商选择
     /// </summary>
-    public int Isp;
+    public int Isp { get; set; }
 
     /// <summary>
     /// 连接模式
     /// </summary>
-    public int Mode;
+    public int Mode { get; set; }
 
     /// <summary>
     /// 玩家历史ping值
     /// </summary>
-    public int[] HistoryPingWeight;
+    public int[] HistoryPingWeight { get; }
 
     public override void Write(IBuffer buffer)
     {

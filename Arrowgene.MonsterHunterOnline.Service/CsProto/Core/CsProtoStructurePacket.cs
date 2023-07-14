@@ -3,27 +3,37 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
-    public class CsProtoStructurePacket<TStructure> : ICsProtoStructurePacket
-        where TStructure : IStructure, new()
+    public class CsProtoStructurePacket : ICsProtoStructurePacket
     {
-        public CsProtoStructurePacket(CS_CMD_ID cmd)
+        public CsProtoStructurePacket(CS_CMD_ID cmd, IStructure structure)
         {
             Cmd = cmd;
-            Structure = new TStructure();
+            _structure = structure;
         }
 
-        public TStructure Structure { get; }
+        protected readonly IStructure _structure;
 
         public CS_CMD_ID Cmd { get; }
+        public IStructure Structure => _structure;
 
         public void Write(IBuffer buffer)
         {
-            Structure.Write(buffer);
+            _structure.Write(buffer);
         }
 
         public void Read(IBuffer buffer)
         {
-            Structure.Read(buffer);
+            _structure.Read(buffer);
+        }
+    }
+
+    public class CsProtoStructurePacket<TStructure> : CsProtoStructurePacket
+        where TStructure : IStructure, new()
+    {
+        public new TStructure Structure => (TStructure)_structure;
+
+        public CsProtoStructurePacket(CS_CMD_ID cmd) : base(cmd, new TStructure())
+        {
         }
     }
 }

@@ -153,11 +153,63 @@ public class CharacterManager
             role.HideHelm = character.HideHelm;
             role.HideFashion = character.HideFashion;
             role.HideSuite = character.HideSuite;
-            role.FacialInfo = character.FacialInfo;
+            for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+            {
+                role.FacialInfo[i] = character.FacialInfo[i];
+            }
+
             role.StarLevel = character.StarLevel;
             role.HrLevel = character.HrLevel;
             role.SoulStoneLv = character.SoulStoneLv;
             rsp.RoleList.Add(role);
         }
+    }
+
+    public Character GetCharacter(uint accountId, byte roleIndex)
+    {
+        return _database.SelectCharacterByRoleIndex(accountId, roleIndex);
+    }
+
+    public void PopulatePlayerInitInfo(Client client, Character character, PlayerInitInfo structure)
+    {
+        structure.AccountId = client.Account.Id;
+        // TODO if this is entityId then need to be unique across NPC/Monster/Char
+        structure.NetId = (int)character.Id;
+        structure.DbId = character.Id;
+        // for now set all to 1
+        structure.SessionId = 1;
+        structure.WorldId = 1;
+        structure.ServerId = 1;
+        structure.WorldSvrId = 1;
+        //
+        structure.ServerTime = 0;
+        structure.IsReConnect = 0;
+        structure.Name = character.Name;
+        structure.Gender = character.Gender;
+        structure.IsGm = 0;
+        //structure.Pose;
+        structure.ParentEntityGuid = 0;
+        structure.AvatarSetId = 0;
+        structure.Faction = 0;
+        structure.RandSeed = 0;
+        structure.Weapon = 0;
+        structure.LastLoginTime = 0;
+        structure.CreateTime = (uint)Util.GetUnixTime(character.Created);
+        structure.StoreSize = 0;
+        structure.NormalSize = 0;
+        structure.MaterialStoreSize = 0;
+        structure.FirstEnterLevel = 0;
+        structure.FirstEnterMap = 0;
+        structure.PvpPrepareStageState = 0;
+        structure.CurPlayerUsedCatCarCount = 0;
+        structure.CatCuisineId = 0;
+        structure.CatCuisineLevel = 0;
+        structure.CatCuisineBuffs = 0;
+        structure.CatCuisineLastTm = 0;
+        structure.CatCuisineFormulaCount = 0;
+        structure.IsSpectating = 0;
+        structure.DragonShopBox = 0;
+        structure.CanGetRewarded = 0;
+        // TODO figure out attr and other binary blobs
     }
 }

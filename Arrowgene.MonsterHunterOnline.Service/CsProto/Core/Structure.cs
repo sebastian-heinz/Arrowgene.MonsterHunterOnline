@@ -220,6 +220,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             val.Read(buffer);
             return val;
         }
+        
+        protected TStructure ReadStructure<TStructure>(IBuffer buffer, TStructure val) where TStructure : IStructure
+        {
+            val.Read(buffer);
+            return val;
+        }
 
         protected T[] InitArray<T>(int count) where T : new()
         {

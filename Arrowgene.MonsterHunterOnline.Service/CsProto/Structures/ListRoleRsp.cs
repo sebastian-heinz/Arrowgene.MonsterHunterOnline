@@ -18,19 +18,19 @@ public class ListRoleRsp : Structure
     /// <summary>
     /// 0为成功，其他是错误码
     /// </summary>
-    public uint ErrNo;
+    public uint ErrNo { get; set; }
 
     /// <summary>
     /// 封号时间
     /// </summary>
-    public uint BanTime;
+    public uint BanTime { get; set; }
 
     /// <summary>
     /// 最后登陆角色的Index
     /// </summary>
-    public uint LastLoinRoleIndex;
+    public uint LastLoinRoleIndex { get; set; }
 
-    public List<RoleBaseInfo> RoleList;
+    public List<RoleBaseInfo> RoleList { get; }
 
     public override void Write(IBuffer buffer)
     {
