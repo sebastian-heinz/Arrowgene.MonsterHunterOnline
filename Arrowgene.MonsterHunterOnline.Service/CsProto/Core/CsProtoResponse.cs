@@ -68,6 +68,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public static CsProtoStructurePacket<ActorStopMoveNtf> ActorStopMoveNtf =>
             new(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_STOPMOVE);
 
+        public static CsProtoStructurePacket<UpdateRushState> UpdateRushState =>
+            new(CS_CMD_ID.CS_CMD_UPDATE_RUSHSTATE);
+
         /// <summary>
         /// C2表现FIFO同步消息
         /// C2 represents FIFO synchronization messages
