@@ -90,9 +90,9 @@ All structures are located in the `/CsProto/Structures/` folder.
 
 The Structure name should follow the name in the `csproto.xml` file, without the `Cs` prefix.
 
-They need to extend the `CsStructure` class, as it provides convenience methods for parsing.
+They need to extend the `Structure` class, as it provides convenience methods for parsing.
 ```
-public class MultiNetIpInfo : CsStructure
+public class MultiNetIpInfo : Structure
 ```
 
 All its properties, and array values should be initialized in the constructor:
@@ -137,7 +137,38 @@ This section covers the protocol and workings in more depth.
 ## Protocol
 The protocol to communicate is called "TDPU" (Transaction Protocol Data Unit).
 
+# Guidelines
+## Git 
+### Workflow
+The work on this project should happen via `feature-branches`
+   
+Feature branches (or sometimes called topic branches) are used to develop new features for the upcoming or a distant future release. 
+When starting development of a feature, the target release in which this feature will be incorporated may well be unknown at that point. 
+The essence of a feature branch is that it exists as long as the feature is in development, 
+but will eventually be merged back into develop (to definitely add the new feature to the upcoming release) or discarded (in case of a disappointing experiment).
+   
+1) Create a new `feature/feature-name` or `fix/bug-fix-name` branch from master
+2) Push all your changes to that branch
+3) Create a Pull Request to merge that branch into `master`
 
+## Best Practise
+- Do not use Console.WriteLine etc, use the specially designed logger.
+- Own the Code: extract solutions, discard libraries.
+- Annotate functions with documentation comments (https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments).
+
+## C# Coding Standards and Naming Conventions
+| Object Name               | Notation    | Char Mask          | Underscores |
+|:--------------------------|:------------|:-------------------|:------------|
+| Class name                | PascalCase  | [A-z][0-9]         | No          |
+| Constructor name          | PascalCase  | [A-z][0-9]         | No          |
+| Method name               | PascalCase  | [A-z][0-9]         | No          |
+| Method arguments          | camelCase   | [A-z][0-9]         | No          |
+| Local variables           | camelCase   | [A-z][0-9]         | No          |
+| Constants name            | PascalCase  | [A-z][0-9]         | No          |
+| Field name                | _camelCase  | [A-z][0-9]         | Yes         |
+| Properties name           | PascalCase  | [A-z][0-9]         | No          |
+| Delegate name             | PascalCase  | [A-z]              | No          |
+| Enum type name            | PascalCase  | [A-z]              | No          |
 
 # Connections
 These are other observed connections, but not required to be implemented for a functioning service.
