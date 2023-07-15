@@ -43,7 +43,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BagColumn = 0;
             BagGrid = 0;
             Content = "";
-            Items = new CsChatItemsPkg();
+            Items = new ChatItemsPkg();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 聊天道具数据
         /// </summary>
-        public CsChatItemsPkg Items;
+        public ChatItemsPkg Items;
 
         public void Write(IBuffer buffer)
         {

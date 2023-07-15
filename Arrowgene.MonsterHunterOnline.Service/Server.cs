@@ -84,8 +84,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new C2SCmdShopRefreshShopsHandler());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsPassTimeReq());
             _csProtoPacketHandler.AddHandler(new CS2CmdDemonTrailGetLevelsReqHandler());
-            //_csProtoPacketHandler.AddHandler(new CsCmdChangeTownInstanceReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdChatBroadcastReqHandler(Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdChatEncryptData(_csProtoPacketHandler, Chat));
             _csProtoPacketHandler.AddHandler(new CsCmdCheckVersionHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdClientSendLogHandler());
@@ -110,19 +108,20 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new BattleActorIdleMoveHandler());
             _csProtoPacketHandler.AddHandler(new BattleActorMoveStateHandler());
             _csProtoPacketHandler.AddHandler(new BattleActorStopMoveHandler());
-            _csProtoPacketHandler.AddHandler(new UpdateRushStateHandler());
+            _csProtoPacketHandler.AddHandler(new ChangeTownInstanceReqHandler());
+            _csProtoPacketHandler.AddHandler(new ChatBroadcastReqHandler(Chat));
             _csProtoPacketHandler.AddHandler(new CreateRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
             _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
+            _csProtoPacketHandler.AddHandler(new UpdateRushStateHandler());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
-            _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
-            _csProtoPacketHandler.AddHandler(new ChangeTownInstanceReqHandler());
 
 
             _tpduConsumer.AddHandler(new TdpuCmdRelay(Database));

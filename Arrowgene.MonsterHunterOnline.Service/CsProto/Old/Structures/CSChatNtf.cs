@@ -56,7 +56,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Content = "";
             SendByMe = 0;
             ContainBanWords = 0;
-            Items = new CsChatItemsPkg();
+            Items = new ChatItemsPkg();
             SrcLevel = 0;
             SrcGuildName = "";
             SrcHunterStar = "";
@@ -146,7 +146,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 聊天道具数据
         /// </summary>
-        public CsChatItemsPkg Items;
+        public ChatItemsPkg Items;
 
         /// <summary>
         /// 源玩家普通等级, 如果满级的话就是HR等级

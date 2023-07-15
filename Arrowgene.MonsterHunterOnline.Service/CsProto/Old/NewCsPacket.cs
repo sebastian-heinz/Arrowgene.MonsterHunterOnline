@@ -999,13 +999,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<Err>(CS_CMD_ID.S2C_CMD_ERR, structure);
         }
 
-        /// <summary>
-        /// 客户端发送的广播聊天请求
-        /// </summary>
-        public static CsTPacket<CSChatBroadcastReq> ChatBroadcastReq(CSChatBroadcastReq structure)
-        {
-            return new CsTPacket<CSChatBroadcastReq>(CS_CMD_ID.CS_CMD_CHAT_BROADCAST_REQ, structure);
-        }
+
 
         /// <summary>
         /// 客户端发送的密语和私聊聊天请求

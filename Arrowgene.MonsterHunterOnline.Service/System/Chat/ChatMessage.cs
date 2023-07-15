@@ -5,11 +5,13 @@ public class ChatMessage
     public Client Client { get; }
     public string Message { get; }
     public ChannelType Channel { get; }
+    public bool Deliver { get; set; }
 
     public ChatMessage(Client client, ChannelType channel, string message)
     {
         Client = client;
         Channel = channel;
         Message = message;
+        Deliver = true;
     }
 }

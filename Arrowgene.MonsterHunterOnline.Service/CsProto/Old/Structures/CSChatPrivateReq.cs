@@ -43,7 +43,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ChannelType = 0;
             Content = "";
             TargetName = "";
-            Items = new CsChatItemsPkg();
+            Items = new ChatItemsPkg();
             TargetSvrId = 0;
         }
 
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 聊天道具数据
         /// </summary>
-        public CsChatItemsPkg Items;
+        public ChatItemsPkg Items;
 
         /// <summary>
         /// 目标玩家服ID
