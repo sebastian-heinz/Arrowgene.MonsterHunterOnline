@@ -5,6 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System;
+using System.Globalization;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -57,8 +58,8 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                     string filename = fields[1];
                     string areaName = fields[2];
                     string name = fields[3].Trim();
-                    string pos = fields[4];
-                    string rotate = fields[5];
+                    string pos = fields[5];
+                    string rotate = fields[6];
                     //Logger.Error($"warp names: ({triggerName}) ({name}), {name.Contains(triggerName) || triggerName.Contains(name)}");
                     //Logger.Error($"stage match found: ({levelId})({filename})({areaName})({name})");
                     if (name.Contains(triggerName) || triggerName.Contains(name))
@@ -67,14 +68,14 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                         string[] posValues = pos.Split(',');
                         string[] rotateValues = rotate.Split(',');
 
-                        float posX = float.Parse(posValues[0]);
-                        float posY = float.Parse(posValues[1]);
-                        float posZ = float.Parse(posValues[2]);
+                        float posX = float.Parse(posValues[0], CultureInfo.InvariantCulture);
+                        float posY = float.Parse(posValues[1], CultureInfo.InvariantCulture);
+                        float posZ = float.Parse(posValues[2], CultureInfo.InvariantCulture);
 
-                        float rotateX = float.Parse(rotateValues[0]);
-                        float rotateY = float.Parse(rotateValues[1]);
-                        float rotateZ = float.Parse(rotateValues[2]);
-                        float rotateW = float.Parse(rotateValues[3]);
+                        float rotateX = float.Parse(rotateValues[0], CultureInfo.InvariantCulture);
+                        float rotateY = float.Parse(rotateValues[1], CultureInfo.InvariantCulture);
+                        float rotateZ = float.Parse(rotateValues[2], CultureInfo.InvariantCulture);
+                        float rotateW = float.Parse(rotateValues[3], CultureInfo.InvariantCulture);
 
                         CSQuatT TargetPos = new CSQuatT()
                         {
