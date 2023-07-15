@@ -18,18 +18,17 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
     public override void Handle(Client client, ChangeTownInstanceReq req)
     {
-        string csvFile = "ChangeTown.csv";
-        string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
-        string csvPath = Path.Combine(desiredDirectory, csvFile);
+        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
+        string csvPath = Path.Combine(staticFolder, "ChangeTown.csv");
         int level = req.LevelId;
         if (level < 100)
         {
             level = client.State.levelId;
         }
-        string triggerName = (req.trigger_name).Trim(' ', '\t', '\u00A0', '\x00');
+        string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
         if (triggerName.Length < 5)
         {
-            triggerName = req.dstpoint;
+            triggerName = req.DstPoint;
         }
         CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
         TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
@@ -117,7 +116,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
                             CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
                             ChangeTownInstance.Structure.ErrCode = 0;
-                            ChangeTownInstance.Structure.LevelID = level;
+                            ChangeTownInstance.Structure.LevelId = level;
 
                             client.SendCsProtoStructurePacket(ChangeTownInstance);
 
@@ -127,7 +126,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                             PlayerTeleport.Structure.NetObjId = 1;
                             PlayerTeleport.Structure.Region = 1;
                             PlayerTeleport.Structure.TargetPos = TargetPosition;
-                            PlayerTeleport.Structure.ParentGUID = 1;
+                            PlayerTeleport.Structure.ParentGuid = 1;
                             PlayerTeleport.Structure.InitState = 1;
                             client.SendCsProtoStructurePacket(PlayerTeleport);
 
@@ -138,7 +137,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                         }
                     }
                 }
-                Logger.Error($"Warp point not found {req.trigger_name}, {req.LevelId}, {req.dstpoint}");
+                Logger.Error($"Warp point not found {req.TriggerName}, {req.LevelId}, {req.DstPoint}");
             }
 
         }
@@ -147,7 +146,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
             CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
             ChangeTownInstance.Structure.ErrCode = 0;
-            ChangeTownInstance.Structure.LevelID = level;
+            ChangeTownInstance.Structure.LevelId = level;
             client.SendCsProtoStructurePacket(ChangeTownInstance);
 
             client.SendCsPacket(NewCsPacket.PlayerTeleport(new CSPlayerTeleport()

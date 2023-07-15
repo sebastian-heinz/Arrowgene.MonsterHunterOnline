@@ -33,9 +33,9 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
         }
 
         string instanceLevelId = client.State.levelId.ToString();
-        string csvFile = "RegionJump.csv";
-        string desiredDirectory = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName);
-        string filePath = Path.Combine(desiredDirectory, csvFile);
+        
+        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
+        string filePath = Path.Combine(staticFolder, "RegionJump.csv");
 
         using (TextFieldParser parser = new TextFieldParser(filePath))
         {
