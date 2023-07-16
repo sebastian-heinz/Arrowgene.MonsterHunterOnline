@@ -6,6 +6,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -16,27 +17,34 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_PLAYER_REGION_JUMP_REQ;
 
-
+    static int GetLevelNumber(string id)
+    {
+        if (id.StartsWith("4"))
+        {
+            string levelId = id.Substring(1, 2);
+            return Convert.ToInt32(levelId);
+        }
+        else if (id.StartsWith("1"))
+        {
+            string levelId = id.Substring(2, 2);
+            return Convert.ToInt32(levelId);
+        }
+        else
+        {
+            return -1; // Invalid ID
+        }
+    }
     public override void Handle(Client client, PlayerRegionJumpReq req)
     {
         //CSVec3 coords = req.PlayerPos;
         string triggerName = (req.TriggerName).Trim(' ', '\t', '\u00A0', '\x00');
         //Logger.Info($"Teleport Info: ({triggerName})");
 
-        //the warp zones for mezeporta since its handled attrociously 
-        if (triggerName == "Teleport_To_Main_Area" && client.State.levelId == 180201)
-        {
-            triggerName = "Teleport_To_Main_Area_Point";
-        }
-        if (triggerName == "Teleport_To_MainArea" && client.State.levelId == 180201)
-        {
-            triggerName = "Teleport_To_Main_AreaPoint";
-        }
-
         string instanceLevelId = client.State.levelId.ToString();
         
         string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
         string filePath = Path.Combine(staticFolder, "RegionJump.csv");
+        bool isMatch = false;
 
         using (TextFieldParser parser = new TextFieldParser(filePath))
         {
@@ -49,9 +57,20 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
             {
                 string[] fields = parser.ReadFields();
                 string levelId = fields[0];
-                bool isMatch = !string.IsNullOrEmpty(levelId) &&
-                    !string.IsNullOrEmpty(instanceLevelId) &&
-                    (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
+
+                if ((!string.IsNullOrEmpty(levelId)) && (levelId.Length < 5))
+                {
+                    if (int.Parse(levelId) == GetLevelNumber(instanceLevelId))
+                    {
+                        isMatch = true;
+                    }
+                }
+                else
+                {
+                    isMatch = !string.IsNullOrEmpty(levelId) &&
+                        !string.IsNullOrEmpty(instanceLevelId) &&
+                        (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
+                }
 
                 if (isMatch)
                 {
@@ -62,7 +81,7 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                     string rotate = fields[6];
                     //Logger.Error($"warp names: ({triggerName}) ({name}), {name.Contains(triggerName) || triggerName.Contains(name)}");
                     //Logger.Error($"stage match found: ({levelId})({filename})({areaName})({name})");
-                    if (name.Contains(triggerName) || triggerName.Contains(name))
+                    if (name == triggerName)
                     {
                         // Process the position (Pos) and rotation (Rotate) values
                         string[] posValues = pos.Split(',');
@@ -94,6 +113,7 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                         PlayerRegionJump.Structure.Transform = TargetPos;
 
                         client.SendCsProtoStructurePacket(PlayerRegionJump);
+                        return;
                     }
                 }
             }
