@@ -40,10 +40,33 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
         //Logger.Info($"Teleport Info: ({triggerName})");
 
         string instanceLevelId = client.State.levelId.ToString();
-        
+
         string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
         string filePath = Path.Combine(staticFolder, "RegionJump.csv");
+        string levelPath = Path.Combine(staticFolder, "LevelIDs.csv");
         bool isMatch = false;
+        string cryLevel = "";
+        bool cryMatch = false;
+
+        using (TextFieldParser parser = new TextFieldParser(levelPath))
+        {
+            parser.TextFieldType = FieldType.Delimited;
+            parser.SetDelimiters(",");
+
+            // Skip the header line
+            parser.ReadLine();
+            while (!parser.EndOfData)
+            {
+                string[] fields = parser.ReadFields();
+                string levelId = fields[0];
+                if (instanceLevelId == levelId)
+                {
+                    cryLevel = fields[1];
+                    cryMatch = true;
+                    break;
+                }
+            }
+        }
 
         using (TextFieldParser parser = new TextFieldParser(filePath))
         {
@@ -57,20 +80,31 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                 string[] fields = parser.ReadFields();
                 string levelId = fields[0];
 
-                if ((!string.IsNullOrEmpty(levelId)) && (levelId.Length < 5))
+                if (cryMatch)
                 {
-                    if (int.Parse(levelId) == GetLevelNumber(instanceLevelId))
+                    string levelName = fields[1];
+
+                    if (cryLevel == levelName)
                     {
                         isMatch = true;
                     }
                 }
                 else
                 {
-                    isMatch = !string.IsNullOrEmpty(levelId) &&
-                        !string.IsNullOrEmpty(instanceLevelId) &&
-                        (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
+                    if ((!string.IsNullOrEmpty(levelId)) && (levelId.Length < 5))
+                    {
+                        if (int.Parse(levelId) == GetLevelNumber(instanceLevelId))
+                        {
+                            isMatch = true;
+                        }
+                    }
+                    else
+                    {
+                        isMatch = !string.IsNullOrEmpty(levelId) &&
+                            !string.IsNullOrEmpty(instanceLevelId) &&
+                            (instanceLevelId.Contains(levelId) || levelId.Contains(instanceLevelId));
+                    }
                 }
-
                 if (isMatch)
                 {
                     string filename = fields[1];

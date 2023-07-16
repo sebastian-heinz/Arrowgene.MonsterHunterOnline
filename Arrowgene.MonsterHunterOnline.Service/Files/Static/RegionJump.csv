@@ -1,4 +1,4 @@
-﻿LevelId,Filename,Area_Name,Name,Matching_Name,Pos,Rotate
+﻿LevelId,CryLevel,DisplayName,Name,Matching_Name,Pos,Rotate
 ,arena_001,,SwitchRegionTrigger1,MHPlayerSpawnPoint2,"1406.3965,704.26306,30.134357","1,0,0,0"
 ,arena_004,,SwitchRegionTrigger2_3,MHPlayerSpawnPoint2_3,"2309.991,725.89178,84.0625","-0.20791176,0,0,0.97814757"
 ,arena_004,,SwitchRegionTrigger7_10,MHPlayerSpawnPoint7_10,"3149.1553,1002.6658,184.62604","0.56640625,0,0,-0.82412624"

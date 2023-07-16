@@ -1,5 +1,4 @@
-﻿using Arrowgene.Buffers;
-using Arrowgene.Logging;
+﻿using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
