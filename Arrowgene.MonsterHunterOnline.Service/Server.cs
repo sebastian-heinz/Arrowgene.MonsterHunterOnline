@@ -122,6 +122,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());
             _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
+            _csProtoPacketHandler.AddHandler(new PlayerRegionJumpEndHandler());
             _csProtoPacketHandler.AddHandler(new ChangeTownInstanceReqHandler());
 
 
