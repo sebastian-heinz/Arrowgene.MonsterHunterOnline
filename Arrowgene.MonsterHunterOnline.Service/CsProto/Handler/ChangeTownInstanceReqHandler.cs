@@ -7,6 +7,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
+using System.Globalization;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -18,8 +19,9 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
     public override void Handle(Client client, ChangeTownInstanceReq req)
     {
-        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
+        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files\\Static");
         string csvPath = Path.Combine(staticFolder, "ChangeTown.csv");
+        //Logger.Info($"staticfolder:{staticFolder}\n csvpath:{csvPath}");
         int level = req.LevelId;
         if (level < 100)
         {
@@ -82,10 +84,12 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                             if (("FarmToVillageTrigger".Contains(triggerName) || triggerName.Contains("FarmToVillageTrigger")) || ("FromGuildCampToVillage".Contains(triggerName) || triggerName.Contains("FromGuildCampToVillage")))
                             {
                                 level = client.State.prevLevelId;
+                                Logger.Info($"tp from guild or farm");
                             }
                             else if (dstPoint.Length > 4)
                             {
                                 level = int.Parse(dstPoint);
+                                Logger.Info($"tp not from guild or farm ");
                             }
                             instanceInitInfo.LevelId = level;
                             //Logger.Info($"warp point match found: ({levelId})({filename})({areaName})({name})");
@@ -93,14 +97,16 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                             string[] posValues = pos.Split(',');
                             string[] rotateValues = rotate.Split(',');
 
-                            float posX = float.Parse(posValues[0]);
-                            float posY = float.Parse(posValues[1]);
-                            float posZ = float.Parse(posValues[2]);
 
-                            float rotateX = float.Parse(rotateValues[0]);
-                            float rotateY = float.Parse(rotateValues[1]);
-                            float rotateZ = float.Parse(rotateValues[2]);
-                            float rotateW = float.Parse(rotateValues[3]);
+
+                            float posX = float.Parse(posValues[0], CultureInfo.InvariantCulture);
+                            float posY = float.Parse(posValues[1], CultureInfo.InvariantCulture);
+                            float posZ = float.Parse(posValues[2], CultureInfo.InvariantCulture);
+
+                            float rotateX = float.Parse(rotateValues[0], CultureInfo.InvariantCulture);
+                            float rotateY = float.Parse(rotateValues[1], CultureInfo.InvariantCulture);
+                            float rotateZ = float.Parse(rotateValues[2], CultureInfo.InvariantCulture);
+                            float rotateW = float.Parse(rotateValues[3], CultureInfo.InvariantCulture);
 
 
                             CSQuatT TargetPosition = new CSQuatT()
@@ -111,7 +117,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                                     v = new CSVec3() { x = rotateX, y = rotateY, z = rotateZ },
                                     w = rotateW
                                 },
-                                t = new CSVec3() { x = posX, y = posY, z = posZ }
+                                t = new CSVec3() { x = (float)posX, y = (float)posY, z = (float)posZ }
                             };
 
                             CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
@@ -123,8 +129,9 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
 
                             CsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
                             PlayerTeleport.Structure.SyncTime = 1;
-                            PlayerTeleport.Structure.NetObjId = 1;
-                            PlayerTeleport.Structure.Region = 1;
+                            //One day netobjid would not be the character id ?
+                            PlayerTeleport.Structure.NetObjId = client.Character.Id;
+                            PlayerTeleport.Structure.Region = level;
                             PlayerTeleport.Structure.TargetPos = TargetPosition;
                             PlayerTeleport.Structure.ParentGuid = 1;
                             PlayerTeleport.Structure.InitState = 1;

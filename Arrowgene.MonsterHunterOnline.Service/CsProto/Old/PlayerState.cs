@@ -9,6 +9,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat;
 using Arrowgene.MonsterHunterOnline.Service.Tdr;
 
@@ -364,6 +365,36 @@ public class PlayerState
             _client.SendCsProtoStructurePacket(townServerInitNtf);
             prevLevelId = levelId;
             levelId = instanceInitInfo.LevelId;
+        }
+        else if (chatMessage.Message == "tp")
+        {
+
+            CsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
+            PlayerTeleport.Structure.SyncTime = 1;
+            PlayerTeleport.Structure.NetObjId = _client.Character.Id;
+            PlayerTeleport.Structure.Region = 180201; // 180201 = meze
+            PlayerTeleport.Structure.TargetPos = new CSQuatT()
+            {
+                q = new CSQuat()
+                {
+                    v = new CSVec3()
+                    {
+                        x = 10,
+                        y = 10,
+                        z = 10
+                    },
+                    w = 10
+                },
+                t = new CSVec3()
+                {
+                    x = 1169.375f,
+                    y = 1186.6145f,
+                    z = 32.703117f
+                }
+            };
+            PlayerTeleport.Structure.ParentGuid = 1;
+            PlayerTeleport.Structure.InitState = 1;
+            _client.SendCsProtoStructurePacket(PlayerTeleport);
         }
     }
 
