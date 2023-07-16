@@ -5,7 +5,6 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Microsoft.VisualBasic.FileIO;
 using System.IO;
-using System;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using System.Globalization;
 

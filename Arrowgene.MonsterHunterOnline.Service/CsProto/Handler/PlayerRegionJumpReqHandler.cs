@@ -6,7 +6,6 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
