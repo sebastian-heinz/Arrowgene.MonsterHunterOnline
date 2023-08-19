@@ -45,14 +45,14 @@ public class CsCmdChatEncryptData : ICsProtoHandler
 
         // TODO it seemed like i received unwrapped chat messages sometimes
 
-        StreamBuffer buf = new StreamBuffer(decData);
-        buf.SetPositionStart();
-        uint channelType = buf.ReadUInt32(Endianness.Big);
-        int contentLen = buf.ReadInt32(Endianness.Big);
-        string content = buf.ReadString(contentLen);
+    //   StreamBuffer buf = new StreamBuffer(decData);
+    //   buf.SetPositionStart();
+    //   uint channelType = buf.ReadUInt32(Endianness.Big);
+    //   int contentLen = buf.ReadInt32(Endianness.Big);
+    //   string content = buf.ReadString(contentLen);
 
-        ChatMessage message = new ChatMessage(client, (ChannelType)channelType, content);
-        _chatSystem.Handle(message);
+    //   ChatMessage message = new ChatMessage(client, (ChannelType)channelType, content);
+    //   _chatSystem.Handle(message);
 
 
         // CSChatBroadcastReq

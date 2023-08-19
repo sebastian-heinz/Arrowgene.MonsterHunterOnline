@@ -999,21 +999,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<Err>(CS_CMD_ID.S2C_CMD_ERR, structure);
         }
 
-        /// <summary>
-        /// 客户端发送的广播聊天请求
-        /// </summary>
-        public static CsTPacket<CSChatBroadcastReq> ChatBroadcastReq(CSChatBroadcastReq structure)
-        {
-            return new CsTPacket<CSChatBroadcastReq>(CS_CMD_ID.CS_CMD_CHAT_BROADCAST_REQ, structure);
-        }
 
-        /// <summary>
-        /// 客户端发送的密语和私聊聊天请求
-        /// </summary>
-        public static CsTPacket<CSChatPrivateReq> ChatPrivateReq(CSChatPrivateReq structure)
-        {
-            return new CsTPacket<CSChatPrivateReq>(CS_CMD_ID.CS_CMD_CHAT_PRIVATE_REQ, structure);
-        }
 
         /// <summary>
         /// 发送给客户端的聊天请求错误返回
@@ -1022,15 +1008,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSChatRsp>(CS_CMD_ID.CS_CMD_CHAT_RSP, structure);
         }
-
-        /// <summary>
-        /// 发送给客户端的其他玩家聊天信息通知
-        /// </summary>
-        public static CsTPacket<CSChatNtf> ChatNtf(CSChatNtf structure)
-        {
-            return new CsTPacket<CSChatNtf>(CS_CMD_ID.CS_CMD_CHAT_NTF, structure);
-        }
-
+        
         /// <summary>
         /// 系统提示
         /// </summary>
