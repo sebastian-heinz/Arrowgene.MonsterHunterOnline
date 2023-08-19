@@ -35,8 +35,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
             instanceInitInfo.CreatePlayerMaxLv = 99;
 
             client.SendCsProtoStructurePacket(townServerInitNtf);
-            //prevLevelId = levelId;
-            //levelId = instanceInitInfo.LevelId;
+
+            // TODO, perhaps refactor to a change level method somewhere to handle
+            client.State.prevLevelId = client.State.levelId;
+            client.State.levelId = instanceInitInfo.LevelId;
         }
     }
 }
