@@ -5,7 +5,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
     public abstract class ChatCommand
     {
         public abstract void Execute(string[] command, Client client, ChatMessage message,
-            List<ChatResponse> responses);
+            List<ChatMessage> responses);
 
         public abstract AccountType Account { get; }
         public abstract string Key { get; }

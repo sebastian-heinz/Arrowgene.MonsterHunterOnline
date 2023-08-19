@@ -6,6 +6,8 @@ using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
 using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat;
+using Arrowgene.MonsterHunterOnline.Service.System.Chat.Command;
+using Arrowgene.MonsterHunterOnline.Service.System.Chat.Log;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Web;
@@ -46,8 +48,10 @@ namespace Arrowgene.MonsterHunterOnline.Service
                 _battleServerConsumer,
                 Setting.SocketSettings
             );
-            Chat = new ChatSystem();
+
+            ClientManager = new ClientManager();
             CharacterManager = new CharacterManager(Database);
+            Chat = new ChatSystem(ClientManager);
 
             LoadPacketHandler();
 
@@ -58,6 +62,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public Setting Setting { get; }
         public ChatSystem Chat { get; }
         public CharacterManager CharacterManager { get; }
+        public ClientManager ClientManager { get; }
         public IDatabase Database { get; }
 
         private IDatabase CreateDatabase()
@@ -129,6 +134,9 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _tpduConsumer.AddHandler(new TpduCmdSynAckHandler());
             _tpduConsumer.AddHandler(new TpduCmdNoneHandler(_csProtoPacketHandler));
             _tpduConsumer.AddHandler(new TpduCmdCloseHandler());
+
+            Chat.AddHandler(new ChatLogHandler());
+            Chat.AddHandler(new ChatCommandHandler(this));
         }
 
         public void Start()

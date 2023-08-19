@@ -94,6 +94,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             buffer.WriteByte(val);
         }
 
+        protected void WriteBool(IBuffer buffer, bool val)
+        {
+            buffer.WriteByte(val ? (byte)1 : (byte)0);
+        }
+
+        protected bool ReadBool(IBuffer buffer)
+        {
+            byte b = buffer.ReadByte();
+            return b != 0;
+        }
+
         protected void WriteFloat(IBuffer buffer, float val)
         {
             buffer.WriteFloat(val, Endianness.Big);

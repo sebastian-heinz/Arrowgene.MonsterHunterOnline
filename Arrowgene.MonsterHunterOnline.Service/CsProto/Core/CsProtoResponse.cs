@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         /// </summary>
         public static CsProtoStructurePacket<FifoSyncInfoNtf> FifoSyncInfoNtf =>
             new(CS_CMD_ID.CS_CMD_BATTLE_ACTOR_FIFO_SYNC_NTF);
-        
+
         /// <summary>
         /// 服务器强制状态变化消息
         /// Server force state change message
@@ -101,5 +101,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         // ServerSyncMsgNtf  type="CSServerSyncInfoNtf" id="CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF" desc="服务器强制状态变化消息"/> Server force state change message
         // FIFOSyncMsgNtf    type="CSFIFOSyncInfoNtf" id="CS_CMD_BATTLE_ACTOR_FIFO_SYNC_NTF" desc="C2表现FIFO同步消息"/> C2 represents FIFO synchronization messages
         // FIFOSyncMsg       type="CSFIFOSyncInfo" id="CS_CMD_BATTLE_ACTOR_FIFO_SYNC" desc="FIFO同步消息"/> FIFO synchronization message
+        
+        public static CsProtoStructurePacket<ChatNtf> ChatNtf =>
+            new(CS_CMD_ID.CS_CMD_CHAT_NTF);
     }
 }

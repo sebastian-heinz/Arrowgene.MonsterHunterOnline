@@ -18,6 +18,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
         {
             _commands = new Dictionary<string, ChatCommand>();
             AddCommand(new VersionCommand());
+            AddCommand(new TownInitCommand());
         }
 
         public void AddCommand(ChatCommand command)
@@ -25,7 +26,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             _commands.Add(command.KeyToLowerInvariant, command);
         }
 
-        public void Handle(Client client, ChatMessage message, List<ChatResponse> responses)
+        public void Handle(Client client, ChatMessage message, List<ChatMessage> responses)
         {
             if (client == null)
             {
@@ -51,7 +52,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             if (command.Length <= 0)
             {
                 Logger.Error(client, $"Command '{message.Message}' is invalid");
-                responses.Add(ChatResponse.CommandError(client, $"Command '{message.Message}' is invalid"));
+                responses.Add(ChatMessage.CommandError(client, $"Command '{message.Message}' is invalid"));
                 return;
             }
 
@@ -59,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             if (!_commands.ContainsKey(commandKey))
             {
                 Logger.Error(client, $"Command '{commandKey}' does not exist");
-                responses.Add(ChatResponse.CommandError(client, $"Command does not exist: {commandKey}"));
+                responses.Add(ChatMessage.CommandError(client, $"Command does not exist: {commandKey}"));
                 return;
             }
 
@@ -68,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             {
                 Logger.Error(client,
                     $"Not entitled to execute command '{chatCommand.Key}' (State < Required: {client.Account.AccountType} < {chatCommand.Account})");
-                responses.Add(ChatResponse.CommandError(client, $"Not authorized to execute this command"));
+                responses.Add(ChatMessage.CommandError(client, $"Not authorized to execute this command"));
                 return;
             }
 

@@ -35,7 +35,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public override void Read(IBuffer buffer)
         {
             ReadList(buffer, Items, CsProtoConstant.CS_CHAT_ITEMS_LEN, ReadInt32, ReadByte);
-            ReadList(buffer, SoulStoneArray, CsProtoConstant.CS_MAX_SOUL_STONE_ATTR_COUNT, ReadInt32, ReadInt32);
+
+            // TODO the client seems not to send the full structure, attempting to reading this list
+            // for a local chat message will fail. (for handler ID: CS_CMD_CHAT_BROADCAST_REQ)
+            // ReadList(buffer, SoulStoneArray, CsProtoConstant.CS_MAX_SOUL_STONE_ATTR_COUNT, ReadInt32, ReadInt32);
         }
     }
 }

@@ -1016,15 +1016,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSChatRsp>(CS_CMD_ID.CS_CMD_CHAT_RSP, structure);
         }
-
-        /// <summary>
-        /// 发送给客户端的其他玩家聊天信息通知
-        /// </summary>
-        public static CsTPacket<CSChatNtf> ChatNtf(CSChatNtf structure)
-        {
-            return new CsTPacket<CSChatNtf>(CS_CMD_ID.CS_CMD_CHAT_NTF, structure);
-        }
-
+        
         /// <summary>
         /// 系统提示
         /// </summary>

@@ -11,12 +11,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
         public override string Key => "version";
         public override string HelpText => "usage: `/version` - Provides information about the running server version";
 
-        public override void Execute(string[] command, Client client, ChatMessage message, List<ChatResponse> responses)
+        public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
         {
-            ChatResponse response = new ChatResponse();
-            response.Message = Util.GetVersion("Service");
+            string msg = Util.GetVersion("Service");
+            ChatMessage response = ChatMessage.CommandMessage(client, msg);
             responses.Add(response);
-           // responses.Add(ChatResponse.ServerMessage(client, "Command Executed"));
         }
     }
 }
