@@ -1002,14 +1002,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 
 
         /// <summary>
-        /// 客户端发送的密语和私聊聊天请求
-        /// </summary>
-        public static CsTPacket<CSChatPrivateReq> ChatPrivateReq(CSChatPrivateReq structure)
-        {
-            return new CsTPacket<CSChatPrivateReq>(CS_CMD_ID.CS_CMD_CHAT_PRIVATE_REQ, structure);
-        }
-
-        /// <summary>
         /// 发送给客户端的聊天请求错误返回
         /// </summary>
         public static CsTPacket<CSChatRsp> ChatRsp(CSChatRsp structure)

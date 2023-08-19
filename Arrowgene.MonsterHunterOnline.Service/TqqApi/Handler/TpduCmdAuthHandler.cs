@@ -83,6 +83,9 @@ public class TpduCmdAuthHandler : TdpuStructureHandler<TqqExtAuthInfo>
             return;
         }
 
+        // TODO temporary elevated all accounts
+        account.AccountType = AccountType.Admin;
+        
         client.Account = account;
         Logger.Info(client, $"Authentication Success (Uin:{uin})");
 
