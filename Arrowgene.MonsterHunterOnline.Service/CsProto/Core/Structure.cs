@@ -1,15 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Text.Json;
 using Arrowgene.Buffers;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
     public abstract class Structure : IStructure
     {
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            IncludeFields = true, // TODO for now cause of old types not using get/set
+        };
+
         public abstract void Write(IBuffer buffer);
         public abstract void Read(IBuffer buffer);
 
+        public string JsonDump()
+        {
+            return JsonSerializer.Serialize(this, GetType(), JsonSerializerOptions);
+        }
 
         protected void WriteString(IBuffer buffer, string val)
         {

@@ -30,6 +30,17 @@ public class PlayerState
     public static Server Server;
     public int levelId { get; set; }
     public int prevLevelId { get; set; }
+    public CSVec3 Position { get; set; }
+
+    public CSVec3 InitSpawnPos = new CSVec3()
+    {
+        x = 1588.4813f,
+        y = 1593.0623f,
+        z = 142.93517f
+    };
+ 
+    public int InitLevelId = 100101;
+
 
     public PlayerState(Client client)
     {

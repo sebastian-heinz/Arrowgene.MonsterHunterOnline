@@ -1138,22 +1138,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         }
 
         /// <summary>
-        /// Spawn server entity
-        /// </summary>
-        public static CsTPacket<CSSpawnSrvEnt> SpawnSrvEnt(CSSpawnSrvEnt structure)
-        {
-            return new CsTPacket<CSSpawnSrvEnt>(CS_CMD_ID.CS_CMD_SPAWN_SRVENT, structure);
-        }
-
-        /// <summary>
-        /// Spawn server entities list
-        /// </summary>
-        public static CsTPacket<CSSpawnSrvEntList> SpawnSrvEntList(CSSpawnSrvEntList structure)
-        {
-            return new CsTPacket<CSSpawnSrvEntList>(CS_CMD_ID.CS_CMD_SPAWN_SRVENTLIST, structure);
-        }
-
-        /// <summary>
         /// Remove server entity
         /// </summary>
         public static CsTPacket<CSRemoveSrvEnt> RemoveSrvEnt(CSRemoveSrvEnt structure)
@@ -1176,15 +1160,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSStateId>(CS_CMD_ID.CS_CMD_CLIENT_STATEID, structure);
         }
-
-        /// <summary>
-        /// Monster active state
-        /// </summary>
-        public static CsTPacket<CSMonsterActiveState> MonsterActiveState(CSMonsterActiveState structure)
-        {
-            return new CsTPacket<CSMonsterActiveState>(CS_CMD_ID.CS_CMD_MONSTER_ACTIVE, structure);
-        }
-
+        
         /// <summary>
         /// 新场景特效
         /// </summary>
@@ -1208,23 +1184,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSSceneEffectNtfList>(CS_CMD_ID.CS_CMD_SCENE_EFFECT_APPEAR_LIST_NTF, structure);
         }
-
-        /// <summary>
-        /// LogicEntity下发列表
-        /// </summary>
-        public static CsTPacket<CSEntityAppearNtfIDList> EntityAppearNtfIDList(CSEntityAppearNtfIDList structure)
-        {
-            return new CsTPacket<CSEntityAppearNtfIDList>(CS_CMD_ID.CS_CMD_ENTITY_APPEAR_NTF_ID_LIST, structure);
-        }
-
-        /// <summary>
-        /// LogicEntity数据同步请求
-        /// </summary>
-        public static CsTPacket<CSLoadEntityReq> LoadEntityReq(CSLoadEntityReq structure)
-        {
-            return new CsTPacket<CSLoadEntityReq>(CS_CMD_ID.CS_CMD_LOAD_ENTITY_REQ, structure);
-        }
-
+        
         /// <summary>
         /// PVP即时成就通知
         /// </summary>
@@ -1813,23 +1773,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSObjStateChange>(CS_CMD_ID.CS_CMD_BATTLE_OBJ_STATECHANGE, structure);
         }
-
-        /// <summary>
-        /// 怪物出现通知
-        /// </summary>
-        public static CsTPacket<CSMonsterAppearNtf> MonsterAppearNtf(CSMonsterAppearNtf structure)
-        {
-            return new CsTPacket<CSMonsterAppearNtf>(CS_CMD_ID.CS_CMD_MONSTER_APPEAR_NTF, structure);
-        }
-
-        /// <summary>
-        /// 怪物出现通知列表
-        /// </summary>
-        public static CsTPacket<CSMonsterAppearNtfList> MonsterAppearNtfList(CSMonsterAppearNtfList structure)
-        {
-            return new CsTPacket<CSMonsterAppearNtfList>(CS_CMD_ID.CS_CMD_MONSTER_APPEAR_NTF_LIST, structure);
-        }
-
+        
         /// <summary>
         /// 玩家出现通知
         /// </summary>
@@ -1876,22 +1820,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public static CsTPacket<CSSetTrapRsp> SetTrapRsp(CSSetTrapRsp structure)
         {
             return new CsTPacket<CSSetTrapRsp>(CS_CMD_ID.CS_CMD_SET_TRAP_RSP, structure);
-        }
-
-        /// <summary>
-        /// 场景物件出现通知
-        /// </summary>
-        public static CsTPacket<CSSceneObjAppearNtf> SceneObjAppearNtf(CSSceneObjAppearNtf structure)
-        {
-            return new CsTPacket<CSSceneObjAppearNtf>(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF, structure);
-        }
-
-        /// <summary>
-        /// 场景物件出现通知列表
-        /// </summary>
-        public static CsTPacket<CSSceneObjAppearNtfList> SceneObjAppearNtfList(CSSceneObjAppearNtfList structure)
-        {
-            return new CsTPacket<CSSceneObjAppearNtfList>(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF_LIST, structure);
         }
 
         /// <summary>

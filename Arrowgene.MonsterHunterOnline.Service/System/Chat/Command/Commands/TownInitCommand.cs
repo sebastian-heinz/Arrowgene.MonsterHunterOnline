@@ -6,7 +6,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
 {
     /// <summary>
-    /// Provides information about the running server version
+    /// Sends CS_CMD_TOWN_SERVER_INIT_NTF packet
     /// </summary>
     public class TownInitCommand : ChatCommand
     {
@@ -24,9 +24,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
 
             InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
             instanceInitInfo.BattleGroundId = 0;
-            instanceInitInfo.LevelId = 150301;
+            instanceInitInfo.LevelId = client.State.levelId;
             instanceInitInfo.CreateMaxPlayerCount = 4;
             instanceInitInfo.GameMode = GameMode.Town;
+            instanceInitInfo.GameMode = GameMode.Story;
             instanceInitInfo.TimeType = TimeType.Noon;
             instanceInitInfo.WeatherType = WeatherType.Sunny;
             instanceInitInfo.Time = 1;

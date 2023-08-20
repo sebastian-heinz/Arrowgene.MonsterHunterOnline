@@ -191,6 +191,10 @@ public class CharacterManager
         structure.Pose.t.x = 409.91379f;
         structure.Pose.t.y = 358.74976f;
         structure.Pose.t.z = 100.0f; // height
+
+        // TODO hack
+        structure.Pose.t = client.State.InitSpawnPos;
+        
         structure.Pose.q.v.x = 10;
         structure.Pose.q.v.y = 10;
         structure.Pose.q.v.z = 10;
