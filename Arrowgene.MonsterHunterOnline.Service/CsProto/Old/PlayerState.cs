@@ -38,8 +38,8 @@ public class PlayerState
         y = 1593.0623f,
         z = 142.93517f
     };
- 
-    public int InitLevelId = 100101;
+
+    public int InitLevelId = 150101;
 
 
     public PlayerState(Client client)
@@ -313,6 +313,108 @@ public class PlayerState
         int size = ast.Position - sizePos;
         ast.Position = sizePos;
         ast.WriteInt32(size, Endianness.Big); // size
+    }
+
+    public static byte[] GetEquip()
+    {
+        StreamBuffer ast = new StreamBuffer();
+        ast.WriteByte((byte)TdrTlvMagic.NoVariant);
+
+        int sizePos = ast.Position;
+        ast.WriteInt32(0, Endianness.Big); // size
+
+        // case 1
+        uint tag = TdrTlv.MakeTag(1, TdrTlvType.ID_2_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt16(1);
+
+        // case 2
+        tag = TdrTlv.MakeTag(2, TdrTlvType.ID_4_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        int subStartPos = ast.Position;
+        ast.WriteInt32(0, Endianness.Big); // sub length
+
+        for (int subEntryIndex = 0; subEntryIndex < 40; subEntryIndex++)
+        {
+            int subEntryStartPos = ast.Position;
+            ast.WriteInt32(0, Endianness.Big); // sub entry length
+
+            // sub structure - max 9
+            //case s0
+            tag = TdrTlv.MakeTag(2, TdrTlvType.ID_8_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteInt64(64439 + subEntryIndex, Endianness.Big);
+            //case s1
+            tag = TdrTlv.MakeTag(3, TdrTlvType.ID_4_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteInt32(64439 + subEntryIndex, Endianness.Big);
+            //case s2
+            tag = TdrTlv.MakeTag(4, TdrTlvType.ID_1_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteByte(1);
+            //case s3
+            tag = TdrTlv.MakeTag(5, TdrTlvType.ID_2_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteInt16(1, Endianness.Big);
+            //case s4
+            tag = TdrTlv.MakeTag(6, TdrTlvType.ID_2_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteInt16(1, Endianness.Big);
+            //case s5
+            tag = TdrTlv.MakeTag(7, TdrTlvType.ID_1_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteByte(1);
+            //case s6
+            tag = TdrTlv.MakeTag(8, TdrTlvType.ID_1_BYTE);
+            TdrBuffer.WriteVarUInt32(ast, tag);
+            ast.WriteByte(1);
+
+            //cases7 -> skip bytes
+
+            //case s8
+    //    tag = TdrTlv.MakeTag(10, TdrTlvType.ID_4_BYTE);
+    //    TdrBuffer.WriteVarUInt32(ast, tag);
+    //    ast.WriteInt32(0x20 * 1, Endianness.Big); // size, max 0x20*1
+    //    for (int i = 0; i < 0x20; i++)
+    //    {
+    //        ast.WriteByte((byte)i);
+    //    }
+
+    //    //case s9
+    //    tag = TdrTlv.MakeTag(11, TdrTlvType.ID_4_BYTE);
+    //    TdrBuffer.WriteVarUInt32(ast, tag);
+    //    ast.WriteInt32(0x20 * 4, Endianness.Big); // size, max 0x20*4
+    //    for (int i = 0; i < 0x20; i++)
+    //    {
+    //        ast.WriteInt32(i, Endianness.Big);
+    //    }
+
+            int subEntryEndPos = ast.Position;
+            int subEntrySize = ast.Position - subEntryStartPos - 4;
+            ast.Position = subEntryStartPos;
+            ast.WriteInt32(subEntrySize, Endianness.Big); // size
+            ast.Position = subEntryEndPos;
+            // end sub entry
+        }
+
+
+        int subEndPos = ast.Position;
+        int subSize = ast.Position - subStartPos - 4;
+        ast.Position = subStartPos;
+        ast.WriteInt32(subSize, Endianness.Big); // size
+        ast.Position = subEndPos;
+        // end sub structure
+
+        // case 3
+        tag = TdrTlv.MakeTag(3, TdrTlvType.ID_2_BYTE);
+        TdrBuffer.WriteVarUInt32(ast, tag);
+        ast.WriteInt16(0, Endianness.Big);
+
+
+        int size = ast.Position - sizePos + 1;
+        ast.Position = sizePos;
+        ast.WriteInt32(size, Endianness.Big); // size
+        return ast.GetAllBytes();
     }
 
     public void SendBruteForceT()

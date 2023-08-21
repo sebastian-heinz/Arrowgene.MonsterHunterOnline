@@ -27,6 +27,7 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
                 remoteData = new CSItemListRsp();
+                ((CSItemListRsp)remoteData).EquipItem.AddRange(PlayerState.GetEquip());
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                 remoteData = new PlayerLevelInitInfo();

@@ -185,14 +185,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         }
 
         /// <summary>
-        /// 副本UI操作同步请求
-        /// </summary>
-        public static CsTPacket<CSMainInstanceOptSynReq> MainInstanceSynOptReq(CSMainInstanceOptSynReq structure)
-        {
-            return new CsTPacket<CSMainInstanceOptSynReq>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_OPT_SYN_REQ, structure);
-        }
-
-        /// <summary>
         /// GM进入副本服务器请求
         /// </summary>
         public static CsTPacket<CSGMEnterInstanceReq> GMEnterInstanceReq(CSGMEnterInstanceReq structure)
@@ -239,15 +231,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSEnterInstanceCountDown>(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_COUNT_DOWN, structure);
         }
-
-        /// <summary>
-        /// 副本UI操作同步响应
-        /// </summary>
-        public static CsTPacket<CSMainInstanceOptSynRsp> MainInstanceSynOptRsp(CSMainInstanceOptSynRsp structure)
-        {
-            return new CsTPacket<CSMainInstanceOptSynRsp>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_OPT_SYN_RSP, structure);
-        }
-
+        
         /// <summary>
         /// 副本UI进入请求
         /// </summary>
