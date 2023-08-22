@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -35,9 +36,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             StoreSize = 0;
             NormalSize = 0;
             MaterialStoreSize = 0;
-            BagItem = new List<byte>();
-            EquipItem = new List<byte>();
-            StoreItem = new List<byte>();
+            BagItem = new TlvItemList();
+            EquipItem = new TlvItemList();
+            StoreItem = new TlvItemList();
             Shortcut = new List<CSShortcut>();
             Buff = new List<byte>();
             Skill = new List<byte>();
@@ -215,17 +216,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 背包道具数据
         /// </summary>
-        public List<byte> BagItem { get; }
+        public TlvItemList BagItem { get; }
 
         /// <summary>
         /// 装备数据
         /// </summary>
-        public List<byte> EquipItem { get; }
+        public TlvItemList EquipItem { get; }
 
         /// <summary>
         /// 仓库数据
         /// </summary>
-        public List<byte> StoreItem { get; }
+        public TlvItemList StoreItem { get; }
 
         /// <summary>
         /// 快捷栏数据
@@ -546,9 +547,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteUInt16(buffer, StoreSize);
             WriteUInt16(buffer, NormalSize);
             WriteUInt16(buffer, MaterialStoreSize);
-            WriteList(buffer, BagItem, CsProtoConstant.CS_ITEM_BAG_DATA_LEN, WriteInt32, WriteByte);
-            WriteList(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, WriteUInt16, WriteByte);
-            WriteList(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, WriteInt32, WriteByte);
+            WriteTlvStructure(buffer, BagItem, CsProtoConstant.CS_ITEM_BAG_DATA_LEN, WriteInt32);
+            WriteTlvStructure(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, WriteUInt16);
+            WriteTlvStructure(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, WriteInt32);
             WriteList(buffer, Shortcut, (ushort)CsProtoConstant.CS_MAX_SHORTCUT_LEN, WriteUInt16, WriteStructure);
             WriteList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, WriteUInt16, WriteByte);
             WriteList(buffer, Skill, (ushort)CsProtoConstant.CS_MAX_SKILL_DATA_LEN, WriteUInt16, WriteByte);
@@ -646,9 +647,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             StoreSize = ReadUInt16(buffer);
             NormalSize = ReadUInt16(buffer);
             MaterialStoreSize = ReadUInt16(buffer);
-            ReadList(buffer, BagItem, CsProtoConstant.CS_ITEM_BAG_DATA_LEN, ReadInt32, ReadByte);
-            ReadList(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, ReadUInt16, ReadByte);
-            ReadList(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, ReadInt32, ReadByte);
+            ReadTlvStructure(buffer, BagItem, CsProtoConstant.CS_ITEM_BAG_DATA_LEN, ReadInt32);
+            ReadTlvStructure(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, ReadUInt16);
+            ReadTlvStructure(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, ReadInt32);
             ReadList(buffer, Shortcut, (ushort)CsProtoConstant.CS_MAX_SHORTCUT_LEN, ReadUInt16,
                 ReadStructure<CSShortcut>);
             ReadList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, ReadUInt16, ReadByte);

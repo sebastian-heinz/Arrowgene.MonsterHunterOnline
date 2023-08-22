@@ -40,7 +40,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSCtrledMonsterAppearNtf()
         {
-            BaseInfo = new CSMonsterAppearNtf();
+            BaseInfo = new MonsterAppearNtf();
             OwnerId = 0;
             Type = 0;
             Duration = 0.0f;
@@ -49,7 +49,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// common monster appare info
         /// </summary>
-        public CSMonsterAppearNtf BaseInfo;
+        public MonsterAppearNtf BaseInfo;
 
         /// <summary>
         /// Owner logic entity id

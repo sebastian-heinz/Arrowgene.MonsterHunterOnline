@@ -101,8 +101,35 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         // ServerSyncMsgNtf  type="CSServerSyncInfoNtf" id="CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF" desc="服务器强制状态变化消息"/> Server force state change message
         // FIFOSyncMsgNtf    type="CSFIFOSyncInfoNtf" id="CS_CMD_BATTLE_ACTOR_FIFO_SYNC_NTF" desc="C2表现FIFO同步消息"/> C2 represents FIFO synchronization messages
         // FIFOSyncMsg       type="CSFIFOSyncInfo" id="CS_CMD_BATTLE_ACTOR_FIFO_SYNC" desc="FIFO同步消息"/> FIFO synchronization message
+
+        public static CsProtoStructurePacket<ChatNtf> ChatNtf => new(CS_CMD_ID.CS_CMD_CHAT_NTF);
+        public static CsProtoStructurePacket<SpawnSrvEnt> SpawnSrvEnt => new(CS_CMD_ID.CS_CMD_SPAWN_SRVENT);
+        public static CsProtoStructurePacket<SpawnSrvEntList> SpawnSrvEntList => new(CS_CMD_ID.CS_CMD_SPAWN_SRVENTLIST);
+
+        /// <summary>
+        /// Looks like client ignores this, send CS_CMD_MONSTER_APPEAR_NTF_LIST instead
+        /// </summary>
+        public static CsProtoStructurePacket<MonsterAppearNtf> MonsterAppearNtf =>
+            new(CS_CMD_ID.CS_CMD_MONSTER_APPEAR_NTF);
+
+        public static CsProtoStructurePacket<MonsterAppearNtfList> MonsterAppearNtfList =>
+            new(CS_CMD_ID.CS_CMD_MONSTER_APPEAR_NTF_LIST);
+
+        public static CsProtoStructurePacket<EntityAppearNtfIdList> EntityAppearNtfIdList =>
+            new(CS_CMD_ID.CS_CMD_ENTITY_APPEAR_NTF_ID_LIST);
+
+        public static CsProtoStructurePacket<MonsterActiveState> MonsterActiveState =>
+            new(CS_CMD_ID.CS_CMD_MONSTER_ACTIVE);
         
-        public static CsProtoStructurePacket<ChatNtf> ChatNtf =>
-            new(CS_CMD_ID.CS_CMD_CHAT_NTF);
+        /// <summary>
+        /// Looks like client ignores this, send CS_CMD_SCENEOBJ_APPEAR_NTF_LIST instead
+        /// </summary>
+        public static CsProtoStructurePacket<SceneObjAppearNtf> SceneObjAppearNtf =>
+            new(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF);
+        public static CsProtoStructurePacket<SceneObjAppearNtfList> SceneObjAppearNtfList =>
+            new(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF_LIST);
+        
+        public static CsProtoStructurePacket<MainInstanceOptSynRsp> MainInstanceOptSynRsp =>
+            new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_OPT_SYN_RSP);
     }
 }

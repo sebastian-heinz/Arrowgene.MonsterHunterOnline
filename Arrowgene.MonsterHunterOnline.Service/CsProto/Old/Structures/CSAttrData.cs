@@ -40,7 +40,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             AttrID = 0;
             Value = _Value;
         }
-
+        
+        public CSAttrData()
+        {
+            AttrID = 0;
+            Value = null;
+        }
+        
         public uint AttrID;
 
         /// <summary>

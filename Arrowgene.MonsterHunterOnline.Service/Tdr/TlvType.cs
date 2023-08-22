@@ -1,6 +1,6 @@
 ﻿namespace Arrowgene.MonsterHunterOnline.Service.Tdr;
 
-public enum TdrTlvType : byte
+public enum TlvType : byte
 {
     ID_VARINT = 0,
     ID_1_BYTE,

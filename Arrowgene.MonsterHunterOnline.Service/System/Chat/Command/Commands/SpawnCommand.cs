@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+
+namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
+{
+    /// <summary>
+    /// Spawns enteties
+    /// </summary>
+    public class SpawnCommand : ChatCommand
+    {
+        private static readonly ServiceLogger Logger =
+            LogProvider.Logger<ServiceLogger>(typeof(SpawnCommand));
+
+        public override AccountType Account => AccountType.Admin;
+        public override string Key => "spawn";
+        public override string HelpText => "usage: `/spawn` - spawns entity";
+
+        public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
+        {
+            CsProtoStructurePacket<EntityAppearNtfIdList> entityAppearNtfIdList = CsProtoResponse.EntityAppearNtfIdList;
+            LogicEntityId leId = new LogicEntityId();
+            leId.Type = LogicEntityType.MH_LETYPE_MONSTER;
+            leId.Id = 50080;
+            entityAppearNtfIdList.Structure.InitType = 4;
+            entityAppearNtfIdList.Structure.LogicEntityId.Add(leId.Id);
+            entityAppearNtfIdList.Structure.LogicEntityType.Add((uint)leId.Type);
+            client.SendCsProtoStructurePacket(entityAppearNtfIdList);
+        }
+    }
+}

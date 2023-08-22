@@ -120,6 +120,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new LoadEntityReqHandler());
+            _csProtoPacketHandler.AddHandler(new MainInstanceOptSynReqHandler());
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new MultiNetIpInfoHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new PlayerRegionJumpEndHandler());

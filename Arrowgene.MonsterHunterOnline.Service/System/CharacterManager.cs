@@ -4,6 +4,8 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
+using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
 
@@ -191,6 +193,10 @@ public class CharacterManager
         structure.Pose.t.x = 409.91379f;
         structure.Pose.t.y = 358.74976f;
         structure.Pose.t.z = 100.0f; // height
+
+        // TODO hack
+        structure.Pose.t = client.State.InitSpawnPos;
+
         structure.Pose.q.v.x = 10;
         structure.Pose.q.v.y = 10;
         structure.Pose.q.v.z = 10;
@@ -222,7 +228,9 @@ public class CharacterManager
         {
             structure.FacialInfo[i] = character.FacialInfo[i];
         }
-        // TODO figure out attr and other binary blobs
+        //structure.EquipItem.AddRange(PlayerState.GetEquip());
+        //structure.Pet.AddRange(PlayerState.GetPet());
+        //structure.Skill.AddRange(PlayerState.GetSkill());
     }
 
     public void SyncAllAttr(Client client)

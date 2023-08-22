@@ -15,6 +15,8 @@ public class BattleActorMoveStateHandler : CsProtoStructureHandler<ActorMoveStat
 
     public override void Handle(Client client, ActorMoveState req)
     {
+        client.State.Position = req.Location;
+        
         //Logger.Info($"Pos X:{req.Location.x} Y:{req.Location.y} Z:{req.Location.z}");
         CsProtoStructurePacket<ActorMoveStateNtf> actorMoveStateNtf = CsProtoResponse.ActorMoveStateNtf;
         actorMoveStateNtf.Structure.NetObjId = client.Character.Id;

@@ -28,7 +28,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             switch (remoteDataType)
             {
                 case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
-                    RemoteData = ReadStructure<CSItemListRsp>(buffer);
+                    RemoteData = ReadStructure<ItemListRsp>(buffer);
                     break;
                 case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                     RemoteData = ReadStructure<PlayerLevelInitInfo>(buffer);
