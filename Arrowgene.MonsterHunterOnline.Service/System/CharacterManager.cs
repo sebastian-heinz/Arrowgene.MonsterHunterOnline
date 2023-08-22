@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
-using Arrowgene.MonsterHunterOnline.Service.Tdr;
+using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
 
@@ -229,9 +228,9 @@ public class CharacterManager
         {
             structure.FacialInfo[i] = character.FacialInfo[i];
         }
-        // TODO figure out attr and other binary blobs
-
-        structure.EquipItem.AddRange(PlayerState.GetEquip());
+        //structure.EquipItem.AddRange(PlayerState.GetEquip());
+        //structure.Pet.AddRange(PlayerState.GetPet());
+        //structure.Skill.AddRange(PlayerState.GetSkill());
     }
 
     public void SyncAllAttr(Client client)

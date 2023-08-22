@@ -1,8 +1,11 @@
 ﻿namespace Arrowgene.MonsterHunterOnline.Service.Tdr;
 
-public class TdrTlv
+/**
+ * Tencent Data Representation - Type-length-value or Tag-Length-Value
+ */
+public static class Tlv
 {
-    public static uint MakeTag(int id, TdrTlvType type)
+    public static uint MakeTag(int id, TlvType type)
     {
         return (uint)(id << 4 | (int)type);
     }

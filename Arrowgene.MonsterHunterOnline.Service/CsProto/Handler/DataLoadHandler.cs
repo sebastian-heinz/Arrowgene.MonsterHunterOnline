@@ -4,6 +4,8 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -26,8 +28,17 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
         switch (req.RemoteDataType)
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
-                remoteData = new CSItemListRsp();
-                ((CSItemListRsp)remoteData).EquipItem.AddRange(PlayerState.GetEquip());
+                remoteData = new ItemListRsp();
+                ((ItemListRsp)remoteData).EquipItem.UnknownA = 1;
+                ((ItemListRsp)remoteData).EquipItem.UnknownB = 1;
+                ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
+                {
+                    Id = 1,
+                    TabType = ItemTabType.Equipment,
+                    EquipmentType = ItemEquipmentType.Weapon,
+                    ItemId = 120005,
+                    Quantity = 1,
+                });
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                 remoteData = new PlayerLevelInitInfo();

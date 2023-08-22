@@ -858,9 +858,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         /// <summary>
         /// 响应物品列表
         /// </summary>
-        public static CsTPacket<CSItemListRsp> ItemListRsp(CSItemListRsp structure)
+        public static CsTPacket<ItemListRsp> ItemListRsp(ItemListRsp structure)
         {
-            return new CsTPacket<CSItemListRsp>(CS_CMD_ID.CS_CMD_ITEM_LIST_RSP, structure);
+            return new CsTPacket<ItemListRsp>(CS_CMD_ID.CS_CMD_ITEM_LIST_RSP, structure);
         }
 
         /// <summary>

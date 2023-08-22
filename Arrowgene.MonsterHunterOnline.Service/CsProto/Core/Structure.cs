@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text.Json;
 using Arrowgene.Buffers;
+using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.Tdr;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
     public abstract class Structure : IStructure
     {
+        private static readonly ILogger Logger = LogProvider.Logger<Logger>(typeof(Structure));
+
         private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
@@ -251,6 +255,52 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             TStructure val = new TStructure();
             val.Read(buffer);
             return val;
+        }
+
+        protected void WriteTlvStructure<TSize>(
+            IBuffer buffer,
+            TlvStructure val,
+            TSize limit,
+            Action<IBuffer, TSize> writeSizeFn
+        ) where TSize : IBinaryInteger<TSize>
+        {
+            // TODO performance
+            // need to write the TLV length first, so client knows if there is tlv data
+            // also need to check length against the limit before writing
+            // at the moment using a tmp buffer, however it should be able to work with existing
+            // buffer by adjusting position and length to delete in case of error.
+            StreamBuffer tmp = new StreamBuffer();
+            val.Write(tmp);
+            byte[] tlv = tmp.GetAllBytes();
+
+            TSize size = TSize.CreateChecked(tlv.Length);
+            if (size > limit)
+            {
+                writeSizeFn(buffer, TSize.Zero);
+                Logger.Error($"WriteTlvStructure: (size[{size}] > limit[{limit}])");
+                return;
+            }
+
+            writeSizeFn(buffer, size);
+            val.Write(buffer);
+        }
+
+        protected void ReadTlvStructure<TSize>(
+            IBuffer buffer,
+            TlvStructure val,
+            TSize limit,
+            Func<IBuffer, TSize> readSizeFn) where TSize : IBinaryInteger<TSize>
+        {
+            TSize size = readSizeFn(buffer);
+            if (size > limit)
+            {
+                int intSize = int.CreateChecked(size);
+                buffer.Position += intSize;
+                Logger.Error($"ReadTlvStructure: (size[{size}] > limit[{limit}]) skipping:{intSize}");
+                return;
+            }
+
+            val.Read(buffer);
         }
 
         protected TStructure ReadStructure<TStructure>(IBuffer buffer, TStructure val) where TStructure : IStructure
