@@ -1,0 +1,44 @@
+ID, name, character level unlock, task ID unlock, prompt message, disable NPC command, disable NPCID, default unlock
+1,Pet System,11,,2066,"22,23,40,42,65",,0
+2,Production System,1,,2067,13,,0
+3,Hunter Star,7,,2068,0,,0
+4,farm system,11,,2069,"28,29",,0
+5,Strange Records,40,,2070,"26,27",30146,0
+6,Guild Entrustment,999,,2071,"3,26,27",39006,0
+7,NPC Friendship,999,,2072,0,,0
+8,Weapon Talent,,,2074,0,,1
+9,Maofan System,11,,2073,25,,0
+10,Equipped with passive skills,,,2075,0,,1
+11,title system,,,2076,0,,1
+12,Equipment Forging,2,,2077,6,,0
+13,Rank Upgrade,999,,2078,0,,0
+14,Equipment precision casting,999,,2079,16,,0
+15,Equipment Tessellation,15,,2080,17,,0
+16,Equipment Enhancement,15,,2081,5,,0
+17,Motion display,,,2082,0,,1
+18,Weapon Awakening,999,,2083,48,,0
+19,Weapon training,,3001,2084,"26,27",30023,0
+20, Melaleuca Tower, 25,,2085,"3,26,27",30134,0
+21,Bounty Board,6,,2086,21,,0
+22,Equipment Derived,9,,2379,50,,0
+23,pet dismissal,11,,,40,,0
+24,Armor Derivation,9,,2095,,,0
+25,Team System,30,,2903,44,,0
+26,Hunting game,30,,2904,"45,47,49,53,58",,0
+27,Item Disassembly,20,,2905,24,,0
+28,auction house,25,,2906,2,,0
+29,Currency Exchange,25,,2907,59,,0
+30,competition,30,,2908,"26,27,51",32090,0
+31,Stone Protection Casting,40,,2909,56,,0
+32,Armor Upgrade,20,,2913,63,,0
+33,Enhanced breakthrough transfer,999,,2914,,,0
+34,Weapon Teaching Handle Mode,999,,,,30004,0
+35,Hunting,15,,1914,"18,19,20",,0
+36,Attribute Whetstone,,3554,1958,"71,72,73",,0
+37,Breakthrough qualification certification,999,,,"26,27",30001,0
+38,Equipment Refining,25,,4924,"78,79",,0
+39,random match,20,,,,,0
+40,Casting,50,,4139,94,,0
+41,Unbind,50,,4140,95,,0
+42,Guard Stone Smelting,40,,2928,96,,
+43,Legendary Skill Orb,15,,5262,102103,,0
