@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
@@ -6,6 +8,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
 
@@ -453,7 +456,51 @@ public class CharacterManager
             }
         }
 
+        //System unlock data
+        sync = new AttrSync();
+        sync.EntityId = character.Id;
+        sync.AttrId = 236;
+        sync.BonusId = 0;
+        sync.Data.UInt64 = getSystemUnlock((int)character.Level);
+        //sync.Data.UInt64 = 8796093022207; //Debug value, everything unlocked
+        //Logger.Info($"System unlock = {sync.Data.UInt64}\n binary : {Convert.ToString((long)sync.Data.UInt64, 2)}");
+        attrs.Add(sync);
+
 
         return attrs;
+    }
+
+    /**
+     * Retrieve the correct value for the attr 236 (SystemUnlockData)
+     * level = the level of the character
+     * Works in binary : 111011101111 <- position starts here, uses ID from the csv as position
+     */
+    private ulong getSystemUnlock(int level)
+    {
+        ulong systemUnlockvalue = 0;
+
+        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files\\Static");
+        string csvPath = Path.Combine(staticFolder, "SystemUnlock.csv");
+        using (TextFieldParser parser = new TextFieldParser(csvPath))
+        {
+            parser.TextFieldType = FieldType.Delimited;
+            parser.SetDelimiters(",");
+
+            // Skip the header line
+            parser.ReadLine();
+            while (!parser.EndOfData)
+            {
+                string[] fields = parser.ReadFields();
+                string id = fields[0];
+                string unlockLevel = fields[2]; // level to unlock
+                string defaultUnlock = fields[7]; // is unlocked by default
+
+                if (defaultUnlock == "1" || (unlockLevel != "" && level >= int.Parse(unlockLevel)))
+                {
+                    systemUnlockvalue += (ulong)Math.Pow(2, int.Parse(id)-1);
+                }
+            }
+        }
+        return systemUnlockvalue;
     }
 }
