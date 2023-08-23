@@ -23,37 +23,6 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
 
     public override void Handle(Client client, EnterLevelNtf req)
     {
-      //  _characterManager.SyncAllAttr(client);
-        return;
-
-        if (!client.Character.IsSync)
-        {
-            
-
-            // TODO hack to get visuals working
-            CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
-            TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
-            verifyRsp.ErrNo = 0;
-            verifyRsp.LineId = 0;
-            verifyRsp.LevelEnterType = 0;
-
-            InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
-            instanceInitInfo.BattleGroundId = 0;
-            //instanceInitInfo.LevelId = 150301;
-            instanceInitInfo.LevelId = client.State.InitLevelId;
-            instanceInitInfo.CreateMaxPlayerCount = 4;
-            instanceInitInfo.GameMode = GameMode.Town;
-            instanceInitInfo.TimeType = TimeType.Noon;
-            instanceInitInfo.WeatherType = WeatherType.Sunny;
-            instanceInitInfo.Time = 1;
-            instanceInitInfo.LevelRandSeed = 1;
-            instanceInitInfo.WarningFlag = 0;
-            instanceInitInfo.CreatePlayerMaxLv = 99;
-
-            client.SendCsProtoStructurePacket(townServerInitNtf);
-            client.Character.IsSync = true;
-            client.State.prevLevelId = client.State.levelId;
-            client.State.levelId = instanceInitInfo.LevelId;
-        }
+       // _characterManager.SyncAllAttr(client);
     }
 }
