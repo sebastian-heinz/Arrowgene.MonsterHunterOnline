@@ -231,7 +231,7 @@ public class CharacterManager
         }
 
         // attributes
-        structure.Attr.SetCharLevel(10);
+        structure.Attr.SetCharLevel((int)character.Level);
         structure.Attr.SetCharSpeed(100);
         structure.Attr.CharSta = 100;
         structure.Attr.SystemUnlockData = getSystemUnlock((int)character.Level);
