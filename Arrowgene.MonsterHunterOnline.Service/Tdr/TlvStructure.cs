@@ -41,6 +41,12 @@ public abstract class TlvStructure
         WriteInt64(buffer, val);
     }
 
+    protected void WriteTlvUInt64(IBuffer buffer, int id, ulong val)
+    {
+        WriteTlvTag(buffer, id, TlvType.ID_8_BYTE);
+        WriteUInt64(buffer, val);
+    }
+
     protected void WriteTlvInt32Arr(IBuffer buffer, int id, int[] val)
     {
         WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
@@ -75,5 +81,10 @@ public abstract class TlvStructure
     protected void WriteInt64(IBuffer buffer, long val)
     {
         buffer.WriteInt64(val, Endianness.Big);
+    }
+
+    protected void WriteUInt64(IBuffer buffer, ulong val)
+    {
+        buffer.WriteUInt64(val, Endianness.Big);
     }
 }

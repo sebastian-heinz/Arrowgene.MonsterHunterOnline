@@ -234,6 +234,7 @@ public class CharacterManager
         structure.Attr.SetCharLevel(10);
         structure.Attr.SetCharSpeed(100);
         structure.Attr.CharSta = 100;
+        structure.Attr.SystemUnlockData = getSystemUnlock((int)character.Level);
     }
 
     public void SyncAllAttr(Client client)
