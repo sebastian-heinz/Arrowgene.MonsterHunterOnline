@@ -7,9 +7,8 @@ namespace Arrowgene.MonsterHunterOnline.Test.Service;
 public class Test
 {
     [Fact]
-    public void TestEncrypt()
+    public void Tester()
     {
-        PlayerState ps = new PlayerState(null);
-        ps.SendBruteForce();
+   
     }
 }

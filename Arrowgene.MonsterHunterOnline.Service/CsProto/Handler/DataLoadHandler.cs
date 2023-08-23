@@ -33,10 +33,10 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 ((ItemListRsp)remoteData).EquipItem.UnknownB = 1;
                 ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
                 {
-                    Id = 1,
-                    TabType = ItemTabType.Equipment,
-                    EquipmentType = ItemEquipmentType.Weapon,
-                    ItemId = 120005,
+                    ItemId = 1,
+                    PosColumn = ItemColumnType.Equipment,
+                    PosGridEquipment = ItemEquipmentType.Weapon,
+                    ItemType = 120005,
                     Quantity = 1,
                 });
                 break;

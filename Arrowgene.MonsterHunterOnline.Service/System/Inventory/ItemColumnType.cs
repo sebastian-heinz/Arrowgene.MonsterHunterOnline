@@ -1,6 +1,6 @@
 ﻿namespace Arrowgene.MonsterHunterOnline.Service.System.Inventory;
 
-public enum ItemTabType
+public enum ItemColumnType
 {
     Item = 0,
     Store = 1,

@@ -7,99 +7,81 @@ namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 public class TlvItem : TlvStructure
 {
-    private const int UnknownAMaxSize = 0x20;
-    private const int UnknownBMaxSize = 0x20;
+    private const byte MaxAttrCount = 0x20;
 
     public TlvItem()
     {
-        Id = 0;
         ItemId = 0;
-        TabType = ItemTabType.Item;
-        EquipmentType = ItemEquipmentType.Weapon;
-        Slot = 0;
+        ItemType = 0;
+        PosColumn = 0;
+        PosGrid = 0;
         Quantity = 0;
-        UnknownC = 0;
-        UnknownD = 0;
-        UnknownA = new List<byte>();
-        UnknownB = new List<int>();
+        Bind = 0;
+        AttrCount = 0;
+        ItemExtAttrIds = new List<byte>();
+        ItemExtAttrVals = new List<int>();
     }
 
-    public ulong Id { get; set; }
-    public uint ItemId { get; set; }
-    public ItemTabType TabType { get; set; }
+    /// <summary>
+    /// id to keep track of *this* item
+    /// </summary>
+    public long ItemId { get; set; }
 
-    public ItemEquipmentType EquipmentType { get; set; }
-    public ushort Slot { get; set; }
-    public ushort Quantity { get; set; }
-    public byte UnknownC { get; set; }
-    public byte UnknownD { get; set; }
-    public List<byte> UnknownA { get; }
-    public List<int> UnknownB { get; }
+    /// <summary>
+    /// defines the actual item
+    /// </summary>
+    public int ItemType { get; set; }
+
+    public ItemColumnType PosColumn { get; set; }
+    public short PosGrid { get; set; }
+    public short Quantity { get; set; }
+    public byte Bind { get; set; }
+    public byte AttrCount { get; set; }
+    public List<byte> ItemExtAttrIds { get; }
+    public List<int> ItemExtAttrVals { get; }
+
+    /// <summary>
+    /// Convenience property when setting `PosColumn = ItemTabType.Equipment`
+    /// to specify actual slot by name
+    /// </summary>
+    public ItemEquipmentType PosGridEquipment
+    {
+        get { return (ItemEquipmentType)PosGrid; }
+        set { PosGrid = (short)value; }
+    }
 
     public override void Write(IBuffer buffer)
     {
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
-        // case 1
-        WriteTdrTlvTag(buffer, 2, TlvType.ID_8_BYTE);
-        WriteUInt64(buffer, Id);
-
-        // case 2
-        WriteTdrTlvTag(buffer, 3, TlvType.ID_4_BYTE);
-        WriteUInt32(buffer, ItemId);
-
-        // case 3
-        WriteTdrTlvTag(buffer, 4, TlvType.ID_1_BYTE);
-        WriteByte(buffer, (byte)TabType);
-
-        // case 4
-        WriteTdrTlvTag(buffer, 5, TlvType.ID_2_BYTE);
-        if (TabType == ItemTabType.Equipment)
+        WriteTlvInt64(buffer, 2, ItemId);
+        WriteTlvInt32(buffer, 3, ItemType);
+        WriteTlvByte(buffer, 4, (byte)PosColumn);
+        WriteTlvInt16(buffer, 5, PosGrid);
+        WriteTlvInt16(buffer, 6, Quantity);
+        WriteTlvByte(buffer, 7, Bind);
+        
+        byte attrCount = 0;
+        int minAttrCount = Math.Min(ItemExtAttrVals.Count, ItemExtAttrIds.Count);
+        if (minAttrCount > MaxAttrCount)
         {
-            WriteUInt16(buffer, (byte)EquipmentType);
-        }
-        else
-        {
-            WriteUInt16(buffer, Slot);
+            attrCount = MaxAttrCount;
         }
 
-        // case 5
-        WriteTdrTlvTag(buffer, 6, TlvType.ID_2_BYTE);
-        WriteUInt16(buffer, Quantity);
-
-        // case 6
-        WriteTdrTlvTag(buffer, 7, TlvType.ID_1_BYTE);
-        WriteByte(buffer, UnknownC);
-
-        // case 7
-        WriteTdrTlvTag(buffer, 8, TlvType.ID_1_BYTE);
-        WriteByte(buffer, UnknownD);
-
-        // case 8
-        // skip bytes
-
-        // case 9
-        if (UnknownA.Count > 0)
+        if (attrCount > 0)
         {
-            int size = Math.Min(UnknownA.Count, UnknownAMaxSize);
-            WriteTdrTlvTag(buffer, 10, TlvType.ID_4_BYTE);
-            WriteInt32(buffer, size);
-            for (int i = 0; i < size; i++)
+            WriteTlvByte(buffer, 8, attrCount);
+            WriteTlvInt32(buffer, 10, attrCount);
+            for (int i = 0; i < attrCount; i++)
             {
-                WriteByte(buffer, UnknownA[i]);
+                WriteByte(buffer, ItemExtAttrIds[i]);
             }
-        }
 
-        // case 10
-        if (UnknownB.Count > 0)
-        {
-            int size = Math.Min(UnknownA.Count, UnknownBMaxSize);
-            WriteTdrTlvTag(buffer, 11, TlvType.ID_4_BYTE);
-            WriteInt32(buffer, size * 4);
-            for (int i = 0; i < size; i++)
+            WriteTlvInt32(buffer, 11, attrCount * 4);
+            for (int i = 0; i < attrCount; i++)
             {
-                WriteInt32(buffer, UnknownA[i]);
+                WriteInt32(buffer, ItemExtAttrVals[i]);
             }
         }
 
