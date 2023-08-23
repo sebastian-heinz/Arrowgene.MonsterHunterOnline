@@ -20,7 +20,8 @@ public class TlvAttr : TlvStructure
     public int[] CharMaxSta { get; }
     public int[] CharSpeed { get; }
 
-    public ulong SystemUnlockData { get; set; }
+    public int SystemUnlockData { get; set; }
+    public int SystemUnlockExtData1 { get; set; }
 
     public void SetCharLevel(int val)
     {
@@ -50,7 +51,8 @@ public class TlvAttr : TlvStructure
         WriteTlvInt32(buffer, 21, CharSta);
         WriteTlvInt32Arr(buffer, 22, CharMaxSta);
         WriteTlvInt32Arr(buffer, 74, CharSpeed);
-        WriteTlvInt32(buffer, 241, (int)SystemUnlockData);
+        WriteTlvInt32(buffer, 241, SystemUnlockData);
+        WriteTlvInt32(buffer, 303, SystemUnlockExtData1);
 
         int endPos = buffer.Position;
         int size = endPos - startPos + 1;
