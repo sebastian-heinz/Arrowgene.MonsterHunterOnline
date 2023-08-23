@@ -12,9 +12,26 @@ public abstract class TlvStructure
         val.Write(buffer);
     }
 
-    protected void WriteTdrTlvTag(IBuffer buffer, int id, TlvType type)
+    protected void WriteTlvTag(IBuffer buffer, int id, TlvType type)
     {
         buffer.WriteTlvTag(id, type);
+    }
+
+    protected void WriteTlvInt32(IBuffer buffer, int id, int val)
+    {
+        WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+        WriteInt32(buffer, val);
+    }
+    
+    protected void WriteTlvInt32Arr(IBuffer buffer, int id, int[] val)
+    {
+        WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+        int count = val.Length;
+        WriteInt32(buffer, count * 4);
+        for (int i = 0; i < count; i++)
+        {
+            WriteInt32(buffer, val[i]);
+        }
     }
 
     protected void WriteVarUInt32(IBuffer buffer, uint val)

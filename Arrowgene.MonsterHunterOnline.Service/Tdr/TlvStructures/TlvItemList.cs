@@ -26,14 +26,14 @@ public class TlvItemList : TlvStructure
         WriteInt32(buffer, 0);
 
         // case 1
-        WriteTdrTlvTag(buffer, 1, TlvType.ID_2_BYTE);
+        WriteTlvTag(buffer, 1, TlvType.ID_2_BYTE);
         WriteUInt16(buffer, UnknownA);
 
         // case 2
         int maxItems = Math.Min(Items.Count, ItemsMaxSize);
         if (maxItems > 0)
         {
-            WriteTdrTlvTag(buffer, 2, TlvType.ID_4_BYTE);
+            WriteTlvTag(buffer, 2, TlvType.ID_4_BYTE);
             int subStartPos = buffer.Position;
             WriteInt32(buffer, 0);
             for (int i = 0; i < maxItems; i++)
@@ -49,7 +49,7 @@ public class TlvItemList : TlvStructure
         }
 
         // case 3
-        WriteTdrTlvTag(buffer, 3, TlvType.ID_2_BYTE);
+        WriteTlvTag(buffer, 3, TlvType.ID_2_BYTE);
         WriteUInt16(buffer, UnknownB);
 
         int endPos = buffer.Position;

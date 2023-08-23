@@ -42,19 +42,19 @@ public class TlvItem : TlvStructure
         WriteInt32(buffer, 0);
 
         // case 1
-        WriteTdrTlvTag(buffer, 2, TlvType.ID_8_BYTE);
+        WriteTlvTag(buffer, 2, TlvType.ID_8_BYTE);
         WriteUInt64(buffer, Id);
 
         // case 2
-        WriteTdrTlvTag(buffer, 3, TlvType.ID_4_BYTE);
+        WriteTlvTag(buffer, 3, TlvType.ID_4_BYTE);
         WriteUInt32(buffer, ItemId);
 
         // case 3
-        WriteTdrTlvTag(buffer, 4, TlvType.ID_1_BYTE);
+        WriteTlvTag(buffer, 4, TlvType.ID_1_BYTE);
         WriteByte(buffer, (byte)TabType);
 
         // case 4
-        WriteTdrTlvTag(buffer, 5, TlvType.ID_2_BYTE);
+        WriteTlvTag(buffer, 5, TlvType.ID_2_BYTE);
         if (TabType == ItemTabType.Equipment)
         {
             WriteUInt16(buffer, (byte)EquipmentType);
@@ -65,15 +65,15 @@ public class TlvItem : TlvStructure
         }
 
         // case 5
-        WriteTdrTlvTag(buffer, 6, TlvType.ID_2_BYTE);
+        WriteTlvTag(buffer, 6, TlvType.ID_2_BYTE);
         WriteUInt16(buffer, Quantity);
 
         // case 6
-        WriteTdrTlvTag(buffer, 7, TlvType.ID_1_BYTE);
+        WriteTlvTag(buffer, 7, TlvType.ID_1_BYTE);
         WriteByte(buffer, UnknownC);
 
         // case 7
-        WriteTdrTlvTag(buffer, 8, TlvType.ID_1_BYTE);
+        WriteTlvTag(buffer, 8, TlvType.ID_1_BYTE);
         WriteByte(buffer, UnknownD);
 
         // case 8
@@ -83,7 +83,7 @@ public class TlvItem : TlvStructure
         if (UnknownA.Count > 0)
         {
             int size = Math.Min(UnknownA.Count, UnknownAMaxSize);
-            WriteTdrTlvTag(buffer, 10, TlvType.ID_4_BYTE);
+            WriteTlvTag(buffer, 10, TlvType.ID_4_BYTE);
             WriteInt32(buffer, size);
             for (int i = 0; i < size; i++)
             {
@@ -95,7 +95,7 @@ public class TlvItem : TlvStructure
         if (UnknownB.Count > 0)
         {
             int size = Math.Min(UnknownA.Count, UnknownBMaxSize);
-            WriteTdrTlvTag(buffer, 11, TlvType.ID_4_BYTE);
+            WriteTlvTag(buffer, 11, TlvType.ID_4_BYTE);
             WriteInt32(buffer, size * 4);
             for (int i = 0; i < size; i++)
             {

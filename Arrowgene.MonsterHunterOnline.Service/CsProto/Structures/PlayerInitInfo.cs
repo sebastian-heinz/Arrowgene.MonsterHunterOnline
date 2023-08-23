@@ -47,7 +47,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             PasserbyData = new List<PasserbyInfoPacket>();
             BlacklistData = new List<BlacklistInfoPacket>();
             FriendGroupData = new List<FriendGroupPacket>();
-            Attr = new List<byte>();
+            Attr = new TlvAttr();
             Task = new List<byte>();
             Guild = new List<byte>();
             ActionPoint = new CSActionPointData();
@@ -271,7 +271,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// attr数据
         /// </summary>
-        public List<byte> Attr { get; }
+        public TlvAttr Attr { get; }
 
         /// <summary>
         /// 任务数据
@@ -558,7 +558,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, PasserbyData, CsProtoConstant.CS_PASSERBY_MAX, WriteInt32, WriteStructure);
             WriteList(buffer, BlacklistData, CsProtoConstant.CS_BLACKLIST_MAX, WriteInt32, WriteStructure);
             WriteList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, WriteUInt16, WriteByte);
+            WriteTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, WriteUInt16);
             WriteList(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, WriteInt32, WriteByte);
             WriteStructure(buffer, ActionPoint);
@@ -662,7 +662,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 ReadStructure<BlacklistInfoPacket>);
             ReadList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, ReadInt32,
                 ReadStructure<FriendGroupPacket>);
-            ReadList(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, ReadUInt16, ReadByte);
+            ReadTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, ReadUInt16);
             ReadList(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, ReadInt32, ReadByte);
             ActionPoint = ReadStructure<CSActionPointData>(buffer);

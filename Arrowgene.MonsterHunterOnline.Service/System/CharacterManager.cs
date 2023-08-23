@@ -4,8 +4,6 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
-using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
-using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
 
@@ -228,9 +226,11 @@ public class CharacterManager
         {
             structure.FacialInfo[i] = character.FacialInfo[i];
         }
-        //structure.EquipItem.AddRange(PlayerState.GetEquip());
-        //structure.Pet.AddRange(PlayerState.GetPet());
-        //structure.Skill.AddRange(PlayerState.GetSkill());
+        
+        // attributes
+        structure.Attr.SetCharLevel(10);
+        structure.Attr.SetCharSpeed(100);
+        structure.Attr.CharSta = 100;
     }
 
     public void SyncAllAttr(Client client)
