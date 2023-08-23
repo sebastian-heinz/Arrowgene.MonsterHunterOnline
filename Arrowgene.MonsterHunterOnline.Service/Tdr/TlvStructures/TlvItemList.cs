@@ -15,8 +15,8 @@ public class TlvItemList : TlvStructure
         Items = new List<TlvItem>();
     }
 
-    public ushort UnknownA { get; set; }
-    public ushort UnknownB { get; set; }
+    public short UnknownA { get; set; }
+    public short UnknownB { get; set; }
     public List<TlvItem> Items { get; }
 
     public override void Write(IBuffer buffer)
@@ -26,8 +26,7 @@ public class TlvItemList : TlvStructure
         WriteInt32(buffer, 0);
 
         // case 1
-        WriteTlvTag(buffer, 1, TlvType.ID_2_BYTE);
-        WriteUInt16(buffer, UnknownA);
+        WriteTlvInt16(buffer, 1, UnknownA);
 
         // case 2
         int maxItems = Math.Min(Items.Count, ItemsMaxSize);
@@ -49,8 +48,7 @@ public class TlvItemList : TlvStructure
         }
 
         // case 3
-        WriteTlvTag(buffer, 3, TlvType.ID_2_BYTE);
-        WriteUInt16(buffer, UnknownB);
+        WriteTlvInt16(buffer, 3, UnknownA);
 
         int endPos = buffer.Position;
         int size = endPos - startPos + 1;
