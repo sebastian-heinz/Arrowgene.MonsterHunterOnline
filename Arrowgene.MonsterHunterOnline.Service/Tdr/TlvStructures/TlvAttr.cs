@@ -50,7 +50,7 @@ public class TlvAttr : TlvStructure
         WriteTlvInt32(buffer, 21, CharSta);
         WriteTlvInt32Arr(buffer, 22, CharMaxSta);
         WriteTlvInt32Arr(buffer, 74, CharSpeed);
-        WriteTlvInt32(buffer, 237, (int)SystemUnlockData);
+        WriteTlvInt32(buffer, 241, (int)SystemUnlockData);
 
         int endPos = buffer.Position;
         int size = endPos - startPos + 1;
