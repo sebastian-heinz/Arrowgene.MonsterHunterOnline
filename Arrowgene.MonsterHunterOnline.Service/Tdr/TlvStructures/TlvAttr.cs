@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Data.Entity.Core.Metadata.Edm;
 using Arrowgene.Buffers;
-using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
+using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
@@ -14,6 +13,7 @@ public class TlvAttr : TlvStructure
         CharMaxSta = new int[7];
         CharSpeed = new int[7];
         CharMaxHP = new int[7];
+        FacialInfo = new short[CsProtoConstant.CS_MAX_FACIALINFO_COUNT];
     }
 
     public int[] CharLevel { get; }
@@ -38,11 +38,19 @@ public class TlvAttr : TlvStructure
     public bool HideFashion { get; set; }
     public bool HideSuite { get; set; }
     public bool HideHelm { get; set; }
-    public int SystemUnlockData { get; set; }
-    public int SystemUnlockExtData1 { get; set; }
-    public short[] FacialInfo { get; set; }
+    public SystemUnlockFlags SystemUnlockData { get; set; }
+    public SystemUnlockExtFlags SystemUnlockExtData1 { get; set; }
+    public short[] FacialInfo { get; }
     public int CharHRLevel { get; set; }
     public int CharHRPoint { get; set; }
+
+    public void SetFacialInfo(short[] facialInfo)
+    {
+        for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
+        {
+            FacialInfo[i] = facialInfo[i];
+        }
+    }
 
     public void SetCharLevel(int val)
     {
@@ -97,14 +105,13 @@ public class TlvAttr : TlvStructure
         //WriteTlvInt32(buffer, 227, 0);
         //WriteTlvInt32(buffer, 228, 0);
         WriteTlvInt32(buffer, 229, 0); // hide helmet
-        WriteTlvInt32(buffer, 241, SystemUnlockData);
-        WriteTlvInt32(buffer, 303, SystemUnlockExtData1);
+        WriteTlvInt32(buffer, 241, SystemUnlockData.ToInt32());
+        WriteTlvInt32(buffer, 303, SystemUnlockExtData1.ToInt32());
         //TODO: do we make a private function for the facialinfo part ?
         //No need to make it re usable, facialinfo is the only one that have multiple infos
         int faceAttrId = 252;
         for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
         {
-
             WriteTlvInt16(buffer, faceAttrId, FacialInfo[i]);
             faceAttrId++;
             //There is a jump between the 2 FacialInfo parts
@@ -113,6 +120,7 @@ public class TlvAttr : TlvStructure
                 faceAttrId = 329;
             }
         }
+
         WriteTlvInt32(buffer, 322, CharHRLevel);
         WriteTlvInt32(buffer, 323, CharHRPoint);
 

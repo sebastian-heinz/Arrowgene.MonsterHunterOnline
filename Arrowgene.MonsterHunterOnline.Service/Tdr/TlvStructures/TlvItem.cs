@@ -46,8 +46,8 @@ public class TlvItem : TlvStructure
     /// </summary>
     public ItemEquipmentType PosGridEquipment
     {
-        get { return (ItemEquipmentType)PosGrid; }
-        set { PosGrid = (short)value; }
+        get => (ItemEquipmentType)PosGrid;
+        set => PosGrid = (short)value;
     }
 
     public override void Write(IBuffer buffer)
@@ -61,14 +61,14 @@ public class TlvItem : TlvStructure
         WriteTlvInt16(buffer, 5, PosGrid);
         WriteTlvInt16(buffer, 6, Quantity);
         WriteTlvByte(buffer, 7, Bind);
-        
+
         byte attrCount = 0;
         int minAttrCount = Math.Min(ItemExtAttrVals.Count, ItemExtAttrIds.Count);
         if (minAttrCount > MaxAttrCount)
         {
             attrCount = MaxAttrCount;
         }
-
+        
         if (attrCount > 0)
         {
             WriteTlvByte(buffer, 8, attrCount);
