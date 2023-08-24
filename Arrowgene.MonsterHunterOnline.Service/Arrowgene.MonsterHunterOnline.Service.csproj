@@ -18,6 +18,8 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <TargetPath>Files\%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
         </ContentWithTargetPath>
+
+
     </ItemGroup>
 
 

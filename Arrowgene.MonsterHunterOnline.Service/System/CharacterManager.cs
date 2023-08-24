@@ -7,6 +7,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
+using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
@@ -250,7 +251,7 @@ public class CharacterManager
         structure.Attr.EyeBall = character.EyeBall;
         structure.Attr.FaceTattooColor= character.FaceTattooColor;
         structure.Attr.EyeColor = character.EyeColor;
-        structure.Attr.FacialInfo = character.FacialInfo;
+        structure.Attr.SetFacialInfo(character.FacialInfo);
         structure.Attr.CharHRLevel = character.HrLevel;
         structure.Attr.CharHRPoint = 0; //TODO: check if it's hr exp
         //TODO: see TlvAttr.cs, need to write a bool into tlv
@@ -258,9 +259,9 @@ public class CharacterManager
         structure.Attr.HideSuite = character.HideSuite != 0;
         structure.Attr.HideHelm = character.HideHelm != 0;
 
-        ulong systemUnlockData = getSystemUnlock((int)character.Level);
-        structure.Attr.SystemUnlockData = (int)(systemUnlockData & uint.MaxValue);
-        structure.Attr.SystemUnlockExtData1 = (int)(systemUnlockData >> 32);
+        SystemUnlockFlags systemUnlockData = SystemUnlock.GetForLevel(character.Level);
+        structure.Attr.SystemUnlockData = systemUnlockData;
+        structure.Attr.SystemUnlockExtData1 = systemUnlockData.ToExtFlags();
     }
 
     public void SyncAllAttr(Client client)
@@ -488,7 +489,7 @@ public class CharacterManager
         sync.EntityId = character.Id;
         sync.AttrId = 236;
         sync.BonusId = 0;
-        sync.Data.UInt64 = getSystemUnlock((int)character.Level);
+        sync.Data.UInt64 = SystemUnlock.GetForLevel(character.Level).ToUInt64();
         //sync.Data.UInt64 = 8796093022207; //Debug value, everything unlocked
         //Logger.Info($"System unlock = {sync.Data.UInt64}\n binary : {Convert.ToString((long)sync.Data.UInt64, 2)}");
         attrs.Add(sync);
@@ -497,38 +498,4 @@ public class CharacterManager
         return attrs;
     }
 
-    /**
-     * Retrieve the correct value for the attr 236 (SystemUnlockData)
-     * level = the level of the character
-     * Works in binary : 111011101111 <- position starts here, uses ID from the csv as position
-     */
-    private ulong getSystemUnlock(int level)
-    {
-        ulong systemUnlockvalue = 0;
-
-        string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files\\Static");
-        string csvPath = Path.Combine(staticFolder, "SystemUnlock.csv");
-        using (TextFieldParser parser = new TextFieldParser(csvPath))
-        {
-            parser.TextFieldType = FieldType.Delimited;
-            parser.SetDelimiters(",");
-
-            // Skip the header line
-            parser.ReadLine();
-            while (!parser.EndOfData)
-            {
-                string[] fields = parser.ReadFields();
-                string id = fields[0];
-                string unlockLevel = fields[2]; // level to unlock
-                string defaultUnlock = fields[7]; // is unlocked by default
-
-                if (defaultUnlock == "1" || (unlockLevel != "" && level >= int.Parse(unlockLevel)))
-                {
-                    systemUnlockvalue += (ulong)Math.Pow(2, int.Parse(id) - 1);
-                }
-            }
-        }
-
-        return systemUnlockvalue;
-    }
 }

@@ -63,9 +63,9 @@ public abstract class TlvStructure
         buffer.WriteByte(val);
     }
 
-    protected void WriteInt16(IBuffer buffer, int val)
+    protected void WriteInt16(IBuffer buffer, short val)
     {
-        buffer.WriteInt32(val, Endianness.Big);
+        buffer.WriteInt16(val, Endianness.Big);
     }
 
     protected int ReadInt32(IBuffer buffer)
