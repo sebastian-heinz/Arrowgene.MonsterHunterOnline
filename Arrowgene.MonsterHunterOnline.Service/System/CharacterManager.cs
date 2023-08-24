@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.IO;
+﻿using System.Collections.Generic;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
-using Microsoft.VisualBasic.FileIO;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System;
 
@@ -249,7 +246,7 @@ public class CharacterManager
         structure.Attr.InnerColor = character.InnerColor;
         structure.Attr.FaceTattooId = character.FaceTattooIndex;
         structure.Attr.EyeBall = character.EyeBall;
-        structure.Attr.FaceTattooColor= character.FaceTattooColor;
+        structure.Attr.FaceTattooColor = character.FaceTattooColor;
         structure.Attr.EyeColor = character.EyeColor;
         structure.Attr.SetFacialInfo(character.FacialInfo);
         structure.Attr.CharHRLevel = character.HrLevel;
@@ -262,6 +259,15 @@ public class CharacterManager
         SystemUnlockFlags systemUnlockData = SystemUnlock.GetForLevel(character.Level);
         structure.Attr.SystemUnlockData = systemUnlockData;
         structure.Attr.SystemUnlockExtData1 = systemUnlockData.ToExtFlags();
+
+        // task
+        structure.Task.Tasks.Add(new TlvTask()
+        {
+            Id = 1,
+            AcceptTime = 0,
+            State = 1,
+            Timeout = 0
+        });
     }
 
     public void SyncAllAttr(Client client)
@@ -497,5 +503,4 @@ public class CharacterManager
 
         return attrs;
     }
-
 }

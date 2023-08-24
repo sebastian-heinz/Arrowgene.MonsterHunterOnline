@@ -7,6 +7,13 @@ public abstract class TlvStructure
     public abstract void Write(IBuffer buffer);
     public abstract void Read(IBuffer buffer);
 
+    public byte[] ToByteArray()
+    {
+        StreamBuffer tmp = new StreamBuffer();
+        Write(tmp);
+        return tmp.GetAllBytes();
+    }
+
     protected void WriteTlvStructure(IBuffer buffer, TlvStructure val)
     {
         val.Write(buffer);

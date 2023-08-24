@@ -1,4 +1,5 @@
-﻿using Arrowgene.Logging;
+﻿using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
@@ -35,6 +36,14 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 {
                     ItemId = 1,
                     PosColumn = ItemColumnType.Equipment,
+                    PosGridEquipment = ItemEquipmentType.Weapon,
+                    ItemType = 120005,
+                    Quantity = 1,
+                });
+                ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
+                {
+                    ItemId = 2,
+                    PosColumn = ItemColumnType.Equipment,
                     PosGridEquipment = ItemEquipmentType.Helmet,
                     ItemType = 60011,
                     Quantity = 1,
@@ -48,6 +57,9 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 break;
             case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
+                // TODO unsure when this gets called
+                //TlvTaskSys taskSys = new TlvTaskSys();
+                //((RemoteDataInitInfo)remoteData).DataPacket.AddRange(taskSys.ToByteArray());
                 break;
             case ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
@@ -74,6 +86,10 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
             InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
             instanceInitInfo.BattleGroundId = 0;
             instanceInitInfo.LevelId = 150301;
+
+            // TODO hack
+            instanceInitInfo.LevelId = client.State.InitLevelId;
+
             instanceInitInfo.CreateMaxPlayerCount = 4;
             instanceInitInfo.GameMode = GameMode.Town;
             instanceInitInfo.TimeType = TimeType.Noon;

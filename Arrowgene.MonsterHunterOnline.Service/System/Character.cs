@@ -11,7 +11,6 @@ public class Character
         FacialInfo = new short[CsProtoConstant.CS_MAX_FACIALINFO_COUNT];
         StarLevel = "";
         Name = "";
-        
     }
     
     public uint Id { get; set; }
