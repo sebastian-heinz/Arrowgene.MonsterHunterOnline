@@ -35,8 +35,8 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 {
                     ItemId = 1,
                     PosColumn = ItemColumnType.Equipment,
-                    PosGridEquipment = ItemEquipmentType.Weapon,
-                    ItemType = 120005,
+                    PosGridEquipment = ItemEquipmentType.Helmet,
+                    ItemType = 60011,
                     Quantity = 1,
                 });
                 break;

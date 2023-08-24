@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
@@ -232,9 +233,34 @@ public class CharacterManager
 
         // attributes
         structure.Attr.SetCharLevel((int)character.Level);
+        structure.Attr.CharSex = character.Gender;
         structure.Attr.SetCharSpeed(100);
         structure.Attr.CharSta = 100;
-        structure.Attr.SystemUnlockData = getSystemUnlock((int)character.Level);
+        structure.Attr.SetCharMaxSta(100);
+        structure.Attr.StarLevel = 1; // character.StarLevel is string;
+        structure.Attr.CharHP = 100;
+        structure.Attr.SetCharMaxHP(100);
+        structure.Attr.MaleFace = character.FaceId;
+        structure.Attr.MaleHair = character.HairId;
+        structure.Attr.UnderClothes = character.UnderclothesId;
+        structure.Attr.SkinColor = character.SkinColor;
+        structure.Attr.HairColor = character.HairColor;
+        structure.Attr.InnerColor = character.InnerColor;
+        structure.Attr.FaceTattooId = character.FaceTattooIndex;
+        structure.Attr.EyeBall = character.EyeBall;
+        structure.Attr.FaceTattooColor= character.FaceTattooColor;
+        structure.Attr.EyeColor = character.EyeColor;
+        structure.Attr.FacialInfo = character.FacialInfo;
+        structure.Attr.CharHRLevel = character.HrLevel;
+        structure.Attr.CharHRPoint = 0; //TODO: check if it's hr exp
+        //TODO: see TlvAttr.cs, need to write a bool into tlv
+        structure.Attr.HideFashion = character.HideFashion != 0;
+        structure.Attr.HideSuite = character.HideSuite != 0;
+        structure.Attr.HideHelm = character.HideHelm != 0;
+
+        ulong systemUnlockData = getSystemUnlock((int)character.Level);
+        structure.Attr.SystemUnlockData = (int)(systemUnlockData & uint.MaxValue);
+        structure.Attr.SystemUnlockExtData1 = (int)(systemUnlockData >> 32);
     }
 
     public void SyncAllAttr(Client client)
