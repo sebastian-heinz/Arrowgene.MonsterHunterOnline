@@ -110,9 +110,9 @@ public class CharacterManager
         character.StarLevel = "";
         character.HrLevel = 0;
         character.SoulStoneLv = 0;
-        character.HideHelm = 0;
-        character.HideFashion = 0;
-        character.HideSuite = 0;
+        character.HideHelm = false;
+        character.HideFashion = false;
+        character.HideSuite = false;
 
         if (!_database.CreateCharacter(character))
         {
@@ -448,21 +448,21 @@ public class CharacterManager
         sync.EntityId = character.Id;
         sync.AttrId = 222;
         sync.BonusId = 0;
-        sync.Data.Bool = character.HideFashion != 0;
+        sync.Data.Bool = character.HideFashion;
         attrs.Add(sync);
 
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 223;
         sync.BonusId = 0;
-        sync.Data.Bool = character.HideSuite != 0;
+        sync.Data.Bool = character.HideSuite;
         attrs.Add(sync);
 
         sync = new AttrSync();
         sync.EntityId = character.Id;
         sync.AttrId = 224;
         sync.BonusId = 0;
-        sync.Data.Bool = character.HideHelm != 0;
+        sync.Data.Bool = character.HideHelm;
         attrs.Add(sync);
 
         sync = new AttrSync();

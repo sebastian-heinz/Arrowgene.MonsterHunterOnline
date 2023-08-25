@@ -54,10 +54,10 @@ public class Character
 
     public int SoulStoneLv { get; set; }
 
-    public byte HideHelm { get; set; }
+    public bool HideHelm { get; set; }
 
-    public byte HideFashion { get; set; }
+    public bool HideFashion { get; set; }
 
-    public byte HideSuite { get; set; }
+    public bool HideSuite { get; set; }
     public DateTime Created { get; set; }
 }

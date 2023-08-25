@@ -24,6 +24,12 @@ public abstract class TlvStructure
         buffer.WriteTlvTag(id, type);
     }
 
+    protected void WriteTlvBool(IBuffer buffer, int id, bool val)
+    {
+        WriteTlvTag(buffer, id, TlvType.ID_1_BYTE);
+        WriteByte(buffer, val ? (byte)1 : (byte)0);
+    }
+
     protected void WriteTlvByte(IBuffer buffer, int id, byte val)
     {
         WriteTlvTag(buffer, id, TlvType.ID_1_BYTE);
