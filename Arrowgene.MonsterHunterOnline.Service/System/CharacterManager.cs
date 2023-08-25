@@ -267,6 +267,9 @@ public class CharacterManager
             State = 0,
             Timeout = 0
         });
+        
+        // equip
+       
     }
 
     public void SyncAllAttr(Client client)

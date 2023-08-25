@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
-using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
+using Arrowgene.MonsterHunterOnline.Service.System.Item;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
@@ -46,6 +46,22 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                     PosColumn = ItemColumnType.Equipment,
                     PosGridEquipment = ItemEquipmentType.Helmet,
                     ItemType = 60011,
+                    Quantity = 1,
+                });
+                ((ItemListRsp)remoteData).BagItem.Items.Add(new TlvItem()
+                {
+                    ItemId = 3,
+                    PosColumn = ItemColumnType.Box,
+                    PosGridEquipment = ItemEquipmentType.Weapon,
+                    ItemType = 120007,
+                    Quantity = 1,
+                });
+                ((ItemListRsp)remoteData).BagItem.Items.Add(new TlvItem()
+                {
+                    ItemId = 4,
+                    PosColumn = ItemColumnType.Store,
+                    PosGridEquipment = ItemEquipmentType.Weapon,
+                    ItemType = 120006,
                     Quantity = 1,
                 });
                 break;

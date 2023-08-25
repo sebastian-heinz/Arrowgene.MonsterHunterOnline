@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 

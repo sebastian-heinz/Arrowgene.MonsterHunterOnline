@@ -3,6 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.Item;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -30,6 +31,9 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
         }
 
         client.Character = character;
+        
+        // TODO load inventory
+        client.Inventory = new Inventory();
 
         CsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
         selectRoleRsp.Structure.RoleIndex = req.RoleIndex;
