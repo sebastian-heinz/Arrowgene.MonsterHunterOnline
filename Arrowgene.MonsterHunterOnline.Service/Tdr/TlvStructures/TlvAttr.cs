@@ -35,9 +35,9 @@ public class TlvAttr : TlvStructure
     public int EyeBall { get; set; }
     public int FaceTattooColor { get; set; }
     public int EyeColor { get; set; }
-    public bool HideFashion { get; set; }
-    public bool HideSuite { get; set; }
-    public bool HideHelm { get; set; }
+    public short HideFashion { get; set; }
+    public short HideSuite { get; set; }
+    public short HideHelm { get; set; }
     public SystemUnlockFlags SystemUnlockData { get; set; }
     public SystemUnlockExtFlags SystemUnlockExtData1 { get; set; }
     public short[] FacialInfo { get; }
@@ -97,18 +97,11 @@ public class TlvAttr : TlvStructure
         WriteTlvInt32(buffer, 209, EyeBall);
         WriteTlvInt32(buffer, 220, FaceTattooColor);
         WriteTlvInt32(buffer, 221, EyeColor);
-        //TODO: send a bool into tlv
-        //WriteTlvByte(buffer, 227, Convert.ToByte(HideFashion));
-        //WriteTlvByte(buffer, 228, Convert.ToByte(HideSuite));
-        //WriteTlvByte(buffer, 229, Convert.ToByte(HideHelm));
-        //TODO: play with helmet attr to see if this works problem is that TlvItem.cs have an issue, slot isn't working, item stay at slot 0 and at slot 0 armor isn't showed
-        //WriteTlvInt32(buffer, 227, 0);
-        //WriteTlvInt32(buffer, 228, 0);
-        WriteTlvInt32(buffer, 229, 0); // hide helmet
+        WriteTlvInt16(buffer, 227, HideFashion);
+        WriteTlvInt16(buffer, 228, HideSuite);
+        WriteTlvInt16(buffer, 229, HideHelm);
         WriteTlvInt32(buffer, 241, SystemUnlockData.ToInt32());
         WriteTlvInt32(buffer, 303, SystemUnlockExtData1.ToInt32());
-        //TODO: do we make a private function for the facialinfo part ?
-        //No need to make it re usable, facialinfo is the only one that have multiple infos
         int faceAttrId = 252;
         for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
         {

@@ -254,10 +254,9 @@ public class CharacterManager
         structure.Attr.SetFacialInfo(character.FacialInfo);
         structure.Attr.CharHRLevel = character.HrLevel;
         structure.Attr.CharHRPoint = 0; //TODO: check if it's hr exp
-        //TODO: see TlvAttr.cs, need to write a bool into tlv
-        structure.Attr.HideFashion = character.HideFashion != 0;
-        structure.Attr.HideSuite = character.HideSuite != 0;
-        structure.Attr.HideHelm = character.HideHelm != 0;
+        structure.Attr.HideFashion = character.HideFashion;
+        structure.Attr.HideSuite = character.HideSuite;
+        structure.Attr.HideHelm = character.HideHelm;
 
         SystemUnlockFlags systemUnlockData = SystemUnlock.GetForLevel(character.Level);
         structure.Attr.SystemUnlockData = systemUnlockData;
