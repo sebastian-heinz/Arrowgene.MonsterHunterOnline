@@ -21,6 +21,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             AddCommand(new TownInitCommand());
             AddCommand(new SpawnCommand());
             AddCommand(new PositionCommand());
+            AddCommand(new TeleportCommand());
         }
 
         public void AddCommand(ChatCommand command)

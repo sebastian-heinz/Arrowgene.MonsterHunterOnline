@@ -262,9 +262,9 @@ public class CharacterManager
         // task
         structure.Task.Tasks.Add(new TlvTask()
         {
-            Id = 1,
+            Id = 3001,
             AcceptTime = 0,
-            State = 1,
+            State = 0,
             Timeout = 0
         });
     }
