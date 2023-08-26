@@ -1,23 +1,12 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
+﻿using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+
+namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
 {
-    public class ItemDataCsv : CsvReaderWriter<ItemDataCsv.Entry>
+    public class ItemDataCsv : CsvReaderWriter<ItemData>
     {
-        public class Entry
-        {
-            public ulong ItemId { get; set; }
-            public string Name { get; set; }
-            public uint MainClass { get; set; }
-            public uint Category { get; set; }
-            public uint BindingType { get; set; }
-            public uint PortableLimit { get; set; }
-            public uint StackLimit { get; set; }
-            public float Price { get; set; }
-            public float SalePrice { get; set; }
-        }
+        protected override int NumExpectedItems => 18;
 
-        protected override int NumExpectedItems => 26;
-
-        protected override Entry CreateInstance(string[] properties)
+        protected override ItemData CreateInstance(string[] properties)
         {
             if (!TryParse(properties, 0, out ulong itemId, ulong.TryParse, 0)) return null;
             string name = properties[1];
@@ -29,12 +18,13 @@
             if (!TryParse(properties, 17, out float price, float.TryParse, 0)) return null;
             if (!TryParse(properties, 18, out float salePrice, float.TryParse, 0)) return null;
 
-            return new Entry
+            return new ItemData
             {
                 ItemId = itemId,
                 Name = name,
                 MainClass = mainClass,
                 Category = category,
+                SubCategory = 0,
                 BindingType = bindingType,
                 PortableLimit = portableLimit,
                 StackLimit = stackLimit,

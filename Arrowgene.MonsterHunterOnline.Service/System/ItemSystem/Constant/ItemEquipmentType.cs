@@ -1,4 +1,4 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 public enum ItemEquipmentType
 {
