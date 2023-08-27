@@ -7024,16 +7024,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSItemMgrDelItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_DEL_ITEM_NTF, structure);
         }
-
-  
-        /// <summary>
-        /// 移动物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrMoveItemNtf> ItemMgrMoveItemNtf(CSItemMgrMoveItemNtf structure)
-        {
-            return new CsTPacket<CSItemMgrMoveItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_NTF, structure);
-        }
-
+        
         /// <summary>
         /// 交换物品
         /// </summary>

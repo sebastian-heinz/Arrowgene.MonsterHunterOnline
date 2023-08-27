@@ -3,11 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
-using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
-using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
-using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -31,40 +27,8 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
                 remoteData = new ItemListRsp();
-                ((ItemListRsp)remoteData).EquipItem.UnknownA = 1;
-                ((ItemListRsp)remoteData).EquipItem.UnknownB = 1;
-                ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
-                {
-                    ItemId = 1,
-                    PosColumn = ItemColumnType.Equipment,
-                    PosGridEquipment = ItemEquipmentType.Weapon,
-                    ItemType = 120005,
-                    Quantity = 1,
-                });
-                ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
-                {
-                    ItemId = 2,
-                    PosColumn = ItemColumnType.Equipment,
-                    PosGridEquipment = ItemEquipmentType.Helmet,
-                    ItemType = 60011,
-                    Quantity = 1,
-                });
-                ((ItemListRsp)remoteData).BagItem.Items.Add(new TlvItem()
-                {
-                    ItemId = 3,
-                    PosColumn = ItemColumnType.BoxEquip,
-                    PosGridEquipment = ItemEquipmentType.Weapon,
-                    ItemType = 120007,
-                    Quantity = 1,
-                });
-                ((ItemListRsp)remoteData).BagItem.Items.Add(new TlvItem()
-                {
-                    ItemId = 4,
-                    PosColumn = ItemColumnType.Store,
-                    PosGridEquipment = ItemEquipmentType.Weapon,
-                    ItemType = 120006,
-                    Quantity = 1,
-                });
+                // TODO null check
+                client.Inventory.PopulateItemListProperties((ItemListRsp)remoteData);
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                 remoteData = new PlayerLevelInitInfo();

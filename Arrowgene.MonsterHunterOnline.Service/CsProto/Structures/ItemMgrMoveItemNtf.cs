@@ -5,11 +5,11 @@ using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
     /// <summary>
-    /// 请求移动物品
+    /// 通知移动物品
     /// </summary>
-    public class ItemMgrMoveItemReq : Structure
+    public class ItemMgrMoveItemNtf : Structure
     {
-        public ItemMgrMoveItemReq()
+        public ItemMgrMoveItemNtf()
         {
             ItemId = 0;
             ItemColumn = 0;
@@ -21,27 +21,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 物品实例
         /// </summary>
-        public ulong ItemId { get; set; }
+        public ulong ItemId;
 
         /// <summary>
         /// 物品栏位
         /// </summary>
-        public ItemColumnType ItemColumn { get; set; }
+        public ItemColumnType ItemColumn;
 
         /// <summary>
         /// 物品格子
         /// </summary>
-        public ushort ItemGrid { get; set; }
+        public ushort ItemGrid;
 
         /// <summary>
         /// 目标栏位
         /// </summary>
-        public ItemColumnType DstColumn { get; set; }
+        public ItemColumnType DstColumn;
 
         /// <summary>
         /// 目标格子
         /// </summary>
-        public ushort DstGrid { get; set; }
+        public ushort DstGrid;
 
         public override void Write(IBuffer buffer)
         {

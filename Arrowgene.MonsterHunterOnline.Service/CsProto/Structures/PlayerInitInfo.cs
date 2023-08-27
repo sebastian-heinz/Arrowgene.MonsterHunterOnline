@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Player initialize info
     /// </summary>
-    public class PlayerInitInfo : Structure
+    public class PlayerInitInfo : Structure, IItemListProperties
     {
         public PlayerInitInfo()
         {

@@ -134,6 +134,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         
         public static CsProtoStructurePacket<EnterInstanceCountDown> EnterInstanceCountDown =>
             new(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_COUNT_DOWN);
+        public static CsProtoStructurePacket<ItemMgrMoveItemNtf> ItemMgrMoveItemNtf =>
+            new(CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_NTF);
         
     }
 }

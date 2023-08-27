@@ -269,7 +269,8 @@ public class CharacterManager
         });
         
         // equip
-       
+        // TODO null check
+        client.Inventory.PopulateItemListProperties(structure);
     }
 
     public void SyncAllAttr(Client client)
