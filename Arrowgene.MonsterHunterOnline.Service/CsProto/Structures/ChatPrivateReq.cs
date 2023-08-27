@@ -1,6 +1,6 @@
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {

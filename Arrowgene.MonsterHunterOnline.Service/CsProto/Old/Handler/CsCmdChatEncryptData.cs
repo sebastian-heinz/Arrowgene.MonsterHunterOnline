@@ -3,7 +3,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -13,13 +13,13 @@ public class CsCmdChatEncryptData : ICsProtoHandler
 
     private static string Key = "GetSystemDirecto";
 
-    private ChatSystem _chatSystem;
+    private ChatManager _chatManager;
     private CsProtoPacketHandler _csProtoPacketHandler;
 
-    public CsCmdChatEncryptData(CsProtoPacketHandler csProtoPacketHandler, ChatSystem chatSystem)
+    public CsCmdChatEncryptData(CsProtoPacketHandler csProtoPacketHandler, ChatManager chatManager)
     {
         _csProtoPacketHandler = csProtoPacketHandler;
-        _chatSystem = chatSystem;
+        _chatManager = chatManager;
     }
 
     public CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_CHAT_ENCRYPT_DATA;

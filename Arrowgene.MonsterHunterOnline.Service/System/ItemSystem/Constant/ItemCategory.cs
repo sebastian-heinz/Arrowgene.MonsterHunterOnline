@@ -1,6 +1,6 @@
 ﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
-public enum ItemSubCategory
+public enum ItemCategory
 {
     Weapon = 1,
     Armor = 2,

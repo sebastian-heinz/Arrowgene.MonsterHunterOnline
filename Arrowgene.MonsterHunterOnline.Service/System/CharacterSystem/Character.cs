@@ -1,7 +1,7 @@
 ﻿using System;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System;
+namespace Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
 public class Character
 {

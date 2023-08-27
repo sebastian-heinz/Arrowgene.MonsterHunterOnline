@@ -1,4 +1,4 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.System.Chat;
+﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
 public enum ChannelType
 {

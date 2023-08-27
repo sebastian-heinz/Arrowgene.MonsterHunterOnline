@@ -3,7 +3,7 @@ using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
 {
     /// <summary>
     /// Spawns enteties

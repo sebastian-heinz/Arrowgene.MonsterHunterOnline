@@ -1,6 +1,7 @@
 ﻿using System;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Log;
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Log;
 
 public class ChatMessageLogEntry
 {

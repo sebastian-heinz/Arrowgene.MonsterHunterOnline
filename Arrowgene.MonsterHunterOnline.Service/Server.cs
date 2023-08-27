@@ -5,9 +5,10 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
 using Arrowgene.MonsterHunterOnline.Service.System;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat.Command;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat.Log;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Log;
 using Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
@@ -57,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
             ClientManager = new ClientManager();
             CharacterManager = new CharacterManager(Database);
-            Chat = new ChatSystem(ClientManager);
+            Chat = new ChatManager(ClientManager);
             ItemManager = new ItemManager(Database, Assets);
 
             LoadPacketHandler();
@@ -67,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         }
 
         public Setting Setting { get; }
-        public ChatSystem Chat { get; }
+        public ChatManager Chat { get; }
         public CharacterManager CharacterManager { get; }
         public ClientManager ClientManager { get; }
         public IDatabase Database { get; }

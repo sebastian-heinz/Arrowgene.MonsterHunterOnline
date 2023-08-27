@@ -2,17 +2,18 @@
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat;
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
-public class ChatSystem
+public class ChatManager
 {
-    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(ChatSystem));
+    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(ChatManager));
 
     private readonly List<IChatHandler> _handler;
     private readonly ClientManager _clientManager;
 
-    public ChatSystem(ClientManager clientManager)
+    public ChatManager(ClientManager clientManager)
     {
         _handler = new List<IChatHandler>();
         _clientManager = clientManager;

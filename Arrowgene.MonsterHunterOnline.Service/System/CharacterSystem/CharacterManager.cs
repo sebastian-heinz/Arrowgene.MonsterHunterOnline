@@ -7,7 +7,7 @@ using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System;
+namespace Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
 public class CharacterManager
 {

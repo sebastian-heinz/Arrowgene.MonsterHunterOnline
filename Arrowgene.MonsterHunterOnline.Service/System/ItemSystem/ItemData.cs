@@ -1,4 +1,6 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+﻿using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
+
+namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 /// <summary>
 /// Static Item Data
@@ -11,8 +13,8 @@ public class ItemData
 
     public int ItemId { get; init; }
     public string Name { get; init; }
-    public uint MainClass { get; init; }
-    public uint Category { get; init; }
+    public ItemClass MainClass { get; init; }
+    public ItemCategory Category { get; init; }
     public uint SubCategory { get; init; }
     public uint BindingType { get; init; }
     public float Price { get; init; }

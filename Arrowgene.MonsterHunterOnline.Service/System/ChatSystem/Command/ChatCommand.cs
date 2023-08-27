@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command
 {
     public abstract class ChatCommand
     {

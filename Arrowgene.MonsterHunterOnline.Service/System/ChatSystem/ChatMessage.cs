@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat;
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
 public class ChatMessage
 {
     public static ChatMessage CommandError(Client client, string message)
     {
-        return new ChatMessage(client, ChannelType.Sys_A, message);
+        return new ChatMessage(client, ChannelType.Sys_A, $"Cmd Error: {message}");
     }
 
     public static ChatMessage CommandMessage(Client client, string message)

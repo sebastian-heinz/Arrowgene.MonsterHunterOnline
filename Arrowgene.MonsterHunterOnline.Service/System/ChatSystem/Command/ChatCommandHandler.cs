@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command
 {
     public class ChatCommandHandler : IChatHandler
     {
@@ -22,7 +22,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command
             AddCommand(new SpawnCommand());
             AddCommand(new PositionCommand());
             AddCommand(new TeleportCommand());
-            AddCommand(new ItemCommand());
+            AddCommand(new ItemCommand(server.ItemManager));
         }
 
         public void AddCommand(ChatCommand command)

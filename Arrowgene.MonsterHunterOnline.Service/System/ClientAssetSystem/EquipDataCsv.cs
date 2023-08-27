@@ -1,4 +1,6 @@
-﻿using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+﻿using System;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
 {
@@ -10,8 +12,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
         {
             if (!int.TryParse(properties[0], out int itemId)) return null;
             string name = properties[1];
-            if (!uint.TryParse(properties[9], out uint mainClass)) return null;
-            if (!uint.TryParse(properties[10], out uint category)) return null;
+            if (!Enum.TryParse(properties[9], out ItemClass mainClass)) return null;
+            if (!Enum.TryParse(properties[10], out ItemCategory category)) return null;
             if (!uint.TryParse(properties[11], out uint subCategory)) return null;
             if (!uint.TryParse(properties[12], out uint bindingType)) return null;
             if (!uint.TryParse(properties[18], out uint price)) return null;

@@ -7,6 +7,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;

@@ -4,7 +4,7 @@ public enum ItemColumnType : byte
 {
     Item = 0,
     Store = 1,
-    Box = 2,
+    BoxEquip = 2,
     Equipment = 3,
     Quest = 5,
 }

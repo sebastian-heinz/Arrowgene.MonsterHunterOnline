@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem
 {
     public interface IChatHandler
     {

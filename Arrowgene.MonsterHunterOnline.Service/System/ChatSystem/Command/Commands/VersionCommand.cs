@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
 {
     /// <summary>
     /// Provides information about the running server version

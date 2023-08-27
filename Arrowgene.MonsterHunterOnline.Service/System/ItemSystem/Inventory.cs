@@ -1,4 +1,6 @@
-﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+﻿using NotImplementedException = System.NotImplementedException;
+
+namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 public class Inventory
 {
@@ -12,6 +14,10 @@ public class Inventory
     {
         
     }
-    
-    
+
+
+    public bool Add(Item item)
+    {
+        return true;
+    }
 }

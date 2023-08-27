@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Logging;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Log
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Log
 {
     public class ChatLogHandler : IChatHandler
     {

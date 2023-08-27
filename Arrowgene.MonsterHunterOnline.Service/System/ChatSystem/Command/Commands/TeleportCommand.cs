@@ -1,12 +1,8 @@
-﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+﻿using System.Collections.Generic;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-namespace Arrowgene.MonsterHunterOnline.Service.System.Chat.Command.Commands
+namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
 {
     /// <summary>
     /// Teleport to position
