@@ -3,9 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-using Arrowgene.MonsterHunterOnline.Service.System;
-using Arrowgene.MonsterHunterOnline.Service.System.Inventory;
-using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -29,16 +27,8 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
                 remoteData = new ItemListRsp();
-                ((ItemListRsp)remoteData).EquipItem.UnknownA = 1;
-                ((ItemListRsp)remoteData).EquipItem.UnknownB = 1;
-                ((ItemListRsp)remoteData).EquipItem.Items.Add(new TlvItem()
-                {
-                    ItemId = 1,
-                    PosColumn = ItemColumnType.Equipment,
-                    PosGridEquipment = ItemEquipmentType.Helmet,
-                    ItemType = 60011,
-                    Quantity = 1,
-                });
+                // TODO null check
+                client.Inventory.PopulateItemListProperties((ItemListRsp)remoteData);
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                 remoteData = new PlayerLevelInitInfo();
@@ -48,6 +38,9 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 break;
             case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
+                // TODO unsure when this gets called
+                //TlvTaskSys taskSys = new TlvTaskSys();
+                //((RemoteDataInitInfo)remoteData).DataPacket.AddRange(taskSys.ToByteArray());
                 break;
             case ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
@@ -74,6 +67,10 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
             InstanceInitInfo instanceInitInfo = verifyRsp.InstanceInitInfo;
             instanceInitInfo.BattleGroundId = 0;
             instanceInitInfo.LevelId = 150301;
+
+            // TODO hack
+            instanceInitInfo.LevelId = client.State.InitLevelId;
+
             instanceInitInfo.CreateMaxPlayerCount = 4;
             instanceInitInfo.GameMode = GameMode.Town;
             instanceInitInfo.TimeType = TimeType.Noon;

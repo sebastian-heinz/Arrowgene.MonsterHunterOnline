@@ -387,6 +387,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql
             return reader.GetByte(reader.GetOrdinal(column));
         }
 
+        protected bool GetBool(DbDataReader reader, string column)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(column));
+        }
+        
         protected short GetInt16(DbDataReader reader, string column)
         {
             return reader.GetInt16(reader.GetOrdinal(column));

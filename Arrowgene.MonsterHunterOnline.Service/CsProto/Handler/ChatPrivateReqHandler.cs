@@ -2,7 +2,7 @@
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-using Arrowgene.MonsterHunterOnline.Service.System.Chat;
+using Arrowgene.MonsterHunterOnline.Service.System.ChatSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -12,11 +12,11 @@ public class ChatPrivateReqHandler : CsProtoStructureHandler<ChatPrivateReq>
         LogProvider.Logger<ServiceLogger>(typeof(ChatPrivateReqHandler));
 
 
-    private readonly ChatSystem _chatSystem;
+    private readonly ChatManager _chatManager;
 
-    public ChatPrivateReqHandler(ChatSystem chatSystem)
+    public ChatPrivateReqHandler(ChatManager chatManager)
     {
-        _chatSystem = chatSystem;
+        _chatManager = chatManager;
     }
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_CHAT_PRIVATE_REQ;
@@ -24,6 +24,6 @@ public class ChatPrivateReqHandler : CsProtoStructureHandler<ChatPrivateReq>
     public override void Handle(Client client, ChatPrivateReq req)
     {
         ChatMessage message = new ChatMessage(client, req.ChannelType, req.TargetName, req.Content);
-        _chatSystem.Handle(client, message);
+        _chatManager.Handle(client, message);
     }
 }

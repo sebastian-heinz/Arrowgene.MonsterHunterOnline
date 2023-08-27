@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Database
 {

@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Player initialize info
     /// </summary>
-    public class PlayerInitInfo : Structure
+    public class PlayerInitInfo : Structure, IItemListProperties
     {
         public PlayerInitInfo()
         {
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BlacklistData = new List<BlacklistInfoPacket>();
             FriendGroupData = new List<FriendGroupPacket>();
             Attr = new TlvAttr();
-            Task = new List<byte>();
+            Task = new TlvTaskData();
             Guild = new List<byte>();
             ActionPoint = new CSActionPointData();
             FirstEnterLevel = 0;
@@ -276,7 +276,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 任务数据
         /// </summary>
-        public List<byte> Task { get; }
+        public TlvTaskData Task { get; }
 
         /// <summary>
         /// 猎团数据
@@ -559,7 +559,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, BlacklistData, CsProtoConstant.CS_BLACKLIST_MAX, WriteInt32, WriteStructure);
             WriteList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, WriteInt32, WriteStructure);
             WriteTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, WriteUInt16);
-            WriteList(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, WriteInt32, WriteByte);
+            WriteTlvStructure(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, WriteInt32);
             WriteList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, WriteInt32, WriteByte);
             WriteStructure(buffer, ActionPoint);
             WriteInt32(buffer, FirstEnterLevel);
@@ -663,7 +663,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReadList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, ReadInt32,
                 ReadStructure<FriendGroupPacket>);
             ReadTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, ReadUInt16);
-            ReadList(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, ReadInt32, ReadByte);
+            ReadTlvStructure(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, ReadInt32);
             ReadList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, ReadInt32, ReadByte);
             ActionPoint = ReadStructure<CSActionPointData>(buffer);
             FirstEnterLevel = ReadInt32(buffer);

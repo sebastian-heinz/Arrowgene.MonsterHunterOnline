@@ -224,13 +224,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSRoleDataErrorRsp>(CS_CMD_ID.CS_CMD_ROLEDATA_ERR_RSP, structure);
         }
 
-        /// <summary>
-        /// 进入战斗副本倒计时
-        /// </summary>
-        public static CsTPacket<CSEnterInstanceCountDown> EnterInstanceCountDown(CSEnterInstanceCountDown structure)
-        {
-            return new CsTPacket<CSEnterInstanceCountDown>(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_COUNT_DOWN, structure);
-        }
+
         
         /// <summary>
         /// 副本UI进入请求
@@ -5562,15 +5556,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSRoomInitInfo>(CS_CMD_ID.CS_CMD_ROOM_INIT_INFO, structure);
         }
-
-        /// <summary>
-        /// 大随机匹配请求
-        /// </summary>
-        public static CsTPacket<CSLineUpBigRand> LineUpBigRand(CSLineUpBigRand structure)
-        {
-            return new CsTPacket<CSLineUpBigRand>(CS_CMD_ID.CS_CMD_LINE_UP_BIGRAND, structure);
-        }
-
+        
         /// <summary>
         /// 检测猎团
         /// </summary>
@@ -7038,23 +7024,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSItemMgrDelItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_DEL_ITEM_NTF, structure);
         }
-
-        /// <summary>
-        /// 移动物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrMoveItemReq> ItemMgrMoveItemReq(CSItemMgrMoveItemReq structure)
-        {
-            return new CsTPacket<CSItemMgrMoveItemReq>(CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_REQ, structure);
-        }
-
-        /// <summary>
-        /// 移动物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrMoveItemNtf> ItemMgrMoveItemNtf(CSItemMgrMoveItemNtf structure)
-        {
-            return new CsTPacket<CSItemMgrMoveItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_NTF, structure);
-        }
-
+        
         /// <summary>
         /// 交换物品
         /// </summary>

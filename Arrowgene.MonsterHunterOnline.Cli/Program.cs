@@ -40,6 +40,8 @@ namespace Arrowgene.MonsterHunterOnline.Cli
 
         private static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            
             Console.WriteLine("Program started");
             Console.WriteLine($"Version: {Util.GetVersion("Cli")}");
             Program program = new Program();

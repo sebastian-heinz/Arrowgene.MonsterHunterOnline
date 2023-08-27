@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
 {
@@ -190,9 +191,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             character.StarLevel = GetString(reader, "star_level");
             character.HrLevel = GetInt32(reader, "hr_level");
             character.SoulStoneLv = GetInt32(reader, "soul_stone_lv");
-            character.HideHelm = GetByte(reader, "hide_helm");
-            character.HideFashion = GetByte(reader, "hide_fashion");
-            character.HideSuite = GetByte(reader, "hide_suite");
+            character.HideHelm = GetBool(reader, "hide_helm");
+            character.HideFashion = GetBool(reader, "hide_fashion");
+            character.HideSuite = GetBool(reader, "hide_suite");
             character.Created = GetDateTime(reader, "created");
             return character;
         }

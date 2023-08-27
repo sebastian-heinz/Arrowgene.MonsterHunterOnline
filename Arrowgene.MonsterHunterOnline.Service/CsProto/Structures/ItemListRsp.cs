@@ -8,7 +8,7 @@ using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class ItemListRsp : Structure, IRemoteDataInfo
+    public class ItemListRsp : Structure, IRemoteDataInfo, IItemListProperties
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ItemListRsp));
 
@@ -43,22 +43,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 背包道具数据
         /// </summary>
-        public TlvItemList BagItem { get; set; }
+        public TlvItemList BagItem { get; }
 
         /// <summary>
         /// 装备数据
         /// </summary>
-        public TlvItemList EquipItem { get; set; }
+        public TlvItemList EquipItem { get; }
 
         /// <summary>
         /// 仓库数据
         /// </summary>
-        public TlvItemList StoreItem { get; set; }
+        public TlvItemList StoreItem { get; }
 
         /// <summary>
         /// 唯一使用物品列表
         /// </summary>
-        public List<ushort> ItemUseOnceList { get; set; }
+        public List<ushort> ItemUseOnceList { get; }
 
         public override void Write(IBuffer buffer)
         {

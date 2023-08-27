@@ -4,6 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.Database.Sql;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -35,9 +35,9 @@ public class TlvAttr : TlvStructure
     public int EyeBall { get; set; }
     public int FaceTattooColor { get; set; }
     public int EyeColor { get; set; }
-    public short HideFashion { get; set; }
-    public short HideSuite { get; set; }
-    public short HideHelm { get; set; }
+    public bool HideFashion { get; set; }
+    public bool HideSuite { get; set; }
+    public bool HideHelm { get; set; }
     public SystemUnlockFlags SystemUnlockData { get; set; }
     public SystemUnlockExtFlags SystemUnlockExtData1 { get; set; }
     public short[] FacialInfo { get; }
@@ -97,9 +97,9 @@ public class TlvAttr : TlvStructure
         WriteTlvInt32(buffer, 209, EyeBall);
         WriteTlvInt32(buffer, 220, FaceTattooColor);
         WriteTlvInt32(buffer, 221, EyeColor);
-        WriteTlvInt16(buffer, 227, HideFashion);
-        WriteTlvInt16(buffer, 228, HideSuite);
-        WriteTlvInt16(buffer, 229, HideHelm);
+        WriteTlvInt16(buffer, 227, HideFashion ? (short)1 : (short)0);
+        WriteTlvInt16(buffer, 228, HideSuite ? (short)1 : (short)0);
+        WriteTlvInt16(buffer, 229, HideHelm ? (short)1 : (short)0);
         WriteTlvInt32(buffer, 241, SystemUnlockData.ToInt32());
         WriteTlvInt32(buffer, 303, SystemUnlockExtData1.ToInt32());
         int faceAttrId = 252;
@@ -123,6 +123,7 @@ public class TlvAttr : TlvStructure
         WriteInt32(buffer, size);
         buffer.Position = endPos;
     }
+
 
     public override void Read(IBuffer buffer)
     {
