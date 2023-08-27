@@ -1,19 +1,22 @@
 ﻿namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
+/// <summary>
+/// Static Item Data
+/// </summary>
 public class ItemData
 {
     public ItemData()
     {
     }
 
-    public ulong ItemId { get; set; }
-    public string Name { get; set; }
-    public uint MainClass { get; set; }
-    public uint Category { get; set; }
-    public uint SubCategory { get; set; }
-    public uint BindingType { get; set; }
-    public float Price { get; set; }
-    public float SalePrice { get; set; }
-    public uint PortableLimit { get; set; }
-    public uint StackLimit { get; set; }
+    public int ItemId { get; init; }
+    public string Name { get; init; }
+    public uint MainClass { get; init; }
+    public uint Category { get; init; }
+    public uint SubCategory { get; init; }
+    public uint BindingType { get; init; }
+    public float Price { get; init; }
+    public float SalePrice { get; init; }
+    public uint PortableLimit { get; init; }
+    public uint StackLimit { get; init; }
 }

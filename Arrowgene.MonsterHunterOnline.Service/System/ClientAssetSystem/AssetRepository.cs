@@ -11,14 +11,16 @@ public class AssetRepository
     private static readonly ILogger Logger = LogProvider.Logger(typeof(AssetRepository));
 
     private DirectoryInfo _directory;
+    private readonly Dictionary<int, ItemData> _items;
 
     public AssetRepository()
     {
-        _items = new Dictionary<ulong, ItemData>();
+        _items = new Dictionary<int, ItemData>();
+        Items = _items.AsReadOnly();
     }
 
-    public ReadOnlyDictionary<ulong, ItemData> Items => _items.AsReadOnly();
-    private readonly Dictionary<ulong, ItemData> _items;
+    public ReadOnlyDictionary<int, ItemData> Items { get; }
+
 
     public void Initialize(string folder)
     {
@@ -51,10 +53,7 @@ public class AssetRepository
         Load(items, "Static/equipdata_armor.dat_防具.csv", new EquipDataCsv());
         Load(items, "Static/equipdata_clothes.dat_时装.csv", new EquipDataCsv());
         Load(items, "Static/equipdata_jewelry.dat_首饰.csv", new EquipDataCsv());
-        foreach (ItemData item in items)
-        {
-            _items.Add(item.ItemId, item);
-        }
+        AddItemsToLookup(items);
     }
 
     private void LoadItems()
@@ -74,8 +73,21 @@ public class AssetRepository
         Load(items, "Static/itemdata_quest.dat_任务道具.csv", new ItemDataCsv());
         Load(items, "Static/itemdata_skillpearl.dat_技能珠.csv", new ItemDataCsv());
         Load(items, "Static/itemdata_tool.dat_工具.csv", new ItemDataCsv());
+        AddItemsToLookup(items);
+    }
+
+    private void AddItemsToLookup(List<ItemData> items)
+    {
         foreach (ItemData item in items)
         {
+            if (_items.TryGetValue(item.ItemId, out ItemData existing))
+            {
+                Logger.Info(
+                    $"Duplicate ItemId:{item.ItemId} replacing existing '{item.Name}' with found: '{existing.Name}'");
+                _items[item.ItemId] = item;
+                continue;
+            }
+
             _items.Add(item.ItemId, item);
         }
     }

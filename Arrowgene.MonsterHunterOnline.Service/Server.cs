@@ -9,6 +9,7 @@ using Arrowgene.MonsterHunterOnline.Service.System.Chat;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat.Command;
 using Arrowgene.MonsterHunterOnline.Service.System.Chat.Log;
 using Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Web;
@@ -30,11 +31,11 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public Server(Setting setting)
         {
             Setting = new Setting(setting);
-            
+
             Assets = new AssetRepository();
             string clientAssets = Path.Combine(Util.ExecutingDirectory(), "Files\\Client");
             Assets.Initialize(clientAssets);
-            
+
             Database = CreateDatabase();
 
             _tpduConsumer = new TpduConsumer(Setting);
@@ -57,6 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             ClientManager = new ClientManager();
             CharacterManager = new CharacterManager(Database);
             Chat = new ChatSystem(ClientManager);
+            ItemManager = new ItemManager(Database, Assets);
 
             LoadPacketHandler();
 
@@ -70,6 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public ClientManager ClientManager { get; }
         public IDatabase Database { get; }
         public AssetRepository Assets { get; }
+        public ItemManager ItemManager { get; }
 
         private IDatabase CreateDatabase()
         {
