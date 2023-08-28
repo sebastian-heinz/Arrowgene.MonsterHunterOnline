@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Buffers;
-using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvItem : TlvStructure
+public class GeneralItem : TlvStructure
 {
     private const byte MaxAttrCount = 0x20;
 
-    public TlvItem()
+    public GeneralItem()
     {
         ItemId = 0;
         ItemType = 0;
@@ -18,7 +17,6 @@ public class TlvItem : TlvStructure
         PosGrid = 0;
         Quantity = 0;
         Bind = 0;
-        AttrCount = 0;
         ItemExtAttrIds = new List<byte>();
         ItemExtAttrVals = new List<int>();
     }
@@ -37,7 +35,7 @@ public class TlvItem : TlvStructure
     public short PosGrid { get; set; }
     public short Quantity { get; set; }
     public byte Bind { get; set; }
-    public byte AttrCount { get; set; }
+    public byte AttrCount => GetAttrCount();
     public List<byte> ItemExtAttrIds { get; }
     public List<int> ItemExtAttrVals { get; }
 
@@ -63,13 +61,8 @@ public class TlvItem : TlvStructure
         WriteTlvInt16(buffer, 6, Quantity);
         WriteTlvByte(buffer, 7, Bind);
 
-        byte attrCount = 0;
-        int minAttrCount = Math.Min(ItemExtAttrVals.Count, ItemExtAttrIds.Count);
-        if (minAttrCount > MaxAttrCount)
-        {
-            attrCount = MaxAttrCount;
-        }
-        
+        byte attrCount = GetAttrCount();
+
         if (attrCount > 0)
         {
             WriteTlvByte(buffer, 8, attrCount);
@@ -91,6 +84,18 @@ public class TlvItem : TlvStructure
         buffer.Position = startPos;
         WriteInt32(buffer, entrySize);
         buffer.Position = endPos;
+    }
+
+    private byte GetAttrCount()
+    {
+        byte attrCount = 0;
+        int minAttrCount = Math.Min(ItemExtAttrVals.Count, ItemExtAttrIds.Count);
+        if (minAttrCount > MaxAttrCount)
+        {
+            attrCount = MaxAttrCount;
+        }
+
+        return attrCount;
     }
 
     public override void Read(IBuffer buffer)

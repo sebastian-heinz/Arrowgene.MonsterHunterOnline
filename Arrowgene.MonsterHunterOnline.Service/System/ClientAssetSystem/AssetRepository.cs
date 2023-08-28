@@ -11,15 +11,15 @@ public class AssetRepository
     private static readonly ILogger Logger = LogProvider.Logger(typeof(AssetRepository));
 
     private DirectoryInfo _directory;
-    private readonly Dictionary<int, ItemData> _items;
+    private readonly Dictionary<int, ItemInfo> _items;
 
     public AssetRepository()
     {
-        _items = new Dictionary<int, ItemData>();
+        _items = new Dictionary<int, ItemInfo>();
         Items = _items.AsReadOnly();
     }
 
-    public ReadOnlyDictionary<int, ItemData> Items { get; }
+    public ReadOnlyDictionary<int, ItemInfo> Items { get; }
 
 
     public void Initialize(string folder)
@@ -37,7 +37,7 @@ public class AssetRepository
 
     private void LoadEquipment()
     {
-        List<ItemData> items = new List<ItemData>();
+        List<ItemInfo> items = new List<ItemInfo>();
         Load(items, "Static/equipdata.dat_双刀.csv", new EquipDataCsv());
         Load(items, "Static/equipdata.dat_大剑.csv", new EquipDataCsv());
         Load(items, "Static/equipdata.dat_太刀.csv", new EquipDataCsv());
@@ -58,7 +58,7 @@ public class AssetRepository
 
     private void LoadItems()
     {
-        List<ItemData> items = new List<ItemData>();
+        List<ItemInfo> items = new List<ItemInfo>();
         Load(items, "Static/itemdata.dat_1消耗品.csv", new ItemDataCsv());
         Load(items, "Static/itemdata.dat_4弹药.csv", new ItemDataCsv());
         Load(items, "Static/itemdata.dat_7宝石.csv", new ItemDataCsv());
@@ -76,11 +76,11 @@ public class AssetRepository
         AddItemsToLookup(items);
     }
 
-    private void AddItemsToLookup(List<ItemData> items)
+    private void AddItemsToLookup(List<ItemInfo> items)
     {
-        foreach (ItemData item in items)
+        foreach (ItemInfo item in items)
         {
-            if (_items.TryGetValue(item.ItemId, out ItemData existing))
+            if (_items.TryGetValue(item.ItemId, out ItemInfo existing))
             {
                 Logger.Info(
                     $"Duplicate ItemId:{item.ItemId} replacing existing '{item.Name}' with found: '{existing.Name}'");

@@ -27,6 +27,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -41,7 +42,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public CSUpdateItem()
         {
             Reason = 0;
-            GeneralItem = new List<CSGeneralItem>();
+            GeneralItem = new List<GeneralItem>();
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 普通物品
         /// </summary>
-        public List<CSGeneralItem> GeneralItem;
+        public List<GeneralItem> GeneralItem;
 
         public void Write(IBuffer buffer)
         {
@@ -72,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ushort generalItemCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < generalItemCount; i++)
             {
-                CSGeneralItem GeneralItemEntry = new CSGeneralItem();
+                GeneralItem GeneralItemEntry = new GeneralItem();
                 GeneralItemEntry.Read(buffer);
                 GeneralItem.Add(GeneralItemEntry);
             }

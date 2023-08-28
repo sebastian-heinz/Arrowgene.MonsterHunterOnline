@@ -42,7 +42,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             Box = 0;
             ItemList = new List<CSItemBoxItemEntry>();
-            EquipList = new List<CSItemData>();
+            EquipList = new List<ItemData>();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 装备列表
         /// </summary>
-        public List<CSItemData> EquipList;
+        public List<ItemData> EquipList;
 
         public void Write(IBuffer buffer)
         {
@@ -92,7 +92,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             byte equipListCount = buffer.ReadByte();
             for (int i = 0; i < equipListCount; i++)
             {
-                CSItemData EquipListEntry = new CSItemData();
+                ItemData EquipListEntry = new ItemData();
                 EquipListEntry.Read(buffer);
                 EquipList.Add(EquipListEntry);
             }

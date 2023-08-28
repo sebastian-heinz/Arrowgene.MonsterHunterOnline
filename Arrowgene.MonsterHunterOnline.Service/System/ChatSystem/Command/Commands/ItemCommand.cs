@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
@@ -44,6 +46,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
                 responses.Add(ChatMessage.CommandError(client, "failed to add item"));
                 return;
             }
+
+
 
             responses.Add(ChatMessage.CommandMessage(client, "Executed"));
         }

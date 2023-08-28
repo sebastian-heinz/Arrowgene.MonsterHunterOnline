@@ -41,7 +41,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public S2CGuildUpdateItemNtf()
         {
             Reason = 0;
-            ItemList = new List<CSItemData>();
+            ItemList = new List<ItemData>();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 物品列表
         /// </summary>
-        public List<CSItemData> ItemList;
+        public List<ItemData> ItemList;
 
         public void Write(IBuffer buffer)
         {
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             byte itemListCount = buffer.ReadByte();
             for (int i = 0; i < itemListCount; i++)
             {
-                CSItemData ItemListEntry = new CSItemData();
+                ItemData ItemListEntry = new ItemData();
                 ItemListEntry.Read(buffer);
                 ItemList.Add(ItemListEntry);
             }

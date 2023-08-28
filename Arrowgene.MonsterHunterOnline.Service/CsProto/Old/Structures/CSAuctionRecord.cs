@@ -27,6 +27,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -51,7 +52,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BidDBId = 0;
             BidRoleName = "";
             BidLevel = 0;
-            Item = new CSGeneralItem();
+            Item = new GeneralItem();
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 寄拍物品
         /// </summary>
-        public CSGeneralItem Item;
+        public GeneralItem Item;
 
         public void Write(IBuffer buffer)
         {

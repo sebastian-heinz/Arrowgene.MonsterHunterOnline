@@ -27,6 +27,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -44,7 +45,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ItemType = 0;
             ItemCount = 0;
             MoneyAdd = 0;
-            ItemData = new CSGeneralItem();
+            ItemData = new GeneralItem();
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 道具数据
         /// </summary>
-        public CSGeneralItem ItemData;
+        public GeneralItem ItemData;
 
         public void Write(IBuffer buffer)
         {

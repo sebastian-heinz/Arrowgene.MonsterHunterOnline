@@ -5,9 +5,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 /// <summary>
 /// Static Item Data
 /// </summary>
-public class ItemData
+public class ItemInfo
 {
-    public ItemData()
+    public ItemInfo()
     {
     }
 

@@ -12,12 +12,12 @@ public class TlvItemList : TlvStructure
     {
         UnknownA = 0;
         UnknownB = 0;
-        Items = new List<TlvItem>();
+        Items = new List<GeneralItem>();
     }
 
     public short UnknownA { get; set; }
     public short UnknownB { get; set; }
-    public List<TlvItem> Items { get; }
+    public List<GeneralItem> Items { get; }
 
     public override void Write(IBuffer buffer)
     {

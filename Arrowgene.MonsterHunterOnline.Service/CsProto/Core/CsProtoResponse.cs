@@ -120,22 +120,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsProtoStructurePacket<MonsterActiveState> MonsterActiveState =>
             new(CS_CMD_ID.CS_CMD_MONSTER_ACTIVE);
-        
+
         /// <summary>
         /// Looks like client ignores this, send CS_CMD_SCENEOBJ_APPEAR_NTF_LIST instead
         /// </summary>
         public static CsProtoStructurePacket<SceneObjAppearNtf> SceneObjAppearNtf =>
             new(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF);
+
         public static CsProtoStructurePacket<SceneObjAppearNtfList> SceneObjAppearNtfList =>
             new(CS_CMD_ID.CS_CMD_SCENEOBJ_APPEAR_NTF_LIST);
-        
+
         public static CsProtoStructurePacket<MainInstanceOptSynRsp> MainInstanceOptSynRsp =>
             new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_OPT_SYN_RSP);
-        
+
         public static CsProtoStructurePacket<EnterInstanceCountDown> EnterInstanceCountDown =>
             new(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_COUNT_DOWN);
+
         public static CsProtoStructurePacket<ItemMgrMoveItemNtf> ItemMgrMoveItemNtf =>
             new(CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_NTF);
-        
+
+        public static CsProtoStructurePacket<ItemMgrAddItemNtf> ItemMgrAddItemNtf =>
+            new(CS_CMD_ID.CS_CMD_ITEMMGR_ADD_ITEM_NTF);
     }
 }

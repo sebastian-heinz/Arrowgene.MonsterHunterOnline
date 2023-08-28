@@ -5,13 +5,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 public class Item
 {
-    public Item(ItemData itemData)
+    public Item(ItemInfo itemInfo)
     {
         Attributes = new List<ItemAttribute>();
-        Data = itemData;
-        ItemId = itemData.ItemId;
+        Info = itemInfo;
+        ItemId = itemInfo.ItemId;
         Quantity = 1;
-        switch (itemData.MainClass)
+        switch (itemInfo.MainClass)
         {
             case ItemClass.Item:
             {
@@ -27,7 +27,7 @@ public class Item
         }
     }
 
-    public ItemData Data { get; }
+    public ItemInfo Info { get; }
 
     /// <summary>
     /// Unique Id to keep track of item

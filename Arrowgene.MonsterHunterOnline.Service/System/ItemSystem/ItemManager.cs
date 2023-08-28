@@ -1,4 +1,6 @@
 ﻿using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem;
 
@@ -35,9 +37,9 @@ public class ItemManager
             return false;
         }
 
-        ItemData itemData = _assets.Items[itemId];
+        ItemInfo itemInfo = _assets.Items[itemId];
 
-        Item item = MakeItem(itemData);
+        Item item = MakeItem(itemInfo);
         if (item == null)
         {
             Logger.Error(client, "AddItem::failed to make item");
@@ -50,12 +52,18 @@ public class ItemManager
             return false;
         }
 
+        CsProtoStructurePacket<ItemMgrAddItemNtf> itemMgrAddItemNtf = CsProtoResponse.ItemMgrAddItemNtf;
+        itemMgrAddItemNtf.Structure.Reason = 0;
+        ItemData itemData = new ItemData(item);
+        itemMgrAddItemNtf.Structure.ItemList.Add(itemData);
+        client.SendCsProtoStructurePacket(itemMgrAddItemNtf);
+
         return true;
     }
 
-    public Item MakeItem(ItemData itemData)
+    public Item MakeItem(ItemInfo itemInfo)
     {
-        Item item = new Item(itemData);
+        Item item = new Item(itemInfo);
         return item;
     }
 }

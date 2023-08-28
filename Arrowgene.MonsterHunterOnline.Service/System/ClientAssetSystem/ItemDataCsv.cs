@@ -4,11 +4,11 @@ using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
 {
-    public class ItemDataCsv : CsvReaderWriter<ItemData>
+    public class ItemDataCsv : CsvReaderWriter<ItemInfo>
     {
         protected override int NumExpectedItems => 18;
 
-        protected override ItemData CreateInstance(string[] properties)
+        protected override ItemInfo CreateInstance(string[] properties)
         {
             if (!TryParse(properties, 0, out int itemId, int.TryParse, 0)) return null;
             string name = properties[1];
@@ -20,7 +20,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
             if (!TryParse(properties, 17, out float price, float.TryParse, 0)) return null;
             if (!TryParse(properties, 18, out float salePrice, float.TryParse, 0)) return null;
 
-            return new ItemData
+            return new ItemInfo
             {
                 ItemId = itemId,
                 Name = name,
