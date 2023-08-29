@@ -16,7 +16,7 @@ public class Inventory
     private Item[] _store;
     private Item[] _equipment;
     private object _lock;
-    
+
     public Inventory()
     {
         _item = new Item[MaxItemSize];
@@ -24,22 +24,27 @@ public class Inventory
         _equipment = new Item[MaxItemSize];
         _lock = new object();
     }
-    
+
     public bool Add(Item item)
     {
-        lock (_lock)
+        Item[] collection = GetCollection(item.PosColumn);
+        if (collection == null)
         {
-            switch (item.PosColumn)
-            {
-                case ItemColumnType.Item: return Add(item, _item);
-                case ItemColumnType.Store: return Add(item, _store);
-                case ItemColumnType.BoxEquip:  return Add(item, _equipment);
-                case ItemColumnType.Equipment: return Add(item, _equipment);
-                case ItemColumnType.Quest: return Add(item, _item);
-            }
-
             return false;
         }
+
+        return Add(item, collection);
+    }
+
+    public bool Remove(Item item)
+    {
+        Item[] collection = GetCollection(item.PosColumn);
+        if (collection == null)
+        {
+            return false;
+        }
+
+        return Remove(item, collection);
     }
 
     public bool Move(ulong itemId,
@@ -83,30 +88,88 @@ public class Inventory
 
     private bool Add(Item item, Item[] collection)
     {
-        int freeSlot = GetFreeSlot(collection);
-        if (freeSlot == NoFreeSlot)
+        if (item.PosGrid != null)
         {
-            Logger.Error("no free slot");
+            return false;
+        }
+        
+        int freeSlot;
+        lock (_lock)
+        {
+            freeSlot = GetFreeSlot(collection);
+            if (freeSlot == NoFreeSlot)
+            {
+                Logger.Error("no free slot");
+                return false;
+            }
+
+            collection[freeSlot] = item;
+        }
+
+        item.PosGrid = (ushort)freeSlot;
+        return true;
+    }
+
+    private bool Remove(Item item, Item[] collection)
+    {
+        if (item.PosGrid == null)
+        {
             return false;
         }
 
-        // TODO
-        collection[freeSlot] = item;
-        item.Id = (uint)freeSlot;
-        item.PosGrid = (ushort)freeSlot;
+        ushort grid = item.PosGrid.Value;
+
+        if (item.PosGrid >= collection.Length)
+        {
+            return false;
+        }
+
+        lock (_lock)
+        {
+            if (collection[item.PosGrid.Value] == null)
+            {
+                return false;
+            }
+
+            if (collection[grid] != item)
+            {
+                return false;
+            }
+
+            collection[grid] = null;
+        }
+
+        item.PosGrid = null;
         return true;
     }
 
     private int GetFreeSlot(Item[] collection)
     {
-        for (int i = 0; i < collection.Length; i++)
+        lock (_lock)
         {
-            if (collection[i] == null)
+            for (int i = 0; i < collection.Length; i++)
             {
-                return i;
+                if (collection[i] == null)
+                {
+                    return i;
+                }
             }
         }
 
         return NoFreeSlot;
+    }
+
+    private Item[] GetCollection(ItemColumnType column)
+    {
+        switch (column)
+        {
+            case ItemColumnType.Item: return _item;
+            case ItemColumnType.Store: return _store;
+            case ItemColumnType.BoxEquip: return _equipment;
+            case ItemColumnType.Equipment: return _equipment;
+            case ItemColumnType.Quest: return _item;
+        }
+
+        return null;
     }
 }

@@ -25,7 +25,7 @@ public class ItemMgrMoveItemHandler : CsProtoStructureHandler<ItemMgrMoveItemReq
         CsCsProtoStructurePacket<ItemMgrMoveItemNtf> itemMgrMoveItemNtf = CsProtoResponse.ItemMgrMoveItemNtf;
 
         if (!inventory.Move(
-                req.ItemId,
+                (ulong)req.ItemId,
                 req.ItemColumn,
                 req.ItemGrid,
                 req.DstColumn,

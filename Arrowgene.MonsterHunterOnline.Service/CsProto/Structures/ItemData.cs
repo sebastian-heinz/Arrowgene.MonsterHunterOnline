@@ -15,7 +15,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             ItemType = item.ItemId;
             ItemColumn = item.PosColumn;
-            ItemGrid = item.PosGrid;
+            ItemGrid = item.PosGrid.Value;
             Item = item;
         }
 

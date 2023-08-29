@@ -260,6 +260,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             return val;
         }
 
+        /// <summary>
+        /// Writes a TLV structures, by prefixing its size and adding the magic byte 0x99 (TlvMagic.NoVariant)
+        /// </summary>
         protected void WriteTlvStructure<TSize>(
             IBuffer buffer,
             ITlvStructure val,
@@ -273,6 +276,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             // at the moment using a tmp buffer, however it should be able to work with existing
             // buffer by adjusting position and length to delete in case of error.
             StreamBuffer tmp = new StreamBuffer();
+            WriteByte(tmp, (byte)TlvMagic.NoVariant);
             val.WriteTlv(tmp);
             byte[] tlv = tmp.GetAllBytes();
 
@@ -329,7 +333,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             return val;
         }
 
-        protected void WriteTlvStructure(IBuffer buffer, ITlvStructure val)
+        /// <summary>
+        /// Writes a TLV sub structure, does not prefix the data with 0x99 (TlvMagic.NoVariant)
+        /// </summary>
+        protected void WriteTlvSubStructure(IBuffer buffer, ITlvStructure val)
         {
             val.WriteTlv(buffer);
         }

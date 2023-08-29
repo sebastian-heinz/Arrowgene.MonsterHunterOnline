@@ -9,10 +9,9 @@ public class TlvTaskSys : Structure, ITlvStructure
     public TlvTaskSys()
     {
     }
-    
+
     public void WriteTlv(IBuffer buffer)
     {
-        WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 

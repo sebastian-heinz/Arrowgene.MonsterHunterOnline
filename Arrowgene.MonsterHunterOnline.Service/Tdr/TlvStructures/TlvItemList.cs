@@ -23,7 +23,6 @@ public class TlvItemList : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
@@ -39,7 +38,7 @@ public class TlvItemList : Structure, ITlvStructure
             WriteInt32(buffer, 0);
             for (int i = 0; i < maxItems; i++)
             {
-                WriteTlvStructure(buffer, Items[i]);
+                WriteTlvSubStructure(buffer, Items[i]);
             }
 
             int subEndPos = buffer.Position;

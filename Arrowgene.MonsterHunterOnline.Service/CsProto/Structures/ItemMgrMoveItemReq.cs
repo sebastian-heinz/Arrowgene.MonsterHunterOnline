@@ -43,7 +43,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort DstGrid { get; set; }
 
-        public  void WriteCs(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             WriteUInt64(buffer, ItemId);
             WriteByte(buffer, (byte)ItemColumn);

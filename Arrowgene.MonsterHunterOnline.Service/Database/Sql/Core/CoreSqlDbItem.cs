@@ -12,7 +12,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
     {
         private static readonly string[] ItemFields = new string[]
         {
-            "character_id", "item_id", "column", "grid", "quantity", "created"
+            "character_id", "item_id", "column", "grid", "quantity", "created", "created_by"
         };
 
         private static readonly string SqlInsertItem =
@@ -26,21 +26,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
 
         private const string SqlDeleteItem = "DELETE FROM `item` WHERE `id`=@id;";
 
-        public Item CreateItem(
-            uint itemId,
-            uint characterId,
-            ItemColumnType column,
-            ushort grid,
-            ushort quantity,
-            string createdBy)
+        public bool CreateItem(Item item)
         {
-            Item item = new Item();
-            item.ItemId = itemId;
-            item.CharacterId = characterId;
-            item.PosColumn = column;
-            item.PosGrid = grid;
-            item.Quantity = quantity;
-            item.CreatedBy = createdBy;
+            if (item.PosGrid == null)
+            {
+                return false;
+            }
+
             item.Created = DateTime.Now;
 
             int rowsAffected = ExecuteNonQuery(
@@ -50,12 +42,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             );
             if (rowsAffected <= NoRowsAffected || autoIncrement <= NoAutoIncrement)
             {
-                return null;
+                return false;
             }
 
-
             item.Id = (ulong)autoIncrement;
-            return item;
+            return true;
         }
 
         public List<Item> SelectItemsByCharacterId(uint characterId)
@@ -77,9 +68,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
 
         public bool UpdateItem(Item item)
         {
+            if (item.Id == null)
+            {
+                return false;
+            }
+
+            if (item.PosGrid == null)
+            {
+                return false;
+            }
+
             int rowsAffected = ExecuteNonQuery(SqlUpdateItem, command =>
             {
-                AddParameter(command, "@id", item.Id);
+                AddParameter(command, "@id", item.Id.Value);
                 AddParameter(command, item);
             });
             return rowsAffected > NoRowsAffected;
@@ -108,10 +109,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
 
         private void AddParameter(TCom command, Item item)
         {
+            if (item.PosGrid == null)
+            {
+                throw new Exception("item.PosGrid == null");
+            }
+
             AddParameter(command, "@item_id", item.ItemId);
             AddParameter(command, "@character_id", item.CharacterId);
             AddParameter(command, "@column", (byte)item.PosColumn);
-            AddParameter(command, "@grid", item.PosGrid);
+            AddParameter(command, "@grid", item.PosGrid.Value);
             AddParameter(command, "@quantity", item.Quantity);
             AddParameter(command, "@created_by", item.CreatedBy);
             AddParameter(command, "@created", item.Created);

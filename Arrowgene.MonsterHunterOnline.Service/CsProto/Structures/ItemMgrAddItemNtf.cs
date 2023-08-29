@@ -27,7 +27,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ItemData> ItemList { get; }
 
-        public  void WriteCs(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte itemSize = Math.Min((byte)ItemList.Count, (byte)CsProtoConstant.CS_MAX_ITEMMGR_ITEM_COUNT);
             WriteByte(buffer, itemSize);

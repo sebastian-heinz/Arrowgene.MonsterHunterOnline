@@ -29,15 +29,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         bool GetFreeCharacterIndex(uint accountId, out byte freeIndex);
 
         // Item
-        public Item CreateItem(
-            uint itemId,
-            uint characterId,
-            ItemColumnType column,
-            ushort grid,
-            ushort quantity,
-            string createdBy
-        );
-
+        public bool CreateItem(Item item);
         bool UpdateItem(Item item);
         bool DeleteItem(ulong itemId);
         List<Item> SelectItemsByCharacterId(uint characterId);

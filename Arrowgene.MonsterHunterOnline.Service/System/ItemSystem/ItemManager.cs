@@ -39,25 +39,11 @@ public class ItemManager
             Logger.Error(client, "AddItem::character null");
             return false;
         }
-
-        if (!_assets.Items.ContainsKey(itemId))
-        {
-            Logger.Error(client, "AddItem::item data not found");
-            return false;
-        }
-
-        ItemInfo itemInfo = _assets.Items[itemId];
-
-        Item item = MakeItem(character.Id, itemInfo, inventory);
+        
+        Item item = MakeItem(character.Id, itemId, inventory);
         if (item == null)
         {
             Logger.Error(client, "AddItem::failed to make item");
-            return false;
-        }
-
-        if (!inventory.Add(item))
-        {
-            Logger.Error(client, "AddItem::failed to add item to inventory");
             return false;
         }
 
@@ -72,13 +58,18 @@ public class ItemManager
 
     /// <summary>
     /// Brings a item into existence.
-    /// This is not a easy task,
-    /// - inquire inventory for free slot and ensure free slot will not be taken up anywhere else
-    /// - create item in the database
-    /// 
     /// </summary>
-    public Item MakeItem(uint characterId, ItemInfo itemInfo, Inventory inventory)
+    public Item MakeItem(uint characterId, uint itemId, Inventory inventory)
     {
+        if (!_assets.Items.ContainsKey(itemId))
+        {
+            Logger.Error("MakeItem::item data not found");
+            return null;
+        }
+
+        ItemInfo itemInfo = _assets.Items[itemId];
+
+
         Item item = new Item();
         switch (itemInfo.MainClass)
         {
@@ -94,10 +85,21 @@ public class ItemManager
                 break;
             }
             default:
+            {
                 return null;
+            }
         }
-        
-        
+
+        item.CharacterId = characterId;
+        item.CreatedBy = $"{characterId}";
+        item.Quantity = 1;
+        item.ItemId = itemId;
+        inventory.Add(item);
+        if (!_database.CreateItem(item))
+        {
+            inventory.Remove(item);
+            return null;
+        }
 
         return item;
     }

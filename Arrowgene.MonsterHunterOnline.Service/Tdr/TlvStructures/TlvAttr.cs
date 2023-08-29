@@ -75,7 +75,6 @@ public class TlvAttr : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
+using Arrowgene.MonsterHunterOnline.Service.Tdr;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
@@ -12,11 +13,11 @@ public class Item : Structure, ITlvStructure
 
     public Item()
     {
-        Id = 0;
+        Id = null;
         ItemId = 0;
         CharacterId = 0;
         PosColumn = 0;
-        PosGrid = 0;
+        PosGrid = null;
         Quantity = 0;
         Bind = false;
         CreatedBy = null;
@@ -27,7 +28,7 @@ public class Item : Structure, ITlvStructure
     /// <summary>
     /// Unique Id to keep track of item
     /// </summary>
-    public ulong Id { get; set; }
+    public ulong? Id { get; set; }
 
     /// <summary>
     /// Id to reference static item data
@@ -36,16 +37,34 @@ public class Item : Structure, ITlvStructure
 
     public uint CharacterId { get; set; }
     public ItemColumnType PosColumn { get; set; }
-    public ushort PosGrid { get; set; }
+    public ushort? PosGrid { get; set; }
 
     /// <summary>
     /// Convenience property when setting `PosColumn = ItemTabType.Equipment`
     /// to specify actual slot by name
     /// </summary>
-    public ItemEquipmentType PosGridEquipment
+    public ItemEquipmentType? PosGridEquipment
     {
-        get => (ItemEquipmentType)PosGrid;
-        set => PosGrid = (ushort)value;
+        get
+        {
+            if (PosGrid == null)
+            {
+                return null;
+            }
+
+            return (ItemEquipmentType)PosGrid;
+        }
+        set
+        {
+            if (value == null)
+            {
+                PosGrid = null;
+            }
+            else
+            {
+                PosGrid = (ushort)value;
+            }
+        }
     }
 
     public ushort Quantity { get; set; }
@@ -56,13 +75,23 @@ public class Item : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
+        if (PosGrid == null)
+        {
+            return;
+        }
+
+        if (Id == null)
+        {
+            return;
+        }
+
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
-        WriteTlvUInt64(buffer, 2, Id);
+        WriteTlvUInt64(buffer, 2, Id.Value);
         WriteTlvUInt32(buffer, 3, ItemId);
         WriteTlvByte(buffer, 4, (byte)PosColumn);
-        WriteTlvUInt16(buffer, 5, PosGrid);
+        WriteTlvUInt16(buffer, 5, PosGrid.Value);
         WriteTlvUInt16(buffer, 6, Quantity);
         WriteTlvBool(buffer, 7, Bind);
 
