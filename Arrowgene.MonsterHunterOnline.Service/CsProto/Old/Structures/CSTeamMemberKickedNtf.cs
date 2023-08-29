@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 有人被踢通知
     /// </summary>
-    public class CSTeamMemberKickedNtf : IStructure
+    public class CSTeamMemberKickedNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberKickedNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint MemberId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MemberId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MemberId = buffer.ReadUInt32(Endianness.Big);
         }

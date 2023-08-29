@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端聊天查询对方玩家信息响应
     /// </summary>
-    public class CSChatTargetQueryRsp : IStructure
+    public class CSChatTargetQueryRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatTargetQueryRsp));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte VipCanUse;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
@@ -105,7 +105,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(VipCanUse);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队员重新上线时更新队员NetId
     /// </summary>
-    public class CSTeamUpdateNetIdNtf : IStructure
+    public class CSTeamUpdateNetIdNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamUpdateNetIdNtf));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint NetId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(DbId, Endianness.Big);
             buffer.WriteUInt32(NetId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DbId = buffer.ReadUInt64(Endianness.Big);
             NetId = buffer.ReadUInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 物品购买限制数据添加
     /// </summary>
-    public class CSNpcShopAddBuyItemLimitNtf : IStructure
+    public class CSNpcShopAddBuyItemLimitNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcShopAddBuyItemLimitNtf));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LastBuyTm;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(FromConfigType, Endianness.Big);
             buffer.WriteInt32(LimitType, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LastBuyTm, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FromConfigType = buffer.ReadInt32(Endianness.Big);
             LimitType = buffer.ReadInt32(Endianness.Big);

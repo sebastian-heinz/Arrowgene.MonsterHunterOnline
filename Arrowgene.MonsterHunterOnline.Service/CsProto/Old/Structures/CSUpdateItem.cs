@@ -27,6 +27,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
@@ -35,14 +36,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器更新客户端物品，包括更新C2的情况
     /// </summary>
-    public class CSUpdateItem : IStructure
+    public class CSUpdateItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSUpdateItem));
 
         public CSUpdateItem()
         {
             Reason = 0;
-            GeneralItem = new List<GeneralItem>();
+            GeneralItem = new List<Item>();
         }
 
         /// <summary>
@@ -53,28 +54,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 普通物品
         /// </summary>
-        public List<GeneralItem> GeneralItem;
+        public List<Item> GeneralItem;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(Reason, Endianness.Big);
             ushort generalItemCount = (ushort)GeneralItem.Count;
             buffer.WriteUInt16(generalItemCount, Endianness.Big);
             for (int i = 0; i < generalItemCount; i++)
             {
-                GeneralItem[i].Write(buffer);
+                GeneralItem[i].WriteTlv(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadUInt16(Endianness.Big);
             GeneralItem.Clear();
             ushort generalItemCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < generalItemCount; i++)
             {
-                GeneralItem GeneralItemEntry = new GeneralItem();
-                GeneralItemEntry.Read(buffer);
+                Item GeneralItemEntry = new Item();
+                GeneralItemEntry.ReadTlv(buffer);
                 GeneralItem.Add(GeneralItemEntry);
             }
         }

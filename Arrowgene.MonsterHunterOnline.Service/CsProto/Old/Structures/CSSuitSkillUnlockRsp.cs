@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 解锁套装技能响应
     /// </summary>
-    public class CSSuitSkillUnlockRsp : IStructure
+    public class CSSuitSkillUnlockRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuitSkillUnlockRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int skill;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(retCode, Endianness.Big);
             buffer.WriteInt32(arg, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(skill, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             retCode = buffer.ReadInt32(Endianness.Big);
             arg = buffer.ReadInt32(Endianness.Big);

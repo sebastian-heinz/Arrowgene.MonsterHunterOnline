@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class ScriptActivityDate : IStructure
+    public class ScriptActivityDate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDate));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int StopDate;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(StartDate, Endianness.Big);
             buffer.WriteInt32(StopDate, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             StartDate = buffer.ReadInt32(Endianness.Big);
             StopDate = buffer.ReadInt32(Endianness.Big);

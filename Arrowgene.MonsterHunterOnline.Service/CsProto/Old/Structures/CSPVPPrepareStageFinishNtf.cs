@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 准备阶段结束通知
     /// </summary>
-    public class CSPVPPrepareStageFinishNtf : IStructure
+    public class CSPVPPrepareStageFinishNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPPrepareStageFinishNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ErrCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
         }

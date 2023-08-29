@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院研究 服务端->客户端
     /// </summary>
-    public class S2CSecretResearchLabResearchRsp : IStructure
+    public class S2CSecretResearchLabResearchRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabResearchRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ResearchIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Status, Endianness.Big);
             buffer.WriteInt32(BoxId, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ResearchIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Status = buffer.ReadInt32(Endianness.Big);
             BoxId = buffer.ReadInt32(Endianness.Big);

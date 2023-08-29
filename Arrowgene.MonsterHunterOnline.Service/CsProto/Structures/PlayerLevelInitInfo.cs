@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Player Level initialize info
     /// </summary>
-    public class PlayerLevelInitInfo : Structure, IRemoteDataInfo
+    public class PlayerLevelInitInfo : Structure, ICsStructure, CSICsRemoteDataInfo
     {
         public PlayerLevelInitInfo()
         {
@@ -86,86 +86,86 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public PlayerSuperHunterInfo PlayerSuperHunterData;
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, EntrustMoneyLastTm);
-            WriteList(buffer, UnLockLevelData, CsProtoConstant.CS_LEVEL_ID_COUNT_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, UnlockHubData, CsProtoConstant.MAX_HUB_NUM, WriteInt32, WriteStructure);
-            WriteList(buffer, HubRewardData, CsProtoConstant.MAX_HUB_NUM, WriteInt32, WriteStructure);
-            WriteList(buffer, LevelIntegrateData, CsProtoConstant.CS_LEVEL_ID_COUNT_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, LevelEntrustData, LevelEntrustData.Count, WriteInt32, WriteStructure);
+            WriteList(buffer, UnLockLevelData, CsProtoConstant.CS_LEVEL_ID_COUNT_MAX, WriteInt32, WriteCsStructure);
+            WriteList(buffer, UnlockHubData, CsProtoConstant.MAX_HUB_NUM, WriteInt32, WriteCsStructure);
+            WriteList(buffer, HubRewardData, CsProtoConstant.MAX_HUB_NUM, WriteInt32, WriteCsStructure);
+            WriteList(buffer, LevelIntegrateData, CsProtoConstant.CS_LEVEL_ID_COUNT_MAX, WriteInt32, WriteCsStructure);
+            WriteList(buffer, LevelEntrustData, LevelEntrustData.Count, WriteInt32, WriteCsStructure);
             WriteList(buffer,
                 PlayerLevelEnstrustRewardData,
                 CsProtoConstant.CS_LEVEL_SUB_GROUP_COUNT_MAX,
                 WriteInt32,
-                WriteStructure
+                WriteCsStructure
             );
-            WriteStructure(buffer, PlayerLevelFormatPeriodLimitData);
+            WriteCsStructure(buffer, PlayerLevelFormatPeriodLimitData);
             WriteList(buffer,
                 PlayerThousandLayerData,
                 CsProtoConstant.CS_LEVEL_THOUSAND_LAYER_DATA_COUNT_MAX,
                 WriteInt32,
-                WriteStructure
+                WriteCsStructure
             );
             WriteList(buffer, LevelStatDataPack, CsProtoConstant.CS_LEVEL_STAT_MAX_LEN, WriteInt32, WriteByte);
             WriteList(buffer, EntrustGroupDataPack, CsProtoConstant.CS_ENTRUST_STAT_MAX_LEN, WriteInt32, WriteByte);
             WriteList(buffer, LevelWarningDataPack, CsProtoConstant.CS_WARNING_DATA_MAX_LEN, WriteInt32, WriteByte);
-            WriteList(buffer, CSMonsterSizeList, CsProtoConstant.CS_MONSTER_COUNT, WriteInt32, WriteStructure);
+            WriteList(buffer, CSMonsterSizeList, CsProtoConstant.CS_MONSTER_COUNT, WriteInt32, WriteCsStructure);
             WriteList(buffer,
                 UnLockLevelGroupData,
                 CsProtoConstant.CS_LEVEL_GROUP_COUNT_MAX,
                 WriteInt32,
-                WriteStructure
+                WriteCsStructure
             );
             WriteList(buffer,
                 UnlockHubStarData,
                 CsProtoConstant.CS_LEVEL_HUB_STAR_COUNT_MAX,
                 WriteInt32,
-                WriteStructure
+                WriteCsStructure
             );
-            WriteStructure(buffer, PlayerSuperHunterData);
+            WriteCsStructure(buffer, PlayerSuperHunterData);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntrustMoneyLastTm = ReadInt32(buffer);
             ReadList(buffer,
                 UnLockLevelData,
                 CsProtoConstant.CS_LEVEL_ID_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<PlayerUnlockLevelInfo>
+                ReadCsStructure<PlayerUnlockLevelInfo>
             );
-            ReadList(buffer, UnlockHubData, CsProtoConstant.MAX_HUB_NUM, ReadInt32, ReadStructure<PlayerUnLockHubInfo>);
+            ReadList(buffer, UnlockHubData, CsProtoConstant.MAX_HUB_NUM, ReadInt32, ReadCsStructure<PlayerUnLockHubInfo>);
             ReadList(buffer,
                 HubRewardData,
                 CsProtoConstant.MAX_HUB_NUM,
                 ReadInt32,
-                ReadStructure<CSHubEntryRewardInfo>
+                ReadCsStructure<CSHubEntryRewardInfo>
             );
             ReadList(buffer,
                 LevelIntegrateData,
                 CsProtoConstant.CS_LEVEL_ID_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<PlayerLevelIntegrateInfo>
+                ReadCsStructure<PlayerLevelIntegrateInfo>
             );
             ReadList(buffer,
                 LevelEntrustData,
                 LevelEntrustData.Count,
                 ReadInt32,
-                ReadStructure<PlayerLevelEntrustInfo>
+                ReadCsStructure<PlayerLevelEntrustInfo>
             );
             ReadList(buffer,
                 PlayerLevelEnstrustRewardData,
                 CsProtoConstant.CS_LEVEL_SUB_GROUP_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<PlayerLevelEnstrustRewardInfo>
+                ReadCsStructure<PlayerLevelEnstrustRewardInfo>
             );
-            PlayerLevelFormatPeriodLimitData = ReadStructure<CSLevelFormatPeriodLimitInfo>(buffer);
+            PlayerLevelFormatPeriodLimitData = ReadCsStructure<CSLevelFormatPeriodLimitInfo>(buffer);
             ReadList(buffer,
                 PlayerThousandLayerData,
                 CsProtoConstant.CS_LEVEL_THOUSAND_LAYER_DATA_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<CSThousandLayerDataInfo>
+                ReadCsStructure<CSThousandLayerDataInfo>
             );
             ReadList(buffer, LevelStatDataPack, CsProtoConstant.CS_LEVEL_STAT_MAX_LEN, ReadInt32, ReadByte);
             ReadList(buffer, EntrustGroupDataPack, CsProtoConstant.CS_ENTRUST_STAT_MAX_LEN, ReadInt32, ReadByte);
@@ -174,21 +174,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 CSMonsterSizeList,
                 CsProtoConstant.CS_MONSTER_COUNT,
                 ReadInt32,
-                ReadStructure<CSMonsterSize>
+                ReadCsStructure<CSMonsterSize>
             );
             ReadList(buffer,
                 UnLockLevelGroupData,
                 CsProtoConstant.CS_LEVEL_GROUP_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<PlayerUnlockLevelGroupInfo>
+                ReadCsStructure<PlayerUnlockLevelGroupInfo>
             );
             ReadList(buffer,
                 UnlockHubStarData,
                 CsProtoConstant.CS_LEVEL_HUB_STAR_COUNT_MAX,
                 ReadInt32,
-                ReadStructure<PlayerUnLockHubStarInfo>
+                ReadCsStructure<PlayerUnLockHubStarInfo>
             );
-            PlayerSuperHunterData = ReadStructure<PlayerSuperHunterInfo>(buffer);
+            PlayerSuperHunterData = ReadCsStructure<PlayerSuperHunterInfo>(buffer);
         }
     }
 }

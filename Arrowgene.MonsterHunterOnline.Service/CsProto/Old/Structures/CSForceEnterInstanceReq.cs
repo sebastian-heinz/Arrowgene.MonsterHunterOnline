@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 强制进入某个副本
     /// </summary>
-    public class CSForceEnterInstanceReq : IStructure
+    public class CSForceEnterInstanceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSForceEnterInstanceReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int InstanceID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(InstanceID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             InstanceID = buffer.ReadInt32(Endianness.Big);
         }

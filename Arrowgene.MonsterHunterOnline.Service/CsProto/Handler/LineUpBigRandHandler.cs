@@ -18,7 +18,7 @@ public class LineUpBigRandHandler : CsProtoStructureHandler<LineUpBigRand>
 
     public override void Handle(Client client, LineUpBigRand req)
     {
-        CsProtoStructurePacket<EnterInstanceCountDown> enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
+        CsCsProtoStructurePacket<EnterInstanceCountDown> enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
         enterInstanceCountDown.Structure.Second = 300;
         enterInstanceCountDown.Structure.LevelId = 150301;
        // client.SendCsProtoStructurePacket(enterInstanceCountDown);

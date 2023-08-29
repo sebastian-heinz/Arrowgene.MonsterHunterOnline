@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 公告
     /// </summary>
-    public class CSNoticeNtf : IStructure
+    public class CSNoticeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNoticeNtf));
 
@@ -51,14 +51,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public string Content;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NoticeType, Endianness.Big);
             buffer.WriteInt32(Content.Length + 1, Endianness.Big);
             buffer.WriteCString(Content);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NoticeType = buffer.ReadInt32(Endianness.Big);
             int ContentEntryLen = buffer.ReadInt32(Endianness.Big);

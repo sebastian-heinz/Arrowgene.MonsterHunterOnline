@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本主界面UI显示信息
     /// </summary>
-    public class CSMainInstanceUIInfo : IStructure
+    public class CSMainInstanceUIInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceUIInfo));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TabIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EntryPoint, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TabIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntryPoint = buffer.ReadInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

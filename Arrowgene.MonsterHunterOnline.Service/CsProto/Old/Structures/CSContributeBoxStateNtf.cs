@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 状态更新
     /// </summary>
-    public class CSContributeBoxStateNtf : IStructure
+    public class CSContributeBoxStateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSContributeBoxStateNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Enabled;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Enabled);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Enabled = buffer.ReadByte();
         }

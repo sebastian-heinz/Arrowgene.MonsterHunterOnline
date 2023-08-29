@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托关卡小组信息
     /// </summary>
-    public class CSEnSubGroupInfo : IStructure
+    public class CSEnSubGroupInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnSubGroupInfo));
 
@@ -51,7 +51,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<int> LevelIDs;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SubGroupID, Endianness.Big);
             short levelIDsCount = (short)LevelIDs.Count;
@@ -62,7 +62,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SubGroupID = buffer.ReadInt32(Endianness.Big);
             LevelIDs.Clear();

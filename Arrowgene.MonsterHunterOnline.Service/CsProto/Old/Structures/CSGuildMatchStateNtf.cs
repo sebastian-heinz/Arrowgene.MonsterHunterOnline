@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团战状态更新
     /// </summary>
-    public class CSGuildMatchStateNtf : IStructure
+    public class CSGuildMatchStateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchStateNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint BeginTM;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MatchID, Endianness.Big);
             buffer.WriteInt32(State, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(BeginTM, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MatchID = buffer.ReadInt32(Endianness.Big);
             State = buffer.ReadInt32(Endianness.Big);

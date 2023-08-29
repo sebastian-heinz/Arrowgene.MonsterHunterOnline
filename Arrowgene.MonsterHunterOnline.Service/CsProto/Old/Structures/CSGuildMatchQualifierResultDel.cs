@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团战预选赛排序列表删除
     /// </summary>
-    public class CSGuildMatchQualifierResultDel : IStructure
+    public class CSGuildMatchQualifierResultDel : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchQualifierResultDel));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint SignUpID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(SignUpID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SignUpID = buffer.ReadUInt32(Endianness.Big);
         }

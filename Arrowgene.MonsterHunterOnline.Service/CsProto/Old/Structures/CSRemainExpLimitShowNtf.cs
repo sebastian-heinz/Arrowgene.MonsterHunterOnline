@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 每日经验上限经验UI提示
     /// </summary>
-    public class CSRemainExpLimitShowNtf : IStructure
+    public class CSRemainExpLimitShowNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemainExpLimitShowNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
         }

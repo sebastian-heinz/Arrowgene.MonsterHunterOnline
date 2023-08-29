@@ -53,14 +53,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Pages;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Hub);
             buffer.WriteInt32(Pages.Length + 1, Endianness.Big);
             buffer.WriteCString(Pages);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Hub = buffer.ReadByte();
             int PagesEntryLen = buffer.ReadInt32(Endianness.Big);

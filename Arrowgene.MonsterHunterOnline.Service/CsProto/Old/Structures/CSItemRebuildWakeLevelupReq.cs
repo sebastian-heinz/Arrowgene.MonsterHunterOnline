@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求觉醒升级
     /// </summary>
-    public class CSItemRebuildWakeLevelupReq : IStructure
+    public class CSItemRebuildWakeLevelupReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildWakeLevelupReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort EquipGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(EquipColumn);
             buffer.WriteUInt16(EquipGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EquipColumn = buffer.ReadByte();
             EquipGrid = buffer.ReadUInt16(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 卡片信息变更通知
     /// </summary>
-    public class SCCardInfoChangeNtf : IStructure
+    public class SCCardInfoChangeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCCardInfoChangeNtf));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<uint> IllustrateCardInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint illustrateCardInfoCount = (uint)IllustrateCardInfo.Count;
             buffer.WriteUInt32(illustrateCardInfoCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             IllustrateCardInfo.Clear();
             uint illustrateCardInfoCount = buffer.ReadUInt32(Endianness.Big);

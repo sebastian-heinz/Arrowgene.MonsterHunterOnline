@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// BOSS死亡消息
     /// </summary>
-    public class CSBOSSDie : IStructure
+    public class CSBOSSDie : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBOSSDie));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int NextLevelID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CurrentLevelID, Endianness.Big);
             buffer.WriteUInt32(CoutdownTime, Endianness.Big);
             buffer.WriteInt32(NextLevelID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CurrentLevelID = buffer.ReadInt32(Endianness.Big);
             CoutdownTime = buffer.ReadUInt32(Endianness.Big);

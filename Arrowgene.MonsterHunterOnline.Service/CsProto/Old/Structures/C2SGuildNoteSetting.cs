@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 发布公告
     /// </summary>
-    public class C2SGuildNoteSetting : IStructure
+    public class C2SGuildNoteSetting : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildNoteSetting));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Note;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Note.Length + 1, Endianness.Big);
             buffer.WriteCString(Note);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
             Note = buffer.ReadString(NoteEntryLen);

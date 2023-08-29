@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 微信支付URL
     /// </summary>
-    public class CSWxPayUrl : IStructure
+    public class CSWxPayUrl : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWxPayUrl));
 
@@ -111,7 +111,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ReUse;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(PayUrl.Length + 1, Endianness.Big);
@@ -128,7 +128,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(ReUse);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             int PayUrlEntryLen = buffer.ReadInt32(Endianness.Big);

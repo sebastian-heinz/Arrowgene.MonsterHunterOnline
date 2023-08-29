@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 添加好友请求
     /// </summary>
-    public class CSFriendAddReq : IStructure
+    public class CSFriendAddReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAddReq));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Svr;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleName.Length + 1, Endianness.Big);
             buffer.WriteCString(RoleName);
             buffer.WriteUInt32(Svr, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int RoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
             RoleName = buffer.ReadString(RoleNameEntryLen);

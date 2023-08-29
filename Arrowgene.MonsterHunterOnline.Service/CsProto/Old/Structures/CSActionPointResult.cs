@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 行动操作返回
     /// </summary>
-    public class CSActionPointResult : IStructure
+    public class CSActionPointResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActionPointResult));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSActionPointData Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Request.Write(buffer);
+            Request.WriteCs(buffer);
             buffer.WriteInt32(Result, Endianness.Big);
-            Data.Write(buffer);
+            Data.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Request.Read(buffer);
+            Request.ReadCs(buffer);
             Result = buffer.ReadInt32(Endianness.Big);
-            Data.Read(buffer);
+            Data.ReadCs(buffer);
         }
 
     }

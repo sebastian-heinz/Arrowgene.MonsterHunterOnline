@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// c-->s,请求TS信息
     /// </summary>
-    public class CSLineInfoReq : IStructure
+    public class CSLineInfoReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineInfoReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort nouse;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(nouse, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             nouse = buffer.ReadUInt16(Endianness.Big);
         }

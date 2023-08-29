@@ -19,11 +19,11 @@ public class MultiNetIpInfoHandler : CsProtoStructureHandler<MultiNetIpInfo>
 
     public override void Handle(Client client, MultiNetIpInfo req)
     {
-        CsProtoStructurePacket<MultiIspSequenceNtf> multiIspSequenceNtf = CsProtoResponse.MultiIspSequenceNtf;
+        CsCsProtoStructurePacket<MultiIspSequenceNtf> multiIspSequenceNtf = CsProtoResponse.MultiIspSequenceNtf;
         multiIspSequenceNtf.Structure.Sequence = 0;
         client.SendCsProtoStructurePacket(multiIspSequenceNtf);
 
-        CsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
+        CsCsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
         _characterManager.PopulateRoleList(client, listRoleRsp.Structure);
         client.SendCsProtoStructurePacket(listRoleRsp);
     }

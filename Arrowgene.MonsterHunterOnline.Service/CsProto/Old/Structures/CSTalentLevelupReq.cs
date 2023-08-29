@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 天赋升级请求
     /// </summary>
-    public class CSTalentLevelupReq : IStructure
+    public class CSTalentLevelupReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTalentLevelupReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int talentID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(talentID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             talentID = buffer.ReadInt32(Endianness.Big);
         }

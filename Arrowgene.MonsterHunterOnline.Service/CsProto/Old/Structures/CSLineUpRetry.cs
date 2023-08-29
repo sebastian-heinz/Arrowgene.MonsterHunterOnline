@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 回到匹配队列
     /// </summary>
-    public class CSLineUpRetry : IStructure
+    public class CSLineUpRetry : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineUpRetry));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSLineUpInstanceReq Info;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Info.Write(buffer);
+            Info.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Info.Read(buffer);
+            Info.ReadCs(buffer);
         }
 
     }

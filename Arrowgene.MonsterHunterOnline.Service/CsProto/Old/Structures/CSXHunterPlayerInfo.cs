@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 极限猎人玩家信息
     /// </summary>
-    public class CSXHunterPlayerInfo : IStructure
+    public class CSXHunterPlayerInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSXHunterPlayerInfo));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int DmgPer;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(QQ, Endianness.Big);
             buffer.WriteInt32(NetId, Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(DmgPer, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             QQ = buffer.ReadUInt32(Endianness.Big);
             NetId = buffer.ReadInt32(Endianness.Big);

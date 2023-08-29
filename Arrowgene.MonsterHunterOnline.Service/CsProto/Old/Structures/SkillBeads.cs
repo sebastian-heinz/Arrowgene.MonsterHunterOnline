@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 技能珠信息
     /// </summary>
-    public class SkillBeads : IStructure
+    public class SkillBeads : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SkillBeads));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int isLegend;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(slotItemId, Endianness.Big);
             buffer.WriteInt32(beadLevel, Endianness.Big);
             buffer.WriteInt32(isLegend, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             slotItemId = buffer.ReadInt32(Endianness.Big);
             beadLevel = buffer.ReadInt32(Endianness.Big);

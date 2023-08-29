@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取队长
     /// </summary>
-    public class S2CClanGetLeader : IStructure
+    public class S2CClanGetLeader : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CClanGetLeader));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSClaner Claner;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Claner.Write(buffer);
+            Claner.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Claner.Read(buffer);
+            Claner.ReadCs(buffer);
         }
 
     }

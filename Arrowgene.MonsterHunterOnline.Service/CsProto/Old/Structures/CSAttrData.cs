@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSAttrData : IStructure
+    public class CSAttrData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAttrData));
 
@@ -58,14 +58,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSAttrDataUnion Value;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AttrID, Endianness.Big);
             buffer.WriteUInt16((ushort)Value.Type, Endianness.Big);
-            Value.Write(buffer);
+            Value.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttrID = buffer.ReadUInt32(Endianness.Big);
             CS_ATTR_DATA_TYPE CSAttrDataUnion_Type = (CS_ATTR_DATA_TYPE)buffer.ReadUInt16(Endianness.Big);
@@ -79,7 +79,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Value != null) {
-                Value.Read(buffer);
+                Value.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Value' instance of type 'CSAttrDataUnion'");

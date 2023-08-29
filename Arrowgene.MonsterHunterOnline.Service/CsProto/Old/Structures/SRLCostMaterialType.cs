@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院 扣除素材信息
     /// </summary>
-    public class SRLCostMaterialType : IStructure
+    public class SRLCostMaterialType : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SRLCostMaterialType));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MaterialType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MaterialId, Endianness.Big);
             buffer.WriteInt32(MaterialNum, Endianness.Big);
             buffer.WriteInt32(MaterialType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MaterialId = buffer.ReadInt32(Endianness.Big);
             MaterialNum = buffer.ReadInt32(Endianness.Big);

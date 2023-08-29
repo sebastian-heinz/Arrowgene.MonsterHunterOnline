@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 传奇技能珠-确认替换修正属性-请求
     /// </summary>
-    public class CSLegendPearlConfirmReplaceAbilityReq : IStructure
+    public class CSLegendPearlConfirmReplaceAbilityReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLegendPearlConfirmReplaceAbilityReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemID, Endianness.Big);
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadUInt64(Endianness.Big);
             Column = buffer.ReadByte();

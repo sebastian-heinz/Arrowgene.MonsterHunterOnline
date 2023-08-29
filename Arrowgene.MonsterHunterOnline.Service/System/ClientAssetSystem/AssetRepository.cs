@@ -11,15 +11,15 @@ public class AssetRepository
     private static readonly ILogger Logger = LogProvider.Logger(typeof(AssetRepository));
 
     private DirectoryInfo _directory;
-    private readonly Dictionary<int, ItemInfo> _items;
+    private readonly Dictionary<uint, ItemInfo> _items;
 
     public AssetRepository()
     {
-        _items = new Dictionary<int, ItemInfo>();
+        _items = new Dictionary<uint, ItemInfo>();
         Items = _items.AsReadOnly();
     }
 
-    public ReadOnlyDictionary<int, ItemInfo> Items { get; }
+    public ReadOnlyDictionary<uint, ItemInfo> Items { get; }
 
 
     public void Initialize(string folder)

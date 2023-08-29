@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 礼包组状态请求
     /// </summary>
-    public class CSGiftBagGroupStateReq : IStructure
+    public class CSGiftBagGroupStateReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftBagGroupStateReq));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public byte reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadByte();
         }

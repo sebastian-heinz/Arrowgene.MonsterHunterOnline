@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 任务重置
     /// </summary>
-    public class S2CResetTask : IStructure
+    public class S2CResetTask : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CResetTask));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<short> Reset;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short resetCount = (short)Reset.Count;
             buffer.WriteInt16(resetCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reset.Clear();
             short resetCount = buffer.ReadInt16(Endianness.Big);

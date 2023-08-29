@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface CsAccessoryDataUnion : IStructure
+    public interface CsAccessoryDataUnion : ICsStructure
     {
 
         public EMailAccessoryType Type { get; }

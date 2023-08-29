@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入农场请求
     /// </summary>
-    public class CSEnterFarmReq : IStructure
+    public class CSEnterFarmReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterFarmReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong FarmerDBID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteUInt64(FarmerDBID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             FarmerDBID = buffer.ReadUInt64(Endianness.Big);

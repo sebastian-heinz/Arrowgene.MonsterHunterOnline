@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// faction set
     /// </summary>
-    public class CSSetFactionReq : IStructure
+    public class CSSetFactionReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetFactionReq));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int faction;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(faction, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             faction = buffer.ReadInt32(Endianness.Big);
         }

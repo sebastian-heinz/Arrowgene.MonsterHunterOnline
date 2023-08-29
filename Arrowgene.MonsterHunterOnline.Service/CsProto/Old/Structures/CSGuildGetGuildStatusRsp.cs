@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildGetGuildStatusRsp : IStructure
+    public class CSGuildGetGuildStatusRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildGetGuildStatusRsp));
 
@@ -63,20 +63,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint CommerceId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ErrCode, Endianness.Big);
             ushort guildWarCommerceInfoListCount = (ushort)GuildWarCommerceInfoList.Count;
             buffer.WriteUInt16(guildWarCommerceInfoListCount, Endianness.Big);
             for (int i = 0; i < guildWarCommerceInfoListCount; i++)
             {
-                GuildWarCommerceInfoList[i].Write(buffer);
+                GuildWarCommerceInfoList[i].WriteCs(buffer);
             }
             buffer.WriteUInt64(GuildId, Endianness.Big);
             buffer.WriteUInt32(CommerceId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadUInt32(Endianness.Big);
             GuildWarCommerceInfoList.Clear();
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < guildWarCommerceInfoListCount; i++)
             {
                 GuildWarCommerceInfo GuildWarCommerceInfoListEntry = new GuildWarCommerceInfo();
-                GuildWarCommerceInfoListEntry.Read(buffer);
+                GuildWarCommerceInfoListEntry.ReadCs(buffer);
                 GuildWarCommerceInfoList.Add(GuildWarCommerceInfoListEntry);
             }
             GuildId = buffer.ReadUInt64(Endianness.Big);

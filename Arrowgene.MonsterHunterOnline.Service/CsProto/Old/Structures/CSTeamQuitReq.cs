@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求退出队伍
     /// </summary>
-    public class CSTeamQuitReq : IStructure
+    public class CSTeamQuitReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamQuitReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint TeamId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(TeamId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TeamId = buffer.ReadUInt32(Endianness.Big);
         }

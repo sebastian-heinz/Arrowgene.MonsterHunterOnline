@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速组队队伍修改请求
     /// </summary>
-    public class CSTeamModifyReq : IStructure
+    public class CSTeamModifyReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamModifyReq));
 
@@ -114,9 +114,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort MaxLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            TeamSetting.Write(buffer);
+            TeamSetting.WriteCs(buffer);
             buffer.WriteInt32(TeamName.Length + 1, Endianness.Big);
             buffer.WriteCString(TeamName);
             buffer.WriteInt16(TargetMode, Endianness.Big);
@@ -132,9 +132,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(MaxLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            TeamSetting.Read(buffer);
+            TeamSetting.ReadCs(buffer);
             int TeamNameEntryLen = buffer.ReadInt32(Endianness.Big);
             TeamName = buffer.ReadString(TeamNameEntryLen);
             TargetMode = buffer.ReadInt16(Endianness.Big);

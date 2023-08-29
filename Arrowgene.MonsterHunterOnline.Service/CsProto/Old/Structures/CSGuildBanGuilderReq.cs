@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildBanGuilderReq : IStructure
+    public class CSGuildBanGuilderReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildBanGuilderReq));
 
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LineId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BanOperate, Endianness.Big);
             buffer.WriteUInt64(DBID, Endianness.Big);
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LineId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BanOperate = buffer.ReadInt32(Endianness.Big);
             DBID = buffer.ReadUInt64(Endianness.Big);

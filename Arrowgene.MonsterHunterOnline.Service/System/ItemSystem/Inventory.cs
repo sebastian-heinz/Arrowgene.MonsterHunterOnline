@@ -14,34 +14,32 @@ public class Inventory
 
     private Item[] _item;
     private Item[] _store;
-    private Item[] _box;
     private Item[] _equipment;
-    private Item[] _quest;
     private object _lock;
-
-
+    
     public Inventory()
     {
         _item = new Item[MaxItemSize];
         _store = new Item[MaxItemSize];
-        _box = new Item[MaxItemSize];
         _equipment = new Item[MaxItemSize];
-        _quest = new Item[MaxItemSize];
         _lock = new object();
     }
-
+    
     public bool Add(Item item)
     {
-        switch (item.PosColumn)
+        lock (_lock)
         {
-            case ItemColumnType.Item: return Add(item, _item);
-            case ItemColumnType.Store: return Add(item, _store);
-            case ItemColumnType.BoxEquip: return Add(item, _box);
-            case ItemColumnType.Equipment: return Add(item, _equipment);
-            case ItemColumnType.Quest: return Add(item, _quest);
-        }
+            switch (item.PosColumn)
+            {
+                case ItemColumnType.Item: return Add(item, _item);
+                case ItemColumnType.Store: return Add(item, _store);
+                case ItemColumnType.BoxEquip:  return Add(item, _equipment);
+                case ItemColumnType.Equipment: return Add(item, _equipment);
+                case ItemColumnType.Quest: return Add(item, _item);
+            }
 
-        return false;
+            return false;
+        }
     }
 
     public bool Move(ulong itemId,
@@ -55,43 +53,32 @@ public class Inventory
 
     public void PopulateItemListProperties(IItemListProperties properties)
     {
-        properties.NormalSize = 30;
-        properties.MaterialStoreSize = 30;
-        properties.StoreSize = 30;
-        properties.EquipItem.UnknownA = 1;
-        properties.EquipItem.UnknownB = 1;
-        properties.EquipItem.Items.Add(new GeneralItem()
+        lock (_lock)
         {
-            ItemId = 1,
-            PosColumn = ItemColumnType.Equipment,
-            PosGridEquipment = ItemEquipmentType.Weapon,
-            ItemType = 120005,
-            Quantity = 1,
-        });
-        properties.EquipItem.Items.Add(new GeneralItem()
+            properties.NormalSize = MaxItemSize;
+            properties.MaterialStoreSize = MaxItemSize;
+            properties.StoreSize = MaxItemSize;
+            PopulateItemListProperties(properties.EquipItem, _equipment);
+            // TODO not sure about this
+            PopulateItemListProperties(properties.BagItem, _item);
+            PopulateItemListProperties(properties.StoreItem, _store);
+        }
+    }
+
+    private void PopulateItemListProperties(TlvItemList itemList, Item[] collection)
+    {
+        itemList.UnknownA = 0;
+        itemList.UnknownB = 0;
+        for (int i = 0; i < MaxItemSize; i++)
         {
-            ItemId = 2,
-            PosColumn = ItemColumnType.Equipment,
-            PosGridEquipment = ItemEquipmentType.Helmet,
-            ItemType = 60011,
-            Quantity = 1,
-        });
-        properties.BagItem.Items.Add(new GeneralItem()
-        {
-            ItemId = 3,
-            PosColumn = ItemColumnType.BoxEquip,
-            PosGrid = 0,
-            ItemType = 55784,
-            Quantity = 1,
-        });
-        properties.BagItem.Items.Add(new GeneralItem()
-        {
-            ItemId = 4,
-            PosColumn = ItemColumnType.BoxEquip,
-            PosGrid = 1,
-            ItemType = 120006,
-            Quantity = 1,
-        });
+            Item item = collection[i];
+            if (item == null)
+            {
+                continue;
+            }
+
+            itemList.Items.Add(item);
+        }
     }
 
     private bool Add(Item item, Item[] collection)
@@ -105,8 +92,8 @@ public class Inventory
 
         // TODO
         collection[freeSlot] = item;
-        item.Id = freeSlot;
-        item.PosGrid = (short)freeSlot;
+        item.Id = (uint)freeSlot;
+        item.PosGrid = (ushort)freeSlot;
         return true;
     }
 

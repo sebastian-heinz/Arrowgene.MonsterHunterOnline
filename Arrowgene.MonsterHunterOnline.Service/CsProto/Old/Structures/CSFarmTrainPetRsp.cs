@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSFarmTrainPetRsp : IStructure
+    public class CSFarmTrainPetRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmTrainPetRsp));
 
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint LeftTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PetID, Endianness.Big);
             buffer.WriteInt32(ErrCode, Endianness.Big);
@@ -92,7 +92,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(LeftTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PetID = buffer.ReadInt32(Endianness.Big);
             ErrCode = buffer.ReadInt32(Endianness.Big);

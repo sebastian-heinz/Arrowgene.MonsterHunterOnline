@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// FIFO同步信息
     /// </summary>
-    public class FifoSyncInfoNtf : Structure
+    public class FifoSyncInfoNtf : Structure, ICsStructure
     {
         public FifoSyncInfoNtf()
         {
@@ -24,16 +24,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public FifoSyncInfo SyncInfo { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt32(buffer, EntityId);
-            SyncInfo.Write(buffer);
+            SyncInfo.WriteCs(buffer);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = ReadUInt32(buffer);
-            SyncInfo = ReadStructure(buffer, SyncInfo);
+            SyncInfo = ReadCsStructure(buffer, SyncInfo);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 取消微信订单
     /// </summary>
-    public class CSPayCancel : IStructure
+    public class CSPayCancel : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPayCancel));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong OrderID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(OrderID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OrderID = buffer.ReadUInt64(Endianness.Big);
         }

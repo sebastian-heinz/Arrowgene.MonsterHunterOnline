@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友属性更新通知
     /// </summary>
-    public class CSFriendAttrUpdateNtf : IStructure
+    public class CSFriendAttrUpdateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAttrUpdateNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int value;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(DBID, Endianness.Big);
             buffer.WriteInt32(Attr, Endianness.Big);
             buffer.WriteInt32(value, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DBID = buffer.ReadUInt64(Endianness.Big);
             Attr = buffer.ReadInt32(Endianness.Big);

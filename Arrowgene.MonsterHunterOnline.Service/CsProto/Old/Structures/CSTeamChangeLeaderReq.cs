@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求更换队长
     /// </summary>
-    public class CSTeamChangeLeaderReq : IStructure
+    public class CSTeamChangeLeaderReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamChangeLeaderReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint RoleID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(RoleID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleID = buffer.ReadUInt32(Endianness.Big);
         }

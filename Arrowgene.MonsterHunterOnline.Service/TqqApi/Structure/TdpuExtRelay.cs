@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-public class TdpuExtRelay : CsProto.Core.Structure
+public class TdpuExtRelay : CsProto.Core.Structure, ICsStructure
 {
     /// <summary>
     /// 重连请求包
@@ -35,7 +36,7 @@ public class TdpuExtRelay : CsProto.Core.Structure
     public List<byte> EncryptIdent { get; set; }
 
 
-    public override void Write(IBuffer buffer)
+    public void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, (int)EncMethod);
         WriteInt32(buffer, (int)RelayType);
@@ -43,7 +44,7 @@ public class TdpuExtRelay : CsProto.Core.Structure
         WriteList(buffer, EncryptIdent, TqqApiConstant.TPDU_MAX_ENCRYPTIDENT_LEN, WriteInt32, WriteByte);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         EncMethod = (TConnSecEnc)ReadInt32(buffer);
         RelayType = (RelayType)ReadInt32(buffer);

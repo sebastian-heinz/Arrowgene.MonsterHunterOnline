@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildStartBoatReq : IStructure
+    public class CSGuildStartBoatReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildStartBoatReq));
 
@@ -51,18 +51,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TagMaterialItem> MaterialList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(BoatId, Endianness.Big);
             byte materialListCount = (byte)MaterialList.Count;
             buffer.WriteByte(materialListCount);
             for (int i = 0; i < materialListCount; i++)
             {
-                MaterialList[i].Write(buffer);
+                MaterialList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoatId = buffer.ReadUInt32(Endianness.Big);
             MaterialList.Clear();
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < materialListCount; i++)
             {
                 TagMaterialItem MaterialListEntry = new TagMaterialItem();
-                MaterialListEntry.Read(buffer);
+                MaterialListEntry.ReadCs(buffer);
                 MaterialList.Add(MaterialListEntry);
             }
         }

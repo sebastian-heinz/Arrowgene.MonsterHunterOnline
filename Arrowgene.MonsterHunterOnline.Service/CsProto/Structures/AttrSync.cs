@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class AttrSync : Structure
+public class AttrSync : Structure, ICsStructure
 {
     public AttrSync()
     {
@@ -18,19 +18,19 @@ public class AttrSync : Structure
     public short BonusId { get; set; }
     public AttrBaseData Data { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteUInt32(buffer, EntityId);
         WriteUInt32(buffer, AttrId);
         WriteInt16(buffer, BonusId);
-        WriteStructure(buffer, Data);
+        WriteCsStructure(buffer, Data);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         EntityId = ReadUInt32(buffer);
         AttrId = ReadUInt32(buffer);
         BonusId = ReadInt16(buffer);
-        Data = ReadStructure(buffer, Data);
+        Data = ReadCsStructure(buffer, Data);
     }
 }

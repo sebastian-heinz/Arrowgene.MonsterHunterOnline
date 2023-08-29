@@ -11,7 +11,7 @@ public class ItemInfo
     {
     }
 
-    public int ItemId { get; init; }
+    public uint ItemId { get; init; }
     public string Name { get; init; }
     public ItemClass MainClass { get; init; }
     public ItemCategory Category { get; init; }

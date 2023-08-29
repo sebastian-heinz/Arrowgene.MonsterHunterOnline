@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 脚本移除雕像
     /// </summary>
-    public class S2CScriptDelSculpture : IStructure
+    public class S2CScriptDelSculpture : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptDelSculpture));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int lib;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(lib, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             lib = buffer.ReadInt32(Endianness.Big);

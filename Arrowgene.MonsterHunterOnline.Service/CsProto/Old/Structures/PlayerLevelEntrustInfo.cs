@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托关卡信息
     /// </summary>
-    public class PlayerLevelEntrustInfo : IStructure
+    public class PlayerLevelEntrustInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerLevelEntrustInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int NpcID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MergeGroupID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(NpcID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MergeGroupID = buffer.ReadUInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

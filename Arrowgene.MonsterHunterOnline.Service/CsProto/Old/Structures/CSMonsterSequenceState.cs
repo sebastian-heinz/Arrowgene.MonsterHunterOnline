@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物技能同步消息
     /// </summary>
-    public class CSMonsterSequenceState : IStructure
+    public class CSMonsterSequenceState : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterSequenceState));
 
@@ -72,24 +72,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat Rotation;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MonsterID, Endianness.Big);
             buffer.WriteInt32(AnimSeqName.Length + 1, Endianness.Big);
             buffer.WriteCString(AnimSeqName);
             buffer.WriteFloat(CurTime, Endianness.Big);
-            Location.Write(buffer);
-            Rotation.Write(buffer);
+            Location.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadUInt32(Endianness.Big);
             int AnimSeqNameEntryLen = buffer.ReadInt32(Endianness.Big);
             AnimSeqName = buffer.ReadString(AnimSeqNameEntryLen);
             CurTime = buffer.ReadFloat(Endianness.Big);
-            Location.Read(buffer);
-            Rotation.Read(buffer);
+            Location.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 重置觉醒次数REQ
     /// </summary>
-    public class CSItemRebuildResetWakeTimesReq : IStructure
+    public class CSItemRebuildResetWakeTimesReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildResetWakeTimesReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort ItemGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemID, Endianness.Big);
             buffer.WriteByte(ItemColumn);
             buffer.WriteUInt16(ItemGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadUInt64(Endianness.Big);
             ItemColumn = buffer.ReadByte();

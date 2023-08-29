@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入副本失败返回town
     /// </summary>
-    public class CSBackToTown : IStructure
+    public class CSBackToTown : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBackToTown));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RoleID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Uin, Endianness.Big);
             buffer.WriteInt32(RoleID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uin = buffer.ReadUInt32(Endianness.Big);
             RoleID = buffer.ReadInt32(Endianness.Big);

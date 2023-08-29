@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换TOWN地图请求
     /// </summary>
-    public class ChangeTownInstanceReq : Structure
+    public class ChangeTownInstanceReq : Structure, ICsStructure
     {
         public ChangeTownInstanceReq()
         {
@@ -30,14 +30,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string DstPoint { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteString(buffer, TriggerName);
             WriteInt32(buffer, LevelId);
             WriteString(buffer, DstPoint);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TriggerName = ReadString(buffer);
             LevelId = ReadInt32(buffer);

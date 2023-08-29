@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 错误
     /// </summary>
-    public class CSGiftBagErr : IStructure
+    public class CSGiftBagErr : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftBagErr));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg3;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GiftBagId, Endianness.Big);
             buffer.WriteInt32(_Err, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Arg3, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GiftBagId = buffer.ReadInt32(Endianness.Big);
             _Err = buffer.ReadInt32(Endianness.Big);

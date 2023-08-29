@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物添加buff同步
     /// </summary>
-    public class CSPetAddBuffSync : IStructure
+    public class CSPetAddBuffSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetAddBuffSync));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int buffID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Idx, Endianness.Big);
             buffer.WriteInt32(UID, Endianness.Big);
             buffer.WriteInt32(buffID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Idx = buffer.ReadInt32(Endianness.Big);
             UID = buffer.ReadInt32(Endianness.Big);

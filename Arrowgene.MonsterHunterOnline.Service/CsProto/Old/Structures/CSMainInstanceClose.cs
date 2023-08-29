@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 关闭房间
     /// </summary>
-    public class CSMainInstanceClose : IStructure
+    public class CSMainInstanceClose : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceClose));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public string RoleName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteUInt32(RoomID, Endianness.Big);
@@ -76,7 +76,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(RoleName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             RoomID = buffer.ReadUInt32(Endianness.Big);

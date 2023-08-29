@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本结算数据
     /// </summary>
-    public class CSBtlResultUIShowDataInfo : IStructure
+    public class CSBtlResultUIShowDataInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBtlResultUIShowDataInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ShowData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ShowType, Endianness.Big);
             buffer.WriteInt32(ShowData, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ShowType = buffer.ReadInt32(Endianness.Big);
             ShowData = buffer.ReadInt32(Endianness.Big);

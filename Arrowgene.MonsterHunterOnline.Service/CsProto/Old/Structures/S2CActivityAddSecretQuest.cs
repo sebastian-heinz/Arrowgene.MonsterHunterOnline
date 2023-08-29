@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 红黄对抗添加secretquest
     /// </summary>
-    public class S2CActivityAddSecretQuest : IStructure
+    public class S2CActivityAddSecretQuest : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAddSecretQuest));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> Levels;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Camp, Endianness.Big);
             buffer.WriteUInt32(EndTime, Endianness.Big);
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Camp = buffer.ReadInt32(Endianness.Big);
             EndTime = buffer.ReadUInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求狂猎祭详细信息
     /// </summary>
-    public class S2CActivityGetWildHuntDetail : IStructure
+    public class S2CActivityGetWildHuntDetail : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityGetWildHuntDetail));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildOutline Guild;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RedSoul, Endianness.Big);
             buffer.WriteUInt64(YellowSoul, Endianness.Big);
-            Guild.Write(buffer);
+            Guild.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RedSoul = buffer.ReadUInt64(Endianness.Big);
             YellowSoul = buffer.ReadUInt64(Endianness.Big);
-            Guild.Read(buffer);
+            Guild.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// health sync
     /// </summary>
-    public class CSHealthSyncNtf : IStructure
+    public class CSHealthSyncNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHealthSyncNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float HealthRecover;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteFloat(Health, Endianness.Big);
             buffer.WriteFloat(HealthRecover, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             Health = buffer.ReadFloat(Endianness.Big);

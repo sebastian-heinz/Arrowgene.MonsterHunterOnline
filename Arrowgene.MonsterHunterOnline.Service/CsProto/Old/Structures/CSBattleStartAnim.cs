@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗播放动画消息
     /// </summary>
-    public class CSBattleStartAnim : IStructure
+    public class CSBattleStartAnim : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleStartAnim));
 
@@ -66,19 +66,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float SpeedMultiplier;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(AnimId, Endianness.Big);
-            AnimParam.Write(buffer);
+            AnimParam.WriteCs(buffer);
             buffer.WriteFloat(SpeedMultiplier, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             AnimId = buffer.ReadInt32(Endianness.Big);
-            AnimParam.Read(buffer);
+            AnimParam.ReadCs(buffer);
             SpeedMultiplier = buffer.ReadFloat(Endianness.Big);
         }
 

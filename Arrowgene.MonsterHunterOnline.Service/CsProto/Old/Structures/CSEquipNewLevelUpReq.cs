@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备升级
     /// </summary>
-    public class CSEquipNewLevelUpReq : IStructure
+    public class CSEquipNewLevelUpReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipNewLevelUpReq));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int GoalLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(ItemUid, Endianness.Big);
             buffer.WriteByte(EquipColumn);
@@ -88,12 +88,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(tagItemDataCount);
             for (int i = 0; i < tagItemDataCount; i++)
             {
-                TagItemData[i].Write(buffer);
+                TagItemData[i].WriteCs(buffer);
             }
             buffer.WriteInt32(GoalLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemUid = buffer.ReadInt64(Endianness.Big);
             EquipColumn = buffer.ReadByte();
@@ -104,7 +104,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tagItemDataCount; i++)
             {
                 TagItemList TagItemDataEntry = new TagItemList();
-                TagItemDataEntry.Read(buffer);
+                TagItemDataEntry.ReadCs(buffer);
                 TagItemData.Add(TagItemDataEntry);
             }
             GoalLevel = buffer.ReadInt32(Endianness.Big);

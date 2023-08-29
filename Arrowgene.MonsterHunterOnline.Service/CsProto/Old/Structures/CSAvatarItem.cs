@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色装备显示物品
     /// </summary>
-    public class CSAvatarItem : IStructure
+    public class CSAvatarItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAvatarItem));
 
@@ -108,7 +108,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte WakeLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ItemType, Endianness.Big);
             buffer.WriteUInt16(PosIndex, Endianness.Big);
@@ -123,7 +123,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(WakeLevel);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemType = buffer.ReadInt32(Endianness.Big);
             PosIndex = buffer.ReadUInt16(Endianness.Big);

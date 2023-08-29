@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 选择角色响应
     /// </summary>
-    public class SelectRoleRsp : Structure
+    public class SelectRoleRsp : Structure, ICsStructure
     {
         public SelectRoleRsp()
         {
@@ -24,13 +24,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RoleIndex { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, ErrNo);
             WriteInt32(buffer, RoleIndex);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = ReadInt32(buffer);
             RoleIndex = ReadInt32(buffer);

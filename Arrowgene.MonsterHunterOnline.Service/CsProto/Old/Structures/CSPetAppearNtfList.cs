@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pet appear notify list
     /// </summary>
-    public class CSPetAppearNtfList : IStructure
+    public class CSPetAppearNtfList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetAppearNtfList));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSPetAppearNtf> Appear;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int appearCount = (int)Appear.Count;
             buffer.WriteInt32(appearCount, Endianness.Big);
             for (int i = 0; i < appearCount; i++)
             {
-                Appear[i].Write(buffer);
+                Appear[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Appear.Clear();
             int appearCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < appearCount; i++)
             {
                 CSPetAppearNtf AppearEntry = new CSPetAppearNtf();
-                AppearEntry.Read(buffer);
+                AppearEntry.ReadCs(buffer);
                 Appear.Add(AppearEntry);
             }
         }

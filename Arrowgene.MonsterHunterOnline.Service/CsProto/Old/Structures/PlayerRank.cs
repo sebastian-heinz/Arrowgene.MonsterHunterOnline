@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家排行榜元数据
     /// </summary>
-    public class PlayerRank : IStructure
+    public class PlayerRank : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerRank));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int arg1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(name.Length + 1, Endianness.Big);
             buffer.WriteCString(name);
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(arg1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int nameEntryLen = buffer.ReadInt32(Endianness.Big);
             name = buffer.ReadString(nameEntryLen);

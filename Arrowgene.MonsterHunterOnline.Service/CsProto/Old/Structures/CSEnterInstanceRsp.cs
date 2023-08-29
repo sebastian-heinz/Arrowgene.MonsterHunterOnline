@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入战斗副本响应
     /// </summary>
-    public class CSEnterInstanceRsp : IStructure
+    public class CSEnterInstanceRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterInstanceRsp));
 
@@ -99,7 +99,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte MatchRoom;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(RoleId, Endianness.Big);
@@ -109,13 +109,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ServiceID, Endianness.Big);
             buffer.WriteInt32(Key.Length + 1, Endianness.Big);
             buffer.WriteCString(Key);
-            InstanceInfo.Write(buffer);
+            InstanceInfo.WriteCs(buffer);
             buffer.WriteByte(SameBS);
             buffer.WriteByte(CrossRegion);
             buffer.WriteByte(MatchRoom);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
             RoleId = buffer.ReadInt32(Endianness.Big);
@@ -125,7 +125,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ServiceID = buffer.ReadInt32(Endianness.Big);
             int KeyEntryLen = buffer.ReadInt32(Endianness.Big);
             Key = buffer.ReadString(KeyEntryLen);
-            InstanceInfo.Read(buffer);
+            InstanceInfo.ReadCs(buffer);
             SameBS = buffer.ReadByte();
             CrossRegion = buffer.ReadByte();
             MatchRoom = buffer.ReadByte();

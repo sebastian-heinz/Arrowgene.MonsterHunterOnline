@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 用户或者队长自己UI副本显示同步请求
     /// </summary>
-    public class CSMainInstanceUIReq : IStructure
+    public class CSMainInstanceUIReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceUIReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int HubEntryID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HubEntryID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubEntryID = buffer.ReadInt32(Endianness.Big);
         }

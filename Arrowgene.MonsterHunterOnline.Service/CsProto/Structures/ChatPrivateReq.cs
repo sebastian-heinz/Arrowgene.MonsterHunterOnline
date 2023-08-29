@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端发送的密语和私聊聊天请求
     /// </summary>
-    public class ChatPrivateReq : Structure
+    public class ChatPrivateReq : Structure, ICsStructure
     {
         public ChatPrivateReq()
         {
@@ -43,21 +43,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint TargetSvrId { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, (int)ChannelType);
             WriteString(buffer, Content);
             WriteString(buffer, TargetName);
-            WriteStructure(buffer, Items);
+            WriteCsStructure(buffer, Items);
             WriteUInt32(buffer, TargetSvrId);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ChannelType = (ChannelType)ReadInt32(buffer);
             Content = ReadString(buffer);
             TargetName = ReadString(buffer);
-            Items = ReadStructure(buffer, Items);
+            Items = ReadCsStructure(buffer, Items);
             TargetSvrId = ReadUInt32(buffer);
         }
     }

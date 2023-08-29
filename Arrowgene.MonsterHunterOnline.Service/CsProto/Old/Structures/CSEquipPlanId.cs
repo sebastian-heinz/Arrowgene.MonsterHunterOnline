@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 方案解锁变更请求
     /// </summary>
-    public class CSEquipPlanId : IStructure
+    public class CSEquipPlanId : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipPlanId));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PlanId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlanId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlanId = buffer.ReadInt32(Endianness.Big);
         }

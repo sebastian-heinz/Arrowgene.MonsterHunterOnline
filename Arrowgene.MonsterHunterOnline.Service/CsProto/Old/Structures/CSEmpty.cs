@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 测试用结构体
     /// </summary>
-    public class CSEmpty : IStructure
+    public class CSEmpty : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEmpty));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Index;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Index, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Index = buffer.ReadInt32(Endianness.Big);
         }

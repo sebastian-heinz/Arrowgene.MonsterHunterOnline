@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 完成委托关卡
     /// </summary>
-    public class CSCompleteEntrustLevelNtf : IStructure
+    public class CSCompleteEntrustLevelNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCompleteEntrustLevelNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GroupID, Endianness.Big);
             buffer.WriteInt32(SubGroupID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadInt32(Endianness.Big);
             SubGroupID = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 调用旋律
     /// </summary>
-    public class C2SFluteInvokeTune : IStructure
+    public class C2SFluteInvokeTune : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SFluteInvokeTune));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Tune;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Tune, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Tune = buffer.ReadInt32(Endianness.Big);
         }

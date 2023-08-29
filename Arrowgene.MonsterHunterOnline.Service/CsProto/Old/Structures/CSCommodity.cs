@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商品
     /// </summary>
-    public class CSCommodity : IStructure
+    public class CSCommodity : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCommodity));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short SaledCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(Commodity, Endianness.Big);
             buffer.WriteInt16(SaledCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Commodity = buffer.ReadInt16(Endianness.Big);
             SaledCount = buffer.ReadInt16(Endianness.Big);

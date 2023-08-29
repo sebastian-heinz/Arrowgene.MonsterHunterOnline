@@ -4,7 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class RemoteDataLoadReq : Structure
+    public class RemoteDataLoadReq : Structure, ICsStructure
     {
         public RemoteDataLoadReq()
         {
@@ -16,12 +16,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ROMTE_DATA_TYPE RemoteDataType { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt16(buffer, (ushort)RemoteDataType);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RemoteDataType = (ROMTE_DATA_TYPE)ReadUInt16(buffer);
         }

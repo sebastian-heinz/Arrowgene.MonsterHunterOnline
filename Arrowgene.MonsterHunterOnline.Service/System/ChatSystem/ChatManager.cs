@@ -70,7 +70,7 @@ public class ChatManager
             case ChannelType.Sys_B:
                 message.Recipients.Add(client);
 
-                CsProtoStructurePacket<ChatNtf> chatNtf = MakeChatNtf(client, message);
+                CsCsProtoStructurePacket<ChatNtf> chatNtf = MakeChatNtf(client, message);
                 foreach (Client recipient in message.Recipients)
                 {
                     recipient.SendCsProtoStructurePacket(chatNtf);
@@ -92,13 +92,13 @@ public class ChatManager
                     return;
                 }
 
-                CsProtoStructurePacket<ChatNtf> pmSource = MakeChatNtf(client, message);
+                CsCsProtoStructurePacket<ChatNtf> pmSource = MakeChatNtf(client, message);
                 pmSource.Structure.SourceId = (int)targetCharacter.Id;
                 pmSource.Structure.SourceName = targetCharacter.Name;
                 pmSource.Structure.SendByMe = true;
                 client.SendCsProtoStructurePacket(pmSource);
 
-                CsProtoStructurePacket<ChatNtf> pmTarget = MakeChatNtf(client, message);
+                CsCsProtoStructurePacket<ChatNtf> pmTarget = MakeChatNtf(client, message);
                 targetClient.SendCsProtoStructurePacket(pmTarget);
                 break;
             case ChannelType.Area:
@@ -111,9 +111,9 @@ public class ChatManager
         }
     }
 
-    private CsProtoStructurePacket<ChatNtf> MakeChatNtf(Client client, ChatMessage message)
+    private CsCsProtoStructurePacket<ChatNtf> MakeChatNtf(Client client, ChatMessage message)
     {
-        CsProtoStructurePacket<ChatNtf> chatNtf = CsProtoResponse.ChatNtf;
+        CsCsProtoStructurePacket<ChatNtf> chatNtf = CsProtoResponse.ChatNtf;
         chatNtf.Structure.SourceId = (int)client.Character.Id;
         chatNtf.Structure.SrcUin = client.Character.Id;
         chatNtf.Structure.SrcDbId = client.Character.Id;

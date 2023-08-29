@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class S2CRankGetUserData : IStructure
+    public class S2CRankGetUserData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRankGetUserData));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRankUserData> UserDatas;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int userDatasCount = (int)UserDatas.Count;
             buffer.WriteInt32(userDatasCount, Endianness.Big);
             for (int i = 0; i < userDatasCount; i++)
             {
-                UserDatas[i].Write(buffer);
+                UserDatas[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             UserDatas.Clear();
             int userDatasCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < userDatasCount; i++)
             {
                 CSRankUserData UserDatasEntry = new CSRankUserData();
-                UserDatasEntry.Read(buffer);
+                UserDatasEntry.ReadCs(buffer);
                 UserDatas.Add(UserDatasEntry);
             }
         }

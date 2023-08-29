@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 生产技能
     /// </summary>
-    public class ManufactureSkill : IStructure
+    public class ManufactureSkill : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ManufactureSkill));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ProficiencyDegree;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SkillId, Endianness.Big);
             buffer.WriteInt32(ProficiencyLevel, Endianness.Big);
             buffer.WriteInt32(ProficiencyDegree, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SkillId = buffer.ReadInt32(Endianness.Big);
             ProficiencyLevel = buffer.ReadInt32(Endianness.Big);

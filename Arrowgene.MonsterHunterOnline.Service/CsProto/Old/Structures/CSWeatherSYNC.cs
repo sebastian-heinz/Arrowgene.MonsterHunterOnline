@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 天气同步
     /// </summary>
-    public class CSWeatherSYNC : IStructure
+    public class CSWeatherSYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWeatherSYNC));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte WeatherID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(WeatherID);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             WeatherID = buffer.ReadByte();
         }

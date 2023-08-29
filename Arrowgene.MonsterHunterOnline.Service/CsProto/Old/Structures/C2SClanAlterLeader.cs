@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 转让团长
     /// </summary>
-    public class C2SClanAlterLeader : IStructure
+    public class C2SClanAlterLeader : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SClanAlterLeader));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong Claner;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Claner, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Claner = buffer.ReadUInt64(Endianness.Big);
         }

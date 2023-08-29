@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 添加好友返回
     /// </summary>
-    public class CSFriendAddRsp : IStructure
+    public class CSFriendAddRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAddRsp));
 
@@ -99,10 +99,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LineId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Ret);
-            Friender.Write(buffer);
+            Friender.WriteCs(buffer);
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
@@ -114,10 +114,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LineId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadByte();
-            Friender.Read(buffer);
+            Friender.ReadCs(buffer);
             RoleDBID = buffer.ReadUInt64(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);
             Level = buffer.ReadInt32(Endianness.Big);

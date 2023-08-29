@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 方案重命名响应
     /// </summary>
-    public class CSSupplyPlanReNameRsp : IStructure
+    public class CSSupplyPlanReNameRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyPlanReNameRsp));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string PlanName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(iRetCode, Endianness.Big);
             buffer.WriteInt32(iPlanID, Endianness.Big);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(PlanName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             iRetCode = buffer.ReadInt32(Endianness.Big);
             iPlanID = buffer.ReadInt32(Endianness.Big);

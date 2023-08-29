@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 控制怪物
     /// </summary>
-    public class CSActorControlMonster : IStructure
+    public class CSActorControlMonster : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorControlMonster));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 Target;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteUInt32(Cmd, Endianness.Big);
-            Target.Write(buffer);
+            Target.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             Cmd = buffer.ReadUInt32(Endianness.Big);
-            Target.Read(buffer);
+            Target.ReadCs(buffer);
         }
 
     }

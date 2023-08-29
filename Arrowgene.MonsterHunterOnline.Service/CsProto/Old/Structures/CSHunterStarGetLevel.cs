@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星级
     /// </summary>
-    public class CSHunterStarGetLevel : IStructure
+    public class CSHunterStarGetLevel : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarGetLevel));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string StarLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Rtid, Endianness.Big);
             buffer.WriteInt32(StarLevel.Length + 1, Endianness.Big);
             buffer.WriteCString(StarLevel);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Rtid = buffer.ReadUInt32(Endianness.Big);
             int StarLevelEntryLen = buffer.ReadInt32(Endianness.Big);

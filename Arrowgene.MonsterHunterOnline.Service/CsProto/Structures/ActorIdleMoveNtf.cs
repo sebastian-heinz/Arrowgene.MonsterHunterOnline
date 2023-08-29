@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 位置更新消息
     /// </summary>
-    public class ActorIdleMoveNtf : Structure
+    public class ActorIdleMoveNtf : Structure, ICsStructure
     {
         public ActorIdleMoveNtf()
         {
@@ -24,16 +24,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ActorIdleMove ActorIdleMove { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt32(buffer, NetObjId);
-            WriteStructure(buffer, ActorIdleMove);
+            WriteCsStructure(buffer, ActorIdleMove);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = ReadUInt32(buffer);
-            ActorIdleMove = ReadStructure(buffer, ActorIdleMove);
+            ActorIdleMove = ReadCsStructure(buffer, ActorIdleMove);
         }
     }
 }

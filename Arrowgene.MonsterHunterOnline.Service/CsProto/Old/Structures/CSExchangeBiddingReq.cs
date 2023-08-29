@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 竞拍请求
     /// </summary>
-    public class CSExchangeBiddingReq : IStructure
+    public class CSExchangeBiddingReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeBiddingReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Credit;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RecordId, Endianness.Big);
             buffer.WriteUInt32(Money, Endianness.Big);
             buffer.WriteUInt32(Credit, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RecordId = buffer.ReadUInt64(Endianness.Big);
             Money = buffer.ReadUInt32(Endianness.Big);

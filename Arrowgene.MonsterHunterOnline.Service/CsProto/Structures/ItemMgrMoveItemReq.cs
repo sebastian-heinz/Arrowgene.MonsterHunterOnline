@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求移动物品
     /// </summary>
-    public class ItemMgrMoveItemReq : Structure
+    public class ItemMgrMoveItemReq : Structure, ICsStructure
     {
         public ItemMgrMoveItemReq()
         {
@@ -43,7 +43,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort DstGrid { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt64(buffer, ItemId);
             WriteByte(buffer, (byte)ItemColumn);
@@ -52,7 +52,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteUInt16(buffer, DstGrid);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemId = ReadUInt64(buffer);
             ItemColumn = (ItemColumnType)ReadByte(buffer);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求rankup
     /// </summary>
-    public class CSItemRebuildRankupRes : IStructure
+    public class CSItemRebuildRankupRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildRankupRes));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort ItemGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteUInt64(ItemID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(ItemGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             ItemID = buffer.ReadUInt64(Endianness.Big);

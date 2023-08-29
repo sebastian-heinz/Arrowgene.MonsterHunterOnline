@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团
     /// </summary>
-    public class CSGuild : IStructure
+    public class CSGuild : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuild));
 
@@ -366,7 +366,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGuildCommerceBuffs> CommerceBuffInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Id, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
@@ -424,7 +424,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(commerceBoatsCount, Endianness.Big);
             for (int i = 0; i < commerceBoatsCount; i++)
             {
-                CommerceBoats[i].Write(buffer);
+                CommerceBoats[i].WriteCs(buffer);
             }
             buffer.WriteInt32(SelectBoatsId, Endianness.Big);
             buffer.WriteUInt32(GuildWarHistoryInfo, Endianness.Big);
@@ -432,11 +432,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(commerceBuffInfoCount, Endianness.Big);
             for (int i = 0; i < commerceBuffInfoCount; i++)
             {
-                CommerceBuffInfo[i].Write(buffer);
+                CommerceBuffInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadUInt64(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
@@ -495,7 +495,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < commerceBoatsCount; i++)
             {
                 CSCommerceInfo CommerceBoatsEntry = new CSCommerceInfo();
-                CommerceBoatsEntry.Read(buffer);
+                CommerceBoatsEntry.ReadCs(buffer);
                 CommerceBoats.Add(CommerceBoatsEntry);
             }
             SelectBoatsId = buffer.ReadInt32(Endianness.Big);
@@ -505,7 +505,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < commerceBuffInfoCount; i++)
             {
                 CSGuildCommerceBuffs CommerceBuffInfoEntry = new CSGuildCommerceBuffs();
-                CommerceBuffInfoEntry.Read(buffer);
+                CommerceBuffInfoEntry.ReadCs(buffer);
                 CommerceBuffInfo.Add(CommerceBuffInfoEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团站报名同意请求
     /// </summary>
-    public class CSGuildMatchSignUpAgreeRsp : IStructure
+    public class CSGuildMatchSignUpAgreeRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchSignUpAgreeRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Agree;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(MatchID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Agree, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             MatchID = buffer.ReadInt32(Endianness.Big);

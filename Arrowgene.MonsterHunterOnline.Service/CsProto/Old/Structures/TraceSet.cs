@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 追踪集集合
     /// </summary>
-    public class TraceSet : IStructure
+    public class TraceSet : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(TraceSet));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<Traces> Traces;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int tracesCount = (int)Traces.Count;
             buffer.WriteInt32(tracesCount, Endianness.Big);
             for (int i = 0; i < tracesCount; i++)
             {
-                Traces[i].Write(buffer);
+                Traces[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Traces.Clear();
             int tracesCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < tracesCount; i++)
             {
                 Traces TracesEntry = new Traces();
-                TracesEntry.Read(buffer);
+                TracesEntry.ReadCs(buffer);
                 Traces.Add(TracesEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 超级大连续信息
     /// </summary>
-    public class PlayerSuperHunterInfo : IStructure
+    public class PlayerSuperHunterInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerSuperHunterInfo));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int GainVipSuccessRewardTimes;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LastResetTime, Endianness.Big);
             buffer.WriteInt32(GainChallangeRewardTimes, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GainVipSuccessRewardTimes, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LastResetTime = buffer.ReadUInt32(Endianness.Big);
             GainChallangeRewardTimes = buffer.ReadInt32(Endianness.Big);

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSSurrenderVoteNtf : IStructure
+    public class CSSurrenderVoteNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSurrenderVoteNtf));
 
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte totalNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(name.Length + 1, Endianness.Big);
             buffer.WriteCString(name);
@@ -86,7 +86,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(totalNum);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int nameEntryLen = buffer.ReadInt32(Endianness.Big);
             name = buffer.ReadString(nameEntryLen);

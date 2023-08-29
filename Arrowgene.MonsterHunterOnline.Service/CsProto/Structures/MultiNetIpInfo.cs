@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class MultiNetIpInfo : Structure
+public class MultiNetIpInfo : Structure, ICsStructure
 {
     public MultiNetIpInfo()
     {
@@ -77,7 +77,7 @@ public class MultiNetIpInfo : Structure
     /// </summary>
     public int[] HistoryPingWeight { get; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteString(buffer, SelectIp);
         WriteString(buffer, DomainName);
@@ -92,7 +92,7 @@ public class MultiNetIpInfo : Structure
         WriteArray(buffer, HistoryPingWeight, CsProtoConstant.CS_MAX_IP_STRING_COUNT, WriteInt32);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         SelectIp = ReadString(buffer);
         DomainName = ReadString(buffer);

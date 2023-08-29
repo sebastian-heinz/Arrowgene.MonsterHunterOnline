@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 接取猎团任务集
     /// </summary>
-    public class S2CAcceptGuildTasks : IStructure
+    public class S2CAcceptGuildTasks : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAcceptGuildTasks));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> tasks;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(lib, Endianness.Big);
             int tasksCount = (int)tasks.Count;
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             lib = buffer.ReadInt32(Endianness.Big);
             tasks.Clear();

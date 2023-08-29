@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院定时刷新 服务端->客户端
     /// </summary>
-    public class S2CSecretResearchLabClockRefreshRsp : IStructure
+    public class S2CSecretResearchLabClockRefreshRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabClockRefreshRsp));
 
@@ -59,20 +59,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BoxId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Write(buffer);
+                LotteryItemList[i].WriteCs(buffer);
             }
             buffer.WriteInt32(BoxId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Read(buffer);
+                LotteryItemList[i].ReadCs(buffer);
             }
             BoxId = buffer.ReadInt32(Endianness.Big);
         }

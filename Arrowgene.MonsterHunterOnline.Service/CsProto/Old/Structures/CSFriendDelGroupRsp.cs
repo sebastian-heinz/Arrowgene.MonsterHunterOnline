@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 删除分组返回
     /// </summary>
-    public class CSFriendDelGroupRsp : IStructure
+    public class CSFriendDelGroupRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendDelGroupRsp));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte GroupID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(GroupID);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadByte();
         }

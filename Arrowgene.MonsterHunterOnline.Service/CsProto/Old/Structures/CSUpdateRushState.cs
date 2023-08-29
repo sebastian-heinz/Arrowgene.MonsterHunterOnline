@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 加速跑
     /// </summary>
-    public class CSUpdateRushState : IStructure
+    public class CSUpdateRushState : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSUpdateRushState));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Rush, Endianness.Big);
             buffer.WriteInt32(Type, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Rush = buffer.ReadInt32(Endianness.Big);
             Type = buffer.ReadInt32(Endianness.Big);

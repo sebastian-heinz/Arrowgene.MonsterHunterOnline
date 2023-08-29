@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 删除断线玩家
     /// </summary>
-    public class CSRemovePlayer : IStructure
+    public class CSRemovePlayer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemovePlayer));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint PlayerId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(PlayerId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadUInt32(Endianness.Big);
         }

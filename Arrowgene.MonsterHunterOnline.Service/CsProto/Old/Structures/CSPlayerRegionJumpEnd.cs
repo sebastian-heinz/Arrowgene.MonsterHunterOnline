@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家换区结束客户端告知服务器
     /// </summary>
-    public class CSPlayerRegionJumpEnd : IStructure
+    public class CSPlayerRegionJumpEnd : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerRegionJumpEnd));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RegionId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RegionId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RegionId = buffer.ReadInt32(Endianness.Big);
         }

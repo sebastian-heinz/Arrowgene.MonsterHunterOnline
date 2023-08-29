@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开始打造
     /// </summary>
-    public class CSBeginCraft : IStructure
+    public class CSBeginCraft : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBeginCraft));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TagItemList> TagItemData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(nCraftID, Endianness.Big);
             buffer.WriteUInt32(nCraftCreditCnt, Endianness.Big);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(tagItemDataCount);
             for (int i = 0; i < tagItemDataCount; i++)
             {
-                TagItemData[i].Write(buffer);
+                TagItemData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             nCraftID = buffer.ReadUInt32(Endianness.Big);
             nCraftCreditCnt = buffer.ReadUInt32(Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tagItemDataCount; i++)
             {
                 TagItemList TagItemDataEntry = new TagItemList();
-                TagItemDataEntry.Read(buffer);
+                TagItemDataEntry.ReadCs(buffer);
                 TagItemData.Add(TagItemDataEntry);
             }
         }

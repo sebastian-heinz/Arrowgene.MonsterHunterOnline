@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 大富翁遥控骰子
     /// </summary>
-    public class C2SActivityMonolopyFixedDice : IStructure
+    public class C2SActivityMonolopyFixedDice : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityMonolopyFixedDice));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int point;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(point, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             point = buffer.ReadInt32(Endianness.Big);
         }

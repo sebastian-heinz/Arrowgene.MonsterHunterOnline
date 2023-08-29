@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class S2CAstrolabeRefreshTask : IStructure
+    public class S2CAstrolabeRefreshTask : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAstrolabeRefreshTask));
 
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TaskBuyDayNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RefreshTimes, Endianness.Big);
             int tasksCount = (int)Tasks.Count;
@@ -107,7 +107,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TaskBuyDayNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RefreshTimes = buffer.ReadInt32(Endianness.Big);
             Tasks.Clear();

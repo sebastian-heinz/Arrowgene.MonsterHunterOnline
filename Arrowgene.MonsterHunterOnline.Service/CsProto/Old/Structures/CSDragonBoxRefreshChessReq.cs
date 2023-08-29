@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求刷新龙人秘宝棋盘
     /// </summary>
-    public class CSDragonBoxRefreshChessReq : IStructure
+    public class CSDragonBoxRefreshChessReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxRefreshChessReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int box;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(box, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             box = buffer.ReadInt32(Endianness.Big);
         }

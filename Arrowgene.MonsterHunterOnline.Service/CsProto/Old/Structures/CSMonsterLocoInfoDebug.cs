@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物位置信息Debug
     /// </summary>
-    public class CSMonsterLocoInfoDebug : IStructure
+    public class CSMonsterLocoInfoDebug : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterLocoInfoDebug));
 
@@ -66,20 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat Rotation;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(MonsterID, Endianness.Big);
-            Location.Write(buffer);
-            Rotation.Write(buffer);
+            Location.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             MonsterID = buffer.ReadUInt32(Endianness.Big);
-            Location.Read(buffer);
-            Rotation.Read(buffer);
+            Location.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
         }
 
     }

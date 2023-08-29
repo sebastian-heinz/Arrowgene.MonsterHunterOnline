@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// AttachToTarget
     /// </summary>
-    public class CSMonsterAttachToTarget : IStructure
+    public class CSMonsterAttachToTarget : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterAttachToTarget));
 
@@ -78,24 +78,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string AttachmentName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(MonsterID, Endianness.Big);
             buffer.WriteUInt32(TargetID, Endianness.Big);
-            AttachOffset.Write(buffer);
-            AttachRotation.Write(buffer);
+            AttachOffset.WriteCs(buffer);
+            AttachRotation.WriteCs(buffer);
             buffer.WriteInt32(AttachmentName.Length + 1, Endianness.Big);
             buffer.WriteCString(AttachmentName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             MonsterID = buffer.ReadUInt32(Endianness.Big);
             TargetID = buffer.ReadUInt32(Endianness.Big);
-            AttachOffset.Read(buffer);
-            AttachRotation.Read(buffer);
+            AttachOffset.ReadCs(buffer);
+            AttachRotation.ReadCs(buffer);
             int AttachmentNameEntryLen = buffer.ReadInt32(Endianness.Big);
             AttachmentName = buffer.ReadString(AttachmentNameEntryLen);
         }

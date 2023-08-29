@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗使用招式消息
     /// </summary>
-    public class CSBattleUseAction : IStructure
+    public class CSBattleUseAction : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleUseAction));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ActionType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(WeaponType);
             buffer.WriteByte(ActionType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             WeaponType = buffer.ReadByte();
             ActionType = buffer.ReadByte();

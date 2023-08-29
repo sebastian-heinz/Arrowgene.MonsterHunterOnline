@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 物品掉落
     /// </summary>
-    public class CSInstanceItemLootInfo : IStructure
+    public class CSInstanceItemLootInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceItemLootInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BindType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ItemID, Endianness.Big);
             buffer.WriteInt32(ItemCount, Endianness.Big);
             buffer.WriteInt32(BindType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadInt32(Endianness.Big);
             ItemCount = buffer.ReadInt32(Endianness.Big);

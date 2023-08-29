@@ -22,7 +22,7 @@ public class ItemMgrMoveItemHandler : CsProtoStructureHandler<ItemMgrMoveItemReq
             return;
         }
 
-        CsProtoStructurePacket<ItemMgrMoveItemNtf> itemMgrMoveItemNtf = CsProtoResponse.ItemMgrMoveItemNtf;
+        CsCsProtoStructurePacket<ItemMgrMoveItemNtf> itemMgrMoveItemNtf = CsProtoResponse.ItemMgrMoveItemNtf;
 
         if (!inventory.Move(
                 req.ItemId,

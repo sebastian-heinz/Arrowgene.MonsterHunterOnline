@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物移动同步消息
     /// </summary>
-    public class CSMonsterLocomotion : IStructure
+    public class CSMonsterLocomotion : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterLocomotion));
 
@@ -252,7 +252,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 MoveSplineScale;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(SteeringEnabled);
             buffer.WriteInt64(SyncTime, Endianness.Big);
@@ -267,13 +267,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(TargetSrvID, Endianness.Big);
             buffer.WriteUInt32(Flag, Endianness.Big);
-            TargetDis.Write(buffer);
-            MoveSpeed.Write(buffer);
-            TargetRot.Write(buffer);
-            RotSpeed.Write(buffer);
+            TargetDis.WriteCs(buffer);
+            MoveSpeed.WriteCs(buffer);
+            TargetRot.WriteCs(buffer);
+            RotSpeed.WriteCs(buffer);
             buffer.WriteByte(RotSpeedByAnim);
-            MonsterPos.Write(buffer);
-            MonsterRot.Write(buffer);
+            MonsterPos.WriteCs(buffer);
+            MonsterRot.WriteCs(buffer);
             buffer.WriteFloat(SkillSpeed, Endianness.Big);
             buffer.WriteByte(RestartAnim);
             buffer.WriteInt32(RotFlag, Endianness.Big);
@@ -281,9 +281,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(targetMultiAttackPosCount, Endianness.Big);
             for (int i = 0; i < targetMultiAttackPosCount; i++)
             {
-                TargetMultiAttackPos[i].Write(buffer);
+                TargetMultiAttackPos[i].WriteCs(buffer);
             }
-            TargetAttackPos.Write(buffer);
+            TargetAttackPos.WriteCs(buffer);
             buffer.WriteByte(NeedTargetAttackPos);
             buffer.WriteUInt32(AckFlag, Endianness.Big);
             buffer.WriteInt32(UserParam1, Endianness.Big);
@@ -292,13 +292,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(SetPos);
             buffer.WriteByte(NoTransferCorrection);
             buffer.WriteByte(NeedMoveSpeedAcc);
-            MoveSpeedAccelerate.Write(buffer);
+            MoveSpeedAccelerate.WriteCs(buffer);
             buffer.WriteFloat(MoveSpeedAccStart, Endianness.Big);
             buffer.WriteFloat(MoveSpeedAccEnd, Endianness.Big);
-            MoveSplineScale.Write(buffer);
+            MoveSplineScale.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SteeringEnabled = buffer.ReadByte();
             SyncTime = buffer.ReadInt64(Endianness.Big);
@@ -313,13 +313,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             TargetID = buffer.ReadUInt32(Endianness.Big);
             TargetSrvID = buffer.ReadInt32(Endianness.Big);
             Flag = buffer.ReadUInt32(Endianness.Big);
-            TargetDis.Read(buffer);
-            MoveSpeed.Read(buffer);
-            TargetRot.Read(buffer);
-            RotSpeed.Read(buffer);
+            TargetDis.ReadCs(buffer);
+            MoveSpeed.ReadCs(buffer);
+            TargetRot.ReadCs(buffer);
+            RotSpeed.ReadCs(buffer);
             RotSpeedByAnim = buffer.ReadByte();
-            MonsterPos.Read(buffer);
-            MonsterRot.Read(buffer);
+            MonsterPos.ReadCs(buffer);
+            MonsterRot.ReadCs(buffer);
             SkillSpeed = buffer.ReadFloat(Endianness.Big);
             RestartAnim = buffer.ReadByte();
             RotFlag = buffer.ReadInt32(Endianness.Big);
@@ -328,10 +328,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < targetMultiAttackPosCount; i++)
             {
                 CSVec3 TargetMultiAttackPosEntry = new CSVec3();
-                TargetMultiAttackPosEntry.Read(buffer);
+                TargetMultiAttackPosEntry.ReadCs(buffer);
                 TargetMultiAttackPos.Add(TargetMultiAttackPosEntry);
             }
-            TargetAttackPos.Read(buffer);
+            TargetAttackPos.ReadCs(buffer);
             NeedTargetAttackPos = buffer.ReadByte();
             AckFlag = buffer.ReadUInt32(Endianness.Big);
             UserParam1 = buffer.ReadInt32(Endianness.Big);
@@ -340,10 +340,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             SetPos = buffer.ReadByte();
             NoTransferCorrection = buffer.ReadByte();
             NeedMoveSpeedAcc = buffer.ReadByte();
-            MoveSpeedAccelerate.Read(buffer);
+            MoveSpeedAccelerate.ReadCs(buffer);
             MoveSpeedAccStart = buffer.ReadFloat(Endianness.Big);
             MoveSpeedAccEnd = buffer.ReadFloat(Endianness.Big);
-            MoveSplineScale.Read(buffer);
+            MoveSplineScale.ReadCs(buffer);
         }
 
     }

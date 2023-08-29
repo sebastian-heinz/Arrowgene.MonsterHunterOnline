@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托周期限制事件
     /// </summary>
-    public class CSPeriodLimitEventNtf : IStructure
+    public class CSPeriodLimitEventNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPeriodLimitEventNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Arg3;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EventType, Endianness.Big);
             buffer.WriteUInt32(Arg1, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Arg3, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EventType = buffer.ReadInt32(Endianness.Big);
             Arg1 = buffer.ReadUInt32(Endianness.Big);

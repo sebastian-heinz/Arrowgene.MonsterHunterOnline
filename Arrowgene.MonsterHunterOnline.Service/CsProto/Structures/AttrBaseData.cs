@@ -4,7 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class AttrBaseData : Structure
+public class AttrBaseData : Structure, ICsStructure
 {
     private CS_PROP_SYNC_TYPE _type;
 
@@ -85,7 +85,7 @@ public class AttrBaseData : Structure
         }
     }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteUInt16(buffer, (ushort)_type);
         switch (_type)
@@ -103,7 +103,7 @@ public class AttrBaseData : Structure
                 WriteByte(buffer, _bool ? (byte)1 : (byte)0);
                 break;
             case CS_PROP_SYNC_TYPE.CS_PROP_SYNC_VEC3:
-                WriteStructure(buffer, _vec3);
+                WriteCsStructure(buffer, _vec3);
                 break;
             case CS_PROP_SYNC_TYPE.CS_PROP_SYNC_UINT64:
                 WriteUInt64(buffer, _uInt64);
@@ -111,7 +111,7 @@ public class AttrBaseData : Structure
         }
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         _type = (CS_PROP_SYNC_TYPE)ReadUInt16(buffer);
         switch (_type)
@@ -129,7 +129,7 @@ public class AttrBaseData : Structure
                 _bool = ReadByte(buffer) != 0;
                 break;
             case CS_PROP_SYNC_TYPE.CS_PROP_SYNC_VEC3:
-                _vec3 = ReadStructure(buffer, _vec3);
+                _vec3 = ReadCsStructure(buffer, _vec3);
                 break;
             case CS_PROP_SYNC_TYPE.CS_PROP_SYNC_UINT64:
                 _uInt64 = ReadUInt64(buffer);

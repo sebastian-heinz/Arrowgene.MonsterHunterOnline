@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端UI自定义信息
     /// </summary>
-    public class ClientUIOption : IStructure
+    public class ClientUIOption : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ClientUIOption));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> OptionData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int optionDataCount = (int)OptionData.Count;
             buffer.WriteInt32(optionDataCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OptionData.Clear();
             int optionDataCount = buffer.ReadInt32(Endianness.Big);

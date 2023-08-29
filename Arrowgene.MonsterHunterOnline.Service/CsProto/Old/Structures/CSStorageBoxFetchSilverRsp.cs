@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 银币收纳箱提取-回应
     /// </summary>
-    public class CSStorageBoxFetchSilverRsp : IStructure
+    public class CSStorageBoxFetchSilverRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStorageBoxFetchSilverRsp));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ErrCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
         }

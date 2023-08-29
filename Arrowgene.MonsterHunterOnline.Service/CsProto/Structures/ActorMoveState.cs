@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 定时位置同步消息
     /// </summary>
-    public class ActorMoveState : Structure
+    public class ActorMoveState : Structure, ICsStructure
     {
         public ActorMoveState()
         {
@@ -42,21 +42,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int State { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt64(buffer, SyncTime);
-            WriteStructure(buffer, Location);
-            WriteStructure(buffer, Rotation);
-            WriteStructure(buffer, MoveSpeed);
+            WriteCsStructure(buffer, Location);
+            WriteCsStructure(buffer, Rotation);
+            WriteCsStructure(buffer, MoveSpeed);
             WriteInt32(buffer, State);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = ReadInt64(buffer);
-            Location = ReadStructure(buffer, Location);
-            Rotation = ReadStructure(buffer, Rotation);
-            MoveSpeed = ReadStructure(buffer, MoveSpeed);
+            Location = ReadCsStructure(buffer, Location);
+            Rotation = ReadCsStructure(buffer, Rotation);
+            MoveSpeed = ReadCsStructure(buffer, MoveSpeed);
             State = ReadInt32(buffer);
         }
     }

@@ -8,7 +8,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// monster appear notify
     /// </summary>
-    public class MonsterAppearNtf : Structure
+    public class MonsterAppearNtf : Structure, ICsStructure
     {
         public MonsterAppearNtf()
         {
@@ -110,7 +110,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LastChildId { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, NetId);
             WriteInt16(buffer, SpawnType);
@@ -118,20 +118,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteUInt64(buffer, EntGuid);
             WriteString(buffer, Name);
             WriteString(buffer, Class);
-            WriteStructure(buffer, Pose);
+            WriteCsStructure(buffer, Pose);
             WriteInt32(buffer, Faction);
             WriteString(buffer, BTState);
-            WriteStructure(buffer, BBVars);
+            WriteCsStructure(buffer, BBVars);
             WriteByte(buffer, Dead);
-            WriteStructure(buffer, LcmState);
-            WriteList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, WriteInt16, WriteStructure);
-            WriteList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, WriteInt32, WriteStructure);
+            WriteCsStructure(buffer, LcmState);
+            WriteList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, WriteInt16, WriteCsStructure);
+            WriteList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, WriteInt32, WriteCsStructure);
             WriteList(buffer, Buff, (short)CsProtoConstant.CS_ATTR_INIT_MAX, WriteInt16, WriteByte);
             WriteUInt64(buffer, ParentGuid);
             WriteInt32(buffer, LastChildId);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = ReadInt32(buffer);
             SpawnType = ReadInt16(buffer);
@@ -139,14 +139,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             EntGuid = ReadUInt64(buffer);
             Name = ReadString(buffer);
             Class = ReadString(buffer);
-            Pose = ReadStructure(buffer, Pose);
+            Pose = ReadCsStructure(buffer, Pose);
             Faction = ReadInt32(buffer);
             BTState = ReadString(buffer);
-            BBVars.Read(buffer);
+            BBVars.ReadCs(buffer);
             Dead = ReadByte(buffer);
-            LcmState = ReadStructure(buffer, LcmState);
-            ReadList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, ReadInt16, ReadStructure<CSAttrData>);
-            ReadList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, ReadInt32, ReadStructure<CSAmmoInfo>);
+            LcmState = ReadCsStructure(buffer, LcmState);
+            ReadList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, ReadInt16, ReadCsStructure<CSAttrData>);
+            ReadList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, ReadInt32, ReadCsStructure<CSAmmoInfo>);
             ReadList(buffer, Buff, (short)CsProtoConstant.CS_ATTR_INIT_MAX, ReadInt16, ReadByte);
             ParentGuid = ReadUInt64(buffer);
             LastChildId = ReadInt32(buffer);

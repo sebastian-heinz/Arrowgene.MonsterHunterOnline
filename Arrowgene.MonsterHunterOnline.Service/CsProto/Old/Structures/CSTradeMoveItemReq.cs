@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 移动物品请求
     /// </summary>
-    public class CSTradeMoveItemReq : IStructure
+    public class CSTradeMoveItemReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeMoveItemReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort DstGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(SrcGrid, Endianness.Big);
             buffer.WriteUInt64(ItemId, Endianness.Big);
             buffer.WriteUInt16(DstGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcGrid = buffer.ReadUInt16(Endianness.Big);
             ItemId = buffer.ReadUInt64(Endianness.Big);

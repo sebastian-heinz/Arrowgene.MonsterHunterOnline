@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 支付狩猎券领取奖励
     /// </summary>
-    public class CSPayHuntingRsp : IStructure
+    public class CSPayHuntingRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPayHuntingRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MailFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RetCode, Endianness.Big);
             buffer.WriteInt32(MailFlag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RetCode = buffer.ReadInt32(Endianness.Big);
             MailFlag = buffer.ReadInt32(Endianness.Big);

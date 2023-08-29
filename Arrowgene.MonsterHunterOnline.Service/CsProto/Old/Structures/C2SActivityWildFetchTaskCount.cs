@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 狂猎祭领取额外的任务完成次数
     /// </summary>
-    public class C2SActivityWildFetchTaskCount : IStructure
+    public class C2SActivityWildFetchTaskCount : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityWildFetchTaskCount));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadByte();
         }

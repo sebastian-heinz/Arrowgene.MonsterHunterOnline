@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 双线机房运营商顺序
     /// </summary>
-    public class CSMultiIspSequenceNtf : IStructure
+    public class CSMultiIspSequenceNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMultiIspSequenceNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Sequence;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Sequence, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Sequence = buffer.ReadInt32(Endianness.Big);
         }

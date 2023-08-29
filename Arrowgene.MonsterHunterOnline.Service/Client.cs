@@ -137,15 +137,15 @@ namespace Arrowgene.MonsterHunterOnline.Service
             SendCsProtoPacket(packet.BuildPacket());
         }
 
-        public void SendCsProtoStructurePacket(ICsProtoStructurePacket packet)
+        public void SendCsProtoStructurePacket(CSICsCsProtoStructurePacket packet)
         {
             SendCsProtoStructure(packet.Cmd, packet);
         }
 
-        public void SendCsProtoStructure(CS_CMD_ID cmd, IStructure structure)
+        public void SendCsProtoStructure(CS_CMD_ID cmd, ICsStructure csStructure)
         {
             IBuffer buffer = new StreamBuffer();
-            structure.Write(buffer);
+            csStructure.WriteCs(buffer);
             CsProtoPacket packet = new CsProtoPacket();
             packet.Body = buffer.GetAllBytes();
             packet.Cmd = cmd;

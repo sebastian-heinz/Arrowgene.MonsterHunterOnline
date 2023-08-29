@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 脚本周期结构
     /// </summary>
-    public class ScriptActivityPeriod : IStructure
+    public class ScriptActivityPeriod : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityPeriod));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Time;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Type);
             buffer.WriteInt32(Days.Length + 1, Endianness.Big);
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Time);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadByte();
             int DaysEntryLen = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物说话通知
     /// </summary>
-    public class CSPetTalkNtf : IStructure
+    public class CSPetTalkNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetTalkNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SignalID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(entityID, Endianness.Big);
             buffer.WriteInt32(SignalID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             entityID = buffer.ReadUInt32(Endianness.Big);
             SignalID = buffer.ReadInt32(Endianness.Big);

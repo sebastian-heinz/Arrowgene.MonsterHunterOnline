@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团报名数据
     /// </summary>
-    public class CSGuildMatchSignUpTeam : IStructure
+    public class CSGuildMatchSignUpTeam : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchSignUpTeam));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGuildMatchSignUpTeamMember> Members;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MatchID, Endianness.Big);
             buffer.WriteUInt32(SignUpID, Endianness.Big);
@@ -119,11 +119,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(membersCount, Endianness.Big);
             for (int i = 0; i < membersCount; i++)
             {
-                Members[i].Write(buffer);
+                Members[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MatchID = buffer.ReadInt32(Endianness.Big);
             SignUpID = buffer.ReadUInt32(Endianness.Big);
@@ -141,7 +141,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < membersCount; i++)
             {
                 CSGuildMatchSignUpTeamMember MembersEntry = new CSGuildMatchSignUpTeamMember();
-                MembersEntry.Read(buffer);
+                MembersEntry.ReadCs(buffer);
                 Members.Add(MembersEntry);
             }
         }

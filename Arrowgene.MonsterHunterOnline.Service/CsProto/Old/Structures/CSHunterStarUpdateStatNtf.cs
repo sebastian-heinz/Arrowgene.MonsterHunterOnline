@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 更新统计项
     /// </summary>
-    public class CSHunterStarUpdateStatNtf : IStructure
+    public class CSHunterStarUpdateStatNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarUpdateStatNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSHunterStarStatData> StatData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte statDataCount = (byte)StatData.Count;
             buffer.WriteByte(statDataCount);
             for (int i = 0; i < statDataCount; i++)
             {
-                StatData[i].Write(buffer);
+                StatData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             StatData.Clear();
             byte statDataCount = buffer.ReadByte();
             for (int i = 0; i < statDataCount; i++)
             {
                 CSHunterStarStatData StatDataEntry = new CSHunterStarStatData();
-                StatDataEntry.Read(buffer);
+                StatDataEntry.ReadCs(buffer);
                 StatData.Add(StatDataEntry);
             }
         }

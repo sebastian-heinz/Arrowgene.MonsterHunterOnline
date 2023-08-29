@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 疾风狩猎刷新
     /// </summary>
-    public class S2CRapidHuntRefresh : IStructure
+    public class S2CRapidHuntRefresh : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRapidHuntRefresh));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int arg;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(arg, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             arg = buffer.ReadInt32(Endianness.Big);
         }

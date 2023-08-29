@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// AG同步信息
     /// </summary>
-    public class CSAGSyncInfo : IStructure
+    public class CSAGSyncInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAGSyncInfo));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float ratio;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteByte(Layer);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(ratio, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             Layer = buffer.ReadByte();

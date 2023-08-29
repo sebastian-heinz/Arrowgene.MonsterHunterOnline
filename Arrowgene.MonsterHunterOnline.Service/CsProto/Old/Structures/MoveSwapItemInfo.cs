@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 移动物品信息
     /// </summary>
-    public class MoveSwapItemInfo : IStructure
+    public class MoveSwapItemInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(MoveSwapItemInfo));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort DstGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(SrcItemID, Endianness.Big);
             buffer.WriteByte(ItemColumn);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(DstGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcItemID = buffer.ReadUInt64(Endianness.Big);
             ItemColumn = buffer.ReadByte();

@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队伍信息
     /// </summary>
-    public class TeamInfo : IStructure
+    public class TeamInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(TeamInfo));
 
@@ -169,7 +169,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint[] Slots;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(TeamId, Endianness.Big);
             buffer.WriteInt32(TeamName.Length + 1, Endianness.Big);
@@ -197,7 +197,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(membersCount, Endianness.Big);
             for (int i = 0; i < membersCount; i++)
             {
-                Members[i].Write(buffer);
+                Members[i].WriteCs(buffer);
             }
             for (int i = 0; i < CsProtoConstant.CS_MAX_TEAM_MEMBER_NUM; i++)
             {
@@ -205,7 +205,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TeamId = buffer.ReadUInt32(Endianness.Big);
             int TeamNameEntryLen = buffer.ReadInt32(Endianness.Big);
@@ -234,7 +234,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < membersCount; i++)
             {
                 TeamMemberInfo MembersEntry = new TeamMemberInfo();
-                MembersEntry.Read(buffer);
+                MembersEntry.ReadCs(buffer);
                 Members.Add(MembersEntry);
             }
             for (int i = 0; i < CsProtoConstant.CS_MAX_TEAM_MEMBER_NUM; i++)

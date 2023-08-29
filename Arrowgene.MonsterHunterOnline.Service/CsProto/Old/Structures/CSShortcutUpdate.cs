@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 更新快捷栏
     /// </summary>
-    public class CSShortcutUpdate : IStructure
+    public class CSShortcutUpdate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSShortcutUpdate));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSShortcut Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Data.Write(buffer);
+            Data.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Data.Read(buffer);
+            Data.ReadCs(buffer);
         }
 
     }

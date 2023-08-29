@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 位置记录消息
     /// </summary>
-    public class CSActorRecordPosition : IStructure
+    public class CSActorRecordPosition : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorRecordPosition));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 Location;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Flag, Endianness.Big);
-            Location.Write(buffer);
+            Location.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Flag = buffer.ReadInt32(Endianness.Big);
-            Location.Read(buffer);
+            Location.ReadCs(buffer);
         }
 
     }

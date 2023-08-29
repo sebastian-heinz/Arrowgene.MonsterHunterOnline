@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本进入同意请求
     /// </summary>
-    public class CSMainInstanceAgreeOptReq : IStructure
+    public class CSMainInstanceAgreeOptReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceAgreeOptReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Agree;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Agree, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Agree = buffer.ReadInt32(Endianness.Big);
         }

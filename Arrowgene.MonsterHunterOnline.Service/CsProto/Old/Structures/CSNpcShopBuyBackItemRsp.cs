@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 回购物品的返回
     /// </summary>
-    public class CSNpcShopBuyBackItemRsp : IStructure
+    public class CSNpcShopBuyBackItemRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcShopBuyBackItemRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ItemCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(Index, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ItemCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             Index = buffer.ReadInt32(Endianness.Big);

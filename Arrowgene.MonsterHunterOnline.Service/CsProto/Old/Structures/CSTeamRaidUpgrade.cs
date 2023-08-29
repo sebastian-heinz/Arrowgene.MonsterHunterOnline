@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队伍提升为团队
     /// </summary>
-    public class CSTeamRaidUpgrade : IStructure
+    public class CSTeamRaidUpgrade : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamRaidUpgrade));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RaidMemberNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RaidMemberNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RaidMemberNum = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求拆分道具
     /// </summary>
-    public class CSResSplitItem : IStructure
+    public class CSResSplitItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSResSplitItem));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort DstCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteByte(SrcColumn);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(DstCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             SrcColumn = buffer.ReadByte();

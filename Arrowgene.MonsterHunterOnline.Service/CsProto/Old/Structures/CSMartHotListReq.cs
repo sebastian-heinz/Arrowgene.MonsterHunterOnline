@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 热销商品请求
     /// </summary>
-    public class CSMartHotListReq : IStructure
+    public class CSMartHotListReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartHotListReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint HotListReq;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(HotListReq, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HotListReq = buffer.ReadUInt32(Endianness.Big);
         }

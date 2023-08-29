@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 往届疾风狩猎人员
     /// </summary>
-    public class CSRapidHuntHisRole : IStructure
+    public class CSRapidHuntHisRole : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRapidHuntHisRole));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Score;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(name.Length + 1, Endianness.Big);
             buffer.WriteCString(name);
             buffer.WriteInt32(Score, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int nameEntryLen = buffer.ReadInt32(Endianness.Big);
             name = buffer.ReadString(nameEntryLen);

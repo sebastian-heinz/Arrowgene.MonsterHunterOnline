@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求销毁物品回复
     /// </summary>
-    public class CSItemMgrDestroyItemRsp : IStructure
+    public class CSItemMgrDestroyItemRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrDestroyItemRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint SubRet;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Ret, Endianness.Big);
             buffer.WriteUInt32(SubRet, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadUInt32(Endianness.Big);
             SubRet = buffer.ReadUInt32(Endianness.Big);

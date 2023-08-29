@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物命名应答
     /// </summary>
-    public class CSPetNameRsp : IStructure
+    public class CSPetNameRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetNameRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Name;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(Idx, Endianness.Big);
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Name);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             Idx = buffer.ReadInt32(Endianness.Big);

@@ -1,15 +1,16 @@
 ﻿using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RulesInfoNone : CSRulesInfo
+public class RulesInfoNone : Structure, ICsStructure, CSRulesInfo
 {
-    public void Write(IBuffer buffer)
+    public void WriteCs(IBuffer buffer)
     {
     }
 
-    public void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
     }
 

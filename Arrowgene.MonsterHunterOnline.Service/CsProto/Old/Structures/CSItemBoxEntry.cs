@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开包物品项
     /// </summary>
-    public class CSItemBoxEntry : IStructure
+    public class CSItemBoxEntry : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemBoxEntry));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort ItemNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ItemId, Endianness.Big);
             buffer.WriteUInt16(ItemNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemId = buffer.ReadUInt32(Endianness.Big);
             ItemNum = buffer.ReadUInt16(Endianness.Big);

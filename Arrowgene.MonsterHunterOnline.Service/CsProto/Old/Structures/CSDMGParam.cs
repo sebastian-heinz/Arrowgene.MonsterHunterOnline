@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 动态伤害结构
     /// </summary>
-    public class CSDMGParam : IStructure
+    public class CSDMGParam : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGParam));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Param;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int paramCount = (int)Param.Count;
             buffer.WriteInt32(paramCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Param.Clear();
             int paramCount = buffer.ReadInt32(Endianness.Big);

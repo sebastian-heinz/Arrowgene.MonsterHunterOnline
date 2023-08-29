@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 组队错误
     /// </summary>
-    public class CSTeamErr : IStructure
+    public class CSTeamErr : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamErr));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Name;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OpType, Endianness.Big);
             buffer.WriteInt32(_Err, Endianness.Big);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Name);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpType = buffer.ReadInt32(Endianness.Big);
             _Err = buffer.ReadInt32(Endianness.Big);

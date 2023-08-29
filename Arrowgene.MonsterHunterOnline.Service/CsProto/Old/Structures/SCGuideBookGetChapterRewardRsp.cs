@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 引导书领取章节奖励响应
     /// </summary>
-    public class SCGuideBookGetChapterRewardRsp : IStructure
+    public class SCGuideBookGetChapterRewardRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCGuideBookGetChapterRewardRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Index;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(ChapterId, Endianness.Big);
             buffer.WriteInt32(Index, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             ChapterId = buffer.ReadInt32(Endianness.Big);

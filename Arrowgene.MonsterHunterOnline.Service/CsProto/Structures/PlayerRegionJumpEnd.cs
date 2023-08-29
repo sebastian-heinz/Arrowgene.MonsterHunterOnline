@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家换区结束客户端告知服务器
     /// </summary>
-    public class PlayerRegionJumpEnd : Structure
+    public class PlayerRegionJumpEnd : Structure, ICsStructure
     {
 
         public PlayerRegionJumpEnd()
@@ -20,12 +20,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RegionId { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, RegionId);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RegionId = ReadInt32(buffer);
         }

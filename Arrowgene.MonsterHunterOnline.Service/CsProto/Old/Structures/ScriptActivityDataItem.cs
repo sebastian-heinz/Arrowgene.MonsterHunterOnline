@@ -137,7 +137,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ScriptActivityRewardItem> RewardItems;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ItemID, Endianness.Big);
             buffer.WriteInt16(ItemCount, Endianness.Big);
@@ -162,11 +162,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(rewardItemsCount);
             for (int i = 0; i < rewardItemsCount; i++)
             {
-                RewardItems[i].Write(buffer);
+                RewardItems[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadUInt32(Endianness.Big);
             ItemCount = buffer.ReadInt16(Endianness.Big);
@@ -192,7 +192,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rewardItemsCount; i++)
             {
                 ScriptActivityRewardItem RewardItemsEntry = new ScriptActivityRewardItem();
-                RewardItemsEntry.Read(buffer);
+                RewardItemsEntry.ReadCs(buffer);
                 RewardItems.Add(RewardItemsEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取修罗试练关卡
     /// </summary>
-    public class CSDemonTrialGetLevelsReq : IStructure
+    public class CSDemonTrialGetLevelsReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDemonTrialGetLevelsReq));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(reserve, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadInt32(Endianness.Big);
         }

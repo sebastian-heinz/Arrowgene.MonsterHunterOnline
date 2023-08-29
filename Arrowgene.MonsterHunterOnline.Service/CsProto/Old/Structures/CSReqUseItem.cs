@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求使用物品
     /// </summary>
-    public class CSReqUseItem : IStructure
+    public class CSReqUseItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqUseItem));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string ExtParam;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteByte(SrcColumn);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(ExtParam);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             SrcColumn = buffer.ReadByte();

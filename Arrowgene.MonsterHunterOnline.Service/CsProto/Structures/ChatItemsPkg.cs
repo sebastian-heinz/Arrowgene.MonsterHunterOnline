@@ -8,7 +8,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 聊天发送的道具信息
     /// </summary>
-    public class ChatItemsPkg : Structure
+    public class ChatItemsPkg : Structure, ICsStructure
     {
         public ChatItemsPkg()
         {
@@ -26,13 +26,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> SoulStoneArray { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteList(buffer, Items, CsProtoConstant.CS_CHAT_ITEMS_LEN, WriteInt32, WriteByte);
             WriteList(buffer, SoulStoneArray, CsProtoConstant.CS_MAX_SOUL_STONE_ATTR_COUNT, WriteInt32, WriteInt32);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ReadList(buffer, Items, CsProtoConstant.CS_CHAT_ITEMS_LEN, ReadInt32, ReadByte);
 

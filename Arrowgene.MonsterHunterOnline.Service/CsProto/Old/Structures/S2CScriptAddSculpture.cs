@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 脚本添加雕像
     /// </summary>
-    public class S2CScriptAddSculpture : IStructure
+    public class S2CScriptAddSculpture : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptAddSculpture));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSSculptureInfo Sculpture;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(lib, Endianness.Big);
-            Sculpture.Write(buffer);
+            Sculpture.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             lib = buffer.ReadInt32(Endianness.Big);
-            Sculpture.Read(buffer);
+            Sculpture.ReadCs(buffer);
         }
 
     }

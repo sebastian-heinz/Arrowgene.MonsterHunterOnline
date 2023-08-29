@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 击飞事件同步
     /// </summary>
-    public class CSHitFlySYNC : IStructure
+    public class CSHitFlySYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHitFlySYNC));
 
@@ -84,24 +84,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float terrainZ;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(EntityId, Endianness.Big);
-            Position.Write(buffer);
-            Rotation.Write(buffer);
-            vSpeed.Write(buffer);
+            Position.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
+            vSpeed.WriteCs(buffer);
             buffer.WriteFloat(gravityZ, Endianness.Big);
             buffer.WriteFloat(terrainZ, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             EntityId = buffer.ReadUInt32(Endianness.Big);
-            Position.Read(buffer);
-            Rotation.Read(buffer);
-            vSpeed.Read(buffer);
+            Position.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
+            vSpeed.ReadCs(buffer);
             gravityZ = buffer.ReadFloat(Endianness.Big);
             terrainZ = buffer.ReadFloat(Endianness.Big);
         }

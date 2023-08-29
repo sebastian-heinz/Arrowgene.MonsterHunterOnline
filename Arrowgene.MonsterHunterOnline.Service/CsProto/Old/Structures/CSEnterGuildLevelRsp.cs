@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入工会副本回复
     /// </summary>
-    public class CSEnterGuildLevelRsp : IStructure
+    public class CSEnterGuildLevelRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterGuildLevelRsp));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint ErrNo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ErrNo, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadUInt32(Endianness.Big);
         }

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildWarGetCommerceBuffRsp : IStructure
+    public class CSGuildWarGetCommerceBuffRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildWarGetCommerceBuffRsp));
 
@@ -51,25 +51,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint History;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int commerceBuffInfoCount = (int)CommerceBuffInfo.Count;
             buffer.WriteInt32(commerceBuffInfoCount, Endianness.Big);
             for (int i = 0; i < commerceBuffInfoCount; i++)
             {
-                CommerceBuffInfo[i].Write(buffer);
+                CommerceBuffInfo[i].WriteCs(buffer);
             }
             buffer.WriteUInt32(History, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CommerceBuffInfo.Clear();
             int commerceBuffInfoCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < commerceBuffInfoCount; i++)
             {
                 CSGuildCommerceBuffs CommerceBuffInfoEntry = new CSGuildCommerceBuffs();
-                CommerceBuffInfoEntry.Read(buffer);
+                CommerceBuffInfoEntry.ReadCs(buffer);
                 CommerceBuffInfo.Add(CommerceBuffInfoEntry);
             }
             History = buffer.ReadUInt32(Endianness.Big);

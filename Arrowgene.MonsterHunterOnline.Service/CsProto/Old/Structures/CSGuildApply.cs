@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团申请
     /// </summary>
-    public class CSGuildApply : IStructure
+    public class CSGuildApply : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildApply));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Time;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
@@ -98,7 +98,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Time, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);

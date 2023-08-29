@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// xrank榜单数据响应
     /// </summary>
-    public class S2CXRankGetRank : IStructure
+    public class S2CXRankGetRank : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CXRankGetRank));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSXRankUserInfo> BlurUsers;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(Zone, Endianness.Big);
@@ -101,18 +101,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(topUsersCount, Endianness.Big);
             for (int i = 0; i < topUsersCount; i++)
             {
-                topUsers[i].Write(buffer);
+                topUsers[i].WriteCs(buffer);
             }
-            selfBlurRank.Write(buffer);
+            selfBlurRank.WriteCs(buffer);
             int blurUsersCount = (int)BlurUsers.Count;
             buffer.WriteInt32(blurUsersCount, Endianness.Big);
             for (int i = 0; i < blurUsersCount; i++)
             {
-                BlurUsers[i].Write(buffer);
+                BlurUsers[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadInt32(Endianness.Big);
             Zone = buffer.ReadInt32(Endianness.Big);
@@ -124,16 +124,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < topUsersCount; i++)
             {
                 CSXRankUserInfo topUsersEntry = new CSXRankUserInfo();
-                topUsersEntry.Read(buffer);
+                topUsersEntry.ReadCs(buffer);
                 topUsers.Add(topUsersEntry);
             }
-            selfBlurRank.Read(buffer);
+            selfBlurRank.ReadCs(buffer);
             BlurUsers.Clear();
             int blurUsersCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < blurUsersCount; i++)
             {
                 CSXRankUserInfo BlurUsersEntry = new CSXRankUserInfo();
-                BlurUsersEntry.Read(buffer);
+                BlurUsersEntry.ReadCs(buffer);
                 BlurUsers.Add(BlurUsersEntry);
             }
         }

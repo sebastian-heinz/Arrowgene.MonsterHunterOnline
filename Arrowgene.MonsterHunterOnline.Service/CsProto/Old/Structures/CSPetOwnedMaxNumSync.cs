@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物拥有上限同步
     /// </summary>
-    public class CSPetOwnedMaxNumSync : IStructure
+    public class CSPetOwnedMaxNumSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetOwnedMaxNumSync));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int num;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(num, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             num = buffer.ReadInt32(Endianness.Big);
         }

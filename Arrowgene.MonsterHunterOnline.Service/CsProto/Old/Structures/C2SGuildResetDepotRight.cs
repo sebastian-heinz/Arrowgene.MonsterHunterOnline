@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 重置仓库权限
     /// </summary>
-    public class C2SGuildResetDepotRight : IStructure
+    public class C2SGuildResetDepotRight : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildResetDepotRight));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Arg1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Arg1 = buffer.ReadInt32(Endianness.Big);
         }

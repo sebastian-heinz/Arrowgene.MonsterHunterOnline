@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商店刷新
     /// </summary>
-    public class S2CRefreshShop : IStructure
+    public class S2CRefreshShop : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRefreshShop));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSShop Shop;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Shop.Write(buffer);
+            Shop.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Shop.Read(buffer);
+            Shop.ReadCs(buffer);
         }
 
     }

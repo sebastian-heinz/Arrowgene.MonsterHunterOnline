@@ -36,16 +36,16 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
         // TODO load inventory
         client.Inventory = new Inventory();
 
-        CsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
+        CsCsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
         selectRoleRsp.Structure.RoleIndex = req.RoleIndex;
         selectRoleRsp.Structure.ErrNo = 0;
         client.SendCsProtoStructurePacket(selectRoleRsp);
 
-        CsProtoStructurePacket<TownSessionStart> townSessionStart = CsProtoResponse.TownSessionStart;
+        CsCsProtoStructurePacket<TownSessionStart> townSessionStart = CsProtoResponse.TownSessionStart;
         townSessionStart.Structure.ErrNo = 0;
         client.SendCsProtoStructurePacket(townSessionStart);
 
-        CsProtoStructurePacket<PlayerInitInfo> playerInitInfo = CsProtoResponse.PlayerInitInfo;
+        CsCsProtoStructurePacket<PlayerInitInfo> playerInitInfo = CsProtoResponse.PlayerInitInfo;
         _characterManager.PopulatePlayerInitInfo(client, client.Character, playerInitInfo.Structure);
         client.SendCsProtoStructurePacket(playerInitInfo);
     }

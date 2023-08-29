@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取商品列表回复
     /// </summary>
-    public class CSMartGoodsListRsp : IStructure
+    public class CSMartGoodsListRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartGoodsListRsp));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMartGoodsInfoUpdate> Info;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(version, Endianness.Big);
             int infoCount = (int)Info.Count;
             buffer.WriteInt32(infoCount, Endianness.Big);
             for (int i = 0; i < infoCount; i++)
             {
-                Info[i].Write(buffer);
+                Info[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             version = buffer.ReadUInt32(Endianness.Big);
             Info.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < infoCount; i++)
             {
                 CSMartGoodsInfoUpdate InfoEntry = new CSMartGoodsInfoUpdate();
-                InfoEntry.Read(buffer);
+                InfoEntry.ReadCs(buffer);
                 Info.Add(InfoEntry);
             }
         }

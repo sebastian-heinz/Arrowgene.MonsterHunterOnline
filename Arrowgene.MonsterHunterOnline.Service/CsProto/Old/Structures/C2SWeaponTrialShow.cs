@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置个人武器显示
     /// </summary>
-    public class C2SWeaponTrialShow : IStructure
+    public class C2SWeaponTrialShow : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SWeaponTrialShow));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int WeaponType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(WeaponType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             WeaponType = buffer.ReadInt32(Endianness.Big);
         }

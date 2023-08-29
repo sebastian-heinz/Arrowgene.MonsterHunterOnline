@@ -50,3 +50,17 @@ CREATE TABLE IF NOT EXISTS `character`
     CONSTRAINT `uq_character_name` UNIQUE (`name`),
     CONSTRAINT `uq_character_account_id_role_index` UNIQUE (`account_id`, `role_index`)
 );
+
+CREATE TABLE IF NOT EXISTS `item`
+(
+    `id`           UNSIGNED BIG INT PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `character_id` INTEGER                                    NOT NULL,
+    `item_id`      INTEGER                                    NOT NULL,
+    `column`       TINYINT                                    NOT NULL,
+    `grid`         SMALLINT                                   NOT NULL,
+    `quantity`     SMALLINT                                   NOT NULL,
+    `created`      DATETIME                                   NOT NULL,
+    `created_by`   TEXT                                       NOT NULL,
+    CONSTRAINT `fk_item_character_id` FOREIGN KEY (`character_id`) REFERENCES `character` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `uq_item_character_id_column_grid` UNIQUE (`character_id`, `column`, `grid`)
+);

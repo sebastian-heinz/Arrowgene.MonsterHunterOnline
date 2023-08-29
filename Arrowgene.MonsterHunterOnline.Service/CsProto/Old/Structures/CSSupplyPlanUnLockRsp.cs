@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 方案解锁响应
     /// </summary>
-    public class CSSupplyPlanUnLockRsp : IStructure
+    public class CSSupplyPlanUnLockRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyPlanUnLockRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int iPlanID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(iRetCode, Endianness.Big);
             buffer.WriteInt32(iPlanID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             iRetCode = buffer.ReadInt32(Endianness.Big);
             iPlanID = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星蕴石培养
     /// </summary>
-    public class CSStarStoneFeedReq : IStructure
+    public class CSStarStoneFeedReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneFeedReq));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> TinyStoneCnt;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int tinyStoneIDCount = (int)TinyStoneID.Count;
             buffer.WriteInt32(tinyStoneIDCount, Endianness.Big);
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TinyStoneID.Clear();
             int tinyStoneIDCount = buffer.ReadInt32(Endianness.Big);

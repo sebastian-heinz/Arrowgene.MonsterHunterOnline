@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取好友系统所有信息请求
     /// </summary>
-    public class CSFriendQueryReq : IStructure
+    public class CSFriendQueryReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendQueryReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte res;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(res);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             res = buffer.ReadByte();
         }

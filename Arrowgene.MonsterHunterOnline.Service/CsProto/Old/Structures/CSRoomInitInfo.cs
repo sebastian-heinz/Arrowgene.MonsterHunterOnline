@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家进入BS时，重新发送房间必要的信息
     /// </summary>
-    public class CSRoomInitInfo : IStructure
+    public class CSRoomInitInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoomInitInfo));
 
@@ -45,7 +45,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<uint> RoomSlots;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int roomSlotsCount = (int)RoomSlots.Count;
             buffer.WriteInt32(roomSlotsCount, Endianness.Big);
@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoomSlots.Clear();
             int roomSlotsCount = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团团员集
     /// </summary>
-    public class CSGuilders : IStructure
+    public class CSGuilders : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuilders));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGuilder> Guilders;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int guildersCount = (int)Guilders.Count;
             buffer.WriteInt32(guildersCount, Endianness.Big);
             for (int i = 0; i < guildersCount; i++)
             {
-                Guilders[i].Write(buffer);
+                Guilders[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Guilders.Clear();
             int guildersCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < guildersCount; i++)
             {
                 CSGuilder GuildersEntry = new CSGuilder();
-                GuildersEntry.Read(buffer);
+                GuildersEntry.ReadCs(buffer);
                 Guilders.Add(GuildersEntry);
             }
         }

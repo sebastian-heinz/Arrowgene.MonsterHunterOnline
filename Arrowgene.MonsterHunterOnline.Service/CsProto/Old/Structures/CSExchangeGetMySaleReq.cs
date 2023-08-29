@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 查询我的拍卖请求
     /// </summary>
-    public class CSExchangeGetMySaleReq : IStructure
+    public class CSExchangeGetMySaleReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeGetMySaleReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong RecordId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RecordId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RecordId = buffer.ReadUInt64(Endianness.Big);
         }

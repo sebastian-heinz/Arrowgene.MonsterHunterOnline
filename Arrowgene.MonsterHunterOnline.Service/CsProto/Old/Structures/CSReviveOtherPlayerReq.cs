@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 复活其他玩家的请求
     /// </summary>
-    public class CSReviveOtherPlayerReq : IStructure
+    public class CSReviveOtherPlayerReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReviveOtherPlayerReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ReviveType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerID, Endianness.Big);
             buffer.WriteInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(ReviveType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerID = buffer.ReadInt32(Endianness.Big);
             TargetID = buffer.ReadInt32(Endianness.Big);

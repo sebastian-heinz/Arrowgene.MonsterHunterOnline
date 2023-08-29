@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 同步开包厢内容
     /// </summary>
-    public class CSItemBoxOpenSync : IStructure
+    public class CSItemBoxOpenSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemBoxOpenSync));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSItemBoxEntry> ItemList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte itemListCount = (byte)ItemList.Count;
             buffer.WriteByte(itemListCount);
             for (int i = 0; i < itemListCount; i++)
             {
-                ItemList[i].Write(buffer);
+                ItemList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemList.Clear();
             byte itemListCount = buffer.ReadByte();
             for (int i = 0; i < itemListCount; i++)
             {
                 CSItemBoxEntry ItemListEntry = new CSItemBoxEntry();
-                ItemListEntry.Read(buffer);
+                ItemListEntry.ReadCs(buffer);
                 ItemList.Add(ItemListEntry);
             }
         }

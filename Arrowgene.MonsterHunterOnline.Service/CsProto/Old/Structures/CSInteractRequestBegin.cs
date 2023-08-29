@@ -62,14 +62,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(InteractType, Endianness.Big);
             buffer.WriteInt32(Param1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TargetID = buffer.ReadInt32(Endianness.Big);
             InteractType = buffer.ReadInt32(Endianness.Big);

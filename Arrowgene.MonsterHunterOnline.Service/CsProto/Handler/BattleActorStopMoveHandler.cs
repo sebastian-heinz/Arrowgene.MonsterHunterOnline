@@ -15,7 +15,7 @@ public class BattleActorStopMoveHandler : CsProtoStructureHandler<ActorStopMove>
 
     public override void Handle(Client client, ActorStopMove req)
     {
-        CsProtoStructurePacket<ActorStopMoveNtf> actorMoveStateNtf = CsProtoResponse.ActorStopMoveNtf;
+        CsCsProtoStructurePacket<ActorStopMoveNtf> actorMoveStateNtf = CsProtoResponse.ActorStopMoveNtf;
         actorMoveStateNtf.Structure.NetObjId = client.Character.Id;
         actorMoveStateNtf.Structure.ActorStopMove = req;
     }

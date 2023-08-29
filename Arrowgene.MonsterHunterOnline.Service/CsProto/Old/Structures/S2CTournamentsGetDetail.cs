@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 赛季详细信息
     /// </summary>
-    public class S2CTournamentsGetDetail : IStructure
+    public class S2CTournamentsGetDetail : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTournamentsGetDetail));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> Levels;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Season, Endianness.Big);
             buffer.WriteInt32(Round, Endianness.Big);
@@ -79,7 +79,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Season = buffer.ReadInt32(Endianness.Big);
             Round = buffer.ReadInt32(Endianness.Big);

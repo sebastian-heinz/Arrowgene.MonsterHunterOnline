@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSFarmFacilitySetGatherLevelRsp : IStructure
+    public class CSFarmFacilitySetGatherLevelRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmFacilitySetGatherLevelRsp));
 
@@ -51,16 +51,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSFarmFacilitySetGatherLevelReq Req;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
-            Req.Write(buffer);
+            Req.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
-            Req.Read(buffer);
+            Req.ReadCs(buffer);
         }
 
     }

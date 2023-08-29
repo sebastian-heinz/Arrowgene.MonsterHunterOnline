@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求龙人秘宝详细信息
     /// </summary>
-    public class CSDragonBoxDetailReq : IStructure
+    public class CSDragonBoxDetailReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxDetailReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Force;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteByte(Force);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             Force = buffer.ReadByte();

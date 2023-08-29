@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取猎团技能
     /// </summary>
-    public class S2CGetGuildLearnedSkills : IStructure
+    public class S2CGetGuildLearnedSkills : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetGuildLearnedSkills));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildSkills Skills;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Skills.Write(buffer);
+            Skills.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Skills.Read(buffer);
+            Skills.ReadCs(buffer);
         }
 
     }

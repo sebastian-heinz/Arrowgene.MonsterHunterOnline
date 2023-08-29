@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// NPC商店事件通知
     /// </summary>
-    public class CSShopEvent : IStructure
+    public class CSShopEvent : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSShopEvent));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EventType, Endianness.Big);
             buffer.WriteInt32(SubEventType, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EventType = buffer.ReadInt32(Endianness.Big);
             SubEventType = buffer.ReadInt32(Endianness.Big);

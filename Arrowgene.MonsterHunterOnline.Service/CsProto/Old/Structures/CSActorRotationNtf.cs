@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 旋转消息
     /// </summary>
-    public class CSActorRotationNtf : IStructure
+    public class CSActorRotationNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorRotationNtf));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat ActorRot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(NetObjId, Endianness.Big);
-            ActorRot.Write(buffer);
+            ActorRot.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             NetObjId = buffer.ReadUInt32(Endianness.Big);
-            ActorRot.Read(buffer);
+            ActorRot.ReadCs(buffer);
         }
 
     }

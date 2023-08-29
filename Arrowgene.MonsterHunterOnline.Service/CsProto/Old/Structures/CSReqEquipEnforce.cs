@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求装备强化
     /// </summary>
-    public class CSReqEquipEnforce : IStructure
+    public class CSReqEquipEnforce : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqEquipEnforce));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short useDiamond;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Column);
             buffer.WriteInt16(Grid, Endianness.Big);
             buffer.WriteInt16(useDiamond, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Column = buffer.ReadByte();
             Grid = buffer.ReadInt16(Endianness.Big);

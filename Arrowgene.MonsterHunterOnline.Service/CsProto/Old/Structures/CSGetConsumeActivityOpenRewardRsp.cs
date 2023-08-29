@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 领取奖励
     /// </summary>
-    public class CSGetConsumeActivityOpenRewardRsp : IStructure
+    public class CSGetConsumeActivityOpenRewardRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetConsumeActivityOpenRewardRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Index;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(Index, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             Index = buffer.ReadInt32(Endianness.Big);

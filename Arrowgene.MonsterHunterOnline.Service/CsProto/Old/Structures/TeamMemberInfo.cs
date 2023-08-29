@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队员定义
     /// </summary>
-    public class TeamMemberInfo : IStructure
+    public class TeamMemberInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(TeamMemberInfo));
 
@@ -150,7 +150,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int WeaponTitle;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetId, Endianness.Big);
             buffer.WriteUInt64(DBId, Endianness.Big);
@@ -164,8 +164,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Star, Endianness.Big);
             buffer.WriteInt32(CanBeKicked, Endianness.Big);
             buffer.WriteInt32(Online, Endianness.Big);
-            Vec3.Write(buffer);
-            Dir.Write(buffer);
+            Vec3.WriteCs(buffer);
+            Dir.WriteCs(buffer);
             buffer.WriteInt32(LineId, Endianness.Big);
             buffer.WriteInt32(HRLevel, Endianness.Big);
             buffer.WriteInt32(HunterStar.Length + 1, Endianness.Big);
@@ -174,7 +174,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(WeaponTitle, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = buffer.ReadUInt32(Endianness.Big);
             DBId = buffer.ReadUInt64(Endianness.Big);
@@ -188,8 +188,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Star = buffer.ReadUInt32(Endianness.Big);
             CanBeKicked = buffer.ReadInt32(Endianness.Big);
             Online = buffer.ReadInt32(Endianness.Big);
-            Vec3.Read(buffer);
-            Dir.Read(buffer);
+            Vec3.ReadCs(buffer);
+            Dir.ReadCs(buffer);
             LineId = buffer.ReadInt32(Endianness.Big);
             HRLevel = buffer.ReadInt32(Endianness.Big);
             int HunterStarEntryLen = buffer.ReadInt32(Endianness.Big);

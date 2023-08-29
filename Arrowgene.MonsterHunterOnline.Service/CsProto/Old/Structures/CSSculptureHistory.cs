@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 雕像历史数据
     /// </summary>
-    public class CSSculptureHistory : IStructure
+    public class CSSculptureHistory : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSculptureHistory));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Name;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Round, Endianness.Big);
             buffer.WriteInt32(Score, Endianness.Big);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Name);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Round = buffer.ReadInt32(Endianness.Big);
             Score = buffer.ReadInt32(Endianness.Big);

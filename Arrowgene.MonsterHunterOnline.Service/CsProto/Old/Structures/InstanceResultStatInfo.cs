@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本结算统计数据
     /// </summary>
-    public class InstanceResultStatInfo : IStructure
+    public class InstanceResultStatInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(InstanceResultStatInfo));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> InstanceDataValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int instanceDataTypeCount = (int)InstanceDataType.Count;
             buffer.WriteInt32(instanceDataTypeCount, Endianness.Big);
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             InstanceDataType.Clear();
             int instanceDataTypeCount = buffer.ReadInt32(Endianness.Big);

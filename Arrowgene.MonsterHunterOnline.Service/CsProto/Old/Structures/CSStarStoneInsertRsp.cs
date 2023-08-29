@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星蕴石注入返回属性
     /// </summary>
-    public class CSStarStoneInsertRsp : IStructure
+    public class CSStarStoneInsertRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneInsertRsp));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSStarStoneSlotInfo> Slots;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Error, Endianness.Big);
             int slotsCount = (int)Slots.Count;
             buffer.WriteInt32(slotsCount, Endianness.Big);
             for (int i = 0; i < slotsCount; i++)
             {
-                Slots[i].Write(buffer);
+                Slots[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Error = buffer.ReadInt32(Endianness.Big);
             Slots.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < slotsCount; i++)
             {
                 CSStarStoneSlotInfo SlotsEntry = new CSStarStoneSlotInfo();
-                SlotsEntry.Read(buffer);
+                SlotsEntry.ReadCs(buffer);
                 Slots.Add(SlotsEntry);
             }
         }

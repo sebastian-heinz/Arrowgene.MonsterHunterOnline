@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGetSlppUrlRsp : IStructure
+    public class CSGetSlppUrlRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetSlppUrlRsp));
 
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string SetSlppUrl;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(seq, Endianness.Big);
             buffer.WriteInt32(Result, Endianness.Big);
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(SetSlppUrl);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             seq = buffer.ReadUInt32(Endianness.Big);
             Result = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 小铺请求
     /// </summary>
-    public class CSDragonBoxShopReq : IStructure
+    public class CSDragonBoxShopReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxShopReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BoxID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxID = buffer.ReadInt32(Endianness.Big);
         }

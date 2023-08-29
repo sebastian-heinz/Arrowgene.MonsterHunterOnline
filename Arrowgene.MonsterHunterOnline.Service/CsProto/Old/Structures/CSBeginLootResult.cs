@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 采集剥取返回
     /// </summary>
-    public class CSBeginLootResult : IStructure
+    public class CSBeginLootResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBeginLootResult));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSInstanceItemLootInfo> Item;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Result, Endianness.Big);
             buffer.WriteUInt32(LogicEntityId, Endianness.Big);
@@ -75,11 +75,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(itemCount, Endianness.Big);
             for (int i = 0; i < itemCount; i++)
             {
-                Item[i].Write(buffer);
+                Item[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadUInt32(Endianness.Big);
             LogicEntityId = buffer.ReadUInt32(Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemCount; i++)
             {
                 CSInstanceItemLootInfo ItemEntry = new CSInstanceItemLootInfo();
-                ItemEntry.Read(buffer);
+                ItemEntry.ReadCs(buffer);
                 Item.Add(ItemEntry);
             }
         }

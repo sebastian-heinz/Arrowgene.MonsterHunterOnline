@@ -8,7 +8,7 @@ using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class ItemListRsp : Structure, IRemoteDataInfo, IItemListProperties
+    public class ItemListRsp : Structure, ICsStructure, CSICsRemoteDataInfo, IItemListProperties
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ItemListRsp));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ushort> ItemUseOnceList { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt16(buffer, StoreSize);
             WriteUInt16(buffer, NormalSize);
@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             StoreSize = ReadUInt16(buffer);
             NormalSize = ReadUInt16(buffer);

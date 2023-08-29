@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友信息（用于数据传输）
     /// </summary>
-    public class CSFriendInfo : IStructure
+    public class CSFriendInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendInfo));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Friender;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int frienderCount = (int)Friender.Count;
             buffer.WriteInt32(frienderCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Friender.Clear();
             int frienderCount = buffer.ReadInt32(Endianness.Big);

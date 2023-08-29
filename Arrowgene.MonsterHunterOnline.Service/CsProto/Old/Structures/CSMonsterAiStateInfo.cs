@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物的AI当前状态
     /// </summary>
-    public class CSMonsterAiStateInfo : IStructure
+    public class CSMonsterAiStateInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterAiStateInfo));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string AiXmlInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MonsterID, Endianness.Big);
             buffer.WriteByte(Result);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(AiXmlInfo);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadInt32(Endianness.Big);
             Result = buffer.ReadByte();

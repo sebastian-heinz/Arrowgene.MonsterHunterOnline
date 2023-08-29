@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// LOCOMOTION同步消息
     /// </summary>
-    public class CSActorLocomotion : IStructure
+    public class CSActorLocomotion : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorLocomotion));
 
@@ -126,7 +126,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string UserDataS2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt64(SyncTime, Endianness.Big);
@@ -136,7 +136,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(UserDataF3, Endianness.Big);
             buffer.WriteFloat(UserDataF4, Endianness.Big);
             buffer.WriteFloat(UserDataF5, Endianness.Big);
-            UserDataV1.Write(buffer);
+            UserDataV1.WriteCs(buffer);
             buffer.WriteUInt32(UserDataU1, Endianness.Big);
             buffer.WriteUInt32(UserDataU2, Endianness.Big);
             buffer.WriteInt32(UserDataI1, Endianness.Big);
@@ -146,7 +146,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(UserDataS2);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             SyncTime = buffer.ReadInt64(Endianness.Big);
@@ -156,7 +156,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             UserDataF3 = buffer.ReadFloat(Endianness.Big);
             UserDataF4 = buffer.ReadFloat(Endianness.Big);
             UserDataF5 = buffer.ReadFloat(Endianness.Big);
-            UserDataV1.Read(buffer);
+            UserDataV1.ReadCs(buffer);
             UserDataU1 = buffer.ReadUInt32(Endianness.Big);
             UserDataU2 = buffer.ReadUInt32(Endianness.Big);
             UserDataI1 = buffer.ReadInt32(Endianness.Big);

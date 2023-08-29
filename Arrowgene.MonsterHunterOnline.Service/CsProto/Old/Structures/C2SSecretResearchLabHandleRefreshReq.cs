@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院手动刷新 客户端->服务端
     /// </summary>
-    public class C2SSecretResearchLabHandleRefreshReq : IStructure
+    public class C2SSecretResearchLabHandleRefreshReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSecretResearchLabHandleRefreshReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int IsVipRefresh;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxId, Endianness.Big);
             buffer.WriteInt32(IsVipRefresh, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxId = buffer.ReadInt32(Endianness.Big);
             IsVipRefresh = buffer.ReadInt32(Endianness.Big);

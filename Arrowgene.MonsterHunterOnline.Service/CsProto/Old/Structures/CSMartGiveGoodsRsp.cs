@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 赠送商品回复
     /// </summary>
-    public class CSMartGiveGoodsRsp : IStructure
+    public class CSMartGiveGoodsRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartGiveGoodsRsp));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int Ret;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 他人副本奖励结算
     /// </summary>
-    public class CSOtherResultInfo : IStructure
+    public class CSOtherResultInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSOtherResultInfo));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBtlPlayerStatInfo StatInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            BaseInfo.Write(buffer);
-            StatInfo.Write(buffer);
+            BaseInfo.WriteCs(buffer);
+            StatInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            BaseInfo.Read(buffer);
-            StatInfo.Read(buffer);
+            BaseInfo.ReadCs(buffer);
+            StatInfo.ReadCs(buffer);
         }
 
     }

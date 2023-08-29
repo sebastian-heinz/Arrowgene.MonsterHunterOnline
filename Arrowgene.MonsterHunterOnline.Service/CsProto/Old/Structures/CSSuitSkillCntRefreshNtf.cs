@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 套装技能过期设置
     /// </summary>
-    public class CSSuitSkillCntRefreshNtf : IStructure
+    public class CSSuitSkillCntRefreshNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuitSkillCntRefreshNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ret;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ret, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ret = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本结算通知
     /// </summary>
-    public class CSInstanceResultRsp : IStructure
+    public class CSInstanceResultRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceResultRsp));
 
@@ -90,50 +90,50 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSOtherResultInfo> OtherResultList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(GameMode, Endianness.Big);
             buffer.WriteInt32(HuntingMode, Endianness.Big);
-            FakeItemInfo.Write(buffer);
-            InstanceStatResult.Write(buffer);
+            FakeItemInfo.WriteCs(buffer);
+            InstanceStatResult.WriteCs(buffer);
             int factionStatResultCount = (int)FactionStatResult.Count;
             buffer.WriteInt32(factionStatResultCount, Endianness.Big);
             for (int i = 0; i < factionStatResultCount; i++)
             {
-                FactionStatResult[i].Write(buffer);
+                FactionStatResult[i].WriteCs(buffer);
             }
-            SelfResult.Write(buffer);
+            SelfResult.WriteCs(buffer);
             byte otherResultListCount = (byte)OtherResultList.Count;
             buffer.WriteByte(otherResultListCount);
             for (int i = 0; i < otherResultListCount; i++)
             {
-                OtherResultList[i].Write(buffer);
+                OtherResultList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             GameMode = buffer.ReadInt32(Endianness.Big);
             HuntingMode = buffer.ReadInt32(Endianness.Big);
-            FakeItemInfo.Read(buffer);
-            InstanceStatResult.Read(buffer);
+            FakeItemInfo.ReadCs(buffer);
+            InstanceStatResult.ReadCs(buffer);
             FactionStatResult.Clear();
             int factionStatResultCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < factionStatResultCount; i++)
             {
                 FactionResultStatInfo FactionStatResultEntry = new FactionResultStatInfo();
-                FactionStatResultEntry.Read(buffer);
+                FactionStatResultEntry.ReadCs(buffer);
                 FactionStatResult.Add(FactionStatResultEntry);
             }
-            SelfResult.Read(buffer);
+            SelfResult.ReadCs(buffer);
             OtherResultList.Clear();
             byte otherResultListCount = buffer.ReadByte();
             for (int i = 0; i < otherResultListCount; i++)
             {
                 CSOtherResultInfo OtherResultListEntry = new CSOtherResultInfo();
-                OtherResultListEntry.Read(buffer);
+                OtherResultListEntry.ReadCs(buffer);
                 OtherResultList.Add(OtherResultListEntry);
             }
         }

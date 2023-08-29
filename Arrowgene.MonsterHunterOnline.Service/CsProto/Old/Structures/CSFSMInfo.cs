@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// FSM状态同步信息
     /// </summary>
-    public class CSFSMInfo : IStructure
+    public class CSFSMInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFSMInfo));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat Rotation;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(EntityId, Endianness.Big);
@@ -98,11 +98,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(StateID2, Endianness.Big);
             buffer.WriteUInt32(StateID3, Endianness.Big);
             buffer.WriteUInt32(StateID4, Endianness.Big);
-            Position.Write(buffer);
-            Rotation.Write(buffer);
+            Position.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             EntityId = buffer.ReadUInt32(Endianness.Big);
@@ -110,8 +110,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             StateID2 = buffer.ReadUInt32(Endianness.Big);
             StateID3 = buffer.ReadUInt32(Endianness.Big);
             StateID4 = buffer.ReadUInt32(Endianness.Big);
-            Position.Read(buffer);
-            Rotation.Read(buffer);
+            Position.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
         }
 
     }

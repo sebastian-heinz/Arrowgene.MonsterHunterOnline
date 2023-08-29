@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 拍卖取消请求
     /// </summary>
-    public class CSExchangeCancelReq : IStructure
+    public class CSExchangeCancelReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeCancelReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint fee;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RecordId, Endianness.Big);
             buffer.WriteUInt32(fee, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RecordId = buffer.ReadUInt64(Endianness.Big);
             fee = buffer.ReadUInt32(Endianness.Big);

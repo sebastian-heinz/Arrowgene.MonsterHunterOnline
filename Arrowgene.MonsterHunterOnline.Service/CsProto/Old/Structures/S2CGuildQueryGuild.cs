@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 查询猎团
     /// </summary>
-    public class S2CGuildQueryGuild : IStructure
+    public class S2CGuildQueryGuild : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGuildQueryGuild));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildOutline Guild;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Guild.Write(buffer);
+            Guild.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Guild.Read(buffer);
+            Guild.ReadCs(buffer);
         }
 
     }

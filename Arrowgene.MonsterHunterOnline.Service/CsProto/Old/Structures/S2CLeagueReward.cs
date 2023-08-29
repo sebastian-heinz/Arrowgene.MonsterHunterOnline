@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 领取赛季奖励
     /// </summary>
-    public class S2CLeagueReward : IStructure
+    public class S2CLeagueReward : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeagueReward));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LeagueType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LeagueType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LeagueType = buffer.ReadInt32(Endianness.Big);
         }

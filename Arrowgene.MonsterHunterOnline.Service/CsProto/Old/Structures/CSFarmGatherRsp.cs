@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSFarmGatherRsp : IStructure
+    public class CSFarmGatherRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmGatherRsp));
 
@@ -84,10 +84,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte SkipCutScene;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
-            Req.Write(buffer);
+            Req.WriteCs(buffer);
             for (int i = 0; i < Award.Length; i++)
             {
                 buffer.WriteInt32(Award[i], Endianness.Big);
@@ -107,10 +107,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(SkipCutScene);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
-            Req.Read(buffer);
+            Req.ReadCs(buffer);
             for (int i = 0; i < Award.Length; i++)
             {
                 Award[i] = buffer.ReadInt32(Endianness.Big);

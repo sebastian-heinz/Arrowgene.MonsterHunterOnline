@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 天赋激活应答
     /// </summary>
-    public class CSTalentActiveRsp : IStructure
+    public class CSTalentActiveRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTalentActiveRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int errorID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(talentID, Endianness.Big);
             buffer.WriteInt32(idx, Endianness.Big);
             buffer.WriteInt32(errorID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             talentID = buffer.ReadInt32(Endianness.Big);
             idx = buffer.ReadInt32(Endianness.Big);

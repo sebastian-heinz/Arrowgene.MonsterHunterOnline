@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家新手引导书信息 与csproto.xml保持一致
     /// </summary>
-    public class GuideBookInfo : IStructure
+    public class GuideBookInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideBookInfo));
 
@@ -66,32 +66,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public GuideActionInfo GuideActionInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int guideBookChapterInfosCount = (int)GuideBookChapterInfos.Count;
             buffer.WriteInt32(guideBookChapterInfosCount, Endianness.Big);
             for (int i = 0; i < guideBookChapterInfosCount; i++)
             {
-                GuideBookChapterInfos[i].Write(buffer);
+                GuideBookChapterInfos[i].WriteCs(buffer);
             }
             buffer.WriteByte(IsFisrtAutoOpenGuideBook);
             buffer.WriteByte(WeaopnId);
-            GuideActionInfos.Write(buffer);
+            GuideActionInfos.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GuideBookChapterInfos.Clear();
             int guideBookChapterInfosCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < guideBookChapterInfosCount; i++)
             {
                 GuideBookChapterInfo GuideBookChapterInfosEntry = new GuideBookChapterInfo();
-                GuideBookChapterInfosEntry.Read(buffer);
+                GuideBookChapterInfosEntry.ReadCs(buffer);
                 GuideBookChapterInfos.Add(GuideBookChapterInfosEntry);
             }
             IsFisrtAutoOpenGuideBook = buffer.ReadByte();
             WeaopnId = buffer.ReadByte();
-            GuideActionInfos.Read(buffer);
+            GuideActionInfos.ReadCs(buffer);
         }
 
     }

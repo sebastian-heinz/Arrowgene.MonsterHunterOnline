@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 打断CUTSCENE
     /// </summary>
-    public class CSBreakCutSceneNtf : IStructure
+    public class CSBreakCutSceneNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBreakCutSceneNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int reason;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(reason, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reason = buffer.ReadInt32(Endianness.Big);
         }

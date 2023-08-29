@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 精粹放弃回滚
     /// </summary>
-    public class CSEquipQuenchRollReq : IStructure
+    public class CSEquipQuenchRollReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipQuenchRollReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort EquipGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(ItemUid, Endianness.Big);
             buffer.WriteByte(EquipColumn);
             buffer.WriteUInt16(EquipGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemUid = buffer.ReadInt64(Endianness.Big);
             EquipColumn = buffer.ReadByte();

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家对话框选项
     /// </summary>
-    public class CSMsgBoxSelectReq : IStructure
+    public class CSMsgBoxSelectReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxSelectReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reason;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MsgBoxId, Endianness.Big);
             buffer.WriteByte(Option);
             buffer.WriteInt32(Reason, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MsgBoxId = buffer.ReadUInt32(Endianness.Big);
             Option = buffer.ReadByte();

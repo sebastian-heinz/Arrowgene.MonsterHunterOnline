@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端玩家复活死亡相关信息
     /// </summary>
-    public class ClientReviveState : IStructure
+    public class ClientReviveState : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ClientReviveState));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TicketRevive;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(DeadState, Endianness.Big);
             buffer.WriteUInt32(DeadTime, Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(TicketRevive, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DeadState = buffer.ReadInt32(Endianness.Big);
             DeadTime = buffer.ReadUInt32(Endianness.Big);

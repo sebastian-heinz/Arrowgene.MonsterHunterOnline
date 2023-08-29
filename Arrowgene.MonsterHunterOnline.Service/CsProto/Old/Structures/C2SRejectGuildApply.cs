@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 拒绝猎团申请
     /// </summary>
-    public class C2SRejectGuildApply : IStructure
+    public class C2SRejectGuildApply : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SRejectGuildApply));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reason;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Apply, Endianness.Big);
             buffer.WriteInt32(Reason, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Apply = buffer.ReadInt32(Endianness.Big);
             Reason = buffer.ReadInt32(Endianness.Big);

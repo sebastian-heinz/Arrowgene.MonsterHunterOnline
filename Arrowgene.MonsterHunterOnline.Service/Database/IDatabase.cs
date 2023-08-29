@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Database
 {
@@ -25,5 +27,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         List<Character> SelectCharactersByAccountId(uint accountId);
         bool DeleteCharacter(uint characterId);
         bool GetFreeCharacterIndex(uint accountId, out byte freeIndex);
+
+        // Item
+        public Item CreateItem(
+            uint itemId,
+            uint characterId,
+            ItemColumnType column,
+            ushort grid,
+            ushort quantity,
+            string createdBy
+        );
+
+        bool UpdateItem(Item item);
+        bool DeleteItem(ulong itemId);
+        List<Item> SelectItemsByCharacterId(uint characterId);
     }
 }

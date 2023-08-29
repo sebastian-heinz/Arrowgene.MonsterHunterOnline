@@ -32,7 +32,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSObtainDailyRewardListRes : IStructure
+    public class CSObtainDailyRewardListRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSObtainDailyRewardListRes));
 
@@ -68,22 +68,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MaxDailyContribution;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.CS_PRIZE_MAX_NUM; i++)
             {
-                PrizeInfo[i].Write(buffer);
+                PrizeInfo[i].WriteCs(buffer);
             }
             buffer.WriteInt32(Count, Endianness.Big);
             buffer.WriteInt32(CurContribution, Endianness.Big);
             buffer.WriteInt32(MaxDailyContribution, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.CS_PRIZE_MAX_NUM; i++)
             {
-                PrizeInfo[i].Read(buffer);
+                PrizeInfo[i].ReadCs(buffer);
             }
             Count = buffer.ReadInt32(Endianness.Big);
             CurContribution = buffer.ReadInt32(Endianness.Big);

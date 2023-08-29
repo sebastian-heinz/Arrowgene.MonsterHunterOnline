@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 随机数同步请求
     /// </summary>
-    public class CSRandSeedSyncReq : IStructure
+    public class CSRandSeedSyncReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRandSeedSyncReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte UsedBeforeMsg;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetID, Endianness.Big);
             buffer.WriteByte(UsedBeforeMsg);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadUInt32(Endianness.Big);
             UsedBeforeMsg = buffer.ReadByte();

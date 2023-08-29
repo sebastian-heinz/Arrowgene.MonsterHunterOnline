@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 赛季副本列表RSP
     /// </summary>
-    public class LeagueOpenInfo : IStructure
+    public class LeagueOpenInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(LeagueOpenInfo));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> LevelIDs;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LeagueID, Endianness.Big);
             int levelIDsCount = (int)LevelIDs.Count;
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LeagueID = buffer.ReadInt32(Endianness.Big);
             LevelIDs.Clear();

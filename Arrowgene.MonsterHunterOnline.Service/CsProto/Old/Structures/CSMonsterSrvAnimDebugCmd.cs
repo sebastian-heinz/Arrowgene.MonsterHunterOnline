@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物服务器动画调试
     /// </summary>
-    public class CSMonsterSrvAnimDebugCmd : IStructure
+    public class CSMonsterSrvAnimDebugCmd : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterSrvAnimDebugCmd));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte EnableDebug;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MonsterID, Endianness.Big);
             buffer.WriteByte(DebugMode);
             buffer.WriteByte(EnableDebug);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadUInt32(Endianness.Big);
             DebugMode = buffer.ReadByte();

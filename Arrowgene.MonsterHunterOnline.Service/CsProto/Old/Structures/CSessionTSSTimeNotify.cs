@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// TSSANTI接口花费时间通知
     /// </summary>
-    public class CSessionTSSTimeNotify : IStructure
+    public class CSessionTSSTimeNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSessionTSSTimeNotify));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PkgCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(TotalTime, Endianness.Big);
             buffer.WriteUInt64(MaxTime, Endianness.Big);
             buffer.WriteInt32(PkgCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TotalTime = buffer.ReadUInt64(Endianness.Big);
             MaxTime = buffer.ReadUInt64(Endianness.Big);

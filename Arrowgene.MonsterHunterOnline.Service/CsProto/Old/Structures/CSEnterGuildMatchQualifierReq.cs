@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家参加猎团预选赛
     /// </summary>
-    public class CSEnterGuildMatchQualifierReq : IStructure
+    public class CSEnterGuildMatchQualifierReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterGuildMatchQualifierReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MatchID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MatchID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MatchID = buffer.ReadInt32(Endianness.Big);
         }

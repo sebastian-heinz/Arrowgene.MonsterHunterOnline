@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 修改状态请求
     /// </summary>
-    public class CSTradeChgStateReq : IStructure
+    public class CSTradeChgStateReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeChgStateReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(State);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             State = buffer.ReadByte();
         }

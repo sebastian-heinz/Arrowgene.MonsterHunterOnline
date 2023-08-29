@@ -19,7 +19,7 @@ public class WorldAccountReqHandler : CsProtoStructureHandler<AccountReq>
 
     public override void Handle(Client client, AccountReq req)
     {
-        CsProtoStructurePacket<AccountRsp> rsp = CsProtoResponse.AccountRsp;
+        CsCsProtoStructurePacket<AccountRsp> rsp = CsProtoResponse.AccountRsp;
         rsp.Structure.FaceCount = 1;
         rsp.Structure.ChgSexCount = 1;
         rsp.Structure.Result = 0;

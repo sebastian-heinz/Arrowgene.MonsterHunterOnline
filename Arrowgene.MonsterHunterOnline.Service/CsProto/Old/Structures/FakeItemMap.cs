@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 契约模式道具映射关系
     /// </summary>
-    public class FakeItemMap : IStructure
+    public class FakeItemMap : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(FakeItemMap));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> ActItemID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int fakeItemIDCount = (int)FakeItemID.Count;
             buffer.WriteInt32(fakeItemIDCount, Endianness.Big);
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FakeItemID.Clear();
             int fakeItemIDCount = buffer.ReadInt32(Endianness.Big);

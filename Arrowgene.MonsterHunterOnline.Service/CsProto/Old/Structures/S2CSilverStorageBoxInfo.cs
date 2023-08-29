@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 银币收纳箱
     /// </summary>
-    public class S2CSilverStorageBoxInfo : IStructure
+    public class S2CSilverStorageBoxInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSilverStorageBoxInfo));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int EnlargeTimes;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SilverCount, Endianness.Big);
             buffer.WriteInt32(WeekFreeFetchTimes, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(EnlargeTimes, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SilverCount = buffer.ReadInt32(Endianness.Big);
             WeekFreeFetchTimes = buffer.ReadInt32(Endianness.Big);

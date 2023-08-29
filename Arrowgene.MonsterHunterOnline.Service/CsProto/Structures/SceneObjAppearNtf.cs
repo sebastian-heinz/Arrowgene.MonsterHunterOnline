@@ -8,7 +8,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// sceneobj appear notify
     /// </summary>
-    public class SceneObjAppearNtf : Structure
+    public class SceneObjAppearNtf : Structure, ICsStructure
     {
         public SceneObjAppearNtf()
         {
@@ -137,12 +137,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong ParentGuid { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt32(buffer, NetId);
             WriteString(buffer, EntityName);
             WriteString(buffer, ClassName);
-            WriteStructure(buffer, Pose);
+            WriteCsStructure(buffer, Pose);
             WriteInt32(buffer, SubTypeId);
             WriteByte(buffer, Sync2CE);
             WriteByte(buffer, SpawnType);
@@ -156,18 +156,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteString(buffer, PropertityFile);
             WriteInt16(buffer, MHSpawnType);
             WriteString(buffer, BTState);
-            WriteStructure(buffer, BBVars);
+            WriteCsStructure(buffer, BBVars);
             WriteList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, WriteUInt16, WriteByte);
             WriteUInt32(buffer, ParentId);
             WriteUInt64(buffer, ParentGuid);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = ReadUInt32(buffer);
             EntityName = ReadString(buffer);
             ClassName = ReadString(buffer);
-            Pose = ReadStructure(buffer, Pose);
+            Pose = ReadCsStructure(buffer, Pose);
             SubTypeId = ReadInt32(buffer);
             Sync2CE = ReadByte(buffer);
             SpawnType = ReadByte(buffer);
@@ -181,7 +181,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             PropertityFile = ReadString(buffer);
             MHSpawnType = ReadInt16(buffer);
             BTState = ReadString(buffer);
-            BBVars = ReadStructure(buffer, BBVars);
+            BBVars = ReadCsStructure(buffer, BBVars);
             ReadList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, ReadUInt16, ReadByte);
             ParentId = ReadUInt32(buffer);
             ParentGuid = ReadUInt64(buffer);

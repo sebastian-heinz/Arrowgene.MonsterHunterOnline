@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 更新生产配方通知
     /// </summary>
-    public class CSManufactureUpdateIngredientNtf : IStructure
+    public class CSManufactureUpdateIngredientNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSManufactureUpdateIngredientNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Id;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
         }

@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface CSMsgParamValue : IStructure
+    public interface CSMsgParamValue : ICsStructure
     {
 
     }

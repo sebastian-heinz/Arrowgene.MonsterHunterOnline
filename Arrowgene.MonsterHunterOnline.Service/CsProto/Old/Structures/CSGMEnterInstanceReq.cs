@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// GM进入战斗副本请求
     /// </summary>
-    public class CSGMEnterInstanceReq : IStructure
+    public class CSGMEnterInstanceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGMEnterInstanceReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TimeType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(WeatherType, Endianness.Big);
             buffer.WriteInt32(TimeType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             WeatherType = buffer.ReadInt32(Endianness.Big);

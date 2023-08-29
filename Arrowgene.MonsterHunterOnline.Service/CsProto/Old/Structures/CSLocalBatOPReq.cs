@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端本地副本请求
     /// </summary>
-    public class CSLocalBatOPReq : IStructure
+    public class CSLocalBatOPReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLocalBatOPReq));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string ParamStr;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Op, Endianness.Big);
             buffer.WriteInt32(Param1, Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(ParamStr);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Op = buffer.ReadInt32(Endianness.Big);
             Param1 = buffer.ReadInt32(Endianness.Big);

@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Instance initialize info
     /// </summary>
-    public class InstanceInitInfo : Structure
+    public class InstanceInitInfo : Structure, ICsStructure
     {
         public InstanceInitInfo()
         {
@@ -67,7 +67,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CreatePlayerMaxLv { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, BattleGroundId);
             WriteInt32(buffer, LevelId);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteInt32(buffer, CreatePlayerMaxLv);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BattleGroundId = ReadInt32(buffer);
             LevelId = ReadInt32(buffer);

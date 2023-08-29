@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 帐户余额刷新
     /// </summary>
-    public class CSMartBalanceReq : IStructure
+    public class CSMartBalanceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartBalanceReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint version;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(version, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             version = buffer.ReadUInt32(Endianness.Big);
         }

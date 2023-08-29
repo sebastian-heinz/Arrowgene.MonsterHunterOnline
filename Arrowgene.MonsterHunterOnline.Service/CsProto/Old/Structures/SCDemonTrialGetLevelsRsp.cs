@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 修罗试练关卡
     /// </summary>
-    public class SCDemonTrialGetLevelsRsp : IStructure
+    public class SCDemonTrialGetLevelsRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCDemonTrialGetLevelsRsp));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> DemonTrialLevels;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             int demonTrialLevelsCount = (int)DemonTrialLevels.Count;
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             DemonTrialLevels.Clear();

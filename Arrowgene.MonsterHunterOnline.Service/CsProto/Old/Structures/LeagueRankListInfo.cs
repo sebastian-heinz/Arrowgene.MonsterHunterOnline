@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 赛季副本排行榜列表数据
     /// </summary>
-    public class LeagueRankListInfo : IStructure
+    public class LeagueRankListInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(LeagueRankListInfo));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<int> LevelIDs;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LeagueType, Endianness.Big);
             int levelIDsCount = (int)LevelIDs.Count;
@@ -59,7 +59,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LeagueType = buffer.ReadInt32(Endianness.Big);
             LevelIDs.Clear();

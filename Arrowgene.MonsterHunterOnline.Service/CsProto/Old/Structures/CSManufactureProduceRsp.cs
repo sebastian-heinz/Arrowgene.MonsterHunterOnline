@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 根据配方进行生产的返回
     /// </summary>
-    public class CSManufactureProduceRsp : IStructure
+    public class CSManufactureProduceRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSManufactureProduceRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BindFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(ItemID, Endianness.Big);
             buffer.WriteInt32(BindFlag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             ItemID = buffer.ReadInt32(Endianness.Big);

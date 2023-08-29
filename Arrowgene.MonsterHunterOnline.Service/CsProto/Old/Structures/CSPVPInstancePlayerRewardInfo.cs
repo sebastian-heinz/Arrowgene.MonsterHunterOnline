@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// PVP个人副本结算
     /// </summary>
-    public class CSPVPInstancePlayerRewardInfo : IStructure
+    public class CSPVPInstancePlayerRewardInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPInstancePlayerRewardInfo));
 
@@ -114,7 +114,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int AchievenmentScore;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(QQ, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
@@ -131,7 +131,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(AchievenmentScore, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             QQ = buffer.ReadUInt32(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);

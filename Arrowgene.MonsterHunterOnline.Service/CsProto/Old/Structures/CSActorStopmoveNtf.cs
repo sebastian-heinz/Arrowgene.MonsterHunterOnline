@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 停止移动消息
     /// </summary>
-    public class CSActorStopmoveNtf : IStructure
+    public class CSActorStopmoveNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorStopmoveNtf));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSActorStopmove ActorStopmove;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
-            ActorStopmove.Write(buffer);
+            ActorStopmove.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
-            ActorStopmove.Read(buffer);
+            ActorStopmove.ReadCs(buffer);
         }
 
     }

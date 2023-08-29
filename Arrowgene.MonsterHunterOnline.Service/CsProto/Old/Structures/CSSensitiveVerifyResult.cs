@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 敏感操作验证结果
     /// </summary>
-    public class CSSensitiveVerifyResult : IStructure
+    public class CSSensitiveVerifyResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSensitiveVerifyResult));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Tips;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Result, Endianness.Big);
             uint titleCount = (uint)Title.Count;
@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadUInt32(Endianness.Big);
             Title.Clear();

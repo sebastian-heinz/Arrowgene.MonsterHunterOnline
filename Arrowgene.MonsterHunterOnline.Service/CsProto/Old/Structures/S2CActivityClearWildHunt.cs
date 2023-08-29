@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 红黄对抗数据清理
     /// </summary>
-    public class S2CActivityClearWildHunt : IStructure
+    public class S2CActivityClearWildHunt : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityClearWildHunt));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int phase;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(activity, Endianness.Big);
             buffer.WriteInt32(phase, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             activity = buffer.ReadInt32(Endianness.Big);
             phase = buffer.ReadInt32(Endianness.Big);

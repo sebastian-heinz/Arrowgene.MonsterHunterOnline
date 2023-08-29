@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备外观同步
     /// </summary>
-    public class CSAvatarItemUpdate : IStructure
+    public class CSAvatarItemUpdate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAvatarItemUpdate));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSAvatarItem> Avatar;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleId, Endianness.Big);
             int avatarCount = (int)Avatar.Count;
             buffer.WriteInt32(avatarCount, Endianness.Big);
             for (int i = 0; i < avatarCount; i++)
             {
-                Avatar[i].Write(buffer);
+                Avatar[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleId = buffer.ReadInt32(Endianness.Big);
             Avatar.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < avatarCount; i++)
             {
                 CSAvatarItem AvatarEntry = new CSAvatarItem();
-                AvatarEntry.Read(buffer);
+                AvatarEntry.ReadCs(buffer);
                 Avatar.Add(AvatarEntry);
             }
         }

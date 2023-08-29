@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 雕像外观信息
     /// </summary>
-    public class S2CGetSculptureLibs : IStructure
+    public class S2CGetSculptureLibs : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetSculptureLibs));
 
@@ -54,30 +54,30 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSSculptureLib> libs;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int cfgsCount = (int)Cfgs.Count;
             buffer.WriteInt32(cfgsCount, Endianness.Big);
             for (int i = 0; i < cfgsCount; i++)
             {
-                Cfgs[i].Write(buffer);
+                Cfgs[i].WriteCs(buffer);
             }
             int libsCount = (int)libs.Count;
             buffer.WriteInt32(libsCount, Endianness.Big);
             for (int i = 0; i < libsCount; i++)
             {
-                libs[i].Write(buffer);
+                libs[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Cfgs.Clear();
             int cfgsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < cfgsCount; i++)
             {
                 CSSculptureInfo CfgsEntry = new CSSculptureInfo();
-                CfgsEntry.Read(buffer);
+                CfgsEntry.ReadCs(buffer);
                 Cfgs.Add(CfgsEntry);
             }
             libs.Clear();
@@ -85,7 +85,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < libsCount; i++)
             {
                 CSSculptureLib libsEntry = new CSSculptureLib();
-                libsEntry.Read(buffer);
+                libsEntry.ReadCs(buffer);
                 libs.Add(libsEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 逻辑关闭连接请求
     /// </summary>
-    public class CSCloseConnectionReq : IStructure
+    public class CSCloseConnectionReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCloseConnectionReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reason;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Reason, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadInt32(Endianness.Big);
         }

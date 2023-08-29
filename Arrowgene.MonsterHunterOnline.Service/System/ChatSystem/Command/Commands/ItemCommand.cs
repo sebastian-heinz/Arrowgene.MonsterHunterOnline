@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
-using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
@@ -34,10 +32,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
                 return;
             }
 
-            if (!int.TryParse(command[0], out int itemId))
+            if (!uint.TryParse(command[0], out uint itemId))
             {
                 responses.Add(ChatMessage.CommandError(client,
-                    $"provided parameter '{itemId}' could not be parsed as integer (usage: `/itm [itemId]` ex.:`/itm 1234`)"));
+                    $"provided parameter '{itemId}' could not be parsed as uint (usage: `/itm [itemId]` ex.:`/itm 1234`)"));
                 return;
             }
 
@@ -46,8 +44,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
                 responses.Add(ChatMessage.CommandError(client, "failed to add item"));
                 return;
             }
-
-
 
             responses.Add(ChatMessage.CommandMessage(client, "Executed"));
         }

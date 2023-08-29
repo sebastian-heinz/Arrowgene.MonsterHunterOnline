@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 原始签名，需要tconnd传过来的数据重组
     /// </summary>
-    public class SigAll : IStructure
+    public class SigAll : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SigAll));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> SigBuff;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(SigVer, Endianness.Big);
             buffer.WriteUInt32(SigTime, Endianness.Big);
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SigVer = buffer.ReadInt16(Endianness.Big);
             SigTime = buffer.ReadUInt32(Endianness.Big);

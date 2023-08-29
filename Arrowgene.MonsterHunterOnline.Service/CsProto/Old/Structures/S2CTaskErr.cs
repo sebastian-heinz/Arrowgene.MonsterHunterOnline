@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 错误
     /// </summary>
-    public class S2CTaskErr : IStructure
+    public class S2CTaskErr : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTaskErr));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OpType, Endianness.Big);
             buffer.WriteInt32(_Err, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Arg2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpType = buffer.ReadInt32(Endianness.Big);
             _Err = buffer.ReadInt32(Endianness.Big);

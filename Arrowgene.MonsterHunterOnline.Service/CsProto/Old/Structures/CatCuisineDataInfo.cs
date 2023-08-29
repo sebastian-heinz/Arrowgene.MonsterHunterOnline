@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猫饭解锁信息
     /// </summary>
-    public class CatCuisineDataInfo : IStructure
+    public class CatCuisineDataInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CatCuisineDataInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CatCuisineID, Endianness.Big);
             buffer.WriteUInt32(State, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CatCuisineID = buffer.ReadInt32(Endianness.Big);
             State = buffer.ReadUInt32(Endianness.Big);

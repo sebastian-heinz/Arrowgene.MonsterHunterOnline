@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色列表
     /// </summary>
-    public class CSRoleList : IStructure
+    public class CSRoleList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoleList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRoleBaseInfo> Role;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short roleCount = (short)Role.Count;
             buffer.WriteInt16(roleCount, Endianness.Big);
             for (int i = 0; i < roleCount; i++)
             {
-                Role[i].Write(buffer);
+                Role[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Role.Clear();
             short roleCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < roleCount; i++)
             {
                 CSRoleBaseInfo RoleEntry = new CSRoleBaseInfo();
-                RoleEntry.Read(buffer);
+                RoleEntry.ReadCs(buffer);
                 Role.Add(RoleEntry);
             }
         }

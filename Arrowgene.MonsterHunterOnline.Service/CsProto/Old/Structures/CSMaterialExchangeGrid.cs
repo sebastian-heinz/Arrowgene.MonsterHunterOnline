@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商店兑换详细
     /// </summary>
-    public class CSMaterialExchangeGrid : IStructure
+    public class CSMaterialExchangeGrid : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMaterialExchangeGrid));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint ExNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Column, Endianness.Big);
             buffer.WriteUInt32(GridIndex, Endianness.Big);
             buffer.WriteUInt32(ExNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Column = buffer.ReadUInt32(Endianness.Big);
             GridIndex = buffer.ReadUInt32(Endianness.Big);

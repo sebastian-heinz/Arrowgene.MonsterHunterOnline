@@ -28,7 +28,7 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
         id.Id = req.LogicEntityId[0];
         id.Type = (LogicEntityType)req.LogicEntityType[0];
 
-        CsProtoStructurePacket<MonsterAppearNtf> monsterAppearNtf = CsProtoResponse.MonsterAppearNtf;
+        CsCsProtoStructurePacket<MonsterAppearNtf> monsterAppearNtf = CsProtoResponse.MonsterAppearNtf;
         monsterAppearNtf.Structure.NetId = (int)50080;
         monsterAppearNtf.Structure.SpawnType = (short)2;
         monsterAppearNtf.Structure.MonsterInfoId = 50080;
@@ -43,7 +43,7 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
         monsterAppearNtf.Structure.LcmState.SyncTime = 0;
 
         //   Logger.Debug(monsterAppearNtf.Structure.JsonDump());
-        CsProtoStructurePacket<MonsterAppearNtfList> monsterAppearNtfList = CsProtoResponse.MonsterAppearNtfList;
+        CsCsProtoStructurePacket<MonsterAppearNtfList> monsterAppearNtfList = CsProtoResponse.MonsterAppearNtfList;
         monsterAppearNtfList.Structure.Appear.Add(monsterAppearNtf.Structure);
         client.SendCsProtoStructurePacket(monsterAppearNtfList);
     }

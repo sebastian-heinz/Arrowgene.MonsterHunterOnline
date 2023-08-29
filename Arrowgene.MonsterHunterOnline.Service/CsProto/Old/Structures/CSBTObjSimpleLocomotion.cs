@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// BT object simple locomotion
     /// </summary>
-    public class CSBTObjSimpleLocomotion : IStructure
+    public class CSBTObjSimpleLocomotion : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBTObjSimpleLocomotion));
 
@@ -66,20 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 TargetPos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
-            Position.Write(buffer);
-            Rotation.Write(buffer);
-            TargetPos.Write(buffer);
+            Position.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
+            TargetPos.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
-            Position.Read(buffer);
-            Rotation.Read(buffer);
-            TargetPos.Read(buffer);
+            Position.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
+            TargetPos.ReadCs(buffer);
         }
 
     }

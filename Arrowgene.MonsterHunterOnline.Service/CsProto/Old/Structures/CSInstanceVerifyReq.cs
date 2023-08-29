@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入战斗副本验证请求
     /// </summary>
-    public class CSInstanceVerifyReq : IStructure
+    public class CSInstanceVerifyReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceVerifyReq));
 
@@ -93,7 +93,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reserve2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Uin, Endianness.Big);
             buffer.WriteInt32(PVPMode, Endianness.Big);
@@ -107,7 +107,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Reserve2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uin = buffer.ReadUInt32(Endianness.Big);
             PVPMode = buffer.ReadInt32(Endianness.Big);

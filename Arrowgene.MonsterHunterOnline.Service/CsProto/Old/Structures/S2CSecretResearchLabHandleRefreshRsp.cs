@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院手动刷新 服务端->客户端
     /// </summary>
-    public class S2CSecretResearchLabHandleRefreshRsp : IStructure
+    public class S2CSecretResearchLabHandleRefreshRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabHandleRefreshRsp));
 
@@ -83,7 +83,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int IsVipRefresh;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Status, Endianness.Big);
             buffer.WriteInt32(BoxId, Endianness.Big);
@@ -91,12 +91,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RefreshCount, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Write(buffer);
+                LotteryItemList[i].WriteCs(buffer);
             }
             buffer.WriteInt32(IsVipRefresh, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Status = buffer.ReadInt32(Endianness.Big);
             BoxId = buffer.ReadInt32(Endianness.Big);
@@ -104,7 +104,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             RefreshCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Read(buffer);
+                LotteryItemList[i].ReadCs(buffer);
             }
             IsVipRefresh = buffer.ReadInt32(Endianness.Big);
         }

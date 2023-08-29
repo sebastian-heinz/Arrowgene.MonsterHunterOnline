@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 同步玩家换子弹行为
     /// </summary>
-    public class CSPlayerAmmoChangeReq : IStructure
+    public class CSPlayerAmmoChangeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerAmmoChangeReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SubAmmoID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NextAmmoID, Endianness.Big);
             buffer.WriteInt32(SubAmmoID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NextAmmoID = buffer.ReadInt32(Endianness.Big);
             SubAmmoID = buffer.ReadInt32(Endianness.Big);

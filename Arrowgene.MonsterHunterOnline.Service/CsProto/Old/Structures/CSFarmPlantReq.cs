@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSFarmPlantReq : IStructure
+    public class CSFarmPlantReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmPlantReq));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PlowLandIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SeedID, Endianness.Big);
             buffer.WriteInt32(PlowLandIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SeedID = buffer.ReadInt32(Endianness.Big);
             PlowLandIndex = buffer.ReadInt32(Endianness.Big);

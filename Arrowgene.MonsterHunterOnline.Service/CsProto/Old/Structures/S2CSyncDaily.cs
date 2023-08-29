@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 日常同步
     /// </summary>
-    public class S2CSyncDaily : IStructure
+    public class S2CSyncDaily : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSyncDaily));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CompleteCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short dailyCount = (short)Daily.Count;
             buffer.WriteInt16(dailyCount, Endianness.Big);
@@ -79,7 +79,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CompleteCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Daily.Clear();
             short dailyCount = buffer.ReadInt16(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 修改备注
     /// </summary>
-    public class C2SGuilderNoteSetting : IStructure
+    public class C2SGuilderNoteSetting : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuilderNoteSetting));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Note;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Guilder, Endianness.Big);
             buffer.WriteInt32(Note.Length + 1, Endianness.Big);
             buffer.WriteCString(Note);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Guilder = buffer.ReadUInt64(Endianness.Big);
             int NoteEntryLen = buffer.ReadInt32(Endianness.Big);

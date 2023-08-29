@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知客户端的弹窗信息
     /// </summary>
-    public class CSNotifyInfo : IStructure
+    public class CSNotifyInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNotifyInfo));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string NotifyInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NotifyInfo.Length + 1, Endianness.Big);
             buffer.WriteCString(NotifyInfo);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int NotifyInfoEntryLen = buffer.ReadInt32(Endianness.Big);
             NotifyInfo = buffer.ReadString(NotifyInfoEntryLen);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 护石熔炼请求
     /// </summary>
-    public class CSCharmRebuildReq : IStructure
+    public class CSCharmRebuildReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCharmRebuildReq));
 
@@ -54,25 +54,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte bBind;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int itemsCount = (int)Items.Count;
             buffer.WriteInt32(itemsCount, Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
-                Items[i].Write(buffer);
+                Items[i].WriteCs(buffer);
             }
             buffer.WriteByte(bBind);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Items.Clear();
             int itemsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
                 CSItemArgs ItemsEntry = new CSItemArgs();
-                ItemsEntry.Read(buffer);
+                ItemsEntry.ReadCs(buffer);
                 Items.Add(ItemsEntry);
             }
             bBind = buffer.ReadByte();

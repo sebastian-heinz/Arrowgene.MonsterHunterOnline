@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// UpdateBGStat
     /// </summary>
-    public class S2CScriptActivityUpdateBGStat : IStructure
+    public class S2CScriptActivityUpdateBGStat : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityUpdateBGStat));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Value;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Key, Endianness.Big);
             buffer.WriteInt32(Value, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Key = buffer.ReadInt32(Endianness.Big);
             Value = buffer.ReadInt32(Endianness.Big);

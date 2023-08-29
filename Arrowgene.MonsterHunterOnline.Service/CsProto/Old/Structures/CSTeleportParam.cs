@@ -47,14 +47,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 targetPos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            targetPos.Write(buffer);
+            targetPos.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            targetPos.Read(buffer);
+            targetPos.ReadCs(buffer);
         }
 
     }

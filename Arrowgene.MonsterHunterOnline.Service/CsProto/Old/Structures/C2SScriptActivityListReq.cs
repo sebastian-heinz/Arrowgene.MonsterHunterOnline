@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求活动列表
     /// </summary>
-    public class C2SScriptActivityListReq : IStructure
+    public class C2SScriptActivityListReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SScriptActivityListReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Type);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadByte();
         }

@@ -6,7 +6,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class RemoteDataInitInfo : Structure, IRemoteDataInfo
+    public class RemoteDataInitInfo : Structure, ICsStructure, CSICsRemoteDataInfo
     {
         public RemoteDataInitInfo(ROMTE_DATA_TYPE dataType)
         {
@@ -21,12 +21,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> DataPacket { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, WriteInt32, WriteByte);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ReadList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, ReadInt32, ReadByte);
         }

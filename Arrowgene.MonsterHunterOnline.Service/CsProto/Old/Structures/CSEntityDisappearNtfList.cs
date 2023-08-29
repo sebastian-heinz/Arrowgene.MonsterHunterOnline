@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// entity disappear notify list
     /// </summary>
-    public class CSEntityDisappearNtfList : IStructure
+    public class CSEntityDisappearNtfList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntityDisappearNtfList));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSEntityDisappearNtf> Disappear;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int disappearCount = (int)Disappear.Count;
             buffer.WriteInt32(disappearCount, Endianness.Big);
             for (int i = 0; i < disappearCount; i++)
             {
-                Disappear[i].Write(buffer);
+                Disappear[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Disappear.Clear();
             int disappearCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < disappearCount; i++)
             {
                 CSEntityDisappearNtf DisappearEntry = new CSEntityDisappearNtf();
-                DisappearEntry.Read(buffer);
+                DisappearEntry.ReadCs(buffer);
                 Disappear.Add(DisappearEntry);
             }
         }

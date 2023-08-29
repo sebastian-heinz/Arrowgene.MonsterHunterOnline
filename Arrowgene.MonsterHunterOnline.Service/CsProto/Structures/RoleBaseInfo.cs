@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RoleBaseInfo : Structure
+public class RoleBaseInfo : Structure, ICsStructure
 {
     public RoleBaseInfo()
     {
@@ -167,7 +167,7 @@ public class RoleBaseInfo : Structure
     /// </summary>
     public int SoulStoneLv { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteUInt64(buffer, RoleId);
         WriteInt32(buffer, RoleIndex);
@@ -194,7 +194,7 @@ public class RoleBaseInfo : Structure
         WriteInt32(buffer, EyeColor);
         WriteInt32(buffer, FaceTattooIndex);
         WriteInt32(buffer, FaceTattooColor);
-        WriteList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, WriteStructure);
+        WriteList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, WriteCsStructure);
         WriteBool(buffer, HideHelm);
         WriteBool(buffer, HideFashion);
         WriteBool(buffer, HideSuite);
@@ -204,7 +204,7 @@ public class RoleBaseInfo : Structure
         WriteInt32(buffer, SoulStoneLv);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         RoleId = ReadUInt64(buffer);
         RoleIndex = ReadInt32(buffer);
@@ -231,7 +231,7 @@ public class RoleBaseInfo : Structure
         FaceTattooIndex = ReadInt32(buffer);
         FaceTattooColor = ReadInt32(buffer);
         Equip.Clear();
-        ReadList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, ReadStructure<CSAvatarItem>);
+        ReadList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, ReadCsStructure<CSAvatarItem>);
         HideHelm = ReadBool(buffer);
         HideFashion = ReadBool(buffer);
         HideSuite = ReadBool(buffer);

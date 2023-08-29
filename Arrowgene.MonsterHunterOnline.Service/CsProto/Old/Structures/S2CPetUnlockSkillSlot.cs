@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 解锁宠物技能栏位
     /// </summary>
-    public class S2CPetUnlockSkillSlot : IStructure
+    public class S2CPetUnlockSkillSlot : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CPetUnlockSkillSlot));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Index;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(Idx, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Index);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadInt32(Endianness.Big);
             Idx = buffer.ReadInt32(Endianness.Big);

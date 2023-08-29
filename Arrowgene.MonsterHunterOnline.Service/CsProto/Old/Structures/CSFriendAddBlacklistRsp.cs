@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 添加玩家到黑名单返回
     /// </summary>
-    public class CSFriendAddBlacklistRsp : IStructure
+    public class CSFriendAddBlacklistRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendAddBlacklistRsp));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Online;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(Online);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleDBID = buffer.ReadUInt64(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);

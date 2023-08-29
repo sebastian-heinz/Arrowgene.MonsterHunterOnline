@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家查询信息请求
     /// </summary>
-    public class CSPlayerQueryReq : IStructure
+    public class CSPlayerQueryReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerQueryReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int NetID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
         }

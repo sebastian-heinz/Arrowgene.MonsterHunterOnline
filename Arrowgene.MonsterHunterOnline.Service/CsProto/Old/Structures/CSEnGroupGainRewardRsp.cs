@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托大组奖励领取回应
     /// </summary>
-    public class CSEnGroupGainRewardRsp : IStructure
+    public class CSEnGroupGainRewardRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnGroupGainRewardRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UnlockSubGroupID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(EnGroupID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UnlockSubGroupID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             EnGroupID = buffer.ReadInt32(Endianness.Big);

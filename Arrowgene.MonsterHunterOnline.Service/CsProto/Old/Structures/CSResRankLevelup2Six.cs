@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备Rank提升至6级
     /// </summary>
-    public class CSResRankLevelup2Six : IStructure
+    public class CSResRankLevelup2Six : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSResRankLevelup2Six));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string m_strName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(m_nItemID, Endianness.Big);
             buffer.WriteInt32(m_strName.Length + 1, Endianness.Big);
             buffer.WriteCString(m_strName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             m_nItemID = buffer.ReadInt32(Endianness.Big);
             int m_strNameEntryLen = buffer.ReadInt32(Endianness.Big);

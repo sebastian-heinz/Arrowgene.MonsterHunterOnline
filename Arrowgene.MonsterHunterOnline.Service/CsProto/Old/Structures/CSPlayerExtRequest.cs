@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通用玩家扩展请求
     /// </summary>
-    public class CSPlayerExtRequest : IStructure
+    public class CSPlayerExtRequest : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerExtRequest));
 
@@ -49,13 +49,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSPlayerExtRequestData Request;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte((byte)Request.ExtType);
-            Request.Write(buffer);
+            Request.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_PLAYER_EXT_TYPE CSPlayerExtRequestData_ExtType = (CS_PLAYER_EXT_TYPE)buffer.ReadByte();
             switch (CSPlayerExtRequestData_ExtType)
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Request != null) {
-                Request.Read(buffer);
+                Request.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Request' instance of type 'CSPlayerExtRequestData'");

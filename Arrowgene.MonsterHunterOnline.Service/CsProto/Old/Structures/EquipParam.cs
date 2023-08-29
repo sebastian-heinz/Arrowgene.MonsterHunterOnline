@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 换装参数
     /// </summary>
-    public class EquipParam : IStructure
+    public class EquipParam : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(EquipParam));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int DstGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(SrcColumn, Endianness.Big);
             buffer.WriteInt32(SrcGrid, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(DstGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcColumn = buffer.ReadUInt16(Endianness.Big);
             SrcGrid = buffer.ReadInt32(Endianness.Big);

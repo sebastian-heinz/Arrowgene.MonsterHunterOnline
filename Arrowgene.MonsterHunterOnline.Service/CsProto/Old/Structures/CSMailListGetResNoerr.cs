@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMailListEntry> MailListEntry;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(MailListPos, Endianness.Big);
             buffer.WriteByte(MailType);
@@ -79,11 +79,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(mailListEntryCount, Endianness.Big);
             for (int i = 0; i < mailListEntryCount; i++)
             {
-                MailListEntry[i].Write(buffer);
+                MailListEntry[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MailListPos = buffer.ReadUInt16(Endianness.Big);
             MailType = buffer.ReadByte();
@@ -94,7 +94,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mailListEntryCount; i++)
             {
                 CSMailListEntry MailListEntryEntry = new CSMailListEntry();
-                MailListEntryEntry.Read(buffer);
+                MailListEntryEntry.ReadCs(buffer);
                 MailListEntry.Add(MailListEntryEntry);
             }
         }

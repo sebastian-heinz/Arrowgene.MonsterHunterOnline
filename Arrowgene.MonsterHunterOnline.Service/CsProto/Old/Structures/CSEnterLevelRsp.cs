@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端Load level完成,进入LevelRSP
     /// </summary>
-    public class CSEnterLevelRsp : IStructure
+    public class CSEnterLevelRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterLevelRsp));
 
@@ -61,7 +61,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reserver;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LockItemNum, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_LOCK_ITEM_NUM; i++)
@@ -71,7 +71,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Reserver, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LockItemNum = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_LOCK_ITEM_NUM; i++)

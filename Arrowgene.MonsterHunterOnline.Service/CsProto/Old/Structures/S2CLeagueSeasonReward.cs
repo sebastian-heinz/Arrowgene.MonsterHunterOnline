@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 个人赛季奖励请求回复
     /// </summary>
-    public class S2CLeagueSeasonReward : IStructure
+    public class S2CLeagueSeasonReward : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeagueSeasonReward));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Medal;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Score, Endianness.Big);
             buffer.WriteByte(WeekLimit);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Medal, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Score = buffer.ReadInt32(Endianness.Big);
             WeekLimit = buffer.ReadByte();

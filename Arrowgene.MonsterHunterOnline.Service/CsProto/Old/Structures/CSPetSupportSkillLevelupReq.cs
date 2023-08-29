@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物支援技能升级请求
     /// </summary>
-    public class CSPetSupportSkillLevelupReq : IStructure
+    public class CSPetSupportSkillLevelupReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSupportSkillLevelupReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Idx, Endianness.Big);
             buffer.WriteInt32(UID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Idx = buffer.ReadInt32(Endianness.Big);
             UID = buffer.ReadInt32(Endianness.Big);

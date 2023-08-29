@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取猎团仓库
     /// </summary>
-    public class S2CGuildGetDepot : IStructure
+    public class S2CGuildGetDepot : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGuildGetDepot));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Depot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int depotCount = (int)Depot.Count;
             buffer.WriteInt32(depotCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Depot.Clear();
             int depotCount = buffer.ReadInt32(Endianness.Big);

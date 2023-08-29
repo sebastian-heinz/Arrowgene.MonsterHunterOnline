@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求取消交易
     /// </summary>
-    public class CSTradeCancelReq : IStructure
+    public class CSTradeCancelReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeCancelReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte PlayerId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(PlayerId);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadByte();
         }

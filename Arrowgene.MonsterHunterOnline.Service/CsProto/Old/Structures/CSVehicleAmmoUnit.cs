@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// VEHICLE AMMO同步消息
     /// </summary>
-    public class CSVehicleAmmoUnit : IStructure
+    public class CSVehicleAmmoUnit : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVehicleAmmoUnit));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint AmmoNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AmmoType, Endianness.Big);
             buffer.WriteUInt32(AmmoNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AmmoType = buffer.ReadUInt32(Endianness.Big);
             AmmoNum = buffer.ReadUInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速开通VIP响应
     /// </summary>
-    public class CSVIPQuickOpenRsp : IStructure
+    public class CSVIPQuickOpenRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPQuickOpenRsp));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string PayUrl;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(EndTime, Endianness.Big);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(PayUrl);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadInt32(Endianness.Big);
             EndTime = buffer.ReadInt32(Endianness.Big);

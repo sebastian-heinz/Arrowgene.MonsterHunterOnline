@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开通VIP请求
     /// </summary>
-    public class CSVIPOpenReq : IStructure
+    public class CSVIPOpenReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPOpenReq));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSVIPGoodsInfo> OpenGoods;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int openGoodsCount = (int)OpenGoods.Count;
             buffer.WriteInt32(openGoodsCount, Endianness.Big);
             for (int i = 0; i < openGoodsCount; i++)
             {
-                OpenGoods[i].Write(buffer);
+                OpenGoods[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpenGoods.Clear();
             int openGoodsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < openGoodsCount; i++)
             {
                 CSVIPGoodsInfo OpenGoodsEntry = new CSVIPGoodsInfo();
-                OpenGoodsEntry.Read(buffer);
+                OpenGoodsEntry.ReadCs(buffer);
                 OpenGoods.Add(OpenGoodsEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 结算节本统计信息
     /// </summary>
-    public class CSBtlPlayerStatInfo : IStructure
+    public class CSBtlPlayerStatInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBtlPlayerStatInfo));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> StatDataValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int statDataTypeCount = (int)StatDataType.Count;
             buffer.WriteInt32(statDataTypeCount, Endianness.Big);
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             StatDataType.Clear();
             int statDataTypeCount = buffer.ReadInt32(Endianness.Big);

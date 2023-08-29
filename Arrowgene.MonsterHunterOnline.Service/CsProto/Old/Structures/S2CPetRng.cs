@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物随机信息
     /// </summary>
-    public class S2CPetRng : IStructure
+    public class S2CPetRng : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CPetRng));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Attrs;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int attrsCount = (int)Attrs.Count;
             buffer.WriteInt32(attrsCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Attrs.Clear();
             int attrsCount = buffer.ReadInt32(Endianness.Big);

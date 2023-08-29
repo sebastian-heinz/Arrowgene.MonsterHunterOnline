@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 检查版本响应
     /// </summary>
-    public class CSCheckVersionRsp : IStructure
+    public class CSCheckVersionRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCheckVersionRsp));
 
@@ -78,24 +78,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSFeatureInfo Feature;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(MajorVerNo, Endianness.Big);
             buffer.WriteInt32(MinorVerNo, Endianness.Big);
             buffer.WriteInt32(RevisVerNo, Endianness.Big);
             buffer.WriteInt32(BuildVerNo, Endianness.Big);
-            Feature.Write(buffer);
+            Feature.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
             MajorVerNo = buffer.ReadInt32(Endianness.Big);
             MinorVerNo = buffer.ReadInt32(Endianness.Big);
             RevisVerNo = buffer.ReadInt32(Endianness.Big);
             BuildVerNo = buffer.ReadInt32(Endianness.Big);
-            Feature.Read(buffer);
+            Feature.ReadCs(buffer);
         }
 
     }

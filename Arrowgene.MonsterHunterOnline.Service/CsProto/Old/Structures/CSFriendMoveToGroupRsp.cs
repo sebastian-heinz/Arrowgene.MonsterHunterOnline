@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 移动好友到分组返回
     /// </summary>
-    public class CSFriendMoveToGroupRsp : IStructure
+    public class CSFriendMoveToGroupRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendMoveToGroupRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte GroupID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
             buffer.WriteByte(GroupID);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleDBID = buffer.ReadUInt64(Endianness.Big);
             GroupID = buffer.ReadByte();

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速加入队伍请求
     /// </summary>
-    public class CSTeamQuickJoinReq : IStructure
+    public class CSTeamQuickJoinReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamQuickJoinReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int level;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(mode, Endianness.Big);
             buffer.WriteInt32(map, Endianness.Big);
             buffer.WriteInt32(level, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             mode = buffer.ReadInt32(Endianness.Big);
             map = buffer.ReadInt32(Endianness.Big);

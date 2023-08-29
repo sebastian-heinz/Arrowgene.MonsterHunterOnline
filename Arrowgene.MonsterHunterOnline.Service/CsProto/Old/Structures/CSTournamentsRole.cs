@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// ROLE
     /// </summary>
-    public class CSTournamentsRole : IStructure
+    public class CSTournamentsRole : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTournamentsRole));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Integral;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
@@ -76,7 +76,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Integral, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);

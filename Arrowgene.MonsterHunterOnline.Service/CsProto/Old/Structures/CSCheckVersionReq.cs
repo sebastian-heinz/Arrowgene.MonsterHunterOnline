@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 检查版本请求
     /// </summary>
-    public class CSCheckVersionReq : IStructure
+    public class CSCheckVersionReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCheckVersionReq));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> TGPTicket;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MajorVerNo, Endianness.Big);
             buffer.WriteInt32(MinorVerNo, Endianness.Big);
@@ -110,7 +110,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BuildVerNo, Endianness.Big);
             buffer.WriteInt32(IgnoreTag, Endianness.Big);
             buffer.WriteInt32(ProtoVer, Endianness.Big);
-            Feature.Write(buffer);
+            Feature.WriteCs(buffer);
             buffer.WriteInt32(Reserve1, Endianness.Big);
             buffer.WriteInt32(Reserve2, Endianness.Big);
             int tGPTicketCount = (int)TGPTicket.Count;
@@ -121,7 +121,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MajorVerNo = buffer.ReadInt32(Endianness.Big);
             MinorVerNo = buffer.ReadInt32(Endianness.Big);
@@ -129,7 +129,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BuildVerNo = buffer.ReadInt32(Endianness.Big);
             IgnoreTag = buffer.ReadInt32(Endianness.Big);
             ProtoVer = buffer.ReadInt32(Endianness.Big);
-            Feature.Read(buffer);
+            Feature.ReadCs(buffer);
             Reserve1 = buffer.ReadInt32(Endianness.Big);
             Reserve2 = buffer.ReadInt32(Endianness.Big);
             TGPTicket.Clear();

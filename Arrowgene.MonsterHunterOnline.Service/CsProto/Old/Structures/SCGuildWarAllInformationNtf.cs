@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class SCGuildWarAllInformationNtf : IStructure
+    public class SCGuildWarAllInformationNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCGuildWarAllInformationNtf));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<SCGuildWarInformationNtf> Informations;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int informationsCount = (int)Informations.Count;
             buffer.WriteInt32(informationsCount, Endianness.Big);
             for (int i = 0; i < informationsCount; i++)
             {
-                Informations[i].Write(buffer);
+                Informations[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Informations.Clear();
             int informationsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < informationsCount; i++)
             {
                 SCGuildWarInformationNtf InformationsEntry = new SCGuildWarInformationNtf();
-                InformationsEntry.Read(buffer);
+                InformationsEntry.ReadCs(buffer);
                 Informations.Add(InformationsEntry);
             }
         }

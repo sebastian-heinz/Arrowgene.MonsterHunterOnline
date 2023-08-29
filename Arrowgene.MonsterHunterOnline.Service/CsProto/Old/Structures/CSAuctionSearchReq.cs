@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 查询请求
     /// </summary>
-    public class CSAuctionSearchReq : IStructure
+    public class CSAuctionSearchReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAuctionSearchReq));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<uint> ItemId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(SearchID, Endianness.Big);
             buffer.WriteByte(ItemType1);
@@ -122,7 +122,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SearchID = buffer.ReadUInt32(Endianness.Big);
             ItemType1 = buffer.ReadByte();

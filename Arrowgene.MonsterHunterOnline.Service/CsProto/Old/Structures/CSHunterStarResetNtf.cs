@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端重置数据
     /// </summary>
-    public class CSHunterStarResetNtf : IStructure
+    public class CSHunterStarResetNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarResetNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadByte();
         }

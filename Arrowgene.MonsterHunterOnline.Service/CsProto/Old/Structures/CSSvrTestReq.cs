@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器探测消息
     /// </summary>
-    public class CSSvrTestReq : IStructure
+    public class CSSvrTestReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSvrTestReq));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Struct;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Reason, Endianness.Big);
             uint structCount = (uint)Struct.Count;
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadInt32(Endianness.Big);
             Struct.Clear();

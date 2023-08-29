@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备强化数据
     /// </summary>
-    public class CSItemRebuildLimitInfo : IStructure
+    public class CSItemRebuildLimitInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildLimitInfo));
 
@@ -51,18 +51,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSItemRebuildLimitData> RebuildLimitDataInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(LastRebuildTm, Endianness.Big);
             byte rebuildLimitDataInfoCount = (byte)RebuildLimitDataInfo.Count;
             buffer.WriteByte(rebuildLimitDataInfoCount);
             for (int i = 0; i < rebuildLimitDataInfoCount; i++)
             {
-                RebuildLimitDataInfo[i].Write(buffer);
+                RebuildLimitDataInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LastRebuildTm = buffer.ReadUInt64(Endianness.Big);
             RebuildLimitDataInfo.Clear();
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rebuildLimitDataInfoCount; i++)
             {
                 CSItemRebuildLimitData RebuildLimitDataInfoEntry = new CSItemRebuildLimitData();
-                RebuildLimitDataInfoEntry.Read(buffer);
+                RebuildLimitDataInfoEntry.ReadCs(buffer);
                 RebuildLimitDataInfo.Add(RebuildLimitDataInfoEntry);
             }
         }

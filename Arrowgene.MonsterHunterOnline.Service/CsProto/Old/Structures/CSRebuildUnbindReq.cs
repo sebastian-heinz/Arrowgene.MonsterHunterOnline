@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 解绑
     /// </summary>
-    public class CSRebuildUnbindReq : IStructure
+    public class CSRebuildUnbindReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRebuildUnbindReq));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int Grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Colume, Endianness.Big);
             buffer.WriteInt32(Grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Colume = buffer.ReadInt32(Endianness.Big);
             Grid = buffer.ReadInt32(Endianness.Big);

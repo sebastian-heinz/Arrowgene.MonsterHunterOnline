@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 技能位置同步消息
     /// </summary>
-    public class CSActorSkillPos : IStructure
+    public class CSActorSkillPos : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorSkillPos));
 
@@ -72,21 +72,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Flag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteUInt32(StateID, Endianness.Big);
             buffer.WriteFloat(CurTime, Endianness.Big);
-            Location.Write(buffer);
+            Location.WriteCs(buffer);
             buffer.WriteUInt16(Flag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             StateID = buffer.ReadUInt32(Endianness.Big);
             CurTime = buffer.ReadFloat(Endianness.Big);
-            Location.Read(buffer);
+            Location.ReadCs(buffer);
             Flag = buffer.ReadUInt16(Endianness.Big);
         }
 

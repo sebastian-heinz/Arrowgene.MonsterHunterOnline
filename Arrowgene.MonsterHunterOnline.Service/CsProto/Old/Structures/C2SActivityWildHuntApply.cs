@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 狂猎祭报名
     /// </summary>
-    public class C2SActivityWildHuntApply : IStructure
+    public class C2SActivityWildHuntApply : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityWildHuntApply));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadByte();
         }

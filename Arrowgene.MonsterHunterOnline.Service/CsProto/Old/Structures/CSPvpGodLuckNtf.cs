@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// PVP GOD LUCK 通知
     /// </summary>
-    public class CSPvpGodLuckNtf : IStructure
+    public class CSPvpGodLuckNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpGodLuckNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int GodLuckType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetID, Endianness.Big);
             buffer.WriteInt32(CampType, Endianness.Big);
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GodLuckType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadUInt32(Endianness.Big);
             CampType = buffer.ReadInt32(Endianness.Big);

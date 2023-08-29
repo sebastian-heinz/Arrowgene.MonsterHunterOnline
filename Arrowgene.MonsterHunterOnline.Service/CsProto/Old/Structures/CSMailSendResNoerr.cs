@@ -42,24 +42,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CRole> MailRoleTo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int mailRoleToCount = (int)MailRoleTo.Count;
             buffer.WriteInt32(mailRoleToCount, Endianness.Big);
             for (int i = 0; i < mailRoleToCount; i++)
             {
-                MailRoleTo[i].Write(buffer);
+                MailRoleTo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MailRoleTo.Clear();
             int mailRoleToCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < mailRoleToCount; i++)
             {
                 CRole MailRoleToEntry = new CRole();
-                MailRoleToEntry.Read(buffer);
+                MailRoleToEntry.ReadCs(buffer);
                 MailRoleTo.Add(MailRoleToEntry);
             }
         }

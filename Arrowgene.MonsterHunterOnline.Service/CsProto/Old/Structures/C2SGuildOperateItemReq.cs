@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求操作物品
     /// </summary>
-    public class C2SGuildOperateItemReq : IStructure
+    public class C2SGuildOperateItemReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildOperateItemReq));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildItemLoc DstItemLoc;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(OpType);
-            SrcItemLoc.Write(buffer);
-            DstItemLoc.Write(buffer);
+            SrcItemLoc.WriteCs(buffer);
+            DstItemLoc.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpType = buffer.ReadByte();
-            SrcItemLoc.Read(buffer);
-            DstItemLoc.Read(buffer);
+            SrcItemLoc.ReadCs(buffer);
+            DstItemLoc.ReadCs(buffer);
         }
 
     }

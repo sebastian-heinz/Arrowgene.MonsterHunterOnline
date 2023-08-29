@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 往届疾风狩猎
     /// </summary>
-    public class CSRapidHuntHis : IStructure
+    public class CSRapidHuntHis : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRapidHuntHis));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRapidHuntHisRole> Roles;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Season, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(rolesCount, Endianness.Big);
             for (int i = 0; i < rolesCount; i++)
             {
-                Roles[i].Write(buffer);
+                Roles[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Season = buffer.ReadInt32(Endianness.Big);
             Level = buffer.ReadInt32(Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rolesCount; i++)
             {
                 CSRapidHuntHisRole RolesEntry = new CSRapidHuntHisRole();
-                RolesEntry.Read(buffer);
+                RolesEntry.ReadCs(buffer);
                 Roles.Add(RolesEntry);
             }
         }

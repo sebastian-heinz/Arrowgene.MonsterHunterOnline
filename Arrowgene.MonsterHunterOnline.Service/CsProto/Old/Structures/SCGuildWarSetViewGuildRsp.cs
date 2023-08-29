@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class SCGuildWarSetViewGuildRsp : IStructure
+    public class SCGuildWarSetViewGuildRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCGuildWarSetViewGuildRsp));
 
@@ -45,7 +45,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ulong> GuildIds;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort guildIdsCount = (ushort)GuildIds.Count;
             buffer.WriteUInt16(guildIdsCount, Endianness.Big);
@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GuildIds.Clear();
             ushort guildIdsCount = buffer.ReadUInt16(Endianness.Big);

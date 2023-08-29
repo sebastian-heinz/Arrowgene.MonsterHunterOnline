@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 飞行道具销毁通知
     /// </summary>
-    public class CSProjectileDestroyNtf : IStructure
+    public class CSProjectileDestroyNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSProjectileDestroyNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LauncherID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(LauncherID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             LauncherID = buffer.ReadInt32(Endianness.Big);

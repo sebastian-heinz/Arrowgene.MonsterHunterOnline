@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 特效同步
     /// </summary>
-    public class CSEffectSYNC : IStructure
+    public class CSEffectSYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEffectSYNC));
 
@@ -84,27 +84,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte bRemove;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AttachToNetObjId, Endianness.Big);
             buffer.WriteFloat(Scale, Endianness.Big);
             buffer.WriteInt32(Effect.Length + 1, Endianness.Big);
             buffer.WriteCString(Effect);
-            LocalDir.Write(buffer);
-            Offset.Write(buffer);
+            LocalDir.WriteCs(buffer);
+            Offset.WriteCs(buffer);
             buffer.WriteInt32(BoneName.Length + 1, Endianness.Big);
             buffer.WriteCString(BoneName);
             buffer.WriteByte(bRemove);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttachToNetObjId = buffer.ReadUInt32(Endianness.Big);
             Scale = buffer.ReadFloat(Endianness.Big);
             int EffectEntryLen = buffer.ReadInt32(Endianness.Big);
             Effect = buffer.ReadString(EffectEntryLen);
-            LocalDir.Read(buffer);
-            Offset.Read(buffer);
+            LocalDir.ReadCs(buffer);
+            Offset.ReadCs(buffer);
             int BoneNameEntryLen = buffer.ReadInt32(Endianness.Big);
             BoneName = buffer.ReadString(BoneNameEntryLen);
             bRemove = buffer.ReadByte();

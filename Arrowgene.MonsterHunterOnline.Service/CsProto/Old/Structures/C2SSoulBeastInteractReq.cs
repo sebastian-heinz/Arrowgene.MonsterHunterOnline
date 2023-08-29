@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class C2SSoulBeastInteractReq : IStructure
+    public class C2SSoulBeastInteractReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSoulBeastInteractReq));
 
@@ -45,13 +45,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string SoulBeastType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SoulBeastType.Length + 1, Endianness.Big);
             buffer.WriteCString(SoulBeastType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int SoulBeastTypeEntryLen = buffer.ReadInt32(Endianness.Big);
             SoulBeastType = buffer.ReadString(SoulBeastTypeEntryLen);

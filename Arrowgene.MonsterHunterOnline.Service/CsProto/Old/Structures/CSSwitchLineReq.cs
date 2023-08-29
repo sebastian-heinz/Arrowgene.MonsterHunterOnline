@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// c-->s,请求切换TS
     /// </summary>
-    public class CSSwitchLineReq : IStructure
+    public class CSSwitchLineReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSwitchLineReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort LineID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(LineID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LineID = buffer.ReadUInt16(Endianness.Big);
         }

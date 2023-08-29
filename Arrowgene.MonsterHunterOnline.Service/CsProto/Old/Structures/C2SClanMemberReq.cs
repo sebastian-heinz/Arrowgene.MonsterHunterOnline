@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求战队成员列表
     /// </summary>
-    public class C2SClanMemberReq : IStructure
+    public class C2SClanMemberReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SClanMemberReq));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string ClanName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ClanName.Length + 1, Endianness.Big);
             buffer.WriteCString(ClanName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int ClanNameEntryLen = buffer.ReadInt32(Endianness.Big);
             ClanName = buffer.ReadString(ClanNameEntryLen);

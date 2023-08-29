@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// fetchproc清理
     /// </summary>
-    public class S2CActivityFetchProcClear : IStructure
+    public class S2CActivityFetchProcClear : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityFetchProcClear));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ProcType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ProcType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ProcType = buffer.ReadByte();
         }

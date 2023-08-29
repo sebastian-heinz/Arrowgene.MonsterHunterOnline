@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 解锁星级类型
     /// </summary>
-    public class PlayerUnLockHubStarInfo : IStructure
+    public class PlayerUnLockHubStarInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerUnLockHubStarInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int StarLv;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HubID, Endianness.Big);
             buffer.WriteInt32(PageIndex, Endianness.Big);
             buffer.WriteInt32(StarLv, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubID = buffer.ReadInt32(Endianness.Big);
             PageIndex = buffer.ReadInt32(Endianness.Big);

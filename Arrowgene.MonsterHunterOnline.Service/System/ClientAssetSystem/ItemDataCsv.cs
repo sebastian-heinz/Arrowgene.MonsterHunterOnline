@@ -10,7 +10,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
 
         protected override ItemInfo CreateInstance(string[] properties)
         {
-            if (!TryParse(properties, 0, out int itemId, int.TryParse, 0)) return null;
+            if (!TryParse(properties, 0, out uint itemId, uint.TryParse, 0)) return null;
             string name = properties[1];
             if (!TryParse(properties, 8, out ItemClass mainClass, Enum.TryParse, 0)) return null;
             if (!TryParse(properties, 9, out ItemCategory category, Enum.TryParse, 0)) return null;

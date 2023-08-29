@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 农场点数变化通知
     /// </summary>
-    public class CSFriendFarmPointUpdateNtf : IStructure
+    public class CSFriendFarmPointUpdateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendFarmPointUpdateNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int FarmPoint;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(DBID, Endianness.Big);
             buffer.WriteInt32(FarmPoint, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DBID = buffer.ReadUInt64(Endianness.Big);
             FarmPoint = buffer.ReadInt32(Endianness.Big);

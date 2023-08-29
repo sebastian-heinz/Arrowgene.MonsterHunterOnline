@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商会信息
     /// </summary>
-    public class CSCommerceInfo : IStructure
+    public class CSCommerceInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCommerceInfo));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte IsOwned;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CommerceId, Endianness.Big);
             buffer.WriteUInt32(GoodsNumber, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(IsOwned);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CommerceId = buffer.ReadInt32(Endianness.Big);
             GoodsNumber = buffer.ReadUInt32(Endianness.Big);

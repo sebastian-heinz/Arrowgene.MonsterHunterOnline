@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 奖励同步
     /// </summary>
-    public class S2CActivityAwardsNtf : IStructure
+    public class S2CActivityAwardsNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAwardsNtf));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSActivityFetchArgs> Awards;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
             byte awardsCount = (byte)Awards.Count;
             buffer.WriteByte(awardsCount);
             for (int i = 0; i < awardsCount; i++)
             {
-                Awards[i].Write(buffer);
+                Awards[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
             Awards.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < awardsCount; i++)
             {
                 CSActivityFetchArgs AwardsEntry = new CSActivityFetchArgs();
-                AwardsEntry.Read(buffer);
+                AwardsEntry.ReadCs(buffer);
                 Awards.Add(AwardsEntry);
             }
         }

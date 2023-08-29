@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置猎团标识
     /// </summary>
-    public class C2SGuildIconSetting : IStructure
+    public class C2SGuildIconSetting : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildIconSetting));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Icon;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Icon, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Icon = buffer.ReadInt32(Endianness.Big);
         }

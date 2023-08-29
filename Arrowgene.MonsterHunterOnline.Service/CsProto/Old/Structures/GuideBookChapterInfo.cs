@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家新手引导书章节信息 与csproto.xml保持一致
     /// </summary>
-    public class GuideBookChapterInfo : IStructure
+    public class GuideBookChapterInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideBookChapterInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte IsNotNew;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ChapterId, Endianness.Big);
             buffer.WriteInt32(GetRewardCount, Endianness.Big);
             buffer.WriteByte(IsNotNew);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ChapterId = buffer.ReadInt32(Endianness.Big);
             GetRewardCount = buffer.ReadInt32(Endianness.Big);

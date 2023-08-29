@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端发送的广播聊天请求
     /// </summary>
-    public class ChatBroadcastReq : Structure
+    public class ChatBroadcastReq : Structure, ICsStructure
     {
         public ChatBroadcastReq()
         {
@@ -31,18 +31,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ChatItemsPkg Items { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, (int)ChannelType);
             WriteString(buffer, Content);
-            WriteStructure(buffer, Items);
+            WriteCsStructure(buffer, Items);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ChannelType = (ChannelType)ReadInt32(buffer);
             Content = ReadString(buffer);
-            Items = ReadStructure(buffer, Items);
+            Items = ReadCsStructure(buffer, Items);
         }
     }
 }

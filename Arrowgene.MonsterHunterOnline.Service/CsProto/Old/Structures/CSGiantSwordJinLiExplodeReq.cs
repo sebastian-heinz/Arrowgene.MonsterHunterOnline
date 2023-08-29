@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 大剑劲力爆发请求
     /// </summary>
-    public class CSGiantSwordJinLiExplodeReq : IStructure
+    public class CSGiantSwordJinLiExplodeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiantSwordJinLiExplodeReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint ExplodeLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ExplodeLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ExplodeLevel = buffer.ReadUInt32(Endianness.Big);
         }

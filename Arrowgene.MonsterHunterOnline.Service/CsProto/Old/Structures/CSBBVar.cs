@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Blackboard变量
     /// </summary>
-    public class CSBBVar : IStructure
+    public class CSBBVar : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBBVar));
 
@@ -58,20 +58,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBBVariable Value;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16((ushort)Value.Type, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
-            Value.Write(buffer);
+            Value.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_BBVALUE_TYPE CSBBVariable_Type = (CS_BBVALUE_TYPE)buffer.ReadUInt16(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);
-            Value.Read(buffer);
+            Value.ReadCs(buffer);
         }
 
     }

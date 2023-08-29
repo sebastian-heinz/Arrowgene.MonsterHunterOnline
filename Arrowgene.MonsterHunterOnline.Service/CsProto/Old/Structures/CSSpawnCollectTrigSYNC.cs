@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 杀死怪物产生采集点事件同步
     /// </summary>
-    public class CSSpawnCollectTrigSYNC : IStructure
+    public class CSSpawnCollectTrigSYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpawnCollectTrigSYNC));
 
@@ -78,25 +78,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint RelativeID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ItemID, Endianness.Big);
-            BoxParam.Write(buffer);
+            BoxParam.WriteCs(buffer);
             buffer.WriteInt32(TriggerType.Length + 1, Endianness.Big);
             buffer.WriteCString(TriggerType);
-            Position.Write(buffer);
-            Rotation.Write(buffer);
+            Position.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
             buffer.WriteUInt32(RelativeID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadInt32(Endianness.Big);
-            BoxParam.Read(buffer);
+            BoxParam.ReadCs(buffer);
             int TriggerTypeEntryLen = buffer.ReadInt32(Endianness.Big);
             TriggerType = buffer.ReadString(TriggerTypeEntryLen);
-            Position.Read(buffer);
-            Rotation.Read(buffer);
+            Position.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
             RelativeID = buffer.ReadUInt32(Endianness.Big);
         }
 

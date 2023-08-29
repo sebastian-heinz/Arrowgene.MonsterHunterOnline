@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端处于安全时间提示对话框
     /// </summary>
-    public class CSMsgBoxSafeTimeNtf : IStructure
+    public class CSMsgBoxSafeTimeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxSafeTimeNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint EndDurTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EndDurTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EndDurTime = buffer.ReadUInt32(Endianness.Big);
         }

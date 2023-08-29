@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 疾风狩猎奖励集
     /// </summary>
-    public class S2CRapidHuntAwards : IStructure
+    public class S2CRapidHuntAwards : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRapidHuntAwards));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRapidHuntAward> awards;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int awardsCount = (int)awards.Count;
             buffer.WriteInt32(awardsCount, Endianness.Big);
             for (int i = 0; i < awardsCount; i++)
             {
-                awards[i].Write(buffer);
+                awards[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             awards.Clear();
             int awardsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < awardsCount; i++)
             {
                 CSRapidHuntAward awardsEntry = new CSRapidHuntAward();
-                awardsEntry.Read(buffer);
+                awardsEntry.ReadCs(buffer);
                 awards.Add(awardsEntry);
             }
         }

@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 双线机房时对选择IP的判定数据信息进行收集上报
     /// </summary>
-    public class CSMultiNetIpinfo : IStructure
+    public class CSMultiNetIpinfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMultiNetIpinfo));
 
@@ -113,7 +113,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int[] HistoryPingWeight;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SelectIP.Length + 1, Endianness.Big);
             buffer.WriteCString(SelectIP);
@@ -148,7 +148,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int SelectIPEntryLen = buffer.ReadInt32(Endianness.Big);
             SelectIP = buffer.ReadString(SelectIPEntryLen);

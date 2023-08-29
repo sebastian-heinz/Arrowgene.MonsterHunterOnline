@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// FG事件同步
     /// </summary>
-    public class CSFGEventSYNC : IStructure
+    public class CSFGEventSYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFGEventSYNC));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string EventName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EventName.Length + 1, Endianness.Big);
             buffer.WriteCString(EventName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int EventNameEntryLen = buffer.ReadInt32(Endianness.Big);
             EventName = buffer.ReadString(EventNameEntryLen);

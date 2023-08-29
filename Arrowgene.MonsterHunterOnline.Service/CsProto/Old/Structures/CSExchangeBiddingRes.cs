@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 竞拍回复
     /// </summary>
-    public class CSExchangeBiddingRes : IStructure
+    public class CSExchangeBiddingRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeBiddingRes));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong RecordId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteUInt64(RecordId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             RecordId = buffer.ReadUInt64(Endianness.Big);

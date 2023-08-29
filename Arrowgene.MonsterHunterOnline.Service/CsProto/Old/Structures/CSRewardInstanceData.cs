@@ -27,6 +27,7 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
@@ -35,14 +36,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 奖励信息
     /// </summary>
-    public class CSRewardInstanceData : IStructure
+    public class CSRewardInstanceData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRewardInstanceData));
 
         public CSRewardInstanceData()
         {
             ItemType = 0;
-            ItemData = new GeneralItem();
+            ItemData = new Item();
         }
 
         /// <summary>
@@ -53,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 道具实际信息
         /// </summary>
-        public GeneralItem ItemData;
+        public Item ItemData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ItemType, Endianness.Big);
-            ItemData.Write(buffer);
+            ItemData.WriteTlv(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemType = buffer.ReadInt32(Endianness.Big);
-            ItemData.Read(buffer);
+            ItemData.ReadTlv(buffer);
         }
 
     }

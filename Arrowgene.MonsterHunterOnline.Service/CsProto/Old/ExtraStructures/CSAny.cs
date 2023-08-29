@@ -28,7 +28,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
-    public class CSAny : IStructure
+    public class CSAny : ICsStructure
     {
         public CSAny(CS_ANY_TYPE type)
         {
@@ -39,7 +39,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 
         public bool BoolValue { get; set; }
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             switch (Type)
             {
@@ -49,7 +49,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             switch (Type)
             {

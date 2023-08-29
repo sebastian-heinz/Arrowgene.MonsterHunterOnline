@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Ping消息返回信息
     /// </summary>
-    public class CSPingReply : IStructure
+    public class CSPingReply : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPingReply));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint PingID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(PingID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PingID = buffer.ReadUInt32(Endianness.Big);
         }

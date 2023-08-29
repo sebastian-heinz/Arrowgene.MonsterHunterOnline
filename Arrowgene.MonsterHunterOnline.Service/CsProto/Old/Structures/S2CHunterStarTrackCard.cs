@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 卡片追踪
     /// </summary>
-    public class S2CHunterStarTrackCard : IStructure
+    public class S2CHunterStarTrackCard : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CHunterStarTrackCard));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Track;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Card, Endianness.Big);
             buffer.WriteByte(Track);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Card = buffer.ReadUInt32(Endianness.Big);
             Track = buffer.ReadByte();

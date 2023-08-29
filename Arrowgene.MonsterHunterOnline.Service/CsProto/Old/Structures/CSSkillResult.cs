@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 技能结果同步信息
     /// </summary>
-    public class CSSkillResult : IStructure
+    public class CSSkillResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSkillResult));
 
@@ -52,13 +52,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSSkillResultData data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16((ushort)data.Type, Endianness.Big);
-            data.Write(buffer);
+            data.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_SKILL_RESULT_TYPE CSSkillResultData_Type = (CS_SKILL_RESULT_TYPE)buffer.ReadUInt16(Endianness.Big);
             switch (CSSkillResultData_Type)
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (data != null) {
-                data.Read(buffer);
+                data.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'data' instance of type 'CSSkillResultData'");

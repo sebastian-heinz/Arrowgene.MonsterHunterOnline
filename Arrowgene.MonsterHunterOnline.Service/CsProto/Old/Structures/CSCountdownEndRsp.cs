@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 高等级角色删除倒计时结束响应
     /// </summary>
-    public class CSCountdownEndRsp : IStructure
+    public class CSCountdownEndRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCountdownEndRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint RoleStateEndLeftTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleState, Endianness.Big);
             buffer.WriteUInt32(RoleStateEndLeftTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleState = buffer.ReadInt32(Endianness.Big);
             RoleStateEndLeftTime = buffer.ReadUInt32(Endianness.Big);

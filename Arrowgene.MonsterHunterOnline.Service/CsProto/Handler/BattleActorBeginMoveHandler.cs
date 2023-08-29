@@ -11,7 +11,7 @@ public class BattleActorBeginMoveHandler : CsProtoStructureHandler<ActorBeginMov
 
     public override void Handle(Client client, ActorBeginMove req)
     {
-        CsProtoStructurePacket<ActorBeginMoveNtf> actorBeginMoveNtf = CsProtoResponse.ActorBeginMoveNtf;
+        CsCsProtoStructurePacket<ActorBeginMoveNtf> actorBeginMoveNtf = CsProtoResponse.ActorBeginMoveNtf;
         actorBeginMoveNtf.Structure.NetObjId = client.Character.Id;
         actorBeginMoveNtf.Structure.ActorBeginMove = req;
        // client.SendCsProtoStructurePacket(actorBeginMoveNtf);

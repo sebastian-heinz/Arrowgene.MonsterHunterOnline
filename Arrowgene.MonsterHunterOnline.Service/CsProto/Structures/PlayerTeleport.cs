@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家传送消息
     /// </summary>
-    public class PlayerTeleport : Structure
+    public class PlayerTeleport : Structure, ICsStructure
     {
         public PlayerTeleport()
         {
@@ -48,22 +48,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte InitState { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt64(buffer, SyncTime);
             WriteUInt32(buffer, NetObjId);
             WriteInt32(buffer, Region);
-            WriteStructure(buffer, TargetPos);
+            WriteCsStructure(buffer, TargetPos);
             WriteInt64(buffer, ParentGuid);
             WriteByte(buffer, InitState);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = ReadInt64(buffer);
             NetObjId = ReadUInt32(buffer);
             Region = ReadInt32(buffer);
-            TargetPos = ReadStructure(buffer, TargetPos);
+            TargetPos = ReadCsStructure(buffer, TargetPos);
             ParentGuid = ReadInt64(buffer);
             InitState = ReadByte(buffer);
         }

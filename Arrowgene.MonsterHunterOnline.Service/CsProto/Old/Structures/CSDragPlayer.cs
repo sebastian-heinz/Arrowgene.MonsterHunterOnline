@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 拉玩家
     /// </summary>
-    public class CSDragPlayer : IStructure
+    public class CSDragPlayer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragPlayer));
 
@@ -66,20 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat ActorRot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt64(SyncTime, Endianness.Big);
-            Location.Write(buffer);
-            ActorRot.Write(buffer);
+            Location.WriteCs(buffer);
+            ActorRot.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             SyncTime = buffer.ReadInt64(Endianness.Big);
-            Location.Read(buffer);
-            ActorRot.Read(buffer);
+            Location.ReadCs(buffer);
+            ActorRot.ReadCs(buffer);
         }
 
     }

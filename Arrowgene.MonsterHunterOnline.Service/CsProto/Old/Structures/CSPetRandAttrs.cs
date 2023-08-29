@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物随机属性
     /// </summary>
-    public class CSPetRandAttrs : IStructure
+    public class CSPetRandAttrs : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetRandAttrs));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SupportSkill;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TalkStype, Endianness.Big);
             buffer.WriteInt32(Quality, Endianness.Big);
@@ -103,7 +103,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SupportSkill, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TalkStype = buffer.ReadInt32(Endianness.Big);
             Quality = buffer.ReadInt32(Endianness.Big);

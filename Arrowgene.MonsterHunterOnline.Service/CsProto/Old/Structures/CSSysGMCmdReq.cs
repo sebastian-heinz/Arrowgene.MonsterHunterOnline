@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端系统控制方面的GM命令请求
     /// </summary>
-    public class CSSysGMCmdReq : IStructure
+    public class CSSysGMCmdReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSysGMCmdReq));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Param3;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CmdName.Length + 1, Endianness.Big);
             buffer.WriteCString(CmdName);
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Param3);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int CmdNameEntryLen = buffer.ReadInt32(Endianness.Big);
             CmdName = buffer.ReadString(CmdNameEntryLen);

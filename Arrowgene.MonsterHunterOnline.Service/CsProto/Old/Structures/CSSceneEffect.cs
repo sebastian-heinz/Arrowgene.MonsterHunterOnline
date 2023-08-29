@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 场景特效
     /// </summary>
-    public class CSSceneEffect : IStructure
+    public class CSSceneEffect : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSceneEffect));
 
@@ -84,22 +84,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte SrcType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(EffectID, Endianness.Big);
             buffer.WriteInt32(EffectType, Endianness.Big);
-            Pos.Write(buffer);
+            Pos.WriteCs(buffer);
             buffer.WriteUInt64(OwnerID, Endianness.Big);
             buffer.WriteUInt64(SpawnTime, Endianness.Big);
             buffer.WriteInt32(DurationTime, Endianness.Big);
             buffer.WriteByte(SrcType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EffectID = buffer.ReadUInt64(Endianness.Big);
             EffectType = buffer.ReadInt32(Endianness.Big);
-            Pos.Read(buffer);
+            Pos.ReadCs(buffer);
             OwnerID = buffer.ReadUInt64(Endianness.Big);
             SpawnTime = buffer.ReadUInt64(Endianness.Big);
             DurationTime = buffer.ReadInt32(Endianness.Big);

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSQuatT : IStructure
+    public class CSQuatT : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSQuatT));
 
@@ -45,16 +45,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSVec3 t;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            q.Write(buffer);
-            t.Write(buffer);
+            q.WriteCs(buffer);
+            t.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            q.Read(buffer);
-            t.Read(buffer);
+            q.ReadCs(buffer);
+            t.ReadCs(buffer);
         }
 
     }

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSMailunReadGetRes : IStructure
+    public class CSMailunReadGetRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailunReadGetRes));
 
@@ -51,7 +51,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<unReadMailSet> unReadList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(TotalUnreadCount, Endianness.Big);
@@ -59,11 +59,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(unReadListCount, Endianness.Big);
             for (int i = 0; i < unReadListCount; i++)
             {
-                unReadList[i].Write(buffer);
+                unReadList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadInt32(Endianness.Big);
             TotalUnreadCount = buffer.ReadInt32(Endianness.Big);
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < unReadListCount; i++)
             {
                 unReadMailSet unReadListEntry = new unReadMailSet();
-                unReadListEntry.Read(buffer);
+                unReadListEntry.ReadCs(buffer);
                 unReadList.Add(unReadListEntry);
             }
         }

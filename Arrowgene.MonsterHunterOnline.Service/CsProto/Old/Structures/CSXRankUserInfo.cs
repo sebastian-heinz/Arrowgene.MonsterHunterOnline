@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSXRankUserInfo : IStructure
+    public class CSXRankUserInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSXRankUserInfo));
 
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float RankValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Uid, Endianness.Big);
             buffer.WriteInt32(score, Endianness.Big);
@@ -85,7 +85,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(RankValue, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uid = buffer.ReadUInt64(Endianness.Big);
             score = buffer.ReadInt32(Endianness.Big);

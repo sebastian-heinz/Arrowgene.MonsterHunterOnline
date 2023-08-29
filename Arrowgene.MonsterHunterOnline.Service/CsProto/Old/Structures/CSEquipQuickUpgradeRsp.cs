@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备直升应答
     /// </summary>
-    public class CSEquipQuickUpgradeRsp : IStructure
+    public class CSEquipQuickUpgradeRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipQuickUpgradeRsp));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSEquipQuickUpgradeReq req;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RetCode, Endianness.Big);
-            req.Write(buffer);
+            req.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RetCode = buffer.ReadInt32(Endianness.Big);
-            req.Read(buffer);
+            req.ReadCs(buffer);
         }
 
     }

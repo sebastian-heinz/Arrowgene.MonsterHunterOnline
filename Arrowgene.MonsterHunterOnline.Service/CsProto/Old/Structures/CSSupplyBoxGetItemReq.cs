@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求获取物品
     /// </summary>
-    public class CSSupplyBoxGetItemReq : IStructure
+    public class CSSupplyBoxGetItemReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyBoxGetItemReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ItemNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ID, Endianness.Big);
             buffer.WriteInt32(ItemId, Endianness.Big);
             buffer.WriteInt32(ItemNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadInt32(Endianness.Big);
             ItemId = buffer.ReadInt32(Endianness.Big);

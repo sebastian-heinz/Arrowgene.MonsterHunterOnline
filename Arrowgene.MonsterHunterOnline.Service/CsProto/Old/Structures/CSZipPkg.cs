@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 压缩包
     /// </summary>
-    public class CSZipPkg : IStructure
+    public class CSZipPkg : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSZipPkg));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> ZipData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint zipDataCount = (uint)ZipData.Count;
             buffer.WriteUInt32(zipDataCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ZipData.Clear();
             uint zipDataCount = buffer.ReadUInt32(Endianness.Big);

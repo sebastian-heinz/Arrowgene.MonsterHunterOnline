@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 礼物成功发送
     /// </summary>
-    public class CSGiftSended : IStructure
+    public class CSGiftSended : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftSended));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong recvDBID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(goodID, Endianness.Big);
             buffer.WriteInt32(num, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(recvDBID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             goodID = buffer.ReadInt32(Endianness.Big);
             num = buffer.ReadInt32(Endianness.Big);

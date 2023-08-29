@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色
     /// </summary>
-    public class CsPlayer : IStructure
+    public class CsPlayer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CsPlayer));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Rtid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Uid, Endianness.Big);
             buffer.WriteUInt32(Zone, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Rtid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uid = buffer.ReadUInt64(Endianness.Big);
             Zone = buffer.ReadUInt32(Endianness.Big);

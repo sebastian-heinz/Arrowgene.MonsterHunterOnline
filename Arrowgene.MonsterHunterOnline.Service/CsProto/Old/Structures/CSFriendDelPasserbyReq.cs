@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 删除路人请求
     /// </summary>
-    public class CSFriendDelPasserbyReq : IStructure
+    public class CSFriendDelPasserbyReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendDelPasserbyReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong RoleDBID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleDBID = buffer.ReadUInt64(Endianness.Big);
         }

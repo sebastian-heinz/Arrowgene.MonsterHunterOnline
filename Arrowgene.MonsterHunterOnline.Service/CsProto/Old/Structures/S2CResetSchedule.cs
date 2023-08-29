@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 日程表重置
     /// </summary>
-    public class S2CResetSchedule : IStructure
+    public class S2CResetSchedule : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CResetSchedule));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Task;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Task, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Task = buffer.ReadInt32(Endianness.Big);
         }

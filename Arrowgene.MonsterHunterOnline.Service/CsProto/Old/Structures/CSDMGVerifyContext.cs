@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端传送到服务器的打击行为验证上下文
     /// </summary>
-    public class CSDMGVerifyContext : IStructure
+    public class CSDMGVerifyContext : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGVerifyContext));
 
@@ -84,50 +84,50 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBattleDMG HitInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteInt64(Sequence, Endianness.Big);
-            AttackerEntityPos.Write(buffer);
+            AttackerEntityPos.WriteCs(buffer);
             short attackerLayersCount = (short)AttackerLayers.Count;
             buffer.WriteInt16(attackerLayersCount, Endianness.Big);
             for (int i = 0; i < attackerLayersCount; i++)
             {
-                AttackerLayers[i].Write(buffer);
+                AttackerLayers[i].WriteCs(buffer);
             }
-            AttackeeEntityPos.Write(buffer);
+            AttackeeEntityPos.WriteCs(buffer);
             short attackeeLayersCount = (short)AttackeeLayers.Count;
             buffer.WriteInt16(attackeeLayersCount, Endianness.Big);
             for (int i = 0; i < attackeeLayersCount; i++)
             {
-                AttackeeLayers[i].Write(buffer);
+                AttackeeLayers[i].WriteCs(buffer);
             }
-            HitInfo.Write(buffer);
+            HitInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             Sequence = buffer.ReadInt64(Endianness.Big);
-            AttackerEntityPos.Read(buffer);
+            AttackerEntityPos.ReadCs(buffer);
             AttackerLayers.Clear();
             short attackerLayersCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < attackerLayersCount; i++)
             {
                 CSTransitionQueue AttackerLayersEntry = new CSTransitionQueue();
-                AttackerLayersEntry.Read(buffer);
+                AttackerLayersEntry.ReadCs(buffer);
                 AttackerLayers.Add(AttackerLayersEntry);
             }
-            AttackeeEntityPos.Read(buffer);
+            AttackeeEntityPos.ReadCs(buffer);
             AttackeeLayers.Clear();
             short attackeeLayersCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < attackeeLayersCount; i++)
             {
                 CSTransitionQueue AttackeeLayersEntry = new CSTransitionQueue();
-                AttackeeLayersEntry.Read(buffer);
+                AttackeeLayersEntry.ReadCs(buffer);
                 AttackeeLayers.Add(AttackeeLayersEntry);
             }
-            HitInfo.Read(buffer);
+            HitInfo.ReadCs(buffer);
         }
 
     }

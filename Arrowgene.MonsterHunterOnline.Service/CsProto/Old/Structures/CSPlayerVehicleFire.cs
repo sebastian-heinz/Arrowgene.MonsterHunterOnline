@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家弩车开火
     /// </summary>
-    public class CSPlayerVehicleFire : IStructure
+    public class CSPlayerVehicleFire : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerVehicleFire));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte FireType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AmmoItemID, Endianness.Big);
             buffer.WriteInt32(AmmoType, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(FireType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AmmoItemID = buffer.ReadInt32(Endianness.Big);
             AmmoType = buffer.ReadInt32(Endianness.Big);

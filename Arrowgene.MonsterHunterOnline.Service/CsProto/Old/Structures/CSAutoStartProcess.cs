@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 自动发起某些流程
     /// </summary>
-    public class CSAutoStartProcess : IStructure
+    public class CSAutoStartProcess : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAutoStartProcess));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CS_AUTO_START_FUNCTION ProcessType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32((int)ProcessType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ProcessType = (CS_AUTO_START_FUNCTION)buffer.ReadInt32(Endianness.Big);
         }

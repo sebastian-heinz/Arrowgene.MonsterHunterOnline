@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 初始化
     /// </summary>
-    public class CSSupplyBoxInitItemNtf : IStructure
+    public class CSSupplyBoxInitItemNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyBoxInitItemNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSSupplyItem> SupplyItemList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(SupplyBoxType);
             buffer.WriteUInt32(ShareId, Endianness.Big);
@@ -75,11 +75,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(supplyItemListCount, Endianness.Big);
             for (int i = 0; i < supplyItemListCount; i++)
             {
-                SupplyItemList[i].Write(buffer);
+                SupplyItemList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SupplyBoxType = buffer.ReadByte();
             ShareId = buffer.ReadUInt32(Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < supplyItemListCount; i++)
             {
                 CSSupplyItem SupplyItemListEntry = new CSSupplyItem();
-                SupplyItemListEntry.Read(buffer);
+                SupplyItemListEntry.ReadCs(buffer);
                 SupplyItemList.Add(SupplyItemListEntry);
             }
         }

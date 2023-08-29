@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端删除物品
     /// </summary>
-    public class CSItemMgrDelItemNtf : IStructure
+    public class CSItemMgrDelItemNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrDelItemNtf));
 
@@ -51,18 +51,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSDelGrid> DelGridList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(Reason, Endianness.Big);
             byte delGridListCount = (byte)DelGridList.Count;
             buffer.WriteByte(delGridListCount);
             for (int i = 0; i < delGridListCount; i++)
             {
-                DelGridList[i].Write(buffer);
+                DelGridList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadUInt16(Endianness.Big);
             DelGridList.Clear();
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < delGridListCount; i++)
             {
                 CSDelGrid DelGridListEntry = new CSDelGrid();
-                DelGridListEntry.Read(buffer);
+                DelGridListEntry.ReadCs(buffer);
                 DelGridList.Add(DelGridListEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端传送到服务器的打击行为
     /// </summary>
-    public class CSDMGContext : IStructure
+    public class CSDMGContext : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGContext));
 
@@ -72,22 +72,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBattleDMG HitInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteInt64(Sequence, Endianness.Big);
-            AttackerEntityPos.Write(buffer);
-            AttackeeEntityPos.Write(buffer);
-            HitInfo.Write(buffer);
+            AttackerEntityPos.WriteCs(buffer);
+            AttackeeEntityPos.WriteCs(buffer);
+            HitInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             Sequence = buffer.ReadInt64(Endianness.Big);
-            AttackerEntityPos.Read(buffer);
-            AttackeeEntityPos.Read(buffer);
-            HitInfo.Read(buffer);
+            AttackerEntityPos.ReadCs(buffer);
+            AttackeeEntityPos.ReadCs(buffer);
+            HitInfo.ReadCs(buffer);
         }
 
     }

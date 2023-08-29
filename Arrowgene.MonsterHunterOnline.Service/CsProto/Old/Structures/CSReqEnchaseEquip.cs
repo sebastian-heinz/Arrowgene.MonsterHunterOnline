@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求镶嵌装备
     /// </summary>
-    public class CSReqEnchaseEquip : IStructure
+    public class CSReqEnchaseEquip : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqEnchaseEquip));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(EquipColumn);
             buffer.WriteUInt16(EquipGrid, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(Grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EquipColumn = buffer.ReadByte();
             EquipGrid = buffer.ReadUInt16(Endianness.Big);

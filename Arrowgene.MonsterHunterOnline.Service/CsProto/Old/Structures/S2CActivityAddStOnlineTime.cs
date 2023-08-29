@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 活动在线时长计算
     /// </summary>
-    public class S2CActivityAddStOnlineTime : IStructure
+    public class S2CActivityAddStOnlineTime : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityAddStOnlineTime));
 
@@ -96,7 +96,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int End;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(id, Endianness.Big);
             buffer.WriteInt32(hour, Endianness.Big);
@@ -109,7 +109,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(End, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             id = buffer.ReadInt32(Endianness.Big);
             hour = buffer.ReadInt32(Endianness.Big);

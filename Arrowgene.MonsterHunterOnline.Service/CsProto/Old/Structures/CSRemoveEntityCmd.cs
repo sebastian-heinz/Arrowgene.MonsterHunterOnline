@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 删除entity对象命令
     /// </summary>
-    public class CSRemoveEntityCmd : IStructure
+    public class CSRemoveEntityCmd : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemoveEntityCmd));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reason;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(Reason, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             Reason = buffer.ReadInt32(Endianness.Big);

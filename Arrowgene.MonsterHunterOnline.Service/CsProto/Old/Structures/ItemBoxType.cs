@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院 抽奖盒子信息
     /// </summary>
-    public class ItemBoxType : IStructure
+    public class ItemBoxType : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ItemBoxType));
 
@@ -77,24 +77,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ResearchCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxId, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Write(buffer);
+                LotteryItemList[i].WriteCs(buffer);
             }
             buffer.WriteInt32(VipRefrshCount, Endianness.Big);
             buffer.WriteInt32(RefreshCount, Endianness.Big);
             buffer.WriteInt32(ResearchCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxId = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_LOTTERY_ITEM_MAX_LEN; i++)
             {
-                LotteryItemList[i].Read(buffer);
+                LotteryItemList[i].ReadCs(buffer);
             }
             VipRefrshCount = buffer.ReadInt32(Endianness.Big);
             RefreshCount = buffer.ReadInt32(Endianness.Big);

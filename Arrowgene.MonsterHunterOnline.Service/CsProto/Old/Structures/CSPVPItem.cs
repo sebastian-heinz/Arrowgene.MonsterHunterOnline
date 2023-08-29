@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pvp item
     /// </summary>
-    public class CSPVPItem : IStructure
+    public class CSPVPItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPItem));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint NetID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadUInt32(Endianness.Big);
         }

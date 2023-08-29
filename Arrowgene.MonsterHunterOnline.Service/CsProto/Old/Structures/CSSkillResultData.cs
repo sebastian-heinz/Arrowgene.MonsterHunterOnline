@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface CSSkillResultData : IStructure
+    public interface CSSkillResultData : ICsStructure
     {
 
         public CS_SKILL_RESULT_TYPE Type { get; }

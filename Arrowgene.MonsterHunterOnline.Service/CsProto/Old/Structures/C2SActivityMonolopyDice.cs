@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 大富翁掷骰子
     /// </summary>
-    public class C2SActivityMonolopyDice : IStructure
+    public class C2SActivityMonolopyDice : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SActivityMonolopyDice));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(reserve);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             reserve = buffer.ReadByte();
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 返回指定雕像数据
     /// </summary>
-    public class S2CGetSculpture : IStructure
+    public class S2CGetSculpture : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetSculpture));
 
@@ -66,25 +66,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSSculptureHistory> History;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Round, Endianness.Big);
             int currentCount = (int)Current.Count;
             buffer.WriteInt32(currentCount, Endianness.Big);
             for (int i = 0; i < currentCount; i++)
             {
-                Current[i].Write(buffer);
+                Current[i].WriteCs(buffer);
             }
-            Best.Write(buffer);
+            Best.WriteCs(buffer);
             int historyCount = (int)History.Count;
             buffer.WriteInt32(historyCount, Endianness.Big);
             for (int i = 0; i < historyCount; i++)
             {
-                History[i].Write(buffer);
+                History[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Round = buffer.ReadInt32(Endianness.Big);
             Current.Clear();
@@ -92,16 +92,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < currentCount; i++)
             {
                 CSSculptureObj CurrentEntry = new CSSculptureObj();
-                CurrentEntry.Read(buffer);
+                CurrentEntry.ReadCs(buffer);
                 Current.Add(CurrentEntry);
             }
-            Best.Read(buffer);
+            Best.ReadCs(buffer);
             History.Clear();
             int historyCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < historyCount; i++)
             {
                 CSSculptureHistory HistoryEntry = new CSSculptureHistory();
-                HistoryEntry.Read(buffer);
+                HistoryEntry.ReadCs(buffer);
                 History.Add(HistoryEntry);
             }
         }

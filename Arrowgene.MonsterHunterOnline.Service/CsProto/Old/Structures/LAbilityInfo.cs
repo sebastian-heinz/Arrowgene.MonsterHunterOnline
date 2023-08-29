@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 修正能力
     /// </summary>
-    public class LAbilityInfo : IStructure
+    public class LAbilityInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(LAbilityInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int P2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteInt32(P1, Endianness.Big);
             buffer.WriteInt32(P2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
             P1 = buffer.ReadInt32(Endianness.Big);

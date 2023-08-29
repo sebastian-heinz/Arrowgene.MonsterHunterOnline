@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 大随机匹配请求
     /// </summary>
-    public class LineUpBigRand : Structure
+    public class LineUpBigRand : Structure, ICsStructure
     {
         public LineUpBigRand()
         {
@@ -15,12 +15,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int Type { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, Type);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = ReadInt32(buffer);
         }

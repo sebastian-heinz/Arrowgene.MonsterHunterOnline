@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求使用物品
     /// </summary>
-    public class CSResUseItem : IStructure
+    public class CSResUseItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSResUseItem));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort SrcIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteByte(SrcColumn);
             buffer.WriteUInt16(SrcIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             SrcColumn = buffer.ReadByte();

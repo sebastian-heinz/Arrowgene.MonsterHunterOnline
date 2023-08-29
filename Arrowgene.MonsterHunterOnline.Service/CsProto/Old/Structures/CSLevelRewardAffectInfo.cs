@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 奖励加成信息
     /// </summary>
-    public class CSLevelRewardAffectInfo : IStructure
+    public class CSLevelRewardAffectInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelRewardAffectInfo));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(AffectType, Endianness.Big);
             short valueAffectTypeCount = (short)ValueAffectType.Count;
@@ -115,7 +115,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Arg1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AffectType = buffer.ReadInt16(Endianness.Big);
             ValueAffectType.Clear();

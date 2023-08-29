@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战队队员
     /// </summary>
-    public class CSClaner : IStructure
+    public class CSClaner : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClaner));
 
@@ -102,9 +102,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int HRLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Id.Write(buffer);
+            Id.WriteCs(buffer);
             buffer.WriteInt32(Note.Length + 1, Endianness.Big);
             buffer.WriteCString(Note);
             buffer.WriteInt32(Level, Endianness.Big);
@@ -117,9 +117,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(HRLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Id.Read(buffer);
+            Id.ReadCs(buffer);
             int NoteEntryLen = buffer.ReadInt32(Endianness.Big);
             Note = buffer.ReadString(NoteEntryLen);
             Level = buffer.ReadInt32(Endianness.Big);

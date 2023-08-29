@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildWarCommerceInfo : IStructure
+    public class CSGuildWarCommerceInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildWarCommerceInfo));
 
@@ -51,7 +51,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string OwnGuildName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(CommerceId, Endianness.Big);
             buffer.WriteUInt32(GoodsNumber, Endianness.Big);
@@ -59,7 +59,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(OwnGuildName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CommerceId = buffer.ReadUInt32(Endianness.Big);
             GoodsNumber = buffer.ReadUInt32(Endianness.Big);

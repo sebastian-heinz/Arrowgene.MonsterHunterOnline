@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSInteractRequestData Request;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32((int)Request.RequestType, Endianness.Big);
-            Request.Write(buffer);
+            Request.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             INTERACT_REQUEST_TYPE CSInteractRequestData_RequestType = (INTERACT_REQUEST_TYPE)buffer.ReadInt32(Endianness.Big);
             switch (CSInteractRequestData_RequestType)
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Request != null) {
-                Request.Read(buffer);
+                Request.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Request' instance of type 'CSInteractRequestData'");

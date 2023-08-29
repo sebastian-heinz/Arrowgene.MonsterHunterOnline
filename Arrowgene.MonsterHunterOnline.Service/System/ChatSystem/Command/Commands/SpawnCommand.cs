@@ -19,7 +19,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
 
         public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
         {
-            CsProtoStructurePacket<EntityAppearNtfIdList> entityAppearNtfIdList = CsProtoResponse.EntityAppearNtfIdList;
+            CsCsProtoStructurePacket<EntityAppearNtfIdList> entityAppearNtfIdList = CsProtoResponse.EntityAppearNtfIdList;
             LogicEntityId leId = new LogicEntityId();
             leId.Type = LogicEntityType.MH_LETYPE_MONSTER;
             leId.Id = 50080;

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 恢复角色响应
     /// </summary>
-    public class CSRestoreRoleRsp : IStructure
+    public class CSRestoreRoleRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRestoreRoleRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint RoleStateEndLeftTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleState, Endianness.Big);
             buffer.WriteUInt32(RoleStateEndLeftTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleState = buffer.ReadInt32(Endianness.Big);
             RoleStateEndLeftTime = buffer.ReadUInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 部位破坏消息
     /// </summary>
-    public class CSMonsterPartBroken : IStructure
+    public class CSMonsterPartBroken : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterPartBroken));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Hide;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(MonsterID, Endianness.Big);
@@ -113,13 +113,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PartTemplate.Length + 1, Endianness.Big);
             buffer.WriteCString(PartTemplate);
             buffer.WriteUInt32(SpawnFlag, Endianness.Big);
-            SpawnPoint.Write(buffer);
-            SpawnDir.Write(buffer);
-            SpawnVel.Write(buffer);
+            SpawnPoint.WriteCs(buffer);
+            SpawnDir.WriteCs(buffer);
+            SpawnVel.WriteCs(buffer);
             buffer.WriteByte(Hide);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             MonsterID = buffer.ReadUInt32(Endianness.Big);
@@ -130,9 +130,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             int PartTemplateEntryLen = buffer.ReadInt32(Endianness.Big);
             PartTemplate = buffer.ReadString(PartTemplateEntryLen);
             SpawnFlag = buffer.ReadUInt32(Endianness.Big);
-            SpawnPoint.Read(buffer);
-            SpawnDir.Read(buffer);
-            SpawnVel.Read(buffer);
+            SpawnPoint.ReadCs(buffer);
+            SpawnDir.ReadCs(buffer);
+            SpawnVel.ReadCs(buffer);
             Hide = buffer.ReadByte();
         }
 

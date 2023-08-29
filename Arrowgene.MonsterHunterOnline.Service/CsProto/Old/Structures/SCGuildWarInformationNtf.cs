@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class SCGuildWarInformationNtf : IStructure
+    public class SCGuildWarInformationNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCGuildWarInformationNtf));
 
@@ -57,14 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Commerceid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(GuildId, Endianness.Big);
             buffer.WriteInt32(TimeStamp, Endianness.Big);
             buffer.WriteInt32(Commerceid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GuildId = buffer.ReadUInt64(Endianness.Big);
             TimeStamp = buffer.ReadInt32(Endianness.Big);

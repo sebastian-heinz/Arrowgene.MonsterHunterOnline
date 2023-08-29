@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSDailyTargetInfo : IStructure
+    public class CSDailyTargetInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDailyTargetInfo));
 
@@ -57,14 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Count;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(TargetId, Endianness.Big);
             buffer.WriteUInt32(Importence, Endianness.Big);
             buffer.WriteInt32(Count, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TargetId = buffer.ReadUInt32(Endianness.Big);
             Importence = buffer.ReadUInt32(Endianness.Big);

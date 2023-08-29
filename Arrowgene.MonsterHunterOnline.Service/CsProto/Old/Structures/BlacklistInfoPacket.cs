@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 黑名单信息数据
     /// </summary>
-    public class BlacklistInfoPacket : IStructure
+    public class BlacklistInfoPacket : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(BlacklistInfoPacket));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SvrId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleDBID, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
@@ -76,7 +76,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SvrId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleDBID = buffer.ReadUInt64(Endianness.Big);
             Level = buffer.ReadInt32(Endianness.Big);

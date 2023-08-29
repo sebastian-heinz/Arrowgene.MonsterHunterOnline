@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求雕像外观信息
     /// </summary>
-    public class C2SGetSculptureLibs : IStructure
+    public class C2SGetSculptureLibs : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGetSculptureLibs));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint Reserve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Reserve, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reserve = buffer.ReadUInt32(Endianness.Big);
         }

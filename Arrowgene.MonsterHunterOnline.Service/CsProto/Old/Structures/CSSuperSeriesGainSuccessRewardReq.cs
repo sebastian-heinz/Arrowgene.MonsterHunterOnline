@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 超级大连续领取成功奖励请求
     /// </summary>
-    public class CSSuperSeriesGainSuccessRewardReq : IStructure
+    public class CSSuperSeriesGainSuccessRewardReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuperSeriesGainSuccessRewardReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int viplevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(viplevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             viplevel = buffer.ReadInt32(Endianness.Big);
         }

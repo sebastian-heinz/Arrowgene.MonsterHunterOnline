@@ -28,18 +28,18 @@ public class CreateRoleReqHandler : CsProtoStructureHandler<RoleCreateInfo>
         if (character == null)
         {
             Logger.Error(client, $"Failed to create new character:{req.Name}");
-            CsProtoStructurePacket<RoleDataErrorRsp> err = CsProtoResponse.RoleDataErrorRsp;
+            CsCsProtoStructurePacket<RoleDataErrorRsp> err = CsProtoResponse.RoleDataErrorRsp;
             err.Structure.ErrNo = 0;
             client.SendCsProtoStructurePacket(err);
 
             // TODO cover error cases
-            CsProtoStructurePacket<NotifyInfo> notify = CsProtoResponse.NotifyInfo;
+            CsCsProtoStructurePacket<NotifyInfo> notify = CsProtoResponse.NotifyInfo;
             notify.Structure.Info = "Character Name exists, or other error";
             client.SendCsProtoStructurePacket(notify);
             return;
         }
 
-        CsProtoStructurePacket<ListRoleRsp> createRoleRsp = CsProtoResponse.CreateRoleRsp;
+        CsCsProtoStructurePacket<ListRoleRsp> createRoleRsp = CsProtoResponse.CreateRoleRsp;
         _characterManager.PopulateRoleList(client, createRoleRsp.Structure);
         client.SendCsProtoStructurePacket(createRoleRsp);
 

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队员移动通知
     /// </summary>
-    public class CSTeamMemberMoveNtf : IStructure
+    public class CSTeamMemberMoveNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberMoveNtf));
 
@@ -57,18 +57,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 Dir;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(DBID, Endianness.Big);
-            Vec3.Write(buffer);
-            Dir.Write(buffer);
+            Vec3.WriteCs(buffer);
+            Dir.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DBID = buffer.ReadUInt64(Endianness.Big);
-            Vec3.Read(buffer);
-            Dir.Read(buffer);
+            Vec3.ReadCs(buffer);
+            Dir.ReadCs(buffer);
         }
 
     }

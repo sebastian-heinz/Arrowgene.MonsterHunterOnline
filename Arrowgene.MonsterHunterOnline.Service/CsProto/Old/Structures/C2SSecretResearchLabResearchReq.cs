@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院研究 服务端->客户端
     /// </summary>
-    public class C2SSecretResearchLabResearchReq : IStructure
+    public class C2SSecretResearchLabResearchReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSecretResearchLabResearchReq));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<SRLCostMaterialType> CostMaterialList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxId, Endianness.Big);
             buffer.WriteInt32(MonsterType, Endianness.Big);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(costMaterialListCount, Endianness.Big);
             for (int i = 0; i < costMaterialListCount; i++)
             {
-                CostMaterialList[i].Write(buffer);
+                CostMaterialList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxId = buffer.ReadInt32(Endianness.Big);
             MonsterType = buffer.ReadInt32(Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < costMaterialListCount; i++)
             {
                 SRLCostMaterialType CostMaterialListEntry = new SRLCostMaterialType();
-                CostMaterialListEntry.Read(buffer);
+                CostMaterialListEntry.ReadCs(buffer);
                 CostMaterialList.Add(CostMaterialListEntry);
             }
         }

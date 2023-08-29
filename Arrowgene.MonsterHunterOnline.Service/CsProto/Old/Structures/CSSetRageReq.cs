@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置奥义请求
     /// </summary>
-    public class CSSetRageReq : IStructure
+    public class CSSetRageReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetRageReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int skillID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(weaponType, Endianness.Big);
             buffer.WriteInt32(idx, Endianness.Big);
             buffer.WriteInt32(skillID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             weaponType = buffer.ReadInt32(Endianness.Big);
             idx = buffer.ReadInt32(Endianness.Big);

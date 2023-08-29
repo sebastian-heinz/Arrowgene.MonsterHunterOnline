@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// DiffuseColor同步
     /// </summary>
-    public class CSDiffuseColorSYNC : IStructure
+    public class CSDiffuseColorSYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDiffuseColorSYNC));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 DiffuseColor;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
-            DiffuseColor.Write(buffer);
+            DiffuseColor.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
-            DiffuseColor.Read(buffer);
+            DiffuseColor.ReadCs(buffer);
         }
 
     }

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildWarGetGuildBoatsRsp : IStructure
+    public class CSGuildWarGetGuildBoatsRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildWarGetGuildBoatsRsp));
 
@@ -63,7 +63,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<GuildBoatInfo> GuildBoats;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ErrCode, Endianness.Big);
             buffer.WriteUInt64(GuildId, Endianness.Big);
@@ -73,11 +73,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(guildBoatsCount, Endianness.Big);
             for (int i = 0; i < guildBoatsCount; i++)
             {
-                GuildBoats[i].Write(buffer);
+                GuildBoats[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadUInt32(Endianness.Big);
             GuildId = buffer.ReadUInt64(Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < guildBoatsCount; i++)
             {
                 GuildBoatInfo GuildBoatsEntry = new GuildBoatInfo();
-                GuildBoatsEntry.Read(buffer);
+                GuildBoatsEntry.ReadCs(buffer);
                 GuildBoats.Add(GuildBoatsEntry);
             }
         }

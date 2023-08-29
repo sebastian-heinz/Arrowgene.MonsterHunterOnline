@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知活动开始结束时间变化
     /// </summary>
-    public class S2CScriptActivityTimeUpdateNtf : IStructure
+    public class S2CScriptActivityTimeUpdateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityTimeUpdateNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint StopTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ID, Endianness.Big);
             buffer.WriteUInt32(WorldSvrID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(StopTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadUInt32(Endianness.Big);
             WorldSvrID = buffer.ReadUInt32(Endianness.Big);

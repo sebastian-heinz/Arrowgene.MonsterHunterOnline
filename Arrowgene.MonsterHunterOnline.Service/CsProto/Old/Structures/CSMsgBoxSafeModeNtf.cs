@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端进入保护态提示对话框
     /// </summary>
-    public class CSMsgBoxSafeModeNtf : IStructure
+    public class CSMsgBoxSafeModeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxSafeModeNtf));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Url;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Url.Length + 1, Endianness.Big);
             buffer.WriteCString(Url);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int UrlEntryLen = buffer.ReadInt32(Endianness.Big);
             Url = buffer.ReadString(UrlEntryLen);

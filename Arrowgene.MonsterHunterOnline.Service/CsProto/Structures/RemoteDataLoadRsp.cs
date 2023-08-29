@@ -5,49 +5,49 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class RemoteDataLoadRsp : Structure
+    public class RemoteDataLoadRsp : Structure, ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(RemoteDataLoadRsp));
 
-        public RemoteDataLoadRsp(IRemoteDataInfo remoteData)
+        public RemoteDataLoadRsp(CSICsRemoteDataInfo remoteData)
         {
             RemoteData = remoteData;
         }
 
-        public IRemoteDataInfo RemoteData { get; set; }
+        public CSICsRemoteDataInfo RemoteData { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt16(buffer, (ushort)RemoteData.DataType);
-            WriteStructure(buffer, RemoteData);
+            WriteCsStructure(buffer, RemoteData);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ROMTE_DATA_TYPE remoteDataType = (ROMTE_DATA_TYPE)ReadUInt16(buffer);
             switch (remoteDataType)
             {
                 case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
-                    RemoteData = ReadStructure<ItemListRsp>(buffer);
+                    RemoteData = ReadCsStructure<ItemListRsp>(buffer);
                     break;
                 case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
-                    RemoteData = ReadStructure<PlayerLevelInitInfo>(buffer);
+                    RemoteData = ReadCsStructure<PlayerLevelInitInfo>(buffer);
                     break;
                 case ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE:
                     RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE);
-                    RemoteData = ReadStructure(buffer, (RemoteDataInitInfo)RemoteData);
+                    RemoteData = ReadCsStructure(buffer, (RemoteDataInitInfo)RemoteData);
                     break;
                 case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
                     RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
-                    RemoteData = ReadStructure(buffer, (RemoteDataInitInfo)RemoteData);
+                    RemoteData = ReadCsStructure(buffer, (RemoteDataInitInfo)RemoteData);
                     break;
                 case ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE:
                     RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
-                    RemoteData = ReadStructure(buffer, (RemoteDataInitInfo)RemoteData);
+                    RemoteData = ReadCsStructure(buffer, (RemoteDataInitInfo)RemoteData);
                     break;
                 case ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE:
                     RemoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE);
-                    RemoteData = ReadStructure(buffer, (RemoteDataInitInfo)RemoteData);
+                    RemoteData = ReadCsStructure(buffer, (RemoteDataInitInfo)RemoteData);
                     break;
                 default:
                     Logger.Error("Failed to create 'RemoteData' instance of type 'RemoteDataInfo'");

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置头衔
     /// </summary>
-    public class C2SGuildTitleSetting : IStructure
+    public class C2SGuildTitleSetting : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildTitleSetting));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildTitles Titles;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Titles.Write(buffer);
+            Titles.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Titles.Read(buffer);
+            Titles.ReadCs(buffer);
         }
 
     }

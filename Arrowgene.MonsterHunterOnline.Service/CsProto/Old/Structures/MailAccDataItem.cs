@@ -71,7 +71,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Buffer;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemId, Endianness.Big);
             buffer.WriteUInt32(ItemType, Endianness.Big);
@@ -85,7 +85,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemId = buffer.ReadUInt64(Endianness.Big);
             ItemType = buffer.ReadUInt32(Endianness.Big);

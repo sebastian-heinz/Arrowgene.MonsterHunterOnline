@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 聊天发送的道具
     /// </summary>
-    public class CsChatItem : IStructure
+    public class CsChatItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CsChatItem));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(col);
             buffer.WriteUInt16(grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             col = buffer.ReadByte();
             grid = buffer.ReadUInt16(Endianness.Big);

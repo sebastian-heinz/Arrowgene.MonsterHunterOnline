@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class GuildWarBoatStatus : IStructure
+    public class GuildWarBoatStatus : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(GuildWarBoatStatus));
 
@@ -123,7 +123,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string OtherRoleName4;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(BoatId, Endianness.Big);
             buffer.WriteUInt64(PlayerId, Endianness.Big);
@@ -148,7 +148,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(OtherRoleName4);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoatId = buffer.ReadUInt32(Endianness.Big);
             PlayerId = buffer.ReadUInt64(Endianness.Big);

@@ -29,7 +29,7 @@ public class DeleteRoleReqHandler : CsProtoStructureHandler<DeleteRoleReq>
             Logger.Info(client, $"Failed to delete character:{req.RoleIndex}");
         }
 
-        CsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
+        CsCsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
         _characterManager.PopulateRoleList(client, listRoleRsp.Structure);
         client.SendCsProtoStructurePacket(listRoleRsp);
 

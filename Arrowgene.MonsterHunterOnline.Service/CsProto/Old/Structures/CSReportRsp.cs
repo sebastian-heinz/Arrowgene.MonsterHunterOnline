@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端举报响应
     /// </summary>
-    public class CSReportRsp : IStructure
+    public class CSReportRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReportRsp));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ReportResult;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(UinA, Endianness.Big);
             buffer.WriteInt32(NameA.Length + 1, Endianness.Big);
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(ReportResult);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             UinA = buffer.ReadUInt32(Endianness.Big);
             int NameAEntryLen = buffer.ReadInt32(Endianness.Big);

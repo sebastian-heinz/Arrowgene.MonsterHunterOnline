@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 结算玩家基本信息
     /// </summary>
-    public class CSBtlPlayerBaseInfo : IStructure
+    public class CSBtlPlayerBaseInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBtlPlayerBaseInfo));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CampType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(QQ, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CampType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             QQ = buffer.ReadUInt64(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);

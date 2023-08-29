@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团邀请集
     /// </summary>
-    public class CSGuildInvitations : IStructure
+    public class CSGuildInvitations : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildInvitations));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGuildInvitation> Invitations;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int invitationsCount = (int)Invitations.Count;
             buffer.WriteInt32(invitationsCount, Endianness.Big);
             for (int i = 0; i < invitationsCount; i++)
             {
-                Invitations[i].Write(buffer);
+                Invitations[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Invitations.Clear();
             int invitationsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < invitationsCount; i++)
             {
                 CSGuildInvitation InvitationsEntry = new CSGuildInvitation();
-                InvitationsEntry.Read(buffer);
+                InvitationsEntry.ReadCs(buffer);
                 Invitations.Add(InvitationsEntry);
             }
         }

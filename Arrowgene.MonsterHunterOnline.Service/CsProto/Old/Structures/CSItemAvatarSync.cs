@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备外观同步
     /// </summary>
-    public class CSItemAvatarSync : IStructure
+    public class CSItemAvatarSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemAvatarSync));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSAvatarItem Avatar;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerId, Endianness.Big);
-            Avatar.Write(buffer);
+            Avatar.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadInt32(Endianness.Big);
-            Avatar.Read(buffer);
+            Avatar.ReadCs(buffer);
         }
 
     }

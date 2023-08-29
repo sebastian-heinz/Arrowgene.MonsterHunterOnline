@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 酋长奖励通知
     /// </summary>
-    public class CSDragonBoxBlackFaceGiftNtf : IStructure
+    public class CSDragonBoxBlackFaceGiftNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxBlackFaceGiftNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSItemBoxItemEntry> ItemList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OpType, Endianness.Big);
             buffer.WriteInt32(DragonBoxShopID, Endianness.Big);
@@ -75,11 +75,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(itemListCount, Endianness.Big);
             for (int i = 0; i < itemListCount; i++)
             {
-                ItemList[i].Write(buffer);
+                ItemList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpType = buffer.ReadInt32(Endianness.Big);
             DragonBoxShopID = buffer.ReadInt32(Endianness.Big);
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemListCount; i++)
             {
                 CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
-                ItemListEntry.Read(buffer);
+                ItemListEntry.ReadCs(buffer);
                 ItemList.Add(ItemListEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 精彩等级同步
     /// </summary>
-    public class CSExcellentPointNtf : IStructure
+    public class CSExcellentPointNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExcellentPointNtf));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BuffID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(ActionType, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BuffID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             ActionType = buffer.ReadInt32(Endianness.Big);

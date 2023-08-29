@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     ///  object change properties
     /// </summary>
-    public class CSSceneObjProperties : IStructure
+    public class CSSceneObjProperties : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSceneObjProperties));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBBVarList VariableList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
-            VariableList.Write(buffer);
+            VariableList.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
-            VariableList.Read(buffer);
+            VariableList.ReadCs(buffer);
         }
 
     }

@@ -382,6 +382,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql
             return (uint)reader.GetInt32(reader.GetOrdinal(column));
         }
 
+        protected ulong GetUInt64(DbDataReader reader, string column)
+        {
+            return (ulong)reader.GetInt64(reader.GetOrdinal(column));
+        }
+        
         protected byte GetByte(DbDataReader reader, string column)
         {
             return reader.GetByte(reader.GetOrdinal(column));
@@ -420,6 +425,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql
         protected T GetEnumInt32<T>(DbDataReader reader, string column) where T : Enum
         {
             return (T)(object)reader.GetInt32(reader.GetOrdinal(column));
+        }
+
+        protected T GetEnumByte<T>(DbDataReader reader, string column) where T : Enum
+        {
+            return (T)(object)reader.GetByte(reader.GetOrdinal(column));
         }
 
         protected DateTime GetDateTime(DbDataReader reader, string column)

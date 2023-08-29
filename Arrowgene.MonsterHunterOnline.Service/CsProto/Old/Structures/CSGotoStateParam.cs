@@ -47,13 +47,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string StateName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(StateName.Length + 1, Endianness.Big);
             buffer.WriteCString(StateName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int StateNameEntryLen = buffer.ReadInt32(Endianness.Big);
             StateName = buffer.ReadString(StateNameEntryLen);

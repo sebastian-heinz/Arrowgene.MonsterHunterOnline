@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求整理排序物品
     /// </summary>
-    public class CSItemMgrSortItemReq : IStructure
+    public class CSItemMgrSortItemReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrSortItemReq));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSItemMgrItemLoc> ItemLocList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ItemColumn);
             buffer.WriteUInt16(ItemBegGrid, Endianness.Big);
@@ -103,11 +103,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(itemLocListCount, Endianness.Big);
             for (int i = 0; i < itemLocListCount; i++)
             {
-                ItemLocList[i].Write(buffer);
+                ItemLocList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemColumn = buffer.ReadByte();
             ItemBegGrid = buffer.ReadUInt16(Endianness.Big);
@@ -121,7 +121,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemLocListCount; i++)
             {
                 CSItemMgrItemLoc ItemLocListEntry = new CSItemMgrItemLoc();
-                ItemLocListEntry.Read(buffer);
+                ItemLocListEntry.ReadCs(buffer);
                 ItemLocList.Add(ItemLocListEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 排副本状态变更
     /// </summary>
-    public class CSLineUpStateNtf : IStructure
+    public class CSLineUpStateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineUpStateNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(RoomID, Endianness.Big);
             buffer.WriteInt32(State, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoomID = buffer.ReadUInt32(Endianness.Big);
             State = buffer.ReadInt32(Endianness.Big);

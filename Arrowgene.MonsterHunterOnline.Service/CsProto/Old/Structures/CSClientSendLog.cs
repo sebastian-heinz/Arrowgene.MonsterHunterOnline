@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端发送LOG
     /// </summary>
-    public class CSClientSendLog : IStructure
+    public class CSClientSendLog : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClientSendLog));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string LogInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Reason, Endianness.Big);
             buffer.WriteInt32(LogInfo.Length + 1, Endianness.Big);
             buffer.WriteCString(LogInfo);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadInt32(Endianness.Big);
             int LogInfoEntryLen = buffer.ReadInt32(Endianness.Big);

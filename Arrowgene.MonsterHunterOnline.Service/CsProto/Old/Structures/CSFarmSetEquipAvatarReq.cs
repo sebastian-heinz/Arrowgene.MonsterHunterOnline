@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSFarmSetEquipAvatarReq : IStructure
+    public class CSFarmSetEquipAvatarReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFarmSetEquipAvatarReq));
 
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ItemAvatarIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(WoodNetID, Endianness.Big);
             buffer.WriteInt32(ItemID, Endianness.Big);
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ItemAvatarIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             WoodNetID = buffer.ReadInt32(Endianness.Big);
             ItemID = buffer.ReadInt32(Endianness.Big);

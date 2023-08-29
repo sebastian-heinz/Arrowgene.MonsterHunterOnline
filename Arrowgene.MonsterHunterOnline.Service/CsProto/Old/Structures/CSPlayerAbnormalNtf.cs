@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家异常状态buff上报
     /// </summary>
-    public class CSPlayerAbnormalNtf : IStructure
+    public class CSPlayerAbnormalNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerAbnormalNtf));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int param1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(FirstBuffId, Endianness.Big);
             buffer.WriteInt32(FirstBuffOwner, Endianness.Big);
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(param1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FirstBuffId = buffer.ReadInt32(Endianness.Big);
             FirstBuffOwner = buffer.ReadInt32(Endianness.Big);

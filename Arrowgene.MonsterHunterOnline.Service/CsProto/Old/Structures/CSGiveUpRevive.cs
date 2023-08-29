@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 放弃复活
     /// </summary>
-    public class CSGiveUpRevive : IStructure
+    public class CSGiveUpRevive : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiveUpRevive));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PlayerID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerID = buffer.ReadInt32(Endianness.Big);
         }

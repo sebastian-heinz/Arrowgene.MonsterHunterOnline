@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 普通限制事件通知
     /// </summary>
-    public class CSNormalLimitEventNtf : IStructure
+    public class CSNormalLimitEventNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNormalLimitEventNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg3;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EventType, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Arg3, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EventType = buffer.ReadInt32(Endianness.Big);
             Arg1 = buffer.ReadInt32(Endianness.Big);

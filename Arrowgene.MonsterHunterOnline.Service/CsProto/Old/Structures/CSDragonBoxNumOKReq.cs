@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 刷新数字确认
     /// </summary>
-    public class CSDragonBoxNumOKReq : IStructure
+    public class CSDragonBoxNumOKReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxNumOKReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TenNumber;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxID, Endianness.Big);
             buffer.WriteInt32(BitNumber, Endianness.Big);
             buffer.WriteInt32(TenNumber, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxID = buffer.ReadInt32(Endianness.Big);
             BitNumber = buffer.ReadInt32(Endianness.Big);

@@ -101,7 +101,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Param10;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Param1, Endianness.Big);
             buffer.WriteInt32(Param2, Endianness.Big);
@@ -118,7 +118,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Param10);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Param1 = buffer.ReadInt32(Endianness.Big);
             Param2 = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 狩魂兽出现通知列表
     /// </summary>
-    public class S2CSoulBeastAppearNtfList : IStructure
+    public class S2CSoulBeastAppearNtfList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSoulBeastAppearNtfList));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSSoulBeastAppearNtf> Appear;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int appearCount = (int)Appear.Count;
             buffer.WriteInt32(appearCount, Endianness.Big);
             for (int i = 0; i < appearCount; i++)
             {
-                Appear[i].Write(buffer);
+                Appear[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Appear.Clear();
             int appearCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < appearCount; i++)
             {
                 CSSoulBeastAppearNtf AppearEntry = new CSSoulBeastAppearNtf();
-                AppearEntry.Read(buffer);
+                AppearEntry.ReadCs(buffer);
                 Appear.Add(AppearEntry);
             }
         }

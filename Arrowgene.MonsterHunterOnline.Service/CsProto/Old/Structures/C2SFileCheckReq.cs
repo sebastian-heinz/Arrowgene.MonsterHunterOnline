@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端文件数据校验
     /// </summary>
-    public class C2SFileCheckReq : IStructure
+    public class C2SFileCheckReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SFileCheckReq));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte TimeoutReScan;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Code.Length + 1, Endianness.Big);
             buffer.WriteCString(Code);
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(TimeoutReScan);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int CodeEntryLen = buffer.ReadInt32(Endianness.Big);
             Code = buffer.ReadString(CodeEntryLen);

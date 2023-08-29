@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端玩家猎团庆典
     /// </summary>
-    public class CSClientPlayerCelebrate : IStructure
+    public class CSClientPlayerCelebrate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClientPlayerCelebrate));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CelebrateState;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CelebrateState, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CelebrateState = buffer.ReadInt32(Endianness.Big);
         }

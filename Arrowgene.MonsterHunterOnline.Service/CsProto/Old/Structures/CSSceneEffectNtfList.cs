@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 场景特效通知
     /// </summary>
-    public class CSSceneEffectNtfList : IStructure
+    public class CSSceneEffectNtfList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSceneEffectNtfList));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSSceneEffect> EffectList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int effectListCount = (int)EffectList.Count;
             buffer.WriteInt32(effectListCount, Endianness.Big);
             for (int i = 0; i < effectListCount; i++)
             {
-                EffectList[i].Write(buffer);
+                EffectList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EffectList.Clear();
             int effectListCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < effectListCount; i++)
             {
                 CSSceneEffect EffectListEntry = new CSSceneEffect();
-                EffectListEntry.Read(buffer);
+                EffectListEntry.ReadCs(buffer);
                 EffectList.Add(EffectListEntry);
             }
         }

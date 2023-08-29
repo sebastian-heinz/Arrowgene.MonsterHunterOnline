@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 日常重置
     /// </summary>
-    public class S2CResetxDaily : IStructure
+    public class S2CResetxDaily : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CResetxDaily));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Daily;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Daily, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Daily = buffer.ReadInt32(Endianness.Big);
         }

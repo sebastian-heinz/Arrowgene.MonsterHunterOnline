@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 龙人秘宝奖励通知
     /// </summary>
-    public class CSDragonBoxPrizeNtf : IStructure
+    public class CSDragonBoxPrizeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxPrizeNtf));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte BagFull;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(Id, Endianness.Big);
@@ -81,12 +81,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(itemListCount);
             for (int i = 0; i < itemListCount; i++)
             {
-                ItemList[i].Write(buffer);
+                ItemList[i].WriteCs(buffer);
             }
             buffer.WriteByte(BagFull);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = buffer.ReadInt32(Endianness.Big);
             Id = buffer.ReadInt32(Endianness.Big);
@@ -96,7 +96,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemListCount; i++)
             {
                 CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
-                ItemListEntry.Read(buffer);
+                ItemListEntry.ReadCs(buffer);
                 ItemList.Add(ItemListEntry);
             }
             BagFull = buffer.ReadByte();

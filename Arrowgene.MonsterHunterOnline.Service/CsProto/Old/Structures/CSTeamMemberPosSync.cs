@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队员位置信息同步
     /// </summary>
-    public class CSTeamMemberPosSync : IStructure
+    public class CSTeamMemberPosSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberPosSync));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSTeamMemberPos> teammember;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int teammemberCount = (int)teammember.Count;
             buffer.WriteInt32(teammemberCount, Endianness.Big);
             for (int i = 0; i < teammemberCount; i++)
             {
-                teammember[i].Write(buffer);
+                teammember[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             teammember.Clear();
             int teammemberCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < teammemberCount; i++)
             {
                 CSTeamMemberPos teammemberEntry = new CSTeamMemberPos();
-                teammemberEntry.Read(buffer);
+                teammemberEntry.ReadCs(buffer);
                 teammember.Add(teammemberEntry);
             }
         }

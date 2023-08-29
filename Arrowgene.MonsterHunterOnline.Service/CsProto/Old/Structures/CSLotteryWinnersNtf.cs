@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 在线随机抽奖活动中奖通知
     /// </summary>
-    public class CSLotteryWinnersNtf : IStructure
+    public class CSLotteryWinnersNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLotteryWinnersNtf));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSWinnersInfo> WinnersList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AcitivtyId, Endianness.Big);
             byte winnersListCount = (byte)WinnersList.Count;
             buffer.WriteByte(winnersListCount);
             for (int i = 0; i < winnersListCount; i++)
             {
-                WinnersList[i].Write(buffer);
+                WinnersList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AcitivtyId = buffer.ReadInt32(Endianness.Big);
             WinnersList.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < winnersListCount; i++)
             {
                 CSWinnersInfo WinnersListEntry = new CSWinnersInfo();
-                WinnersListEntry.Read(buffer);
+                WinnersListEntry.ReadCs(buffer);
                 WinnersList.Add(WinnersListEntry);
             }
         }

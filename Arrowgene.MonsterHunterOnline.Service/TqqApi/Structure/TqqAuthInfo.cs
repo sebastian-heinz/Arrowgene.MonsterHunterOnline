@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.TqqApi.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-public class TqqAuthInfo : CsProto.Core.Structure, ITpduExtAuthData
+public class TqqAuthInfo : CsProto.Core.Structure, ICsStructure, CSICsTpduExtAuthData
 {
     public TqqAuthInfo()
     {
@@ -19,14 +19,14 @@ public class TqqAuthInfo : CsProto.Core.Structure, ITpduExtAuthData
     public List<byte> Sign2Data { get; set; }
 
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteUInt32(buffer, Uin);
         WriteList(buffer, SignData, (byte)TqqApiConstant.TQQ_MAX_SIGN_LEN, WriteByte, WriteByte);
         WriteList(buffer, Sign2Data, (byte)TqqApiConstant.TQQ_MAX_SIGN2_LEN, WriteByte, WriteByte);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         Uin = ReadUInt32(buffer);
         ReadList(buffer, SignData, (byte)TqqApiConstant.TQQ_MAX_SIGN_LEN, ReadByte, ReadByte);

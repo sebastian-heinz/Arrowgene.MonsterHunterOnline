@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 增加音符
     /// </summary>
-    public class S2CFluteAddNote : IStructure
+    public class S2CFluteAddNote : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CFluteAddNote));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Quality;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NoteId, Endianness.Big);
             buffer.WriteInt32(Quality, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NoteId = buffer.ReadInt32(Endianness.Big);
             Quality = buffer.ReadInt32(Endianness.Big);

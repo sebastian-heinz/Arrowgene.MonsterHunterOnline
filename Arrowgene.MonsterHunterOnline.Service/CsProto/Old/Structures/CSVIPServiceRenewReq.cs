@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// VIP服务续费请求
     /// </summary>
-    public class CSVIPServiceRenewReq : IStructure
+    public class CSVIPServiceRenewReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPServiceRenewReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RenewPeriod;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RenewType, Endianness.Big);
             buffer.WriteInt32(ServiceType, Endianness.Big);
             buffer.WriteInt32(RenewPeriod, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RenewType = buffer.ReadInt32(Endianness.Big);
             ServiceType = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求装备rank提升
     /// </summary>
-    public class CSReqRankLevelUp : IStructure
+    public class CSReqRankLevelUp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqRankLevelUp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short Grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Column);
             buffer.WriteInt16(Grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Column = buffer.ReadByte();
             Grid = buffer.ReadInt16(Endianness.Big);

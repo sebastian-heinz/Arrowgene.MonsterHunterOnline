@@ -65,17 +65,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float acceleration;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            axis.Write(buffer);
+            axis.WriteCs(buffer);
             buffer.WriteFloat(rotateAngle, Endianness.Big);
             buffer.WriteFloat(speed, Endianness.Big);
             buffer.WriteFloat(acceleration, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            axis.Read(buffer);
+            axis.ReadCs(buffer);
             rotateAngle = buffer.ReadFloat(Endianness.Big);
             speed = buffer.ReadFloat(Endianness.Big);
             acceleration = buffer.ReadFloat(Endianness.Big);

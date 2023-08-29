@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 个人武器Style数据
     /// </summary>
-    public class S2CWeaponStyleInfo : IStructure
+    public class S2CWeaponStyleInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CWeaponStyleInfo));
 
@@ -49,7 +49,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int[] WeaponStyleData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.MAX_WEAPOSTYLE_TYPE; i++)
             {
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.MAX_WEAPOSTYLE_TYPE; i++)
             {

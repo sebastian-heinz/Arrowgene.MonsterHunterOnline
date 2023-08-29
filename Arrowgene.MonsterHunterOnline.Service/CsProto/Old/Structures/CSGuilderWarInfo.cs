@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团战信息
     /// </summary>
-    public class CSGuilderWarInfo : IStructure
+    public class CSGuilderWarInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuilderWarInfo));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint ContributeResPoint;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ChallengeTimes);
             buffer.WriteByte(BuyGrabTimes);
@@ -101,13 +101,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ohterGuildNewsInfoCount, Endianness.Big);
             for (int i = 0; i < ohterGuildNewsInfoCount; i++)
             {
-                OhterGuildNewsInfo[i].Write(buffer);
+                OhterGuildNewsInfo[i].WriteCs(buffer);
             }
-            CommerceBoatInfo.Write(buffer);
+            CommerceBoatInfo.WriteCs(buffer);
             buffer.WriteUInt32(ContributeResPoint, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ChallengeTimes = buffer.ReadByte();
             BuyGrabTimes = buffer.ReadByte();
@@ -119,10 +119,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < ohterGuildNewsInfoCount; i++)
             {
                 CSOhterGuildNews OhterGuildNewsInfoEntry = new CSOhterGuildNews();
-                OhterGuildNewsInfoEntry.Read(buffer);
+                OhterGuildNewsInfoEntry.ReadCs(buffer);
                 OhterGuildNewsInfo.Add(OhterGuildNewsInfoEntry);
             }
-            CommerceBoatInfo.Read(buffer);
+            CommerceBoatInfo.ReadCs(buffer);
             ContributeResPoint = buffer.ReadUInt32(Endianness.Big);
         }
 

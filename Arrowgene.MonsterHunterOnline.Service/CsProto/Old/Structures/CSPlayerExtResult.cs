@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通用玩家扩展返回
     /// </summary>
-    public class CSPlayerExtResult : IStructure
+    public class CSPlayerExtResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerExtResult));
 
@@ -64,15 +64,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSPlayerExtResultData Result;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte((byte)Result.ExtType);
             buffer.WriteInt32(ResultCode, Endianness.Big);
-            Request.Write(buffer);
-            Result.Write(buffer);
+            Request.WriteCs(buffer);
+            Result.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_PLAYER_EXT_TYPE CSPlayerExtResultData_ExtType = (CS_PLAYER_EXT_TYPE)buffer.ReadByte();
             ResultCode = buffer.ReadInt32(Endianness.Big);
@@ -83,7 +83,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Request != null) {
-                Request.Read(buffer);
+                Request.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Request' instance of type 'CSPlayerExtRequestData'");
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Result != null) {
-                Result.Read(buffer);
+                Result.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Result' instance of type 'CSPlayerExtResultData'");

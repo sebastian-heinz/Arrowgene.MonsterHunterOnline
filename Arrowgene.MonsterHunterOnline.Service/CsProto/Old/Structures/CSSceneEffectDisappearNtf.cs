@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 场景特效消失通知
     /// </summary>
-    public class CSSceneEffectDisappearNtf : IStructure
+    public class CSSceneEffectDisappearNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSceneEffectDisappearNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte SrcType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(EffectID, Endianness.Big);
             buffer.WriteByte(SrcType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EffectID = buffer.ReadUInt64(Endianness.Big);
             SrcType = buffer.ReadByte();

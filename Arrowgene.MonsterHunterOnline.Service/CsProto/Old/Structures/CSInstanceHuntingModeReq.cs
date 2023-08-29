@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本狩猎模式选择
     /// </summary>
-    public class CSInstanceHuntingModeReq : IStructure
+    public class CSInstanceHuntingModeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceHuntingModeReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int HuntingMode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(HuntingMode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             HuntingMode = buffer.ReadInt32(Endianness.Big);

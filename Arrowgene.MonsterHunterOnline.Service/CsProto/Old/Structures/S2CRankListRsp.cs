@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取排行榜列表 from to
     /// </summary>
-    public class S2CRankListRsp : IStructure
+    public class S2CRankListRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRankListRsp));
 
@@ -69,24 +69,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSRankData rankData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(rankId, Endianness.Big);
             buffer.WriteInt32(pos, Endianness.Big);
             buffer.WriteInt32(rankersCount, Endianness.Big);
             buffer.WriteInt32(from, Endianness.Big);
             buffer.WriteInt32(to, Endianness.Big);
-            rankData.Write(buffer);
+            rankData.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             rankId = buffer.ReadInt32(Endianness.Big);
             pos = buffer.ReadInt32(Endianness.Big);
             rankersCount = buffer.ReadInt32(Endianness.Big);
             from = buffer.ReadInt32(Endianness.Big);
             to = buffer.ReadInt32(Endianness.Big);
-            rankData.Read(buffer);
+            rankData.ReadCs(buffer);
         }
 
     }

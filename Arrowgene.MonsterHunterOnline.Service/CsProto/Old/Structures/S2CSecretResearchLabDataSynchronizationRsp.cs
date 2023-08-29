@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院数据同步 服务端->客户端
     /// </summary>
-    public class S2CSecretResearchLabDataSynchronizationRsp : IStructure
+    public class S2CSecretResearchLabDataSynchronizationRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabDataSynchronizationRsp));
 
@@ -53,19 +53,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ItemBoxType[] ItemBoxList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_ITEM_BOX_MAX_LEN; i++)
             {
-                ItemBoxList[i].Write(buffer);
+                ItemBoxList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.SECRET_RESEARCH_LAB_ITEM_BOX_MAX_LEN; i++)
             {
-                ItemBoxList[i].Read(buffer);
+                ItemBoxList[i].ReadCs(buffer);
             }
         }
 

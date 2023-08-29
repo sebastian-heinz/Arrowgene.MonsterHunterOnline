@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 间接PVP 伤害通知
     /// </summary>
-    public class CSPvpPlayerDamageNtf : IStructure
+    public class CSPvpPlayerDamageNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpPlayerDamageNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AttackerNetID, Endianness.Big);
             buffer.WriteUInt32(DefencerNetID, Endianness.Big);
             buffer.WriteInt32(Type, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttackerNetID = buffer.ReadUInt32(Endianness.Big);
             DefencerNetID = buffer.ReadUInt32(Endianness.Big);

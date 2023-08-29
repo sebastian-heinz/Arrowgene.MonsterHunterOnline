@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvTaskData : TlvStructure
+public class TlvTaskData : Structure, ITlvStructure
 {
     private const int TasksMaxSize = 0x80;
 
@@ -15,7 +16,7 @@ public class TlvTaskData : TlvStructure
 
     public List<TlvTask> Tasks { get; }
 
-    public override void Write(IBuffer buffer)
+    public void WriteTlv(IBuffer buffer)
     {
         WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
@@ -58,7 +59,7 @@ public class TlvTaskData : TlvStructure
             buffer.Position = subStartPos;
             buffer.WriteInt32(subSize, Endianness.Big);
             buffer.Position = subEndPos;
-            
+
             // TODO conditional write, seems not to happen under normal circumstances
             // WriteInt32(buffer, 0);
         }
@@ -71,7 +72,7 @@ public class TlvTaskData : TlvStructure
         buffer.Position = endPos;
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadTlv(IBuffer buffer)
     {
         throw new NotImplementedException();
     }
