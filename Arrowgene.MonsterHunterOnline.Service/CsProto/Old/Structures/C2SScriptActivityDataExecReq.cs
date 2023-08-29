@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Client->Server: 执行Data的操作请求
     /// </summary>
-    public class C2SScriptActivityDataExecReq : IStructure
+    public class C2SScriptActivityDataExecReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SScriptActivityDataExecReq));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ID, Endianness.Big);
             buffer.WriteByte(DataEntryID);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Param2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadUInt32(Endianness.Big);
             DataEntryID = buffer.ReadByte();

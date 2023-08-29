@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 滚动公告
     /// </summary>
-    public class CSSysNoticeNtf : IStructure
+    public class CSSysNoticeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSysNoticeNtf));
 
@@ -72,22 +72,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public NoticeMsg Content;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(NoticeType);
             buffer.WriteInt32(RollCnt, Endianness.Big);
             buffer.WriteByte(RollSpeed);
             buffer.WriteByte(PreLevel);
-            Content.Write(buffer);
+            Content.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NoticeType = buffer.ReadByte();
             RollCnt = buffer.ReadInt32(Endianness.Big);
             RollSpeed = buffer.ReadByte();
             PreLevel = buffer.ReadByte();
-            Content.Read(buffer);
+            Content.ReadCs(buffer);
         }
 
     }

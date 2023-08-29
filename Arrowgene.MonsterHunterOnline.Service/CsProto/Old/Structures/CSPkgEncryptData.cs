@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 加密消息数据
     /// </summary>
-    public class CSPkgEncryptData : IStructure
+    public class CSPkgEncryptData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPkgEncryptData));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> EncryptData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint encryptDataCount = (uint)EncryptData.Count;
             buffer.WriteUInt32(encryptDataCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EncryptData.Clear();
             uint encryptDataCount = buffer.ReadUInt32(Endianness.Big);

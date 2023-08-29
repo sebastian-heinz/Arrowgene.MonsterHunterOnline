@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 直接交互物件交互请求
     /// </summary>
-    public class CSDirectInteractRequest : IStructure
+    public class CSDirectInteractRequest : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDirectInteractRequest));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RequestPlayer;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(RequestPlayer, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TargetID = buffer.ReadInt32(Endianness.Big);
             RequestPlayer = buffer.ReadInt32(Endianness.Big);

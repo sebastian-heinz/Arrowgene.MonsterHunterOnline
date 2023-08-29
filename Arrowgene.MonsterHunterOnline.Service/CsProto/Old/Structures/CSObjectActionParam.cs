@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface CSObjectActionParam : IStructure
+    public interface CSObjectActionParam : ICsStructure
     {
 
         public CS_SCENE_OBJECT_ACTION_TYPE Action { get; }

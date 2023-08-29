@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置客户端状态信息
     /// </summary>
-    public class CSSetClientState : IStructure
+    public class CSSetClientState : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetClientState));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint StateID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(StateID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             StateID = buffer.ReadUInt32(Endianness.Big);
         }

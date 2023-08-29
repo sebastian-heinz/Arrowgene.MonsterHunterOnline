@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗伤害消息
     /// </summary>
-    public class CSBattlePVPDMG : IStructure
+    public class CSBattlePVPDMG : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattlePVPDMG));
 
@@ -66,20 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSDMGResult DamageResult;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteInt64(Sequence, Endianness.Big);
-            HitInfo.Write(buffer);
-            DamageResult.Write(buffer);
+            HitInfo.WriteCs(buffer);
+            DamageResult.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             Sequence = buffer.ReadInt64(Endianness.Big);
-            HitInfo.Read(buffer);
-            DamageResult.Read(buffer);
+            HitInfo.ReadCs(buffer);
+            DamageResult.ReadCs(buffer);
         }
 
     }

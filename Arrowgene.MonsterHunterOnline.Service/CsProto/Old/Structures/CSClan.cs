@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战队
     /// </summary>
-    public class CSClan : IStructure
+    public class CSClan : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSClan));
 
@@ -114,7 +114,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int INDPV;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Id, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
@@ -131,7 +131,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(INDPV, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadUInt64(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);

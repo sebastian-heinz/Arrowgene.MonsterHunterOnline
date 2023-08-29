@@ -5,13 +5,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 /// <summary>
 /// Static Item Data
 /// </summary>
-public class ItemData
+public class ItemInfo
 {
-    public ItemData()
+    public ItemInfo()
     {
     }
 
-    public int ItemId { get; init; }
+    public uint ItemId { get; init; }
     public string Name { get; init; }
     public ItemClass MainClass { get; init; }
     public ItemCategory Category { get; init; }

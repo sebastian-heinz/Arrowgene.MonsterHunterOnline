@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商品信息更新
     /// </summary>
-    public class CSMartGoodsInfoUpdate : IStructure
+    public class CSMartGoodsInfoUpdate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMartGoodsInfoUpdate));
 
@@ -270,7 +270,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SexLimit;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ID, Endianness.Big);
             buffer.WriteInt32(GroupID, Endianness.Big);
@@ -317,7 +317,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SexLimit, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadInt32(Endianness.Big);
             GroupID = buffer.ReadInt32(Endianness.Big);

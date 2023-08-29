@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 更新卡片
     /// </summary>
-    public class CSHunterStarUpdateCardNtf : IStructure
+    public class CSHunterStarUpdateCardNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarUpdateCardNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSHunterStarCardData> CardData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte cardDataCount = (byte)CardData.Count;
             buffer.WriteByte(cardDataCount);
             for (int i = 0; i < cardDataCount; i++)
             {
-                CardData[i].Write(buffer);
+                CardData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CardData.Clear();
             byte cardDataCount = buffer.ReadByte();
             for (int i = 0; i < cardDataCount; i++)
             {
                 CSHunterStarCardData CardDataEntry = new CSHunterStarCardData();
-                CardDataEntry.Read(buffer);
+                CardDataEntry.ReadCs(buffer);
                 CardData.Add(CardDataEntry);
             }
         }

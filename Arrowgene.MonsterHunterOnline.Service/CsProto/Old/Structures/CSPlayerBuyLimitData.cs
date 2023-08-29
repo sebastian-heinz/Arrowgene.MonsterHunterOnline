@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家购买限制数据
     /// </summary>
-    public class CSPlayerBuyLimitData : IStructure
+    public class CSPlayerBuyLimitData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerBuyLimitData));
 
@@ -66,42 +66,42 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSBuyItemLimitData> ForeverBuyLimitData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort dayBuyLimitDataCount = (ushort)DayBuyLimitData.Count;
             buffer.WriteUInt16(dayBuyLimitDataCount, Endianness.Big);
             for (int i = 0; i < dayBuyLimitDataCount; i++)
             {
-                DayBuyLimitData[i].Write(buffer);
+                DayBuyLimitData[i].WriteCs(buffer);
             }
             ushort weekBuyLimitDataCount = (ushort)WeekBuyLimitData.Count;
             buffer.WriteUInt16(weekBuyLimitDataCount, Endianness.Big);
             for (int i = 0; i < weekBuyLimitDataCount; i++)
             {
-                WeekBuyLimitData[i].Write(buffer);
+                WeekBuyLimitData[i].WriteCs(buffer);
             }
             ushort monthBuyLimitDataCount = (ushort)MonthBuyLimitData.Count;
             buffer.WriteUInt16(monthBuyLimitDataCount, Endianness.Big);
             for (int i = 0; i < monthBuyLimitDataCount; i++)
             {
-                MonthBuyLimitData[i].Write(buffer);
+                MonthBuyLimitData[i].WriteCs(buffer);
             }
             ushort foreverBuyLimitDataCount = (ushort)ForeverBuyLimitData.Count;
             buffer.WriteUInt16(foreverBuyLimitDataCount, Endianness.Big);
             for (int i = 0; i < foreverBuyLimitDataCount; i++)
             {
-                ForeverBuyLimitData[i].Write(buffer);
+                ForeverBuyLimitData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DayBuyLimitData.Clear();
             ushort dayBuyLimitDataCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < dayBuyLimitDataCount; i++)
             {
                 CSBuyItemLimitData DayBuyLimitDataEntry = new CSBuyItemLimitData();
-                DayBuyLimitDataEntry.Read(buffer);
+                DayBuyLimitDataEntry.ReadCs(buffer);
                 DayBuyLimitData.Add(DayBuyLimitDataEntry);
             }
             WeekBuyLimitData.Clear();
@@ -109,7 +109,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < weekBuyLimitDataCount; i++)
             {
                 CSBuyItemLimitData WeekBuyLimitDataEntry = new CSBuyItemLimitData();
-                WeekBuyLimitDataEntry.Read(buffer);
+                WeekBuyLimitDataEntry.ReadCs(buffer);
                 WeekBuyLimitData.Add(WeekBuyLimitDataEntry);
             }
             MonthBuyLimitData.Clear();
@@ -117,7 +117,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < monthBuyLimitDataCount; i++)
             {
                 CSBuyItemLimitData MonthBuyLimitDataEntry = new CSBuyItemLimitData();
-                MonthBuyLimitDataEntry.Read(buffer);
+                MonthBuyLimitDataEntry.ReadCs(buffer);
                 MonthBuyLimitData.Add(MonthBuyLimitDataEntry);
             }
             ForeverBuyLimitData.Clear();
@@ -125,7 +125,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < foreverBuyLimitDataCount; i++)
             {
                 CSBuyItemLimitData ForeverBuyLimitDataEntry = new CSBuyItemLimitData();
-                ForeverBuyLimitDataEntry.Read(buffer);
+                ForeverBuyLimitDataEntry.ReadCs(buffer);
                 ForeverBuyLimitData.Add(ForeverBuyLimitDataEntry);
             }
         }

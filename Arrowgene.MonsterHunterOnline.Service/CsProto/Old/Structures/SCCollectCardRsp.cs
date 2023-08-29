@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 收集卡片
     /// </summary>
-    public class SCCollectCardRsp : IStructure
+    public class SCCollectCardRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCCollectCardRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte CardType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(MonsterIndex, Endianness.Big);
             buffer.WriteByte(CardType);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             MonsterIndex = buffer.ReadInt32(Endianness.Big);

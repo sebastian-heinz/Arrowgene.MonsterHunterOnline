@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团Quest
     /// </summary>
-    public class CSGuildQuest : IStructure
+    public class CSGuildQuest : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildQuest));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> Prizes;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int prizesCount = (int)Prizes.Count;
             buffer.WriteInt32(prizesCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Prizes.Clear();
             int prizesCount = buffer.ReadInt32(Endianness.Big);

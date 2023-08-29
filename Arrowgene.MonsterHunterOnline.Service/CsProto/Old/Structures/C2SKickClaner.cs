@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 踢战队团员
     /// </summary>
-    public class C2SKickClaner : IStructure
+    public class C2SKickClaner : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SKickClaner));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong Claner;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Claner, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Claner = buffer.ReadUInt64(Endianness.Big);
         }

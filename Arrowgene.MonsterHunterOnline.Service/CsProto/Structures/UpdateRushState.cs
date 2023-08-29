@@ -4,7 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class UpdateRushState : Structure
+    public class UpdateRushState : Structure, ICsStructure
     {
         public UpdateRushState()
         {
@@ -17,14 +17,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public int Type { get; set; }
 
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, Rush);
             WriteInt32(buffer, Type);
            
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Rush = ReadInt32(buffer);
             Type = ReadInt32(buffer);

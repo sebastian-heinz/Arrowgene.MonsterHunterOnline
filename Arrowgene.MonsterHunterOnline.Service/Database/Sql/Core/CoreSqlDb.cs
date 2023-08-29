@@ -102,5 +102,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
                 Logger.Error($"Exception during query: {query}");
             }
         }
+
     }
 }

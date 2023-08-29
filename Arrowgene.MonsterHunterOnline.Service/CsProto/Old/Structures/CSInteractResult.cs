@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 交互返回
     /// </summary>
-    public class CSInteractResult : IStructure
+    public class CSInteractResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInteractResult));
 
@@ -54,15 +54,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ResultCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Request.Write(buffer);
+            Request.WriteCs(buffer);
             buffer.WriteInt32(ResultCode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Request.Read(buffer);
+            Request.ReadCs(buffer);
             ResultCode = buffer.ReadInt32(Endianness.Big);
         }
 

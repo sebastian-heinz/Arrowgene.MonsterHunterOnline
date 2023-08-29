@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ScriptActivityDate> Dates;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ControlType);
             buffer.WriteInt32(Id, Endianness.Big);
@@ -104,11 +104,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(datesCount);
             for (int i = 0; i < datesCount; i++)
             {
-                Dates[i].Write(buffer);
+                Dates[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ControlType = buffer.ReadByte();
             Id = buffer.ReadInt32(Endianness.Big);
@@ -124,7 +124,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < datesCount; i++)
             {
                 ScriptActivityDate DatesEntry = new ScriptActivityDate();
-                DatesEntry.Read(buffer);
+                DatesEntry.ReadCs(buffer);
                 Dates.Add(DatesEntry);
             }
         }

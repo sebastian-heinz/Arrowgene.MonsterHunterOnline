@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 脚本活动数据结构
     /// </summary>
-    public class ScriptActivityDataEntry : IStructure
+    public class ScriptActivityDataEntry : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDataEntry));
 
@@ -64,15 +64,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ScriptActivityDataUnion Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ID);
             buffer.WriteByte((byte)Data.Type);
             buffer.WriteByte(State);
-            Data.Write(buffer);
+            Data.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadByte();
             EScriptActivityDataType ScriptActivityDataUnion_Type = (EScriptActivityDataType)buffer.ReadByte();
@@ -126,7 +126,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Data != null) {
-                Data.Read(buffer);
+                Data.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Data' instance of type 'ScriptActivityDataUnion'");

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// PVP副本信息
     /// </summary>
-    public class CSPvpInsInfoNtf : IStructure
+    public class CSPvpInsInfoNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpInsInfoNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int instanceid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(levelid, Endianness.Big);
             buffer.WriteInt32(instanceid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             levelid = buffer.ReadInt32(Endianness.Big);
             instanceid = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Ping消息
     /// </summary>
-    public class CSPing : IStructure
+    public class CSPing : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPing));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint ServerTm;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(PingID, Endianness.Big);
             buffer.WriteUInt16(Delay, Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(ServerTm, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PingID = buffer.ReadUInt32(Endianness.Big);
             Delay = buffer.ReadUInt16(Endianness.Big);

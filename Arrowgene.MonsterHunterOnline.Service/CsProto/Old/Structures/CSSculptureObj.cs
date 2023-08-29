@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 雕像数据集
     /// </summary>
-    public class CSSculptureObj : IStructure
+    public class CSSculptureObj : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSculptureObj));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Time;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Uin, Endianness.Big);
             buffer.WriteUInt64(Dbid, Endianness.Big);
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Time, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uin = buffer.ReadUInt64(Endianness.Big);
             Dbid = buffer.ReadUInt64(Endianness.Big);

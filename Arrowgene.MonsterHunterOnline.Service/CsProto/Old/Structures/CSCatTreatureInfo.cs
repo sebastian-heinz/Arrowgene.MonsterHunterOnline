@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猫猫宝藏
     /// </summary>
-    public class CSCatTreatureInfo : IStructure
+    public class CSCatTreatureInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatTreatureInfo));
 
@@ -67,7 +67,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte iOpenID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(tCatTime, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_CAT_TREATURE_MAX_CNT; i++)
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(iOpenID);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             tCatTime = buffer.ReadInt64(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_CAT_TREATURE_MAX_CNT; i++)

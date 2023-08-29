@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Connd测试命令
     /// </summary>
-    public class CSSysConndTestReq : IStructure
+    public class CSSysConndTestReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSysConndTestReq));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Struct;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Send, Endianness.Big);
             buffer.WriteUInt32(Freq, Endianness.Big);
@@ -100,7 +100,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Send = buffer.ReadUInt32(Endianness.Big);
             Freq = buffer.ReadUInt32(Endianness.Big);

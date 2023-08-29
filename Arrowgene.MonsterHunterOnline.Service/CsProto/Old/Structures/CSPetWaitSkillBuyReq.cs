@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物等待装备技能购买请求
     /// </summary>
-    public class CSPetWaitSkillBuyReq : IStructure
+    public class CSPetWaitSkillBuyReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetWaitSkillBuyReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Idx, Endianness.Big);
             buffer.WriteInt32(UID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Idx = buffer.ReadInt32(Endianness.Big);
             UID = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本主界面UI显示信息列表
     /// </summary>
-    public class CSMainInstanceUIInfoList : IStructure
+    public class CSMainInstanceUIInfoList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceUIInfoList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMainInstanceUIInfo> UIInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short uIInfosCount = (short)UIInfos.Count;
             buffer.WriteInt16(uIInfosCount, Endianness.Big);
             for (int i = 0; i < uIInfosCount; i++)
             {
-                UIInfos[i].Write(buffer);
+                UIInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             UIInfos.Clear();
             short uIInfosCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < uIInfosCount; i++)
             {
                 CSMainInstanceUIInfo UIInfosEntry = new CSMainInstanceUIInfo();
-                UIInfosEntry.Read(buffer);
+                UIInfosEntry.ReadCs(buffer);
                 UIInfos.Add(UIInfosEntry);
             }
         }

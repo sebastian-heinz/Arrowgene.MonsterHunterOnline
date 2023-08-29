@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备幻化请求
     /// </summary>
-    public class CSEquipFakeShowReq : IStructure
+    public class CSEquipFakeShowReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipFakeShowReq));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> TargetGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int equipColCount = (int)EquipCol.Count;
             buffer.WriteInt32(equipColCount, Endianness.Big);
@@ -106,7 +106,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EquipCol.Clear();
             int equipColCount = buffer.ReadInt32(Endianness.Big);

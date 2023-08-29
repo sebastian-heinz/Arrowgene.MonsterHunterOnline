@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换TOWN地图请求
     /// </summary>
-    public class CSChangeTownInstanceReq : IStructure
+    public class CSChangeTownInstanceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChangeTownInstanceReq));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string dstpoint;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(trigger_name.Length + 1, Endianness.Big);
             buffer.WriteCString(trigger_name);
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(dstpoint);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int trigger_nameEntryLen = buffer.ReadInt32(Endianness.Big);
             trigger_name = buffer.ReadString(trigger_nameEntryLen);

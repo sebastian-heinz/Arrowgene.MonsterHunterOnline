@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星光大道错误
     /// </summary>
-    public class S2CSculptureErr : IStructure
+    public class S2CSculptureErr : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSculptureErr));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OpType, Endianness.Big);
             buffer.WriteInt32(_Err, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpType = buffer.ReadInt32(Endianness.Big);
             _Err = buffer.ReadInt32(Endianness.Big);

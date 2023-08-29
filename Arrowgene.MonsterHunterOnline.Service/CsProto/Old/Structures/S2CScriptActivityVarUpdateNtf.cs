@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知脚本活动相关的变量变更
     /// </summary>
-    public class S2CScriptActivityVarUpdateNtf : IStructure
+    public class S2CScriptActivityVarUpdateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityVarUpdateNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int VarValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ID, Endianness.Big);
             buffer.WriteUInt32(VarIdx, Endianness.Big);
             buffer.WriteInt32(VarValue, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ID = buffer.ReadUInt32(Endianness.Big);
             VarIdx = buffer.ReadUInt32(Endianness.Big);

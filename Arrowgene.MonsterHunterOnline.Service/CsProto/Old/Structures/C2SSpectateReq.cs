@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 观战请求
     /// </summary>
-    public class C2SSpectateReq : IStructure
+    public class C2SSpectateReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSpectateReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Room;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Room, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Room = buffer.ReadUInt32(Endianness.Big);
         }

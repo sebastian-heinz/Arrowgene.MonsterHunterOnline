@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求删除BUFF
     /// </summary>
-    public class CSDelBuffReq : IStructure
+    public class CSDelBuffReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDelBuffReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UniqueID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TypeID, Endianness.Big);
             buffer.WriteInt32(UniqueID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TypeID = buffer.ReadInt32(Endianness.Big);
             UniqueID = buffer.ReadInt32(Endianness.Big);

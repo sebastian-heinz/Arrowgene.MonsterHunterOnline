@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家关卡解锁奖励
     /// </summary>
-    public class CSHubEntryRewad : IStructure
+    public class CSHubEntryRewad : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHubEntryRewad));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PageIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(HubID);
             buffer.WriteInt32(PageIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubID = buffer.ReadByte();
             PageIndex = buffer.ReadInt32(Endianness.Big);

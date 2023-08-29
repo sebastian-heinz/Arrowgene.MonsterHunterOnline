@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// projectile effects notify
     /// </summary>
-    public class CSProjectileEffectNtf : IStructure
+    public class CSProjectileEffectNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSProjectileEffectNtf));
 
@@ -108,34 +108,34 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSTargetVerifyContext VerifyContext;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(LifeTime, Endianness.Big);
             buffer.WriteFloat(LastTime, Endianness.Big);
             buffer.WriteInt32(ProjectileId, Endianness.Big);
             buffer.WriteInt32(ProjEffectType, Endianness.Big);
             buffer.WriteInt32(TargetId, Endianness.Big);
-            HitPos.Write(buffer);
-            HitDir.Write(buffer);
-            LocalPos.Write(buffer);
-            LocalDir.Write(buffer);
+            HitPos.WriteCs(buffer);
+            HitDir.WriteCs(buffer);
+            LocalPos.WriteCs(buffer);
+            LocalDir.WriteCs(buffer);
             buffer.WriteInt32(PartId, Endianness.Big);
-            VerifyContext.Write(buffer);
+            VerifyContext.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LifeTime = buffer.ReadFloat(Endianness.Big);
             LastTime = buffer.ReadFloat(Endianness.Big);
             ProjectileId = buffer.ReadInt32(Endianness.Big);
             ProjEffectType = buffer.ReadInt32(Endianness.Big);
             TargetId = buffer.ReadInt32(Endianness.Big);
-            HitPos.Read(buffer);
-            HitDir.Read(buffer);
-            LocalPos.Read(buffer);
-            LocalDir.Read(buffer);
+            HitPos.ReadCs(buffer);
+            HitDir.ReadCs(buffer);
+            LocalPos.ReadCs(buffer);
+            LocalDir.ReadCs(buffer);
             PartId = buffer.ReadInt32(Endianness.Big);
-            VerifyContext.Read(buffer);
+            VerifyContext.ReadCs(buffer);
         }
 
     }

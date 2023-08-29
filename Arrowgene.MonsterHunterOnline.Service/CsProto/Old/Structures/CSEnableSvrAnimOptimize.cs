@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 打开服务器动画优化
     /// </summary>
-    public class CSEnableSvrAnimOptimize : IStructure
+    public class CSEnableSvrAnimOptimize : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnableSvrAnimOptimize));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint OptFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(OptFlag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OptFlag = buffer.ReadUInt32(Endianness.Big);
         }

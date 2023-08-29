@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// FIFO同步信息
     /// </summary>
-    public class FifoSyncInfo : Structure
+    public class FifoSyncInfo : Structure, ICsStructure
     {
         public FifoSyncInfo()
         {
@@ -130,13 +130,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Sta { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt64(buffer, SyncTime);
-            WriteStructure(buffer, Pos);
-            WriteStructure(buffer, Rot);
-            WriteStructure(buffer, Rot1);
-            WriteStructure(buffer, Rot2);
+            WriteCsStructure(buffer, Pos);
+            WriteCsStructure(buffer, Rot);
+            WriteCsStructure(buffer, Rot1);
+            WriteCsStructure(buffer, Rot2);
             WriteByte(buffer, Type);
             WriteByte(buffer, Extension);
             WriteUInt32(buffer, State1);
@@ -153,13 +153,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteUInt16(buffer, Sta);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = ReadInt64(buffer);
-            Pos = ReadStructure(buffer, Pos);
-            Rot = ReadStructure(buffer, Rot);
-            Rot1 = ReadStructure(buffer, Rot1);
-            Rot2 = ReadStructure(buffer, Rot2);
+            Pos = ReadCsStructure(buffer, Pos);
+            Rot = ReadCsStructure(buffer, Rot);
+            Rot1 = ReadCsStructure(buffer, Rot1);
+            Rot2 = ReadCsStructure(buffer, Rot2);
             Type = ReadByte(buffer);
             Extension = ReadByte(buffer);
             State1 = ReadUInt32(buffer);

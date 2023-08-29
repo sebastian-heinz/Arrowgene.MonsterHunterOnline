@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 退出排副本
     /// </summary>
-    public class CSQuitLineUpInstanceRsp : IStructure
+    public class CSQuitLineUpInstanceRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSQuitLineUpInstanceRsp));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MaxRoomMemCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteUInt32(NetID, Endianness.Big);
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(MaxRoomMemCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             NetID = buffer.ReadUInt32(Endianness.Big);

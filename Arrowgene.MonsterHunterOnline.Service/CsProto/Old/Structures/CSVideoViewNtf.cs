@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取天赋信息应答
     /// </summary>
-    public class CSVideoViewNtf : IStructure
+    public class CSVideoViewNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVideoViewNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int id;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(id, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             id = buffer.ReadInt32(Endianness.Big);
         }

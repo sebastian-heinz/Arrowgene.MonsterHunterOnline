@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 聊天发送的道具信息
     /// </summary>
-    public class CsChatItems : IStructure
+    public class CsChatItems : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CsChatItems));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CsChatItem> Items;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint itemsCount = (uint)Items.Count;
             buffer.WriteUInt32(itemsCount, Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
-                Items[i].Write(buffer);
+                Items[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Items.Clear();
             uint itemsCount = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
                 CsChatItem ItemsEntry = new CsChatItem();
-                ItemsEntry.Read(buffer);
+                ItemsEntry.ReadCs(buffer);
                 Items.Add(ItemsEntry);
             }
         }

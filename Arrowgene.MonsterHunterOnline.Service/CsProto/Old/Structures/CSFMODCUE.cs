@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// CUE同步
     /// </summary>
-    public class CSFMODCUE : IStructure
+    public class CSFMODCUE : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFMODCUE));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Start;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CueName.Length + 1, Endianness.Big);
             buffer.WriteCString(CueName);
             buffer.WriteByte(Start);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int CueNameEntryLen = buffer.ReadInt32(Endianness.Big);
             CueName = buffer.ReadString(CueNameEntryLen);

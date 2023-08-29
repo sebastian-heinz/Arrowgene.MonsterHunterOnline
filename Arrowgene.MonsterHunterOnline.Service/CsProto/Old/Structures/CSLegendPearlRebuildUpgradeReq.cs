@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 技能珠请求upgrade
     /// </summary>
-    public class CSLegendPearlRebuildUpgradeReq : IStructure
+    public class CSLegendPearlRebuildUpgradeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLegendPearlRebuildUpgradeReq));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TagItemList> TagItemData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemID, Endianness.Big);
             buffer.WriteByte(ItemColumn);
@@ -89,11 +89,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(tagItemDataCount);
             for (int i = 0; i < tagItemDataCount; i++)
             {
-                TagItemData[i].Write(buffer);
+                TagItemData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadUInt64(Endianness.Big);
             ItemColumn = buffer.ReadByte();
@@ -105,7 +105,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < tagItemDataCount; i++)
             {
                 TagItemList TagItemDataEntry = new TagItemList();
-                TagItemDataEntry.Read(buffer);
+                TagItemDataEntry.ReadCs(buffer);
                 TagItemData.Add(TagItemDataEntry);
             }
         }

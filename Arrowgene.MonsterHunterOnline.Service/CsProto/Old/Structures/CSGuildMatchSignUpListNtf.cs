@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团站报名增加
     /// </summary>
-    public class CSGuildMatchSignUpListNtf : IStructure
+    public class CSGuildMatchSignUpListNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchSignUpListNtf));
 
@@ -60,26 +60,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Fin;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint signUpTeamsCount = (uint)SignUpTeams.Count;
             buffer.WriteUInt32(signUpTeamsCount, Endianness.Big);
             for (int i = 0; i < signUpTeamsCount; i++)
             {
-                SignUpTeams[i].Write(buffer);
+                SignUpTeams[i].WriteCs(buffer);
             }
             buffer.WriteByte(Begin);
             buffer.WriteByte(Fin);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SignUpTeams.Clear();
             uint signUpTeamsCount = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < signUpTeamsCount; i++)
             {
                 CSGuildMatchSignUpTeam SignUpTeamsEntry = new CSGuildMatchSignUpTeam();
-                SignUpTeamsEntry.Read(buffer);
+                SignUpTeamsEntry.ReadCs(buffer);
                 SignUpTeams.Add(SignUpTeamsEntry);
             }
             Begin = buffer.ReadByte();

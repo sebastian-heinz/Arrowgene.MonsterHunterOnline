@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换TOWN地图回复
     /// </summary>
-    public class CSChangeTownInstanceRsp : IStructure
+    public class CSChangeTownInstanceRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChangeTownInstanceRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

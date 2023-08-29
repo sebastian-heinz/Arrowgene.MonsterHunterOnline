@@ -2,7 +2,7 @@
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
-public abstract class CsProtoStructureHandler<TStructure> : ICsProtoHandler where TStructure : class, IStructure, new()
+public abstract class CsProtoStructureHandler<TStructure> : ICsProtoHandler where TStructure : class, ICsStructure, new()
 {
     public abstract CS_CMD_ID Cmd { get; }
 
@@ -11,7 +11,7 @@ public abstract class CsProtoStructureHandler<TStructure> : ICsProtoHandler wher
     public void Handle(Client client, CsProtoPacket packet)
     {
         TStructure structure = new TStructure();
-        structure.Read(packet.NewBuffer());
+        structure.ReadCs(packet.NewBuffer());
         Handle(client, structure);
     }
 }

@@ -32,7 +32,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class SCGuildBuyRecordRes : IStructure
+    public class SCGuildBuyRecordRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCGuildBuyRecordRes));
 
@@ -56,21 +56,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public GuildFuncRecordInfo[] GuildFuncRecordInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Count, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_GET_GUILD_OPERATERECORD_LEN; i++)
             {
-                GuildFuncRecordInfos[i].Write(buffer);
+                GuildFuncRecordInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Count = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_GET_GUILD_OPERATERECORD_LEN; i++)
             {
-                GuildFuncRecordInfos[i].Read(buffer);
+                GuildFuncRecordInfos[i].ReadCs(buffer);
             }
         }
 

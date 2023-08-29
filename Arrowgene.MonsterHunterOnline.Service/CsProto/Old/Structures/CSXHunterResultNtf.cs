@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSXHunterResultNtf : IStructure
+    public class CSXHunterResultNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSXHunterResultNtf));
 
@@ -105,7 +105,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSXHunterPlayerInfo> PlayereInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RedBounds, Endianness.Big);
             buffer.WriteInt32(BlueBounds, Endianness.Big);
@@ -121,11 +121,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(playereInfoCount, Endianness.Big);
             for (int i = 0; i < playereInfoCount; i++)
             {
-                PlayereInfo[i].Write(buffer);
+                PlayereInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RedBounds = buffer.ReadInt32(Endianness.Big);
             BlueBounds = buffer.ReadInt32(Endianness.Big);
@@ -142,7 +142,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < playereInfoCount; i++)
             {
                 CSXHunterPlayerInfo PlayereInfoEntry = new CSXHunterPlayerInfo();
-                PlayereInfoEntry.Read(buffer);
+                PlayereInfoEntry.ReadCs(buffer);
                 PlayereInfo.Add(PlayereInfoEntry);
             }
         }

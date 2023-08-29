@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 升级传奇技能珠-请求
     /// </summary>
-    public class CSLegendPearlLevelUpReq : IStructure
+    public class CSLegendPearlLevelUpReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLegendPearlLevelUpReq));
 
@@ -72,22 +72,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public MaterialItemList RateUpMaterialItemList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemID, Endianness.Big);
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Grid, Endianness.Big);
-            NecessaryMaterialItemList.Write(buffer);
-            RateUpMaterialItemList.Write(buffer);
+            NecessaryMaterialItemList.WriteCs(buffer);
+            RateUpMaterialItemList.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadUInt64(Endianness.Big);
             Column = buffer.ReadByte();
             Grid = buffer.ReadUInt16(Endianness.Big);
-            NecessaryMaterialItemList.Read(buffer);
-            RateUpMaterialItemList.Read(buffer);
+            NecessaryMaterialItemList.ReadCs(buffer);
+            RateUpMaterialItemList.ReadCs(buffer);
         }
 
     }

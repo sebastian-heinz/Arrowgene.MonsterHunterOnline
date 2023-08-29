@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pet appear notify
     /// </summary>
-    public class CSSoulBeastAppearNtf : IStructure
+    public class CSSoulBeastAppearNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSoulBeastAppearNtf));
 
@@ -72,12 +72,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Beast;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(OwnerID, Endianness.Big);
             buffer.WriteInt32(InfoID, Endianness.Big);
-            Pose.Write(buffer);
+            Pose.WriteCs(buffer);
             int beastCount = (int)Beast.Count;
             buffer.WriteInt32(beastCount, Endianness.Big);
             for (int i = 0; i < beastCount; i++)
@@ -86,12 +86,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             OwnerID = buffer.ReadInt32(Endianness.Big);
             InfoID = buffer.ReadInt32(Endianness.Big);
-            Pose.Read(buffer);
+            Pose.ReadCs(buffer);
             Beast.Clear();
             int beastCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < beastCount; i++)

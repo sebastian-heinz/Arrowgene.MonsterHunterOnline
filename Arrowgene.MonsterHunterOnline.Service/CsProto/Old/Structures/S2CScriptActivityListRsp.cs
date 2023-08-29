@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器响应活动列表
     /// </summary>
-    public class S2CScriptActivityListRsp : IStructure
+    public class S2CScriptActivityListRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityListRsp));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<ScriptActivitySimple> Activities;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort activitiesCount = (ushort)Activities.Count;
             buffer.WriteUInt16(activitiesCount, Endianness.Big);
             for (int i = 0; i < activitiesCount; i++)
             {
-                Activities[i].Write(buffer);
+                Activities[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Activities.Clear();
             ushort activitiesCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < activitiesCount; i++)
             {
                 ScriptActivitySimple ActivitiesEntry = new ScriptActivitySimple();
-                ActivitiesEntry.Read(buffer);
+                ActivitiesEntry.ReadCs(buffer);
                 Activities.Add(ActivitiesEntry);
             }
         }

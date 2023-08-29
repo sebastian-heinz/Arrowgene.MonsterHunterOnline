@@ -83,7 +83,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Items;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MsgType, Endianness.Big);
             buffer.WriteUInt32(MsgArea, Endianness.Big);
@@ -91,7 +91,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(MsgParamNum);
             for (int i = 0; i < CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM; i++)
             {
-                MsgPramList[i].Write(buffer);
+                MsgPramList[i].WriteCs(buffer);
             }
             int itemsCount = (int)Items.Count;
             buffer.WriteInt32(itemsCount, Endianness.Big);
@@ -101,7 +101,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MsgType = buffer.ReadUInt32(Endianness.Big);
             MsgArea = buffer.ReadUInt32(Endianness.Big);
@@ -109,7 +109,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             MsgParamNum = buffer.ReadByte();
             for (int i = 0; i < CsProtoConstant.CS_CHAT_SYSTEM_MSG_PARAM_NUM; i++)
             {
-                MsgPramList[i].Read(buffer);
+                MsgPramList[i].ReadCs(buffer);
             }
             Items.Clear();
             int itemsCount = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团仓库权限 需要与SSGuildDepotRights保持一致！！！
     /// </summary>
-    public class CSGuildDepotRights : IStructure
+    public class CSGuildDepotRights : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildDepotRights));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CurFetchCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Depot, Endianness.Big);
             buffer.WriteInt32(Rights, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CurFetchCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Depot = buffer.ReadInt32(Endianness.Big);
             Rights = buffer.ReadInt32(Endianness.Big);

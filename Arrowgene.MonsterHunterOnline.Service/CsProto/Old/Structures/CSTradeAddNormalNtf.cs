@@ -27,6 +27,8 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -34,7 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端添加道具
     /// </summary>
-    public class CSTradeAddNormalNtf : IStructure
+    public class CSTradeAddNormalNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeAddNormalNtf));
 
@@ -44,7 +46,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             DstGrid = 0;
             ItemId = 0;
             Count = 0;
-            NormalItem = new CSGeneralItem();
+            NormalItem = new Item();
         }
 
         /// <summary>
@@ -70,24 +72,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 道具数据
         /// </summary>
-        public CSGeneralItem NormalItem;
+        public Item NormalItem;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerId, Endianness.Big);
             buffer.WriteUInt16(DstGrid, Endianness.Big);
             buffer.WriteInt32(ItemId, Endianness.Big);
             buffer.WriteUInt16(Count, Endianness.Big);
-            NormalItem.Write(buffer);
+            NormalItem.WriteTlv(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadInt32(Endianness.Big);
             DstGrid = buffer.ReadUInt16(Endianness.Big);
             ItemId = buffer.ReadInt32(Endianness.Big);
             Count = buffer.ReadUInt16(Endianness.Big);
-            NormalItem.Read(buffer);
+            NormalItem.ReadTlv(buffer);
         }
 
     }

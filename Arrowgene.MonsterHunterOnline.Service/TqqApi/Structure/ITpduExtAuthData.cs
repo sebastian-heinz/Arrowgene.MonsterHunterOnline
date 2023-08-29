@@ -2,7 +2,7 @@
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-public interface ITpduExtAuthData : IStructure
+public interface CSICsTpduExtAuthData : ICsStructure
 {
     public uint Uin { get; set; }
 }

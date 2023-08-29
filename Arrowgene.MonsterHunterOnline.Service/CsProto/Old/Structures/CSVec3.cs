@@ -50,14 +50,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public float z;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(x, Endianness.Big);
             buffer.WriteFloat(y, Endianness.Big);
             buffer.WriteFloat(z, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             x = buffer.ReadFloat(Endianness.Big);
             y = buffer.ReadFloat(Endianness.Big);

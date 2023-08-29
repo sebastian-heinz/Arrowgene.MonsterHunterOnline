@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 技能结果同步信息
     /// </summary>
-    public class CSSkillResultList : IStructure
+    public class CSSkillResultList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSkillResultList));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSSkillResult> Result;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             short resultCount = (short)Result.Count;
             buffer.WriteInt16(resultCount, Endianness.Big);
             for (int i = 0; i < resultCount; i++)
             {
-                Result[i].Write(buffer);
+                Result[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             Result.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < resultCount; i++)
             {
                 CSSkillResult ResultEntry = new CSSkillResult(null);
-                ResultEntry.Read(buffer);
+                ResultEntry.ReadCs(buffer);
                 Result.Add(ResultEntry);
             }
         }

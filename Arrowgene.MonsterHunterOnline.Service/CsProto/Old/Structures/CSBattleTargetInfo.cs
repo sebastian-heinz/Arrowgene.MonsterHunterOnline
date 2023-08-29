@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 关卡目标信息
     /// </summary>
-    public class CSBattleTargetInfo : IStructure
+    public class CSBattleTargetInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleTargetInfo));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TargetID, Endianness.Big);
             buffer.WriteInt32(ConditionID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(State, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TargetID = buffer.ReadInt32(Endianness.Big);
             ConditionID = buffer.ReadInt32(Endianness.Big);

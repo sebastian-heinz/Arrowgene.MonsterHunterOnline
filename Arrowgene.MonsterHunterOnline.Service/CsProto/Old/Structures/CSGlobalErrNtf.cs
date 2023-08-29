@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器统一错误码
     /// </summary>
-    public class CSGlobalErrNtf : IStructure
+    public class CSGlobalErrNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGlobalErrNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SubErrNo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(SubErrNo, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
             SubErrNo = buffer.ReadInt32(Endianness.Big);

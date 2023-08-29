@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 红点请求
     /// </summary>
-    public class CSGetConsumeActivityHongDianReq : IStructure
+    public class CSGetConsumeActivityHongDianReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetConsumeActivityHongDianReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Operte;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Operte, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Operte = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 间接PVP玩家信息
     /// </summary>
-    public class CSInDirectPVPPlayerInfo : IStructure
+    public class CSInDirectPVPPlayerInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInDirectPVPPlayerInfo));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CatCar;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(QQ, Endianness.Big);
             buffer.WriteInt32(NetId, Endianness.Big);
@@ -96,7 +96,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CatCar, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             QQ = buffer.ReadUInt32(Endianness.Big);
             NetId = buffer.ReadInt32(Endianness.Big);

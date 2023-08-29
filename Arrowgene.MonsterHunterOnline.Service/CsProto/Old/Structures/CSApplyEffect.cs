@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知施放了一个特效
     /// </summary>
-    public class CSApplyEffect : IStructure
+    public class CSApplyEffect : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSApplyEffect));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint EffectId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteUInt32(EffectId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             EffectId = buffer.ReadUInt32(Endianness.Big);

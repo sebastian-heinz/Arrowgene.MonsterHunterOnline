@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求加入队伍
     /// </summary>
-    public class CSTeamJoinReq : IStructure
+    public class CSTeamJoinReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamJoinReq));
 
@@ -60,20 +60,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CsPlayer Applier;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(DstPlayerId, Endianness.Big);
             buffer.WriteInt32(Pwd.Length + 1, Endianness.Big);
             buffer.WriteCString(Pwd);
-            Applier.Write(buffer);
+            Applier.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DstPlayerId = buffer.ReadUInt32(Endianness.Big);
             int PwdEntryLen = buffer.ReadInt32(Endianness.Big);
             Pwd = buffer.ReadString(PwdEntryLen);
-            Applier.Read(buffer);
+            Applier.ReadCs(buffer);
         }
 
     }

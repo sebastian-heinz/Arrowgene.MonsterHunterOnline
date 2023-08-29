@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 千层塔每层通关时间
     /// </summary>
-    public class CSThousandLayerDataInfo : IStructure
+    public class CSThousandLayerDataInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSThousandLayerDataInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short Layer;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteInt32(Seconds, Endianness.Big);
             buffer.WriteInt16(Layer, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadInt32(Endianness.Big);
             Seconds = buffer.ReadInt32(Endianness.Big);

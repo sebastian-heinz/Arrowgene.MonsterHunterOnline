@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class EnterLevelNtf : Structure
+public class EnterLevelNtf : Structure, ICsStructure
 {
     public EnterLevelNtf()
     {
@@ -12,12 +12,12 @@ public class EnterLevelNtf : Structure
 
     public int Reserver { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, Reserver);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         Reserver = ReadInt32(buffer);
     }

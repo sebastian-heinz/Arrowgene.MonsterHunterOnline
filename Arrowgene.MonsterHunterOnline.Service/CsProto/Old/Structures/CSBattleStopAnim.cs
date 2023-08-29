@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗动画停止消息
     /// </summary>
-    public class CSBattleStopAnim : IStructure
+    public class CSBattleStopAnim : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleStopAnim));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float BlendOutTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(Layer, Endianness.Big);
             buffer.WriteFloat(BlendOutTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             Layer = buffer.ReadInt32(Endianness.Big);

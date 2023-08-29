@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端去拉根据拉Entity信息
     /// </summary>
-    public class LoadEntityReq : Structure
+    public class LoadEntityReq : Structure, ICsStructure
     {
         public LoadEntityReq()
         {
@@ -21,7 +21,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public List<uint> LogicEntityId { get; }
         public List<uint> LogicEntityType { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             int count = Math.Min(LogicEntityId.Count, LogicEntityType.Count);
             WriteInt32(buffer, count);
@@ -29,7 +29,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, LogicEntityType, count, CsProtoConstant.CS_MAX_APPEAR_ID_NTF_NUM, WriteUInt32);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int count = ReadInt32(buffer);
             ReadList(buffer, LogicEntityId, count, CsProtoConstant.CS_MAX_APPEAR_ID_NTF_NUM, ReadUInt32);

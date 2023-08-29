@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 心跳
     /// </summary>
-    public class CSHeartBeat : IStructure
+    public class CSHeartBeat : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHeartBeat));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public long HeartBeatTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Seq, Endianness.Big);
             buffer.WriteInt64(HeartBeatTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Seq = buffer.ReadUInt32(Endianness.Big);
             HeartBeatTime = buffer.ReadInt64(Endianness.Big);

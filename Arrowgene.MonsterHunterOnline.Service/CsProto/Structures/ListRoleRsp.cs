@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class ListRoleRsp : Structure
+public class ListRoleRsp : Structure, ICsStructure
 {
     public ListRoleRsp()
     {
@@ -32,19 +32,19 @@ public class ListRoleRsp : Structure
 
     public List<RoleBaseInfo> RoleList { get; }
 
-    public override void Write(IBuffer buffer)
+    public void WriteCs(IBuffer buffer)
     {
         WriteUInt32(buffer, ErrNo);
         WriteUInt32(buffer, BanTime);
         WriteUInt32(buffer, LastLoinRoleIndex);
-        WriteList(buffer, RoleList, (short)CsProtoConstant.CS_MAX_ROLE_NUM, WriteInt16, WriteStructure);
+        WriteList(buffer, RoleList, (short)CsProtoConstant.CS_MAX_ROLE_NUM, WriteInt16, WriteCsStructure);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         ErrNo = ReadUInt16(buffer);
         BanTime = ReadUInt16(buffer);
         LastLoinRoleIndex = ReadUInt16(buffer);
-        ReadList(buffer, RoleList, (short)CsProtoConstant.CS_MAX_ROLE_NUM, ReadInt16, ReadStructure<RoleBaseInfo>);
+        ReadList(buffer, RoleList, (short)CsProtoConstant.CS_MAX_ROLE_NUM, ReadInt16, ReadCsStructure<RoleBaseInfo>);
     }
 }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家关卡猫车信息
     /// </summary>
-    public class CatCarUseInfo : IStructure
+    public class CatCarUseInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CatCarUseInfo));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CatCarTicketCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetId, Endianness.Big);
             buffer.WriteInt32(FactionID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(CatCarTicketCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = buffer.ReadUInt32(Endianness.Big);
             FactionID = buffer.ReadInt32(Endianness.Big);

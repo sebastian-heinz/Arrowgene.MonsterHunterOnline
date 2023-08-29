@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 搜索玩家
     /// </summary>
-    public class C2STournamentsSearchPlayer : IStructure
+    public class C2STournamentsSearchPlayer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2STournamentsSearchPlayer));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Name;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);

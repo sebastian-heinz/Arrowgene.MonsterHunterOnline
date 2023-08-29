@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物技能
     /// </summary>
-    public class CSPetSkill : IStructure
+    public class CSPetSkill : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSkill));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Count;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SkillID, Endianness.Big);
             buffer.WriteInt32(Count, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SkillID = buffer.ReadInt32(Endianness.Big);
             Count = buffer.ReadInt32(Endianness.Big);

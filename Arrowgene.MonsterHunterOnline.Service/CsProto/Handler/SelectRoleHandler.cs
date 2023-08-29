@@ -2,7 +2,6 @@
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
-using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
@@ -16,10 +15,12 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_SELECT_ROLE_REQ;
 
     private readonly CharacterManager _characterManager;
+    private readonly ItemManager _itemManager;
 
-    public SelectRoleHandler(CharacterManager characterManager)
+    public SelectRoleHandler(CharacterManager characterManager, ItemManager itemManager)
     {
         _characterManager = characterManager;
+        _itemManager = itemManager;
     }
 
     public override void Handle(Client client, SelectRoleReq req)
@@ -32,20 +33,26 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
         }
 
         client.Character = character;
-        
-        // TODO load inventory
-        client.Inventory = new Inventory();
 
-        CsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
+        Inventory inventory = _itemManager.GetInventory(character.Id);
+        if (inventory == null)
+        {
+            Logger.Error(client, $"inventory for characterId:{character.Id} could not be retrieved");
+            return;
+        }
+
+        client.Inventory = inventory;
+
+        CsCsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
         selectRoleRsp.Structure.RoleIndex = req.RoleIndex;
         selectRoleRsp.Structure.ErrNo = 0;
         client.SendCsProtoStructurePacket(selectRoleRsp);
 
-        CsProtoStructurePacket<TownSessionStart> townSessionStart = CsProtoResponse.TownSessionStart;
+        CsCsProtoStructurePacket<TownSessionStart> townSessionStart = CsProtoResponse.TownSessionStart;
         townSessionStart.Structure.ErrNo = 0;
         client.SendCsProtoStructurePacket(townSessionStart);
 
-        CsProtoStructurePacket<PlayerInitInfo> playerInitInfo = CsProtoResponse.PlayerInitInfo;
+        CsCsProtoStructurePacket<PlayerInitInfo> playerInitInfo = CsProtoResponse.PlayerInitInfo;
         _characterManager.PopulatePlayerInitInfo(client, client.Character, playerInitInfo.Structure);
         client.SendCsProtoStructurePacket(playerInitInfo);
     }

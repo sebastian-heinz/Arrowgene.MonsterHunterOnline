@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// player appear notify
     /// </summary>
-    public class CSPlayerAppearNtf : IStructure
+    public class CSPlayerAppearNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerAppearNtf));
 
@@ -226,14 +226,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int GrowHeight;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteUInt32(SessionID, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
             buffer.WriteByte(Gender);
-            Pose.Write(buffer);
+            Pose.WriteCs(buffer);
             buffer.WriteByte(AvatarSetID);
             buffer.WriteFloat(Health, Endianness.Big);
             buffer.WriteFloat(HealthRecover, Endianness.Big);
@@ -247,7 +247,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(equipCount, Endianness.Big);
             for (int i = 0; i < equipCount; i++)
             {
-                Equip[i].Write(buffer);
+                Equip[i].WriteCs(buffer);
             }
             ushort attrCount = (ushort)Attr.Count;
             buffer.WriteUInt16(attrCount, Endianness.Big);
@@ -265,7 +265,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(projIdsCount, Endianness.Big);
             for (int i = 0; i < projIdsCount; i++)
             {
-                ProjIds[i].Write(buffer);
+                ProjIds[i].WriteCs(buffer);
             }
             buffer.WriteUInt64(ParentEntityGUID, Endianness.Big);
             buffer.WriteByte(Type);
@@ -275,7 +275,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(state4, Endianness.Big);
             buffer.WriteUInt32(AGState, Endianness.Big);
             buffer.WriteUInt32(SubState, Endianness.Big);
-            Guilder.Write(buffer);
+            Guilder.WriteCs(buffer);
             buffer.WriteInt32(StarLevel.Length + 1, Endianness.Big);
             buffer.WriteCString(StarLevel);
             for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)
@@ -287,14 +287,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(GrowHeight, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             SessionID = buffer.ReadUInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);
             Gender = buffer.ReadByte();
-            Pose.Read(buffer);
+            Pose.ReadCs(buffer);
             AvatarSetID = buffer.ReadByte();
             Health = buffer.ReadFloat(Endianness.Big);
             HealthRecover = buffer.ReadFloat(Endianness.Big);
@@ -309,7 +309,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < equipCount; i++)
             {
                 CSAvatarItem EquipEntry = new CSAvatarItem();
-                EquipEntry.Read(buffer);
+                EquipEntry.ReadCs(buffer);
                 Equip.Add(EquipEntry);
             }
             Attr.Clear();
@@ -331,7 +331,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < projIdsCount; i++)
             {
                 CSAmmoInfo ProjIdsEntry = new CSAmmoInfo();
-                ProjIdsEntry.Read(buffer);
+                ProjIdsEntry.ReadCs(buffer);
                 ProjIds.Add(ProjIdsEntry);
             }
             ParentEntityGUID = buffer.ReadUInt64(Endianness.Big);
@@ -342,7 +342,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             state4 = buffer.ReadUInt32(Endianness.Big);
             AGState = buffer.ReadUInt32(Endianness.Big);
             SubState = buffer.ReadUInt32(Endianness.Big);
-            Guilder.Read(buffer);
+            Guilder.ReadCs(buffer);
             int StarLevelEntryLen = buffer.ReadInt32(Endianness.Big);
             StarLevel = buffer.ReadString(StarLevelEntryLen);
             for (int i = 0; i < CsProtoConstant.CS_MAX_FACIALINFO_COUNT; i++)

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSMailGroupAccessoriesGetReq : IStructure
+    public class CSMailGroupAccessoriesGetReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMailGroupAccessoriesGetReq));
 
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ulong> MailId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AccStoreLocation, Endianness.Big);
             buffer.WriteInt32(DelType, Endianness.Big);
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AccStoreLocation = buffer.ReadInt32(Endianness.Big);
             DelType = buffer.ReadInt32(Endianness.Big);

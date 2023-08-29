@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pet appear notify
     /// </summary>
-    public class CSPetAppearNtf : IStructure
+    public class CSPetAppearNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetAppearNtf));
 
@@ -150,7 +150,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int GrowHeight;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(OwnerID, Endianness.Big);
@@ -160,7 +160,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PetIdx, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
-            Pose.Write(buffer);
+            Pose.WriteCs(buffer);
             buffer.WriteByte(AvatarSetID);
             buffer.WriteFloat(Health, Endianness.Big);
             ushort equipCount = (ushort)Equip.Count;
@@ -181,19 +181,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             {
                 buffer.WriteByte(Buff[i]);
             }
-            RandAttrs.Write(buffer);
+            RandAttrs.WriteCs(buffer);
             buffer.WriteByte(Support);
             int skillCount = (int)Skill.Count;
             buffer.WriteInt32(skillCount, Endianness.Big);
             for (int i = 0; i < skillCount; i++)
             {
-                Skill[i].Write(buffer);
+                Skill[i].WriteCs(buffer);
             }
             buffer.WriteInt32(GrowHighDay, Endianness.Big);
             buffer.WriteInt32(GrowHeight, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             OwnerID = buffer.ReadInt32(Endianness.Big);
@@ -203,7 +203,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             PetIdx = buffer.ReadInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);
-            Pose.Read(buffer);
+            Pose.ReadCs(buffer);
             AvatarSetID = buffer.ReadByte();
             Health = buffer.ReadFloat(Endianness.Big);
             Equip.Clear();
@@ -227,14 +227,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 byte BuffEntry = buffer.ReadByte();
                 Buff.Add(BuffEntry);
             }
-            RandAttrs.Read(buffer);
+            RandAttrs.ReadCs(buffer);
             Support = buffer.ReadByte();
             Skill.Clear();
             int skillCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < skillCount; i++)
             {
                 CSPetSkill SkillEntry = new CSPetSkill();
-                SkillEntry.Read(buffer);
+                SkillEntry.ReadCs(buffer);
                 Skill.Add(SkillEntry);
             }
             GrowHighDay = buffer.ReadInt32(Endianness.Big);

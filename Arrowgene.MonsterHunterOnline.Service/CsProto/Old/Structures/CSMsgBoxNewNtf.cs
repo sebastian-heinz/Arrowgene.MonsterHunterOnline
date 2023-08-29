@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端新建msg
     /// </summary>
-    public class CSMsgBoxNewNtf : IStructure
+    public class CSMsgBoxNewNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMsgBoxNewNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMsgParam> MsgPramList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MsgBoxId, Endianness.Big);
             buffer.WriteByte(MsgBoxModule);
@@ -75,11 +75,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(msgPramListCount);
             for (int i = 0; i < msgPramListCount; i++)
             {
-                MsgPramList[i].Write(buffer);
+                MsgPramList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MsgBoxId = buffer.ReadUInt32(Endianness.Big);
             MsgBoxModule = buffer.ReadByte();
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < msgPramListCount; i++)
             {
                 CSMsgParam MsgPramListEntry = new CSMsgParam(null);
-                MsgPramListEntry.Read(buffer);
+                MsgPramListEntry.ReadCs(buffer);
                 MsgPramList.Add(MsgPramListEntry);
             }
         }

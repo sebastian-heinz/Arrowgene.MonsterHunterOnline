@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团头衔
     /// </summary>
-    public class CSGuildTitle : IStructure
+    public class CSGuildTitle : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildTitle));
 
@@ -72,24 +72,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildDepotsRights DepotRights;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Title, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
             buffer.WriteInt32(Rights, Endianness.Big);
             buffer.WriteInt32(DepotOpCount, Endianness.Big);
-            DepotRights.Write(buffer);
+            DepotRights.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Title = buffer.ReadInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);
             Rights = buffer.ReadInt32(Endianness.Big);
             DepotOpCount = buffer.ReadInt32(Endianness.Big);
-            DepotRights.Read(buffer);
+            DepotRights.ReadCs(buffer);
         }
 
     }

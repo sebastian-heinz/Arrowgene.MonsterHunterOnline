@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 支付狩猎券领取奖励
     /// </summary>
-    public class CSPayHuntingCredit : IStructure
+    public class CSPayHuntingCredit : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPayHuntingCredit));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PlayerID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerID = buffer.ReadInt32(Endianness.Big);
         }

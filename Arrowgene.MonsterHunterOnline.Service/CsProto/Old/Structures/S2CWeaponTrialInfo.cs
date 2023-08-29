@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 个人武器试炼数据
     /// </summary>
-    public class S2CWeaponTrialInfo : IStructure
+    public class S2CWeaponTrialInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CWeaponTrialInfo));
 
@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int[] WeaponRecordTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.MAX_WEAPONTRIAL_TYPE; i++)
             {
@@ -67,7 +67,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.MAX_WEAPONTRIAL_TYPE; i++)
             {

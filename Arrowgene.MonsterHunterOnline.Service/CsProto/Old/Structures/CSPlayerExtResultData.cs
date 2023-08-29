@@ -32,7 +32,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
     /// <summary>
     /// 玩家扩展返回数据
     /// </summary>
-    public interface CSPlayerExtResultData : IStructure
+    public interface CSPlayerExtResultData : ICsStructure
     {
 
         public CS_PLAYER_EXT_TYPE ExtType { get; }

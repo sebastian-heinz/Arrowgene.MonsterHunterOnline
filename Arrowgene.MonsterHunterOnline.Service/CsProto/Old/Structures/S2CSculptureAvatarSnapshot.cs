@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 雕像AVATAR
     /// </summary>
-    public class S2CSculptureAvatarSnapshot : IStructure
+    public class S2CSculptureAvatarSnapshot : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSculptureAvatarSnapshot));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSSculptureAvatar Avatar;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Sculpture, Endianness.Big);
-            Avatar.Write(buffer);
+            Avatar.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Sculpture = buffer.ReadInt32(Endianness.Big);
-            Avatar.Read(buffer);
+            Avatar.ReadCs(buffer);
         }
 
     }

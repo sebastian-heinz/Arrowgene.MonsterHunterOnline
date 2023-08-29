@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 方案快捷保存
     /// </summary>
-    public class CSSupplyPlanSaveRsp : IStructure
+    public class CSSupplyPlanSaveRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyPlanSaveRsp));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> PosGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(iRetCode, Endianness.Big);
             buffer.WriteInt32(PlanID, Endianness.Big);
@@ -104,7 +104,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             iRetCode = buffer.ReadInt32(Endianness.Big);
             PlanID = buffer.ReadInt32(Endianness.Big);

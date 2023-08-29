@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> ErrCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrMsg.Length + 1, Endianness.Big);
             buffer.WriteCString(ErrMsg);
@@ -62,7 +62,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(mailRoleToCount, Endianness.Big);
             for (int i = 0; i < mailRoleToCount; i++)
             {
-                MailRoleTo[i].Write(buffer);
+                MailRoleTo[i].WriteCs(buffer);
             }
             int errCodeCount = (int)ErrCode.Count;
             buffer.WriteInt32(errCodeCount, Endianness.Big);
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int ErrMsgEntryLen = buffer.ReadInt32(Endianness.Big);
             ErrMsg = buffer.ReadString(ErrMsgEntryLen);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mailRoleToCount; i++)
             {
                 CRole MailRoleToEntry = new CRole();
-                MailRoleToEntry.Read(buffer);
+                MailRoleToEntry.ReadCs(buffer);
                 MailRoleTo.Add(MailRoleToEntry);
             }
             ErrCode.Clear();

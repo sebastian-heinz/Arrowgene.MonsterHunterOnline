@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团摘要
     /// </summary>
-    public class CSGuildOutline : IStructure
+    public class CSGuildOutline : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildOutline));
 
@@ -108,7 +108,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong HuntSoul;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Id, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
@@ -126,7 +126,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(HuntSoul, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadUInt64(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);

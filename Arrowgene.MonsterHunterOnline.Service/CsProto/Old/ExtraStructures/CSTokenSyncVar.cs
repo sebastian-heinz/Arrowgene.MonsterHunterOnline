@@ -28,7 +28,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
-    public class CSTokenSyncVar : IStructure
+    public class CSTokenSyncVar : ICsStructure
     {
         public CS_TOKEN_SYNC_TYPE Type { get; }
 
@@ -40,7 +40,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         
         public int EntityID { get; set; }
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             switch (Type)
             {
@@ -50,7 +50,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             switch (Type)
             {

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 升级路线
     /// </summary>
-    public class CSEquipUpgradeRoute : IStructure
+    public class CSEquipUpgradeRoute : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipUpgradeRoute));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Arg2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
             buffer.WriteInt32(Arg2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
             Arg1 = buffer.ReadInt32(Endianness.Big);

@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 付费重新捏脸响应
     /// </summary>
-    public class ModifyFaceRsp : Structure
+    public class ModifyFaceRsp : Structure, ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ModifyFaceRsp));
 
@@ -21,12 +21,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Result { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, Result);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Result = ReadInt32(buffer);
         }

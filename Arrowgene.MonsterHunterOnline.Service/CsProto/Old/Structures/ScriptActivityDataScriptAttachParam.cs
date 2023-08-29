@@ -59,7 +59,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Script;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Label.Length + 1, Endianness.Big);
             buffer.WriteCString(Label);
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Script);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int LabelEntryLen = buffer.ReadInt32(Endianness.Big);
             Label = buffer.ReadString(LabelEntryLen);

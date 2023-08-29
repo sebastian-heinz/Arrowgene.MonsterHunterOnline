@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class S2CAstrolabeRManualReset : IStructure
+    public class S2CAstrolabeRManualReset : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAstrolabeRManualReset));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int cost;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(cost, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             cost = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 刷新最短通关时间
     /// </summary>
-    public class CSUpdateLevelMinTimeNtf : IStructure
+    public class CSUpdateLevelMinTimeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSUpdateLevelMinTimeNtf));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSLevelPassMinTime PassLevelInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            PassLevelInfo.Write(buffer);
+            PassLevelInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            PassLevelInfo.Read(buffer);
+            PassLevelInfo.ReadCs(buffer);
         }
 
     }

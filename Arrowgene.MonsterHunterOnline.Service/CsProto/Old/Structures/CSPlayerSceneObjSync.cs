@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家和场景物件交互
     /// </summary>
-    public class CSPlayerSceneObjSync : IStructure
+    public class CSPlayerSceneObjSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerSceneObjSync));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Params2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SceneObjLogicID, Endianness.Big);
             buffer.WriteInt32(ReqLogicID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Params2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SceneObjLogicID = buffer.ReadInt32(Endianness.Big);
             ReqLogicID = buffer.ReadInt32(Endianness.Big);

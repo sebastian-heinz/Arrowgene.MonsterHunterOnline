@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求扩展格子
     /// </summary>
-    public class CSReqExpandGrid : IStructure
+    public class CSReqExpandGrid : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqExpandGrid));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Count;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Count, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Column = buffer.ReadByte();
             Count = buffer.ReadUInt16(Endianness.Big);

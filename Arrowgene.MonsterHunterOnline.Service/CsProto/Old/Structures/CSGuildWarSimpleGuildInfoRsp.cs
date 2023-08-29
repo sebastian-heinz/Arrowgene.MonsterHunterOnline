@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildWarSimpleGuildInfoRsp : IStructure
+    public class CSGuildWarSimpleGuildInfoRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildWarSimpleGuildInfoRsp));
 
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<GuildWarSimpleInfo> GuildSimpleInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(Start, Endianness.Big);
             buffer.WriteUInt16(InnerStart, Endianness.Big);
@@ -65,11 +65,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(guildSimpleInfosCount, Endianness.Big);
             for (int i = 0; i < guildSimpleInfosCount; i++)
             {
-                GuildSimpleInfos[i].Write(buffer);
+                GuildSimpleInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Start = buffer.ReadUInt16(Endianness.Big);
             InnerStart = buffer.ReadUInt16(Endianness.Big);
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < guildSimpleInfosCount; i++)
             {
                 GuildWarSimpleInfo GuildSimpleInfosEntry = new GuildWarSimpleInfo();
-                GuildSimpleInfosEntry.Read(buffer);
+                GuildSimpleInfosEntry.ReadCs(buffer);
                 GuildSimpleInfos.Add(GuildSimpleInfosEntry);
             }
         }

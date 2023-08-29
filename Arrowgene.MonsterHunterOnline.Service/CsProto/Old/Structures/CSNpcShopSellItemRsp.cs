@@ -27,6 +27,8 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -34,7 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 卖出背包中的物品的返回
     /// </summary>
-    public class CSNpcShopSellItemRsp : IStructure
+    public class CSNpcShopSellItemRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcShopSellItemRsp));
 
@@ -44,7 +46,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ItemType = 0;
             ItemCount = 0;
             MoneyAdd = 0;
-            ItemData = new CSGeneralItem();
+            ItemData = new Item();
         }
 
         /// <summary>
@@ -70,24 +72,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 道具数据
         /// </summary>
-        public CSGeneralItem ItemData;
+        public Item ItemData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(ItemType, Endianness.Big);
             buffer.WriteInt32(ItemCount, Endianness.Big);
             buffer.WriteInt32(MoneyAdd, Endianness.Big);
-            ItemData.Write(buffer);
+            ItemData.WriteTlv(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             ItemType = buffer.ReadInt32(Endianness.Big);
             ItemCount = buffer.ReadInt32(Endianness.Big);
             MoneyAdd = buffer.ReadInt32(Endianness.Big);
-            ItemData.Read(buffer);
+            ItemData.ReadTlv(buffer);
         }
 
     }

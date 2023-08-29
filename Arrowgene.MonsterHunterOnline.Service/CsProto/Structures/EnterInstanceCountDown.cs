@@ -7,7 +7,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入战斗副本倒计时
     /// </summary>
-    public class EnterInstanceCountDown : Structure
+    public class EnterInstanceCountDown : Structure, ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(EnterInstanceCountDown));
 
@@ -27,13 +27,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelId { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, Second);
             WriteInt32(buffer, LevelId);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Second = ReadInt32(buffer);
             LevelId = ReadInt32(buffer);

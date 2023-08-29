@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 排副本
     /// </summary>
-    public class CSLineUpInstanceRsp : IStructure
+    public class CSLineUpInstanceRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineUpInstanceRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint LevelID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteUInt32(TargetRoleID, Endianness.Big);
             buffer.WriteUInt32(LevelID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             TargetRoleID = buffer.ReadUInt32(Endianness.Big);

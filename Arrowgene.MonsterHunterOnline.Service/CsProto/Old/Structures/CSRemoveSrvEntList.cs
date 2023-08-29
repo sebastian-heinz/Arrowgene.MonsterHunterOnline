@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Remove Server Entities List
     /// </summary>
-    public class CSRemoveSrvEntList : IStructure
+    public class CSRemoveSrvEntList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRemoveSrvEntList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRemoveSrvEnt> EntList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             uint entListCount = (uint)EntList.Count;
             buffer.WriteUInt32(entListCount, Endianness.Big);
             for (int i = 0; i < entListCount; i++)
             {
-                EntList[i].Write(buffer);
+                EntList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntList.Clear();
             uint entListCount = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < entListCount; i++)
             {
                 CSRemoveSrvEnt EntListEntry = new CSRemoveSrvEnt();
-                EntListEntry.Read(buffer);
+                EntListEntry.ReadCs(buffer);
                 EntList.Add(EntListEntry);
             }
         }

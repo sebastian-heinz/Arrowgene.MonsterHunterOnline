@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 观战房间信息
     /// </summary>
-    public class CSSpectateRoom : IStructure
+    public class CSSpectateRoom : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpectateRoom));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint SignId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Room, Endianness.Big);
             buffer.WriteByte(State);
             buffer.WriteUInt32(SignId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Room = buffer.ReadInt32(Endianness.Big);
             State = buffer.ReadByte();

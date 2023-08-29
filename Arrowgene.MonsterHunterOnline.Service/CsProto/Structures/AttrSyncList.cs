@@ -5,7 +5,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class AttrSyncList : Structure
+public class AttrSyncList : Structure, ICsStructure
 {
     public AttrSyncList()
     {
@@ -14,13 +14,13 @@ public class AttrSyncList : Structure
 
     public List<AttrSync> Attr { get; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
-        WriteList(buffer, Attr, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX, WriteInt32, WriteStructure);
+        WriteList(buffer, Attr, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX, WriteInt32, WriteCsStructure);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
-        ReadList(buffer, Attr, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX, ReadInt32, ReadStructure<AttrSync>);
+        ReadList(buffer, Attr, CsProtoConstant.CS_ATTR_SYNC_LIST_MAX, ReadInt32, ReadCsStructure<AttrSync>);
     }
 }

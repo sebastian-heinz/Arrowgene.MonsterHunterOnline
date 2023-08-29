@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface ScriptActivityDataUnion : IStructure
+    public interface ScriptActivityDataUnion : ICsStructure
     {
 
         public EScriptActivityDataType Type { get; }

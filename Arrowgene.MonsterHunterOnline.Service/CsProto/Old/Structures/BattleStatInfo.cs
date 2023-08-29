@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本统计数据
     /// </summary>
-    public class BattleStatInfo : IStructure
+    public class BattleStatInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(BattleStatInfo));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int MoneyCatValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MoneyCatValue, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MoneyCatValue = buffer.ReadInt32(Endianness.Big);
         }

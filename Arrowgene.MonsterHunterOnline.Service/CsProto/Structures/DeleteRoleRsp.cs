@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class DeleteRoleRsp : Structure
+public class DeleteRoleRsp : Structure, ICsStructure
 {
     public DeleteRoleRsp()
     {
@@ -14,13 +14,13 @@ public class DeleteRoleRsp : Structure
     public int RoleState { get; set; }
     public uint RoleStateEndLeftTime { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, RoleState);
         WriteUInt32(buffer, RoleStateEndLeftTime);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         RoleState = ReadInt32(buffer);
         RoleStateEndLeftTime = ReadUInt32(buffer);

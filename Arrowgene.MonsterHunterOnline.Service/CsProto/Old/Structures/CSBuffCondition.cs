@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知condition
     /// </summary>
-    public class CSBuffCondition : IStructure
+    public class CSBuffCondition : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBuffCondition));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte enable;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteInt32(UniqueID, Endianness.Big);
             buffer.WriteByte(enable);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             UniqueID = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 动画播放队列FIFO信息
     /// </summary>
-    public class CSTransitionQueue : IStructure
+    public class CSTransitionQueue : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTransitionQueue));
 
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSAnimation> Animations;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(AdditiveWeights, Endianness.Big);
             buffer.WriteFloat(Blending, Endianness.Big);
@@ -66,11 +66,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(animationsCount, Endianness.Big);
             for (int i = 0; i < animationsCount; i++)
             {
-                Animations[i].Write(buffer);
+                Animations[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AdditiveWeights = buffer.ReadFloat(Endianness.Big);
             Blending = buffer.ReadFloat(Endianness.Big);
@@ -80,7 +80,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < animationsCount; i++)
             {
                 CSAnimation AnimationsEntry = new CSAnimation();
-                AnimationsEntry.Read(buffer);
+                AnimationsEntry.ReadCs(buffer);
                 Animations.Add(AnimationsEntry);
             }
         }

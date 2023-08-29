@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备强化广播
     /// </summary>
-    public class CSResEquipEnforceBoard : IStructure
+    public class CSResEquipEnforceBoard : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSResEquipEnforceBoard));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string m_strName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(m_nItemID, Endianness.Big);
             buffer.WriteInt32(m_nEnforceLv, Endianness.Big);
@@ -68,7 +68,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(m_strName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             m_nItemID = buffer.ReadInt32(Endianness.Big);
             m_nEnforceLv = buffer.ReadInt32(Endianness.Big);

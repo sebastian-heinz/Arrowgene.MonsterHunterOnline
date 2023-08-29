@@ -27,6 +27,8 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
@@ -34,7 +36,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 拍卖记录
     /// </summary>
-    public class CSAuctionRecord : IStructure
+    public class CSAuctionRecord : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAuctionRecord));
 
@@ -51,7 +53,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             BidDBId = 0;
             BidRoleName = "";
             BidLevel = 0;
-            Item = new CSGeneralItem();
+            Item = new Item();
         }
 
         /// <summary>
@@ -112,9 +114,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 寄拍物品
         /// </summary>
-        public CSGeneralItem Item;
+        public Item Item;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RecordId, Endianness.Big);
             buffer.WriteUInt64(DBId, Endianness.Big);
@@ -129,10 +131,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(BidRoleName.Length + 1, Endianness.Big);
             buffer.WriteCString(BidRoleName);
             buffer.WriteUInt32(BidLevel, Endianness.Big);
-            Item.Write(buffer);
+            Item.WriteTlv(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RecordId = buffer.ReadUInt64(Endianness.Big);
             DBId = buffer.ReadUInt64(Endianness.Big);
@@ -147,7 +149,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             int BidRoleNameEntryLen = buffer.ReadInt32(Endianness.Big);
             BidRoleName = buffer.ReadString(BidRoleNameEntryLen);
             BidLevel = buffer.ReadUInt32(Endianness.Big);
-            Item.Read(buffer);
+            Item.ReadTlv(buffer);
         }
 
     }

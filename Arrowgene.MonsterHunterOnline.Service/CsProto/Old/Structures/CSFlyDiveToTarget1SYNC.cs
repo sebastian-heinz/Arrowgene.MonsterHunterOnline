@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 击飞事件同步
     /// </summary>
-    public class CSFlyDiveToTarget1SYNC : IStructure
+    public class CSFlyDiveToTarget1SYNC : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFlyDiveToTarget1SYNC));
 
@@ -78,23 +78,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float TotalTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(EntityId, Endianness.Big);
-            PosB.Write(buffer);
-            PosC.Write(buffer);
-            PosD.Write(buffer);
+            PosB.WriteCs(buffer);
+            PosC.WriteCs(buffer);
+            PosD.WriteCs(buffer);
             buffer.WriteFloat(TotalTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             EntityId = buffer.ReadUInt32(Endianness.Big);
-            PosB.Read(buffer);
-            PosC.Read(buffer);
-            PosD.Read(buffer);
+            PosB.ReadCs(buffer);
+            PosC.ReadCs(buffer);
+            PosD.ReadCs(buffer);
             TotalTime = buffer.ReadFloat(Endianness.Big);
         }
 

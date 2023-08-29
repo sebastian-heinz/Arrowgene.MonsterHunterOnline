@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求房间列表
     /// </summary>
-    public class C2SRoomsGetReq : IStructure
+    public class C2SRoomsGetReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SRoomsGetReq));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public uint To;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Mode, Endianness.Big);
             buffer.WriteUInt32(From, Endianness.Big);
             buffer.WriteUInt32(To, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Mode = buffer.ReadInt32(Endianness.Big);
             From = buffer.ReadUInt32(Endianness.Big);

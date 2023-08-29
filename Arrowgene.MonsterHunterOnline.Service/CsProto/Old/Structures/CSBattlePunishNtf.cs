@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSBattlePunishNtf : IStructure
+    public class CSBattlePunishNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattlePunishNtf));
 
@@ -45,24 +45,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSBattlePunishInfo> PlayereInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int playereInfoCount = (int)PlayereInfo.Count;
             buffer.WriteInt32(playereInfoCount, Endianness.Big);
             for (int i = 0; i < playereInfoCount; i++)
             {
-                PlayereInfo[i].Write(buffer);
+                PlayereInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayereInfo.Clear();
             int playereInfoCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < playereInfoCount; i++)
             {
                 CSBattlePunishInfo PlayereInfoEntry = new CSBattlePunishInfo();
-                PlayereInfoEntry.Read(buffer);
+                PlayereInfoEntry.ReadCs(buffer);
                 PlayereInfo.Add(PlayereInfoEntry);
             }
         }

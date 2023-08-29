@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 路径点数
     /// </summary>
-    public class S2CSpoorAddPoints : IStructure
+    public class S2CSpoorAddPoints : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSpoorAddPoints));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Point;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Point, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Point = buffer.ReadInt32(Endianness.Big);
         }

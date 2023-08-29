@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团团员摘要
     /// </summary>
-    public class CSGuilderOutline : IStructure
+    public class CSGuilderOutline : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuilderOutline));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string GuildName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Id.Write(buffer);
+            Id.WriteCs(buffer);
             buffer.WriteInt32(GuildName.Length + 1, Endianness.Big);
             buffer.WriteCString(GuildName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Id.Read(buffer);
+            Id.ReadCs(buffer);
             int GuildNameEntryLen = buffer.ReadInt32(Endianness.Big);
             GuildName = buffer.ReadString(GuildNameEntryLen);
         }

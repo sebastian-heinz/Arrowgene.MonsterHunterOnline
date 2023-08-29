@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星蕴石注入信息
     /// </summary>
-    public class CSStarStoneSlotInfo : IStructure
+    public class CSStarStoneSlotInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStarStoneSlotInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Count;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ItemID, Endianness.Big);
             buffer.WriteInt32(Count, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemID = buffer.ReadInt32(Endianness.Big);
             Count = buffer.ReadInt32(Endianness.Big);

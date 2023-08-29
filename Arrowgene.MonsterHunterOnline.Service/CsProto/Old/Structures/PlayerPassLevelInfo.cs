@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通关副本信息
     /// </summary>
-    public class PlayerPassLevelInfo : IStructure
+    public class PlayerPassLevelInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerPassLevelInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BestFinalRank;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LevelID, Endianness.Big);
             buffer.WriteUInt32(PassTime, Endianness.Big);
             buffer.WriteInt32(BestFinalRank, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelID = buffer.ReadUInt32(Endianness.Big);
             PassTime = buffer.ReadUInt32(Endianness.Big);

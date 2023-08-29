@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知移动交换多个物品
     /// </summary>
-    public class CSItemMgrMoveSwapItemsNtf : IStructure
+    public class CSItemMgrMoveSwapItemsNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemMgrMoveSwapItemsNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<MoveSwapItemInfo> MoveSwapItemsData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte moveSwapItemsDataCount = (byte)MoveSwapItemsData.Count;
             buffer.WriteByte(moveSwapItemsDataCount);
             for (int i = 0; i < moveSwapItemsDataCount; i++)
             {
-                MoveSwapItemsData[i].Write(buffer);
+                MoveSwapItemsData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MoveSwapItemsData.Clear();
             byte moveSwapItemsDataCount = buffer.ReadByte();
             for (int i = 0; i < moveSwapItemsDataCount; i++)
             {
                 MoveSwapItemInfo MoveSwapItemsDataEntry = new MoveSwapItemInfo();
-                MoveSwapItemsDataEntry.Read(buffer);
+                MoveSwapItemsDataEntry.ReadCs(buffer);
                 MoveSwapItemsData.Add(MoveSwapItemsDataEntry);
             }
         }

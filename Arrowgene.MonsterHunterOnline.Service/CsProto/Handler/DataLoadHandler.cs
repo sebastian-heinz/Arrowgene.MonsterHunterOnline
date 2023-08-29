@@ -22,7 +22,7 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
 
     public override void Handle(Client client, RemoteDataLoadReq req)
     {
-        IRemoteDataInfo remoteData;
+        CSICsRemoteDataInfo remoteData;
         switch (req.RemoteDataType)
         {
             case ROMTE_DATA_TYPE.ITEMMGR_DATA_TYPE:
@@ -53,12 +53,12 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 return;
         }
 
-        CsProtoStructurePacket dataLoadRsp = CsProtoResponse.DataLoadRsp(new RemoteDataLoadRsp(remoteData));
+        CsCsProtoStructurePacket dataLoadRsp = CsProtoResponse.DataLoadRsp(new RemoteDataLoadRsp(remoteData));
         client.SendCsProtoStructurePacket(dataLoadRsp);
 
         if (req.RemoteDataType == ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE)
         {
-            CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
+            CsCsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
             TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
             verifyRsp.ErrNo = 0;
             verifyRsp.LineId = 0;

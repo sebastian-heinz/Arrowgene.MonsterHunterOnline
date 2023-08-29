@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速组队搜索回复
     /// </summary>
-    public class CSTeamSearchRsp : IStructure
+    public class CSTeamSearchRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamSearchRsp));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TeamInfo> Teams;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(TotalTeamNum, Endianness.Big);
             uint teamsCount = (uint)Teams.Count;
             buffer.WriteUInt32(teamsCount, Endianness.Big);
             for (int i = 0; i < teamsCount; i++)
             {
-                Teams[i].Write(buffer);
+                Teams[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TotalTeamNum = buffer.ReadUInt32(Endianness.Big);
             Teams.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < teamsCount; i++)
             {
                 TeamInfo TeamsEntry = new TeamInfo();
-                TeamsEntry.Read(buffer);
+                TeamsEntry.ReadCs(buffer);
                 Teams.Add(TeamsEntry);
             }
         }

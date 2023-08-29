@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 关卡目标信息列表
     /// </summary>
-    public class CSBattleTargetList : IStructure
+    public class CSBattleTargetList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleTargetList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSBattleTargetInfo> TargetInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short targetInfosCount = (short)TargetInfos.Count;
             buffer.WriteInt16(targetInfosCount, Endianness.Big);
             for (int i = 0; i < targetInfosCount; i++)
             {
-                TargetInfos[i].Write(buffer);
+                TargetInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TargetInfos.Clear();
             short targetInfosCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < targetInfosCount; i++)
             {
                 CSBattleTargetInfo TargetInfosEntry = new CSBattleTargetInfo();
-                TargetInfosEntry.Read(buffer);
+                TargetInfosEntry.ReadCs(buffer);
                 TargetInfos.Add(TargetInfosEntry);
             }
         }

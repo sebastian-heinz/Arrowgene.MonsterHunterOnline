@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 选择狩猎包
     /// </summary>
-    public class CSPVPSelectHuntingBagStartNtf : IStructure
+    public class CSPVPSelectHuntingBagStartNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPSelectHuntingBagStartNtf));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSPVPSelectHuntingBagMember> Member;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ShowUI, Endianness.Big);
             short memberCount = (short)Member.Count;
             buffer.WriteInt16(memberCount, Endianness.Big);
             for (int i = 0; i < memberCount; i++)
             {
-                Member[i].Write(buffer);
+                Member[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ShowUI = buffer.ReadInt32(Endianness.Big);
             Member.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < memberCount; i++)
             {
                 CSPVPSelectHuntingBagMember MemberEntry = new CSPVPSelectHuntingBagMember();
-                MemberEntry.Read(buffer);
+                MemberEntry.ReadCs(buffer);
                 Member.Add(MemberEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 动画播放信息
     /// </summary>
-    public class CSAnimation : IStructure
+    public class CSAnimation : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAnimation));
 
@@ -78,9 +78,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Flags;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Parametric.Write(buffer);
+            Parametric.WriteCs(buffer);
             buffer.WriteUInt32(AnimCRC, Endianness.Big);
             buffer.WriteInt16(SegmentCounter, Endianness.Big);
             buffer.WriteFloat(AnimTime, Endianness.Big);
@@ -88,9 +88,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Flags, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Parametric.Read(buffer);
+            Parametric.ReadCs(buffer);
             AnimCRC = buffer.ReadUInt32(Endianness.Big);
             SegmentCounter = buffer.ReadInt16(Endianness.Big);
             AnimTime = buffer.ReadFloat(Endianness.Big);

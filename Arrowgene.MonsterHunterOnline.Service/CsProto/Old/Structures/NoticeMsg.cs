@@ -32,7 +32,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
     /// <summary>
     /// 系统公告内容
     /// </summary>
-    public interface NoticeMsg : IStructure
+    public interface NoticeMsg : ICsStructure
     {
 
     }

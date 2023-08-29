@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class C2SSoulStoneAttrUpgrade : IStructure
+    public class C2SSoulStoneAttrUpgrade : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSoulStoneAttrUpgrade));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int AttrLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AttrId, Endianness.Big);
             buffer.WriteInt32(AttrLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttrId = buffer.ReadInt32(Endianness.Big);
             AttrLevel = buffer.ReadInt32(Endianness.Big);

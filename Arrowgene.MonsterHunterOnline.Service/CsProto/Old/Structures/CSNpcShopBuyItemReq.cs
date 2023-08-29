@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 购买商店中贩卖的物品的请求
     /// </summary>
-    public class CSNpcShopBuyItemReq : IStructure
+    public class CSNpcShopBuyItemReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSNpcShopBuyItemReq));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int isUnifiedNpcStore;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ShopId, Endianness.Big);
             buffer.WriteInt32(SaleItemId, Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(isUnifiedNpcStore, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ShopId = buffer.ReadInt32(Endianness.Big);
             SaleItemId = buffer.ReadInt32(Endianness.Big);

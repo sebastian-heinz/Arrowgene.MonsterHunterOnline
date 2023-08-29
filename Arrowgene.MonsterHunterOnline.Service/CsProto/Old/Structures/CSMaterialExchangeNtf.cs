@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商店兑换结果
     /// </summary>
-    public class CSMaterialExchangeNtf : IStructure
+    public class CSMaterialExchangeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMaterialExchangeNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MEID, Endianness.Big);
             buffer.WriteUInt32(Result, Endianness.Big);
             buffer.WriteInt32(Param, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MEID = buffer.ReadUInt32(Endianness.Big);
             Result = buffer.ReadUInt32(Endianness.Big);

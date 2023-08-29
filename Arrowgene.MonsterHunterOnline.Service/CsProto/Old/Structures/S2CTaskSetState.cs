@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置任务状态
     /// </summary>
-    public class S2CTaskSetState : IStructure
+    public class S2CTaskSetState : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTaskSetState));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Task, Endianness.Big);
             buffer.WriteInt32(State, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Task = buffer.ReadInt32(Endianness.Big);
             State = buffer.ReadInt32(Endianness.Big);

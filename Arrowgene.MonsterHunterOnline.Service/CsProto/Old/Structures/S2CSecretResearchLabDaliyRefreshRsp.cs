@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院每日刷新 服务端->客户端
     /// </summary>
-    public class S2CSecretResearchLabDaliyRefreshRsp : IStructure
+    public class S2CSecretResearchLabDaliyRefreshRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSecretResearchLabDaliyRefreshRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ResearchCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(VipRefreshCount, Endianness.Big);
             buffer.WriteInt32(RefreshCount, Endianness.Big);
             buffer.WriteInt32(ResearchCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             VipRefreshCount = buffer.ReadInt32(Endianness.Big);
             RefreshCount = buffer.ReadInt32(Endianness.Big);

@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Monster active state
     /// </summary>
-    public class MonsterActiveState : Structure
+    public class MonsterActiveState : Structure, ICsStructure
     {
         public MonsterActiveState()
         {
@@ -42,22 +42,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public Quaternion Rotation { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt64(buffer, SyncTime);
             WriteUInt32(buffer, ActiveState);
             WriteUInt32(buffer, MonsterId);
-            WriteStructure(buffer, Position);
-            WriteStructure(buffer, Rotation);
+            WriteCsStructure(buffer, Position);
+            WriteCsStructure(buffer, Rotation);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = ReadInt64(buffer);
             ActiveState = ReadUInt32(buffer);
             MonsterId = ReadUInt32(buffer);
-            Position = ReadStructure(buffer, Position);
-            Rotation = ReadStructure(buffer, Rotation);
+            Position = ReadCsStructure(buffer, Position);
+            Rotation = ReadCsStructure(buffer, Rotation);
         }
     }
 }

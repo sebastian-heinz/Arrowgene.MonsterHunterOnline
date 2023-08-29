@@ -19,7 +19,7 @@ public class MainInstanceOptSynReqHandler : CsProtoStructureHandler<MainInstance
 
     public override void Handle(Client client, MainInstanceOptSynReq req)
     {
-        CsProtoStructurePacket<MainInstanceOptSynRsp> rsp = CsProtoResponse.MainInstanceOptSynRsp;
+        CsCsProtoStructurePacket<MainInstanceOptSynRsp> rsp = CsProtoResponse.MainInstanceOptSynRsp;
         rsp.Structure.TriggerId = req.TriggerId;
         rsp.Structure.InstancePoint = req.InstancePoint;
         rsp.Structure.LevelId = req.LevelId;

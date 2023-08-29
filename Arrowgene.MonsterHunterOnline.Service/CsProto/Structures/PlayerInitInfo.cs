@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Player initialize info
     /// </summary>
-    public class PlayerInitInfo : Structure, IItemListProperties
+    public class PlayerInitInfo : Structure, ICsStructure, IItemListProperties
     {
         public PlayerInitInfo()
         {
@@ -522,7 +522,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CanGetRewarded { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             WriteUInt32(buffer, AccountId);
             WriteInt32(buffer, NetId);
@@ -536,7 +536,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteString(buffer, Name);
             WriteByte(buffer, Gender);
             WriteByte(buffer, IsGm);
-            WriteStructure(buffer, Pose);
+            WriteCsStructure(buffer, Pose);
             WriteUInt64(buffer, ParentEntityGuid);
             WriteByte(buffer, AvatarSetId);
             WriteInt32(buffer, Faction);
@@ -550,22 +550,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteTlvStructure(buffer, BagItem, CsProtoConstant.CS_ITEM_BAG_DATA_LEN, WriteInt32);
             WriteTlvStructure(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, WriteUInt16);
             WriteTlvStructure(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, WriteInt32);
-            WriteList(buffer, Shortcut, (ushort)CsProtoConstant.CS_MAX_SHORTCUT_LEN, WriteUInt16, WriteStructure);
+            WriteList(buffer, Shortcut, (ushort)CsProtoConstant.CS_MAX_SHORTCUT_LEN, WriteUInt16, WriteCsStructure);
             WriteList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, WriteUInt16, WriteByte);
             WriteList(buffer, Skill, (ushort)CsProtoConstant.CS_MAX_SKILL_DATA_LEN, WriteUInt16, WriteByte);
             WriteList(buffer, Pet, (ushort)CsProtoConstant.CS_MAX_PET_DATA_LEN, WriteUInt16, WriteByte);
-            WriteList(buffer, FriendData, CsProtoConstant.CS_FRIEND_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, PasserbyData, CsProtoConstant.CS_PASSERBY_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, BlacklistData, CsProtoConstant.CS_BLACKLIST_MAX, WriteInt32, WriteStructure);
-            WriteList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, WriteInt32, WriteStructure);
+            WriteList(buffer, FriendData, CsProtoConstant.CS_FRIEND_MAX, WriteInt32, WriteCsStructure);
+            WriteList(buffer, PasserbyData, CsProtoConstant.CS_PASSERBY_MAX, WriteInt32, WriteCsStructure);
+            WriteList(buffer, BlacklistData, CsProtoConstant.CS_BLACKLIST_MAX, WriteInt32, WriteCsStructure);
+            WriteList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, WriteInt32, WriteCsStructure);
             WriteTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, WriteUInt16);
             WriteTlvStructure(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, WriteInt32);
             WriteList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, WriteInt32, WriteByte);
-            WriteStructure(buffer, ActionPoint);
+            WriteCsStructure(buffer, ActionPoint);
             WriteInt32(buffer, FirstEnterLevel);
             WriteInt32(buffer, FirstEnterMap);
             WriteInt32(buffer, PvpPrepareStageState);
-            WriteList(buffer, GuideSteps, (ushort)CsProtoConstant.CS_MAX_GUIDE_STEPS, WriteUInt16, WriteStructure);
+            WriteList(buffer, GuideSteps, (ushort)CsProtoConstant.CS_MAX_GUIDE_STEPS, WriteUInt16, WriteCsStructure);
             WriteList(buffer, Cd, (ushort)CsProtoConstant.CS_MAX_CD_DATA_LEN, WriteUInt16, WriteByte);
             WriteList(buffer, SchedulePrize, CsProtoConstant.CS_MAX_SCHEDULEPRIZE_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, MailInfo, CsProtoConstant.CS_MAX_MAILINFO_DATA_LEN, WriteInt32, WriteByte);
@@ -580,7 +580,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 CatCuisineFormulaData,
                 (ushort)CsProtoConstant.CS_MAX_CAT_CUISINE_UNLOCK,
                 WriteUInt16,
-                WriteStructure
+                WriteCsStructure
             );
             WriteList(buffer,
                 ItemUseOnceList,
@@ -590,7 +590,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             );
             WriteList(buffer, Star, CsProtoConstant.CS_MAX_STAR_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, Video, (ushort)CsProtoConstant.CS_MAX_SKILL_VIDEO_LEN, WriteUInt16, WriteByte);
-            WriteStructure(buffer, ClientSettings);
+            WriteCsStructure(buffer, ClientSettings);
             WriteList(buffer, Farm, CsProtoConstant.CS_ROLE_FARMER_LEN, WriteInt32, WriteByte);
             WriteArray(buffer, FacialInfo, CsProtoConstant.CS_MAX_FACIALINFO_COUNT, WriteInt16);
             WriteList(buffer, Spoor, CsProtoConstant.CS_MAX_SPOOR_DATA_LEN, WriteInt32, WriteByte);
@@ -602,7 +602,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, Shop, CsProtoConstant.CS_MAX_SHOP_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, EquipPlanData, (ushort)CsProtoConstant.CS_MAX_EQUIP_PLAN_LEN, WriteUInt16, WriteByte);
             WriteList(buffer, Trace, CsProtoConstant.CS_MAX_TRACE_DATA_LEN, WriteInt32, WriteByte);
-            WriteStructure(buffer, StarStone);
+            WriteCsStructure(buffer, StarStone);
             WriteList(buffer, Speak, CsProtoConstant.CS_MAX_SPEAK_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, BattleItemUse, (uint)CsProtoConstant.CS_MAX_BATTLE_ITEM_USE_LEN, WriteUInt32, WriteByte);
             WriteList(buffer, SuitSkillData, (uint)CsProtoConstant.CS_SUIT_EQUIPSKIKLL_LEN, WriteUInt32, WriteByte);
@@ -611,18 +611,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, SoulStone, CsProtoConstant.CS_MAX_SOULSTONE_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, Monolopy, CsProtoConstant.CS_MAX_MONOLOPY_DATA_LEN, WriteInt32, WriteByte);
             WriteList(buffer, Achieve, CsProtoConstant.CS_MAX_ACHIEVE_DATA_LEN, WriteInt32, WriteByte);
-            WriteStructure(buffer, UiOptionInfo);
+            WriteCsStructure(buffer, UiOptionInfo);
             WriteList(buffer, Illustrate, CsProtoConstant.CS_MAX_ACHIEVE_DATA_LEN, WriteInt32, WriteByte);
-            WriteStructure(buffer, WeaponStyleInfo);
+            WriteCsStructure(buffer, WeaponStyleInfo);
             WriteList(buffer, WeaponHavenInfo, CsProtoConstant.MAX_WEAPON_HAVEN_CNT, WriteInt32, WriteByte);
-            WriteStructure(buffer, SilverStorageBoxInfo);
+            WriteCsStructure(buffer, SilverStorageBoxInfo);
             WriteList(buffer, GuideBookData, CsProtoConstant.CS_MAX_GUIDE_BOOK_DATA_LEN, WriteInt32, WriteByte);
-            WriteStructure(buffer, SecretResearchInitData);
+            WriteCsStructure(buffer, SecretResearchInitData);
             WriteInt32(buffer, DragonShopBox);
             WriteInt32(buffer, CanGetRewarded);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AccountId = ReadUInt32(buffer);
             NetId = ReadInt32(buffer);
@@ -636,7 +636,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Name = ReadString(buffer);
             Gender = ReadByte(buffer);
             IsGm = ReadByte(buffer);
-            Pose = ReadStructure<CSQuatT>(buffer);
+            Pose = ReadCsStructure<CSQuatT>(buffer);
             ParentEntityGuid = ReadUInt64(buffer);
             AvatarSetId = ReadByte(buffer);
             Faction = ReadInt32(buffer);
@@ -651,26 +651,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReadTlvStructure(buffer, EquipItem, (ushort)CsProtoConstant.CS_ITEM_EQUIP_DATA_LEN, ReadUInt16);
             ReadTlvStructure(buffer, StoreItem, CsProtoConstant.CS_ITEM_STORE_DATA_LEN, ReadInt32);
             ReadList(buffer, Shortcut, (ushort)CsProtoConstant.CS_MAX_SHORTCUT_LEN, ReadUInt16,
-                ReadStructure<CSShortcut>);
+                ReadCsStructure<CSShortcut>);
             ReadList(buffer, Buff, (ushort)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, ReadUInt16, ReadByte);
             ReadList(buffer, Skill, (ushort)CsProtoConstant.CS_MAX_SKILL_DATA_LEN, ReadUInt16, ReadByte);
             ReadList(buffer, Pet, (ushort)CsProtoConstant.CS_MAX_PET_DATA_LEN, ReadUInt16, ReadByte);
-            ReadList(buffer, FriendData, CsProtoConstant.CS_FRIEND_MAX, ReadInt32, ReadStructure<FriendInfoPacket>);
+            ReadList(buffer, FriendData, CsProtoConstant.CS_FRIEND_MAX, ReadInt32, ReadCsStructure<FriendInfoPacket>);
             ReadList(buffer, PasserbyData, CsProtoConstant.CS_PASSERBY_MAX, ReadInt32,
-                ReadStructure<PasserbyInfoPacket>);
+                ReadCsStructure<PasserbyInfoPacket>);
             ReadList(buffer, BlacklistData, CsProtoConstant.CS_BLACKLIST_MAX, ReadInt32,
-                ReadStructure<BlacklistInfoPacket>);
+                ReadCsStructure<BlacklistInfoPacket>);
             ReadList(buffer, FriendGroupData, CsProtoConstant.CS_FRIENDGROUP_MAX, ReadInt32,
-                ReadStructure<FriendGroupPacket>);
+                ReadCsStructure<FriendGroupPacket>);
             ReadTlvStructure(buffer, Attr, (ushort)CsProtoConstant.CS_MAX_ATTR_DATA_LEN, ReadUInt16);
             ReadTlvStructure(buffer, Task, CsProtoConstant.CS_MAX_TASK_DATA_LEN, ReadInt32);
             ReadList(buffer, Guild, CsProtoConstant.CS_MAX_GUILD_DATA_LEN, ReadInt32, ReadByte);
-            ActionPoint = ReadStructure<CSActionPointData>(buffer);
+            ActionPoint = ReadCsStructure<CSActionPointData>(buffer);
             FirstEnterLevel = ReadInt32(buffer);
             FirstEnterMap = ReadInt32(buffer);
             PvpPrepareStageState = ReadInt32(buffer);
             ReadList(buffer, GuideSteps, (ushort)CsProtoConstant.CS_MAX_GUIDE_STEPS, ReadUInt16,
-                ReadStructure<CSGuideStep>);
+                ReadCsStructure<CSGuideStep>);
             ReadList(buffer, Cd, (ushort)CsProtoConstant.CS_MAX_CD_DATA_LEN, ReadUInt16, ReadByte);
             ReadList(buffer, SchedulePrize, CsProtoConstant.CS_MAX_SCHEDULEPRIZE_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, MailInfo, CsProtoConstant.CS_MAX_MAILINFO_DATA_LEN, ReadInt32, ReadByte);
@@ -685,7 +685,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                 CatCuisineFormulaData,
                 (ushort)CsProtoConstant.CS_MAX_CAT_CUISINE_UNLOCK,
                 ReadUInt16,
-                ReadStructure<CatCuisineDataInfo>
+                ReadCsStructure<CatCuisineDataInfo>
             );
             ReadList(buffer,
                 ItemUseOnceList,
@@ -695,7 +695,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             );
             ReadList(buffer, Star, CsProtoConstant.CS_MAX_STAR_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, Video, (ushort)CsProtoConstant.CS_MAX_SKILL_VIDEO_LEN, ReadUInt16, ReadByte);
-            ClientSettings = ReadStructure<CSClientSettings>(buffer);
+            ClientSettings = ReadCsStructure<CSClientSettings>(buffer);
             ReadList(buffer, Farm, CsProtoConstant.CS_ROLE_FARMER_LEN, ReadInt32, ReadByte);
             ReadArray(buffer, FacialInfo, CsProtoConstant.CS_MAX_FACIALINFO_COUNT, ReadInt16);
             ReadList(buffer, Spoor, CsProtoConstant.CS_MAX_SPOOR_DATA_LEN, ReadInt32, ReadByte);
@@ -707,7 +707,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReadList(buffer, Shop, CsProtoConstant.CS_MAX_SHOP_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, EquipPlanData, (ushort)CsProtoConstant.CS_MAX_EQUIP_PLAN_LEN, ReadUInt16, ReadByte);
             ReadList(buffer, Trace, CsProtoConstant.CS_MAX_TRACE_DATA_LEN, ReadInt32, ReadByte);
-            StarStone = ReadStructure<CSStarStoneInfo>(buffer);
+            StarStone = ReadCsStructure<CSStarStoneInfo>(buffer);
             ReadList(buffer, Speak, CsProtoConstant.CS_MAX_SPEAK_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, BattleItemUse, (uint)CsProtoConstant.CS_MAX_BATTLE_ITEM_USE_LEN, ReadUInt32, ReadByte);
             ReadList(buffer, SuitSkillData, (uint)CsProtoConstant.CS_SUIT_EQUIPSKIKLL_LEN, ReadUInt32, ReadByte);
@@ -716,13 +716,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReadList(buffer, SoulStone, CsProtoConstant.CS_MAX_SOULSTONE_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, Monolopy, CsProtoConstant.CS_MAX_MONOLOPY_DATA_LEN, ReadInt32, ReadByte);
             ReadList(buffer, Achieve, CsProtoConstant.CS_MAX_ACHIEVE_DATA_LEN, ReadInt32, ReadByte);
-            UiOptionInfo = ReadStructure<ClientUIOption>(buffer);
+            UiOptionInfo = ReadCsStructure<ClientUIOption>(buffer);
             ReadList(buffer, Illustrate, CsProtoConstant.CS_MAX_ACHIEVE_DATA_LEN, ReadInt32, ReadByte);
-            WeaponStyleInfo = ReadStructure<S2CWeaponStyleInfo>(buffer);
+            WeaponStyleInfo = ReadCsStructure<S2CWeaponStyleInfo>(buffer);
             ReadList(buffer, WeaponHavenInfo, CsProtoConstant.MAX_WEAPON_HAVEN_CNT, ReadInt32, ReadByte);
-            SilverStorageBoxInfo = ReadStructure<S2CSilverStorageBoxInfo>(buffer);
+            SilverStorageBoxInfo = ReadCsStructure<S2CSilverStorageBoxInfo>(buffer);
             ReadList(buffer, GuideBookData, CsProtoConstant.CS_MAX_GUIDE_BOOK_DATA_LEN, ReadInt32, ReadByte);
-            SecretResearchInitData = ReadStructure<S2CSecretResearchLabDataSynchronizationRsp>(buffer);
+            SecretResearchInitData = ReadCsStructure<S2CSecretResearchLabDataSynchronizationRsp>(buffer);
             DragonShopBox = ReadInt32(buffer);
             CanGetRewarded = ReadInt32(buffer);
         }

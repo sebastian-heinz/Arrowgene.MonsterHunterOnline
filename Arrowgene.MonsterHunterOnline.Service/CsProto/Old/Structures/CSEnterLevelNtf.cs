@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端Load level完成,进入Level
     /// </summary>
-    public class CSEnterLevelNtf : IStructure
+    public class CSEnterLevelNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEnterLevelNtf));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reserver;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Reserver, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reserver = buffer.ReadInt32(Endianness.Big);
         }

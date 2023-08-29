@@ -59,7 +59,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Levels;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Groups.Length + 1, Endianness.Big);
             buffer.WriteCString(Groups);
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Levels);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int GroupsEntryLen = buffer.ReadInt32(Endianness.Big);
             Groups = buffer.ReadString(GroupsEntryLen);

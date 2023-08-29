@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取修罗试练最短通关时间
     /// </summary>
-    public class SCDemonTrialGetLevelPassTimeRsp : IStructure
+    public class SCDemonTrialGetLevelPassTimeRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCDemonTrialGetLevelPassTimeRsp));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSLevelPassMinTime> PassLevelInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             int passLevelInfoCount = (int)PassLevelInfo.Count;
             buffer.WriteInt32(passLevelInfoCount, Endianness.Big);
             for (int i = 0; i < passLevelInfoCount; i++)
             {
-                PassLevelInfo[i].Write(buffer);
+                PassLevelInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             PassLevelInfo.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < passLevelInfoCount; i++)
             {
                 CSLevelPassMinTime PassLevelInfoEntry = new CSLevelPassMinTime();
-                PassLevelInfoEntry.Read(buffer);
+                PassLevelInfoEntry.ReadCs(buffer);
                 PassLevelInfo.Add(PassLevelInfoEntry);
             }
         }

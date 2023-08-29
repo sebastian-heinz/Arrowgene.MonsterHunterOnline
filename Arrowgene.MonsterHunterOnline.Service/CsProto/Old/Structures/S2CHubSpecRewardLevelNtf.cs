@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 特殊奖励关卡信息
     /// </summary>
-    public class S2CHubSpecRewardLevelNtf : IStructure
+    public class S2CHubSpecRewardLevelNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CHubSpecRewardLevelNtf));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int NextRefreshSec;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HubEntryID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(NextRefreshSec, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubEntryID = buffer.ReadInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

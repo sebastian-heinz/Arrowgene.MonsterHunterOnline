@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速换装
     /// </summary>
-    public class CSQuickChangeEquipReq : IStructure
+    public class CSQuickChangeEquipReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSQuickChangeEquipReq));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<EquipParam> EquipParamList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int equipParamListCount = (int)EquipParamList.Count;
             buffer.WriteInt32(equipParamListCount, Endianness.Big);
             for (int i = 0; i < equipParamListCount; i++)
             {
-                EquipParamList[i].Write(buffer);
+                EquipParamList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EquipParamList.Clear();
             int equipParamListCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < equipParamListCount; i++)
             {
                 EquipParam EquipParamListEntry = new EquipParam();
-                EquipParamListEntry.Read(buffer);
+                EquipParamListEntry.ReadCs(buffer);
                 EquipParamList.Add(EquipParamListEntry);
             }
         }

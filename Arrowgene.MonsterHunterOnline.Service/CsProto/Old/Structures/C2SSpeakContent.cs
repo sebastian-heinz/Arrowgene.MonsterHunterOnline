@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 自动发言自定义语句
     /// </summary>
-    public class C2SSpeakContent : IStructure
+    public class C2SSpeakContent : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSpeakContent));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Content;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MsgId, Endianness.Big);
             buffer.WriteInt32(Content.Length + 1, Endianness.Big);
             buffer.WriteCString(Content);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MsgId = buffer.ReadInt32(Endianness.Big);
             int ContentEntryLen = buffer.ReadInt32(Endianness.Big);

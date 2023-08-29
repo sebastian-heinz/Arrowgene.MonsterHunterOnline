@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 镶嵌传奇技能珠-请求
     /// </summary>
-    public class CSLegendPearlInlayReq : IStructure
+    public class CSLegendPearlInlayReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLegendPearlInlayReq));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Grid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(EquipID, Endianness.Big);
             buffer.WriteByte(EquipColumn);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(Grid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EquipID = buffer.ReadUInt64(Endianness.Big);
             EquipColumn = buffer.ReadByte();

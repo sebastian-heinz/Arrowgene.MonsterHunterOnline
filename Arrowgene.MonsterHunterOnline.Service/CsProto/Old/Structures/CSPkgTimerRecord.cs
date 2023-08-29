@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 协议包跟踪
     /// </summary>
-    public class CSPkgTimerRecord : IStructure
+    public class CSPkgTimerRecord : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPkgTimerRecord));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public long Timer10;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(Timer1, Endianness.Big);
             buffer.WriteInt64(Timer2, Endianness.Big);
@@ -116,7 +116,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt64(Timer10, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Timer1 = buffer.ReadInt64(Endianness.Big);
             Timer2 = buffer.ReadInt64(Endianness.Big);

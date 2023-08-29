@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 武器觉醒特效
     /// </summary>
-    public class CSWeaponBreakEffect : IStructure
+    public class CSWeaponBreakEffect : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWeaponBreakEffect));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ShowEffect;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ShowEffect);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ShowEffect = buffer.ReadByte();
         }

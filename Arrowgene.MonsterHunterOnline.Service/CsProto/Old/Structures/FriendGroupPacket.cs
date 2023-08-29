@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友分组信息数据
     /// </summary>
-    public class FriendGroupPacket : IStructure
+    public class FriendGroupPacket : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(FriendGroupPacket));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string GroupName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(GroupID);
             buffer.WriteInt32(GroupName.Length + 1, Endianness.Big);
             buffer.WriteCString(GroupName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadByte();
             int GroupNameEntryLen = buffer.ReadInt32(Endianness.Big);

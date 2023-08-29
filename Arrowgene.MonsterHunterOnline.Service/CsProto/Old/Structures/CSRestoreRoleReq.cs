@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 恢复角色请求
     /// </summary>
-    public class CSRestoreRoleReq : IStructure
+    public class CSRestoreRoleReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRestoreRoleReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RoleIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleIndex = buffer.ReadInt32(Endianness.Big);
         }

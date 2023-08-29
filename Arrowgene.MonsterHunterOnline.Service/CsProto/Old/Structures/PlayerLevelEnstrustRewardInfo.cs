@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托小组奖励领取记录
     /// </summary>
-    public class PlayerLevelEnstrustRewardInfo : IStructure
+    public class PlayerLevelEnstrustRewardInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerLevelEnstrustRewardInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte State;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EnSubGroupID, Endianness.Big);
             buffer.WriteByte(State);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EnSubGroupID = buffer.ReadInt32(Endianness.Big);
             State = buffer.ReadByte();

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端传送到服务器的打击行为验证上下文
     /// </summary>
-    public class CSTargetVerifyContext : IStructure
+    public class CSTargetVerifyContext : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTargetVerifyContext));
 
@@ -54,26 +54,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSTransitionQueue> AttackeeLayers;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            AttackeeEntityPos.Write(buffer);
+            AttackeeEntityPos.WriteCs(buffer);
             short attackeeLayersCount = (short)AttackeeLayers.Count;
             buffer.WriteInt16(attackeeLayersCount, Endianness.Big);
             for (int i = 0; i < attackeeLayersCount; i++)
             {
-                AttackeeLayers[i].Write(buffer);
+                AttackeeLayers[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            AttackeeEntityPos.Read(buffer);
+            AttackeeEntityPos.ReadCs(buffer);
             AttackeeLayers.Clear();
             short attackeeLayersCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < attackeeLayersCount; i++)
             {
                 CSTransitionQueue AttackeeLayersEntry = new CSTransitionQueue();
-                AttackeeLayersEntry.Read(buffer);
+                AttackeeLayersEntry.ReadCs(buffer);
                 AttackeeLayers.Add(AttackeeLayersEntry);
             }
         }

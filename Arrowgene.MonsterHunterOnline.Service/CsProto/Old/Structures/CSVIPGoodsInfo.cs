@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 打包VIP商品信息
     /// </summary>
-    public class CSVIPGoodsInfo : IStructure
+    public class CSVIPGoodsInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPGoodsInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint GoodsVersion;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(GoodsID, Endianness.Big);
             buffer.WriteUInt32(GoodsCount, Endianness.Big);
             buffer.WriteUInt32(GoodsVersion, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GoodsID = buffer.ReadUInt32(Endianness.Big);
             GoodsCount = buffer.ReadUInt32(Endianness.Big);

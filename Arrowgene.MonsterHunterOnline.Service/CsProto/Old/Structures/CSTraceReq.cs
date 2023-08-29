@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 追踪REQ
     /// </summary>
-    public class CSTraceReq : IStructure
+    public class CSTraceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTraceReq));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public TraceDetail Detail;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Type);
             buffer.WriteByte(Trace);
-            Detail.Write(buffer);
+            Detail.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadByte();
             Trace = buffer.ReadByte();
-            Detail.Read(buffer);
+            Detail.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 榜单数据集
     /// </summary>
-    public class CSRankData : IStructure
+    public class CSRankData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRankData));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<Ranker> rank;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(rankId, Endianness.Big);
             buffer.WriteInt32(pos, Endianness.Big);
@@ -95,17 +95,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(rewardsCount, Endianness.Big);
             for (int i = 0; i < rewardsCount; i++)
             {
-                rewards[i].Write(buffer);
+                rewards[i].WriteCs(buffer);
             }
             int rankCount = (int)rank.Count;
             buffer.WriteInt32(rankCount, Endianness.Big);
             for (int i = 0; i < rankCount; i++)
             {
-                rank[i].Write(buffer);
+                rank[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             rankId = buffer.ReadInt32(Endianness.Big);
             pos = buffer.ReadInt32(Endianness.Big);
@@ -117,7 +117,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rewardsCount; i++)
             {
                 RankReward rewardsEntry = new RankReward();
-                rewardsEntry.Read(buffer);
+                rewardsEntry.ReadCs(buffer);
                 rewards.Add(rewardsEntry);
             }
             rank.Clear();
@@ -125,7 +125,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rankCount; i++)
             {
                 Ranker rankEntry = new Ranker();
-                rankEntry.Read(buffer);
+                rankEntry.ReadCs(buffer);
                 rank.Add(rankEntry);
             }
         }

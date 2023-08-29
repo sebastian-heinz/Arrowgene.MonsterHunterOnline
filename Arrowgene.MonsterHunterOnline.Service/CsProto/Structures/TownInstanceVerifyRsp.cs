@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 进入TOWN场景验证响应
     /// </summary>
-    public class TownInstanceVerifyRsp : Structure
+    public class TownInstanceVerifyRsp : Structure, ICsStructure
     {
         public TownInstanceVerifyRsp()
         {
@@ -36,18 +36,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelEnterType { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, ErrNo);
-            WriteStructure(buffer, InstanceInitInfo);
+            WriteCsStructure(buffer, InstanceInitInfo);
             WriteUInt16(buffer, LineId);
             WriteInt32(buffer, LevelEnterType);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = ReadInt32(buffer);
-            InstanceInitInfo.Read(buffer);
+            InstanceInitInfo.ReadCs(buffer);
             LineId = ReadUInt16(buffer);
             LevelEnterType = ReadInt32(buffer);
         }

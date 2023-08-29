@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团战报名减少
     /// </summary>
-    public class CSGuildMatchSignUpDel : IStructure
+    public class CSGuildMatchSignUpDel : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchSignUpDel));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong DBID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(SignUpID, Endianness.Big);
             buffer.WriteUInt64(DBID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SignUpID = buffer.ReadUInt32(Endianness.Big);
             DBID = buffer.ReadUInt64(Endianness.Big);

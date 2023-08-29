@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 解锁页签类型
     /// </summary>
-    public class PlayerUnLockHubInfo : IStructure
+    public class PlayerUnLockHubInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerUnLockHubInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PageIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HubID, Endianness.Big);
             buffer.WriteInt32(PageIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubID = buffer.ReadInt32(Endianness.Big);
             PageIndex = buffer.ReadInt32(Endianness.Big);

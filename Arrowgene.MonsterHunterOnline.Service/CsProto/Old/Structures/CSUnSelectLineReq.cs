@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// c-->s,关掉选线UI的时候,发这个包，设置Session状态
     /// </summary>
-    public class CSUnSelectLineReq : IStructure
+    public class CSUnSelectLineReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSUnSelectLineReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int para;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(para, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             para = buffer.ReadInt32(Endianness.Big);
         }

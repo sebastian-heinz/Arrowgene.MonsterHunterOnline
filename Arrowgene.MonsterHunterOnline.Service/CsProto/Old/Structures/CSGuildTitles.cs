@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团头衔集
     /// </summary>
-    public class CSGuildTitles : IStructure
+    public class CSGuildTitles : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildTitles));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGuildTitle> Titles;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int titlesCount = (int)Titles.Count;
             buffer.WriteInt32(titlesCount, Endianness.Big);
             for (int i = 0; i < titlesCount; i++)
             {
-                Titles[i].Write(buffer);
+                Titles[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Titles.Clear();
             int titlesCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < titlesCount; i++)
             {
                 CSGuildTitle TitlesEntry = new CSGuildTitle();
-                TitlesEntry.Read(buffer);
+                TitlesEntry.ReadCs(buffer);
                 Titles.Add(TitlesEntry);
             }
         }

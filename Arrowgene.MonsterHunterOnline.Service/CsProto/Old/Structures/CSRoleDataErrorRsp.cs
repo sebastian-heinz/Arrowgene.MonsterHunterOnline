@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色数据错误
     /// </summary>
-    public class CSRoleDataErrorRsp : IStructure
+    public class CSRoleDataErrorRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoleDataErrorRsp));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ErrNo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
         }

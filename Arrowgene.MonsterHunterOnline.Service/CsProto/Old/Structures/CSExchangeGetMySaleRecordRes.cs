@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 查询我的记录回复
     /// </summary>
-    public class CSExchangeGetMySaleRecordRes : IStructure
+    public class CSExchangeGetMySaleRecordRes : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeGetMySaleRecordRes));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSExchangeRecord> Records;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             ushort recordsCount = (ushort)Records.Count;
             buffer.WriteUInt16(recordsCount, Endianness.Big);
             for (int i = 0; i < recordsCount; i++)
             {
-                Records[i].Write(buffer);
+                Records[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             Records.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < recordsCount; i++)
             {
                 CSExchangeRecord RecordsEntry = new CSExchangeRecord();
-                RecordsEntry.Read(buffer);
+                RecordsEntry.ReadCs(buffer);
                 Records.Add(RecordsEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求移动物品到指定栏
     /// </summary>
-    public class CSReqMoveItem : IStructure
+    public class CSReqMoveItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqMoveItem));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte DstColumn;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(SrcColumn);
             buffer.WriteUInt16(SrcIndex, Endianness.Big);
             buffer.WriteByte(DstColumn);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcColumn = buffer.ReadByte();
             SrcIndex = buffer.ReadUInt16(Endianness.Big);

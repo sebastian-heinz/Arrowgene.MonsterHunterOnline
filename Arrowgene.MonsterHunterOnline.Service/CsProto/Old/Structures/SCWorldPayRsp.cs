@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class SCWorldPayRsp : IStructure
+    public class SCWorldPayRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCWorldPayRsp));
 
@@ -57,14 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Ret;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BuyID, Endianness.Big);
             buffer.WriteInt32(Num, Endianness.Big);
             buffer.WriteInt32(Ret, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BuyID = buffer.ReadInt32(Endianness.Big);
             Num = buffer.ReadInt32(Endianness.Big);

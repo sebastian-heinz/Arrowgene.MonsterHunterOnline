@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 增加的副本最大周期次数限制信息
     /// </summary>
-    public class PlayerAddLevelPeriodLimitInfo : IStructure
+    public class PlayerAddLevelPeriodLimitInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerAddLevelPeriodLimitInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint AddMaxLimitCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GroupID, Endianness.Big);
             buffer.WriteUInt32(AddMaxLimitCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadInt32(Endianness.Big);
             AddMaxLimitCount = buffer.ReadUInt32(Endianness.Big);

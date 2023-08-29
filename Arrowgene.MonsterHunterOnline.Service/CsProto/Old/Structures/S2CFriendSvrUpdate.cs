@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友所属服务器信息更新
     /// </summary>
-    public class S2CFriendSvrUpdate : IStructure
+    public class S2CFriendSvrUpdate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CFriendSvrUpdate));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint newSvr;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(oldSvr, Endianness.Big);
             buffer.WriteUInt32(newSvr, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             oldSvr = buffer.ReadUInt32(Endianness.Big);
             newSvr = buffer.ReadUInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星蕴石维修
     /// </summary>
-    public class CStarStoneRepairReq : IStructure
+    public class CStarStoneRepairReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CStarStoneRepairReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int netId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(netId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             netId = buffer.ReadInt32(Endianness.Big);
         }

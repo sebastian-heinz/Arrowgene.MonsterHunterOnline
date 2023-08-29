@@ -1,9 +1,10 @@
 ﻿using System;
 using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvTask : TlvStructure
+public class TlvTask : Structure, ITlvStructure
 {
     public TlvTask()
     {
@@ -18,7 +19,7 @@ public class TlvTask : TlvStructure
     public int AcceptTime { get; set; }
     public int Timeout { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public void WriteTlv(IBuffer buffer)
     {
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
@@ -35,7 +36,7 @@ public class TlvTask : TlvStructure
         buffer.Position = endPos;
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadTlv(IBuffer buffer)
     {
         throw new NotImplementedException();
     }

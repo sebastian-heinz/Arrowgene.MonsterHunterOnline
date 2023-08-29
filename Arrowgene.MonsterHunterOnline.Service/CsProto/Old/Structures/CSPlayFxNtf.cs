@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// LL层特效同步
     /// </summary>
-    public class CSPlayFxNtf : IStructure
+    public class CSPlayFxNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayFxNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Remove;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Attached, Endianness.Big);
             buffer.WriteUInt32(FxID, Endianness.Big);
             buffer.WriteInt32(Remove, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Attached = buffer.ReadUInt32(Endianness.Big);
             FxID = buffer.ReadUInt32(Endianness.Big);

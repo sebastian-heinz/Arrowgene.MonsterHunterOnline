@@ -24,7 +24,7 @@ public class ModifyFaceReqHandler : CsProtoStructureHandler<ModifyFaceReq>
 
     public override void Handle(Client client, ModifyFaceReq req)
     {
-        CsProtoStructurePacket<ModifyFaceRsp> modifyFaceRsp = CsProtoResponse.ModifyFaceRsp;
+        CsCsProtoStructurePacket<ModifyFaceRsp> modifyFaceRsp = CsProtoResponse.ModifyFaceRsp;
         if (!_characterManager.ModifyCharacter(client, req))
         {
             // TODO error
@@ -36,7 +36,7 @@ public class ModifyFaceReqHandler : CsProtoStructureHandler<ModifyFaceReq>
         modifyFaceRsp.Structure.Result = 0;
         client.SendCsProtoStructurePacket(modifyFaceRsp);
         
-        CsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
+        CsCsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
         _characterManager.PopulateRoleList(client, listRoleRsp.Structure);
         client.SendCsProtoStructurePacket(listRoleRsp);
     }

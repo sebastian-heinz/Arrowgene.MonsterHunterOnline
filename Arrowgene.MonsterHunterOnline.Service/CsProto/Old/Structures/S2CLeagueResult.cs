@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 赛季副本列表RSP
     /// </summary>
-    public class S2CLeagueResult : IStructure
+    public class S2CLeagueResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CLeagueResult));
 
@@ -114,7 +114,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ExRewardMedal;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteInt32(ClanScoreMod, Endianness.Big);
@@ -130,7 +130,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ExRewardMedal, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
             ClanScoreMod = buffer.ReadInt32(Endianness.Big);

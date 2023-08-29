@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求指定雕像数据
     /// </summary>
-    public class C2SGetSculpture : IStructure
+    public class C2SGetSculpture : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGetSculpture));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Sculpture;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Sculpture, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Sculpture = buffer.ReadInt32(Endianness.Big);
         }

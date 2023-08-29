@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家传送消息
     /// </summary>
-    public class CSPlayerTeleport : IStructure
+    public class CSPlayerTeleport : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerTeleport));
 
@@ -78,22 +78,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte InitState;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(Region, Endianness.Big);
-            TargetPos.Write(buffer);
+            TargetPos.WriteCs(buffer);
             buffer.WriteInt64(ParentGUID, Endianness.Big);
             buffer.WriteByte(InitState);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             Region = buffer.ReadInt32(Endianness.Big);
-            TargetPos.Read(buffer);
+            TargetPos.ReadCs(buffer);
             ParentGUID = buffer.ReadInt64(Endianness.Big);
             InitState = buffer.ReadByte();
         }

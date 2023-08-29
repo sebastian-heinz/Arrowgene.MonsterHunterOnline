@@ -7001,13 +7001,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<S2CWeaponTrialInfo>(CS_CMD_ID.SC_CMD_WEAPONTRIAL_INFO, structure);
         }
 
-        /// <summary>
-        /// 通知添加物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrAddItemNtf> ItemMgrAddItemNtf(CSItemMgrAddItemNtf structure)
-        {
-            return new CsTPacket<CSItemMgrAddItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_ADD_ITEM_NTF, structure);
-        }
+
 
         /// <summary>
         /// 通知更新物品

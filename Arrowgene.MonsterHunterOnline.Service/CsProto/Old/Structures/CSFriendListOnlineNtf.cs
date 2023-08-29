@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友在线通知
     /// </summary>
-    public class CSFriendListOnlineNtf : IStructure
+    public class CSFriendListOnlineNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendListOnlineNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSFriendOnline> FriendOnlineList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort friendOnlineListCount = (ushort)FriendOnlineList.Count;
             buffer.WriteUInt16(friendOnlineListCount, Endianness.Big);
             for (int i = 0; i < friendOnlineListCount; i++)
             {
-                FriendOnlineList[i].Write(buffer);
+                FriendOnlineList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FriendOnlineList.Clear();
             ushort friendOnlineListCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < friendOnlineListCount; i++)
             {
                 CSFriendOnline FriendOnlineListEntry = new CSFriendOnline();
-                FriendOnlineListEntry.Read(buffer);
+                FriendOnlineListEntry.ReadCs(buffer);
                 FriendOnlineList.Add(FriendOnlineListEntry);
             }
         }

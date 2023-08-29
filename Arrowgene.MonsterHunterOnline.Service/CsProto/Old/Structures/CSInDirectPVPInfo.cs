@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UIShowTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TotalBounds, Endianness.Big);
             buffer.WriteInt32(RedBounds, Endianness.Big);
@@ -83,12 +83,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(playereInfoCount, Endianness.Big);
             for (int i = 0; i < playereInfoCount; i++)
             {
-                PlayereInfo[i].Write(buffer);
+                PlayereInfo[i].WriteCs(buffer);
             }
             buffer.WriteInt32(UIShowTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TotalBounds = buffer.ReadInt32(Endianness.Big);
             RedBounds = buffer.ReadInt32(Endianness.Big);
@@ -98,7 +98,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < playereInfoCount; i++)
             {
                 CSInDirectPVPPlayerInfo PlayereInfoEntry = new CSInDirectPVPPlayerInfo();
-                PlayereInfoEntry.Read(buffer);
+                PlayereInfoEntry.ReadCs(buffer);
                 PlayereInfo.Add(PlayereInfoEntry);
             }
             UIShowTime = buffer.ReadInt32(Endianness.Big);

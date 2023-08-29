@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装载弹药响应
     /// </summary>
-    public class CSReloadAmmoRsp : IStructure
+    public class CSReloadAmmoRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReloadAmmoRsp));
 
@@ -51,18 +51,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSAmmoInfo> Ammos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             int ammosCount = (int)Ammos.Count;
             buffer.WriteInt32(ammosCount, Endianness.Big);
             for (int i = 0; i < ammosCount; i++)
             {
-                Ammos[i].Write(buffer);
+                Ammos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             Ammos.Clear();
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < ammosCount; i++)
             {
                 CSAmmoInfo AmmosEntry = new CSAmmoInfo();
-                AmmosEntry.Read(buffer);
+                AmmosEntry.ReadCs(buffer);
                 Ammos.Add(AmmosEntry);
             }
         }

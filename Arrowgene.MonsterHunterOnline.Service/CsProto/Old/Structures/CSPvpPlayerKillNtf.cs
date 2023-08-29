@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// PVP 杀人通知
     /// </summary>
-    public class CSPvpPlayerKillNtf : IStructure
+    public class CSPvpPlayerKillNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpPlayerKillNtf));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LastKill;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(KillerNetID, Endianness.Big);
             buffer.WriteInt32(KillerName.Length + 1, Endianness.Big);
@@ -97,7 +97,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LastKill, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             KillerNetID = buffer.ReadUInt32(Endianness.Big);
             int KillerNameEntryLen = buffer.ReadInt32(Endianness.Big);

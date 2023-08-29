@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速组队搜索队伍列表请求
     /// </summary>
-    public class CSTeamSearchTeamsReq : IStructure
+    public class CSTeamSearchTeamsReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamSearchTeamsReq));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint EndTo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(LevelMode, Endianness.Big);
             buffer.WriteUInt32(MapId, Endianness.Big);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(EndTo, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LevelMode = buffer.ReadInt16(Endianness.Big);
             MapId = buffer.ReadUInt32(Endianness.Big);

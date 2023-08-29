@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开始滑翔消息
     /// </summary>
-    public class CSActorFlyMove : IStructure
+    public class CSActorFlyMove : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorFlyMove));
 
@@ -78,24 +78,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 AngleSpeed;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            InputWorldDir.Write(buffer);
+            InputWorldDir.WriteCs(buffer);
             buffer.WriteInt64(SyncTime, Endianness.Big);
-            Location.Write(buffer);
-            Rotation.Write(buffer);
-            MoveSpeed.Write(buffer);
-            AngleSpeed.Write(buffer);
+            Location.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
+            MoveSpeed.WriteCs(buffer);
+            AngleSpeed.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            InputWorldDir.Read(buffer);
+            InputWorldDir.ReadCs(buffer);
             SyncTime = buffer.ReadInt64(Endianness.Big);
-            Location.Read(buffer);
-            Rotation.Read(buffer);
-            MoveSpeed.Read(buffer);
-            AngleSpeed.Read(buffer);
+            Location.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
+            MoveSpeed.ReadCs(buffer);
+            AngleSpeed.ReadCs(buffer);
         }
 
     }

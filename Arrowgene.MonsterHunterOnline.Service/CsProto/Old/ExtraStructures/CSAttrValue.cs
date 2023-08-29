@@ -29,7 +29,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto
 {
 
-    public interface CSAttrValue : IStructure
+    public interface CSAttrValue : ICsStructure
     {
 
         public CS_PROP_SYNC_TYPE Type { get; }

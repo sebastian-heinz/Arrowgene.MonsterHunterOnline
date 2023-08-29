@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pvp event
     /// </summary>
-    public class CSSPVPEvent : IStructure
+    public class CSSPVPEvent : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSPVPEvent));
 
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int Score;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EventType, Endianness.Big);
             buffer.WriteUInt32(TimeStamp, Endianness.Big);
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Score, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EventType = buffer.ReadInt32(Endianness.Big);
             TimeStamp = buffer.ReadUInt32(Endianness.Big);

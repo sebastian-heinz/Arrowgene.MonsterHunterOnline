@@ -34,14 +34,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知客户端更新物品
     /// </summary>
-    public class S2CGuildUpdateItemNtf : IStructure
+    public class S2CGuildUpdateItemNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGuildUpdateItemNtf));
 
         public S2CGuildUpdateItemNtf()
         {
             Reason = 0;
-            ItemList = new List<CSItemData>();
+            ItemList = new List<ItemData>();
         }
 
         /// <summary>
@@ -52,28 +52,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 物品列表
         /// </summary>
-        public List<CSItemData> ItemList;
+        public List<ItemData> ItemList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16(Reason, Endianness.Big);
             byte itemListCount = (byte)ItemList.Count;
             buffer.WriteByte(itemListCount);
             for (int i = 0; i < itemListCount; i++)
             {
-                ItemList[i].Write(buffer);
+                ItemList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reason = buffer.ReadUInt16(Endianness.Big);
             ItemList.Clear();
             byte itemListCount = buffer.ReadByte();
             for (int i = 0; i < itemListCount; i++)
             {
-                CSItemData ItemListEntry = new CSItemData();
-                ItemListEntry.Read(buffer);
+                ItemData ItemListEntry = new ItemData();
+                ItemListEntry.ReadCs(buffer);
                 ItemList.Add(ItemListEntry);
             }
         }

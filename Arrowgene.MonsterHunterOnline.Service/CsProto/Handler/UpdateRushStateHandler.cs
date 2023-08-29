@@ -15,7 +15,7 @@ public class UpdateRushStateHandler : CsProtoStructureHandler<UpdateRushState>
 
     public override void Handle(Client client, UpdateRushState req)
     {
-        CsProtoStructurePacket<UpdateRushState> actorMoveStateNtf = CsProtoResponse.UpdateRushState;
+        CsCsProtoStructurePacket<UpdateRushState> actorMoveStateNtf = CsProtoResponse.UpdateRushState;
         actorMoveStateNtf.Structure.Rush = req.Rush;
         actorMoveStateNtf.Structure.Type = req.Type;
     }

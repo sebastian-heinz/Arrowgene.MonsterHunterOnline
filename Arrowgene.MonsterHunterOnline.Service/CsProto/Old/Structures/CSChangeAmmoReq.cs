@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换弹药请求
     /// </summary>
-    public class CSChangeAmmoReq : IStructure
+    public class CSChangeAmmoReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChangeAmmoReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TypeID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TypeID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TypeID = buffer.ReadInt32(Endianness.Big);
         }

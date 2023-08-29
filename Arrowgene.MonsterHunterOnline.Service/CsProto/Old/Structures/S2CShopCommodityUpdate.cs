@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商品属性同步
     /// </summary>
-    public class S2CShopCommodityUpdate : IStructure
+    public class S2CShopCommodityUpdate : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CShopCommodityUpdate));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SaledCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Shop, Endianness.Big);
             buffer.WriteInt32(Commodity, Endianness.Big);
             buffer.WriteInt32(SaledCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Shop = buffer.ReadInt32(Endianness.Big);
             Commodity = buffer.ReadInt32(Endianness.Big);

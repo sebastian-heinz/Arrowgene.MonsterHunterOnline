@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 更新生产技能通知
     /// </summary>
-    public class CSManufactureUpdateSkillNtf : IStructure
+    public class CSManufactureUpdateSkillNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSManufactureUpdateSkillNtf));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ManufactureSkill Skill;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Skill.Write(buffer);
+            Skill.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Skill.Read(buffer);
+            Skill.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 行为完成次数 与csproto.xml保持一致
     /// </summary>
-    public class ActionStepInfo : IStructure
+    public class ActionStepInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ActionStepInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Steps;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ActionId, Endianness.Big);
             buffer.WriteInt32(Steps, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ActionId = buffer.ReadInt32(Endianness.Big);
             Steps = buffer.ReadInt32(Endianness.Big);

@@ -9,7 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 下发EntityID
     /// </summary>
-    public class EntityAppearNtfIdList : Structure
+    public class EntityAppearNtfIdList : Structure, ICsStructure
     {
         public EntityAppearNtfIdList()
         {
@@ -25,7 +25,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<uint> LogicEntityType { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, InitType);
             int count = Math.Min(LogicEntityId.Count, LogicEntityType.Count);
@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, LogicEntityType, count, CsProtoConstant.CS_MAX_APPEAR_ID_NTF_NUM, WriteUInt32);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             InitType = ReadInt32(buffer);
             int count = ReadInt32(buffer);

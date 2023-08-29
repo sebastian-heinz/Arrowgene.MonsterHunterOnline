@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速组队队伍创建请求
     /// </summary>
-    public class CSTeamCreateReq : IStructure
+    public class CSTeamCreateReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamCreateReq));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSTeamSetting TeamSetting;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            TeamSetting.Write(buffer);
+            TeamSetting.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            TeamSetting.Read(buffer);
+            TeamSetting.ReadCs(buffer);
         }
 
     }

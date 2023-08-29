@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 其他猎团商船信息
     /// </summary>
-    public class CSOhterGuildNews : IStructure
+    public class CSOhterGuildNews : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSOhterGuildNews));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Timestamp;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(GuildId, Endianness.Big);
             buffer.WriteInt32(Timestamp, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GuildId = buffer.ReadInt64(Endianness.Big);
             Timestamp = buffer.ReadInt32(Endianness.Big);

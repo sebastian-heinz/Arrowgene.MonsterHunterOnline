@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 升级传奇技能珠-应答
     /// </summary>
-    public class CSLegendPearlLevelUpRsp : IStructure
+    public class CSLegendPearlLevelUpRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLegendPearlLevelUpRsp));
 
@@ -78,23 +78,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte LevelUpFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteUInt64(ItemID, Endianness.Big);
             buffer.WriteByte(Column);
             buffer.WriteUInt16(Grid, Endianness.Big);
-            ReserveAbilityInfo.Write(buffer);
+            ReserveAbilityInfo.WriteCs(buffer);
             buffer.WriteByte(LevelUpFlag);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             ItemID = buffer.ReadUInt64(Endianness.Big);
             Column = buffer.ReadByte();
             Grid = buffer.ReadUInt16(Endianness.Big);
-            ReserveAbilityInfo.Read(buffer);
+            ReserveAbilityInfo.ReadCs(buffer);
             LevelUpFlag = buffer.ReadByte();
         }
 

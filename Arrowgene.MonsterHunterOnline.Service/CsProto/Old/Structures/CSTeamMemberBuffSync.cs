@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队员入队后，同步队员身上buff
     /// </summary>
-    public class CSTeamMemberBuffSync : IStructure
+    public class CSTeamMemberBuffSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamMemberBuffSync));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSTeamMemIconBuffs> member;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(TeamId, Endianness.Big);
             int memberCount = (int)member.Count;
             buffer.WriteInt32(memberCount, Endianness.Big);
             for (int i = 0; i < memberCount; i++)
             {
-                member[i].Write(buffer);
+                member[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TeamId = buffer.ReadUInt32(Endianness.Big);
             member.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < memberCount; i++)
             {
                 CSTeamMemIconBuffs memberEntry = new CSTeamMemIconBuffs();
-                memberEntry.Read(buffer);
+                memberEntry.ReadCs(buffer);
                 member.Add(memberEntry);
             }
         }

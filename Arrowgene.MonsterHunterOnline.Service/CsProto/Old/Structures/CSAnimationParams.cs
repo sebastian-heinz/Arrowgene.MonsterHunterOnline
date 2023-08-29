@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗使用招式消息
     /// </summary>
-    public class CSAnimationParams : IStructure
+    public class CSAnimationParams : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAnimationParams));
 
@@ -109,7 +109,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float[] UserData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(TransTime, Endianness.Big);
             buffer.WriteFloat(KeyTime, Endianness.Big);
@@ -127,7 +127,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TransTime = buffer.ReadFloat(Endianness.Big);
             KeyTime = buffer.ReadFloat(Endianness.Big);

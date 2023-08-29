@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class DeleteRoleReq : Structure
+public class DeleteRoleReq : Structure, ICsStructure
 {
     public DeleteRoleReq()
     {
@@ -12,12 +12,12 @@ public class DeleteRoleReq : Structure
 
     public int RoleIndex { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, RoleIndex);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         RoleIndex = ReadInt32(buffer);
     }

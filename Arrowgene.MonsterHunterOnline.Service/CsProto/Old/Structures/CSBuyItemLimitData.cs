@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 购买物品限制数据
     /// </summary>
-    public class CSBuyItemLimitData : IStructure
+    public class CSBuyItemLimitData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBuyItemLimitData));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint BuyCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(ShopType);
             buffer.WriteInt32(ShopID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(BuyCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ShopType = buffer.ReadByte();
             ShopID = buffer.ReadInt32(Endianness.Big);

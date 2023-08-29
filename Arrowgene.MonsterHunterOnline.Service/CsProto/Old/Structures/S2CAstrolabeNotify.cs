@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知
     /// </summary>
-    public class S2CAstrolabeNotify : IStructure
+    public class S2CAstrolabeNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CAstrolabeNotify));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong Arg6;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteInt32(Arg1, Endianness.Big);
@@ -97,7 +97,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt64(Arg6, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
             Arg1 = buffer.ReadInt32(Endianness.Big);

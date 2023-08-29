@@ -10,7 +10,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 发送给客户端的其他玩家聊天信息通知
     /// </summary>
-    public class ChatNtf : Structure
+    public class ChatNtf : Structure, ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ChatNtf));
 
@@ -144,7 +144,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SrcHrLevel { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, SourceId);
             WriteUInt32(buffer, SrcUin);
@@ -162,14 +162,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteString(buffer, Content);
             WriteBool(buffer, SendByMe);
             WriteBool(buffer, ContainBanWords);
-            WriteStructure(buffer, Items);
+            WriteCsStructure(buffer, Items);
             WriteInt32(buffer, SrcLevel);
             WriteString(buffer, SrcGuildName);
             WriteString(buffer, SrcHunterStar);
             WriteInt32(buffer, SrcHrLevel);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SourceId = ReadInt32(buffer);
             SrcUin = ReadUInt32(buffer);
@@ -187,7 +187,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Content = ReadString(buffer);
             SendByMe = ReadBool(buffer);
             ContainBanWords = ReadBool(buffer);
-            Items = ReadStructure(buffer, Items);
+            Items = ReadCsStructure(buffer, Items);
             SrcLevel = ReadInt32(buffer);
             SrcGuildName = ReadString(buffer);
             SrcHunterStar = ReadString(buffer);

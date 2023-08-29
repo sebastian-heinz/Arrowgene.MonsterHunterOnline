@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class MultiIspSequenceNtf : Structure
+public class MultiIspSequenceNtf : Structure, ICsStructure
 {
     /// <summary>
     /// 双线机房运营商顺序
@@ -19,12 +19,12 @@ public class MultiIspSequenceNtf : Structure
     public int Sequence { get; set; }
 
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, Sequence);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         Sequence = ReadInt32(buffer);
     }

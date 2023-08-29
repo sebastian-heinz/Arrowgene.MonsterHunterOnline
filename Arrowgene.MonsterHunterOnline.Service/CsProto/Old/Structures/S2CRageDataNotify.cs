@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class S2CRageDataNotify : IStructure
+    public class S2CRageDataNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRageDataNotify));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int rageSlot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(rageValue, Endianness.Big);
             buffer.WriteInt32(rageSlot, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             rageValue = buffer.ReadFloat(Endianness.Big);
             rageSlot = buffer.ReadInt32(Endianness.Big);

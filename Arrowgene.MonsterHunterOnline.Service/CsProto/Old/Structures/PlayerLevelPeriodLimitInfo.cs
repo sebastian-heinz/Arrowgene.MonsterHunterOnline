@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本周期限制数量信息
     /// </summary>
-    public class PlayerLevelPeriodLimitInfo : IStructure
+    public class PlayerLevelPeriodLimitInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerLevelPeriodLimitInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint LastFinishCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MergeGroupID, Endianness.Big);
             buffer.WriteUInt32(LastFinishTime, Endianness.Big);
             buffer.WriteUInt32(LastFinishCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MergeGroupID = buffer.ReadUInt32(Endianness.Big);
             LastFinishTime = buffer.ReadUInt32(Endianness.Big);

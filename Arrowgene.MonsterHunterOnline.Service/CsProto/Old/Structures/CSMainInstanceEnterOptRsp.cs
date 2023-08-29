@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本主UI操作进入响应
     /// </summary>
-    public class CSMainInstanceEnterOptRsp : IStructure
+    public class CSMainInstanceEnterOptRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMainInstanceEnterOptRsp));
 
@@ -87,7 +87,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int WeaponType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetId, Endianness.Big);
             buffer.WriteInt32(ErrCode, Endianness.Big);
@@ -97,14 +97,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(uIInfosCount, Endianness.Big);
             for (int i = 0; i < uIInfosCount; i++)
             {
-                UIInfos[i].Write(buffer);
+                UIInfos[i].WriteCs(buffer);
             }
             buffer.WriteInt32(UseEmploye, Endianness.Big);
             buffer.WriteInt32(WeaponTrialLevel, Endianness.Big);
             buffer.WriteInt32(WeaponType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = buffer.ReadInt32(Endianness.Big);
             ErrCode = buffer.ReadInt32(Endianness.Big);
@@ -115,7 +115,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < uIInfosCount; i++)
             {
                 CSBSMRoomUIPlayerInfo UIInfosEntry = new CSBSMRoomUIPlayerInfo();
-                UIInfosEntry.Read(buffer);
+                UIInfosEntry.ReadCs(buffer);
                 UIInfos.Add(UIInfosEntry);
             }
             UseEmploye = buffer.ReadInt32(Endianness.Big);

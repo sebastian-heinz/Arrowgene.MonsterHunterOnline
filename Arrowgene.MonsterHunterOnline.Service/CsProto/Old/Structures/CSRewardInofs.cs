@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 充值返利界面信息
     /// </summary>
-    public class CSRewardInofs : IStructure
+    public class CSRewardInofs : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRewardInofs));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RewardItemCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Index, Endianness.Big);
             buffer.WriteInt32(NeedPoint, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RewardItemCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Index = buffer.ReadInt32(Endianness.Big);
             NeedPoint = buffer.ReadInt32(Endianness.Big);

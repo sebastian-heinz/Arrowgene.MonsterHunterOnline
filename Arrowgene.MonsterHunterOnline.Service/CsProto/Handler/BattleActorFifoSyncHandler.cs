@@ -24,12 +24,12 @@ public class BattleActorFifoSyncHandler : CsProtoStructureHandler<FifoSyncInfo>
         // if server responds -> CS_CMD_SERVER_ACTOR_FIFO_SYNC_NTF
         // then client sends -> CS_CMD_SERVER_ACTOR_FIFO_SYNC_ACK
         
-        CsProtoStructurePacket<ServerSyncInfoNtf> serverSyncInfoNtf = CsProtoResponse.ServerSyncInfoNtf;
+        CsCsProtoStructurePacket<ServerSyncInfoNtf> serverSyncInfoNtf = CsProtoResponse.ServerSyncInfoNtf;
         serverSyncInfoNtf.Structure.EntityId = client.Character.Id;
         serverSyncInfoNtf.Structure.SyncInfo = req;
         //client.SendCsProtoStructurePacket(serverSyncInfoNtf);
         
-        CsProtoStructurePacket<FifoSyncInfoNtf> fifoSyncInfoNtf = CsProtoResponse.FifoSyncInfoNtf;
+        CsCsProtoStructurePacket<FifoSyncInfoNtf> fifoSyncInfoNtf = CsProtoResponse.FifoSyncInfoNtf;
         fifoSyncInfoNtf.Structure.EntityId = client.Character.Id;
         fifoSyncInfoNtf.Structure.SyncInfo = req;
         // client.SendCsProtoStructurePacket(fifoSyncInfoNtf);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// GameObjectEvent网络发送的格式
     /// </summary>
-    public class CSBattleGameObjEevnt : IStructure
+    public class CSBattleGameObjEevnt : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleGameObjEevnt));
 
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteUInt32(Event, Endianness.Big);
@@ -98,7 +98,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             Event = buffer.ReadUInt32(Endianness.Big);

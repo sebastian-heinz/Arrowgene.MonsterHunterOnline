@@ -55,7 +55,7 @@ public class CharacterManager
     public bool DeleteCharacter(Client client, byte roleIndex)
     {
         // TODO it looks like there is a grace period, but not sure about the mechanic, for now just delete it
-        CsProtoStructurePacket<DeleteRoleRsp> rsp = CsProtoResponse.DeleteRoleRsp;
+        CsCsProtoStructurePacket<DeleteRoleRsp> rsp = CsProtoResponse.DeleteRoleRsp;
         rsp.Structure.RoleState = 0;
         // 2 = removing role failed -> login protection
         // 3 = the leader cant delete the guild
@@ -285,7 +285,7 @@ public class CharacterManager
                 Logger.Error(client, "Chunk error");
             }
 
-            CsProtoStructurePacket<AttrSyncList> attrSyncList = CsProtoResponse.AttrSyncList;
+            CsCsProtoStructurePacket<AttrSyncList> attrSyncList = CsProtoResponse.AttrSyncList;
             for (int i = 0; i < attrChunk.Count; i++)
             {
                 attrSyncList.Structure.Attr.Add(attrChunk[i]);

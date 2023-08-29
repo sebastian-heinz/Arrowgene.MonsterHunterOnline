@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取猎团限购商品集
     /// </summary>
-    public class S2CGetGuildRandCommodities : IStructure
+    public class S2CGetGuildRandCommodities : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGetGuildRandCommodities));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildRandCommodities Commodities;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Commodities.Write(buffer);
+            Commodities.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Commodities.Read(buffer);
+            Commodities.ReadCs(buffer);
         }
 
     }

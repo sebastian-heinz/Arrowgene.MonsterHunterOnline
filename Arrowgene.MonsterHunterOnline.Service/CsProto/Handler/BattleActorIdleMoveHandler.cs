@@ -11,7 +11,7 @@ public class BattleActorIdleMoveHandler : CsProtoStructureHandler<ActorIdleMove>
 
     public override void Handle(Client client, ActorIdleMove req)
     {
-        CsProtoStructurePacket<ActorIdleMoveNtf> actorIdleMoveNtf = CsProtoResponse.ActorIdleMoveNtf;
+        CsCsProtoStructurePacket<ActorIdleMoveNtf> actorIdleMoveNtf = CsProtoResponse.ActorIdleMoveNtf;
         actorIdleMoveNtf.Structure.NetObjId = client.Character.Id;
         actorIdleMoveNtf.Structure.ActorIdleMove = req;
         //client.SendCsProtoStructurePacket(actorIdleMoveNtf);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 物体绑定同步
     /// </summary>
-    public class CSEntityAttach : IStructure
+    public class CSEntityAttach : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntityAttach));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Attach;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ParentEntNetId, Endianness.Big);
             buffer.WriteUInt32(ChildEntNetId, Endianness.Big);
@@ -92,12 +92,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(AttachmentName);
             buffer.WriteInt32(BoneName.Length + 1, Endianness.Big);
             buffer.WriteCString(BoneName);
-            Offset.Write(buffer);
-            Rotation.Write(buffer);
+            Offset.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
             buffer.WriteByte(Attach);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ParentEntNetId = buffer.ReadUInt32(Endianness.Big);
             ChildEntNetId = buffer.ReadUInt32(Endianness.Big);
@@ -105,8 +105,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             AttachmentName = buffer.ReadString(AttachmentNameEntryLen);
             int BoneNameEntryLen = buffer.ReadInt32(Endianness.Big);
             BoneName = buffer.ReadString(BoneNameEntryLen);
-            Offset.Read(buffer);
-            Rotation.Read(buffer);
+            Offset.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
             Attach = buffer.ReadByte();
         }
 

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家加入PVP狩猎包列表
     /// </summary>
-    public class CSPVPPlayerJoinHuntingBagStartNtf : IStructure
+    public class CSPVPPlayerJoinHuntingBagStartNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPPlayerJoinHuntingBagStartNtf));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSPVPSelectHuntingBagMember JoinMem;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            JoinMem.Write(buffer);
+            JoinMem.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            JoinMem.Read(buffer);
+            JoinMem.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 物品掉落列表
     /// </summary>
-    public class CSInstanceItemLootInfoList : IStructure
+    public class CSInstanceItemLootInfoList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceItemLootInfoList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSInstanceItemLootInfo> Items;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short itemsCount = (short)Items.Count;
             buffer.WriteInt16(itemsCount, Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
-                Items[i].Write(buffer);
+                Items[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Items.Clear();
             short itemsCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
                 CSInstanceItemLootInfo ItemsEntry = new CSInstanceItemLootInfo();
-                ItemsEntry.Read(buffer);
+                ItemsEntry.ReadCs(buffer);
                 Items.Add(ItemsEntry);
             }
         }

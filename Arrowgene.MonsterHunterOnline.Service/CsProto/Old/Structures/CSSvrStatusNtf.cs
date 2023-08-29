@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 下发服务器组状态
     /// </summary>
-    public class CSSvrStatusNtf : IStructure
+    public class CSSvrStatusNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSvrStatusNtf));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float[] BattleFPS;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OnlinePlayerNum, Endianness.Big);
             buffer.WriteInt32(PlayerInTown, Endianness.Big);
@@ -108,7 +108,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OnlinePlayerNum = buffer.ReadInt32(Endianness.Big);
             PlayerInTown = buffer.ReadInt32(Endianness.Big);

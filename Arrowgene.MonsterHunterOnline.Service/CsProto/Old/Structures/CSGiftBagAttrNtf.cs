@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 礼包参数集通知
     /// </summary>
-    public class CSGiftBagAttrNtf : IStructure
+    public class CSGiftBagAttrNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftBagAttrNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ConsDays;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OnlineTime, Endianness.Big);
             buffer.WriteInt32(ConsDays, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OnlineTime = buffer.ReadInt32(Endianness.Big);
             ConsDays = buffer.ReadInt32(Endianness.Big);

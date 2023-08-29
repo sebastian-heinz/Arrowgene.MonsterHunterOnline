@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 动画播放信息
     /// </summary>
-    public class CSParametric : IStructure
+    public class CSParametric : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSParametric));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<float> BlendWeight;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ParametricCRC, Endianness.Big);
             short animCRCCount = (short)AnimCRC.Count;
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ParametricCRC = buffer.ReadUInt32(Endianness.Big);
             AnimCRC.Clear();

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class ScriptActivityDetail : IStructure
+    public class ScriptActivityDetail : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ScriptActivityDetail));
 
@@ -132,7 +132,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ScriptActivityParams Params;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(Type);
             buffer.WriteUInt32(StartTime, Endianness.Big);
@@ -158,18 +158,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(dataEntriesCount);
             for (int i = 0; i < dataEntriesCount; i++)
             {
-                DataEntries[i].Write(buffer);
+                DataEntries[i].WriteCs(buffer);
             }
             byte showPeriodsCount = (byte)ShowPeriods.Count;
             buffer.WriteByte(showPeriodsCount);
             for (int i = 0; i < showPeriodsCount; i++)
             {
-                ShowPeriods[i].Write(buffer);
+                ShowPeriods[i].WriteCs(buffer);
             }
-            Params.Write(buffer);
+            Params.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadByte();
             StartTime = buffer.ReadUInt32(Endianness.Big);
@@ -196,7 +196,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < dataEntriesCount; i++)
             {
                 ScriptActivityDataEntry DataEntriesEntry = new ScriptActivityDataEntry(null);
-                DataEntriesEntry.Read(buffer);
+                DataEntriesEntry.ReadCs(buffer);
                 DataEntries.Add(DataEntriesEntry);
             }
             ShowPeriods.Clear();
@@ -204,10 +204,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < showPeriodsCount; i++)
             {
                 ScriptActivityPeriod ShowPeriodsEntry = new ScriptActivityPeriod();
-                ShowPeriodsEntry.Read(buffer);
+                ShowPeriodsEntry.ReadCs(buffer);
                 ShowPeriods.Add(ShowPeriodsEntry);
             }
-            Params.Read(buffer);
+            Params.ReadCs(buffer);
         }
 
     }

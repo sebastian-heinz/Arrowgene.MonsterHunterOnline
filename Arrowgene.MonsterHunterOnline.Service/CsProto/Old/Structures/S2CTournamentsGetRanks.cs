@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求列表
     /// </summary>
-    public class S2CTournamentsGetRanks : IStructure
+    public class S2CTournamentsGetRanks : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CTournamentsGetRanks));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSTournamentsRole> Roles;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(Total, Endianness.Big);
             buffer.WriteUInt64(Rank, Endianness.Big);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(rolesCount, Endianness.Big);
             for (int i = 0; i < rolesCount; i++)
             {
-                Roles[i].Write(buffer);
+                Roles[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Total = buffer.ReadUInt64(Endianness.Big);
             Rank = buffer.ReadUInt64(Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rolesCount; i++)
             {
                 CSTournamentsRole RolesEntry = new CSTournamentsRole();
-                RolesEntry.Read(buffer);
+                RolesEntry.ReadCs(buffer);
                 Roles.Add(RolesEntry);
             }
         }

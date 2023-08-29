@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物技能调试
     /// </summary>
-    public class CSPetSkillDebug : IStructure
+    public class CSPetSkillDebug : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSkillDebug));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int EnableSkillDebug;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(EnableSkillDebug, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EnableSkillDebug = buffer.ReadInt32(Endianness.Big);
         }

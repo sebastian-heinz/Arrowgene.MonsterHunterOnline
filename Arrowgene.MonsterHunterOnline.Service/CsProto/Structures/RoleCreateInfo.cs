@@ -4,7 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RoleCreateInfo : Structure
+public class RoleCreateInfo : Structure, ICsStructure
 {
     public RoleCreateInfo()
     {
@@ -94,7 +94,7 @@ public class RoleCreateInfo : Structure
     /// </summary>
     public ulong DbId { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteString(buffer, Name);
         WriteByte(buffer, Gender);
@@ -112,7 +112,7 @@ public class RoleCreateInfo : Structure
         WriteUInt64(buffer, DbId);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         Name = ReadString(buffer);
         Gender = ReadByte(buffer);

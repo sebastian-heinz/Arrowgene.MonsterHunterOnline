@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 升级生产技能的请求
     /// </summary>
-    public class CSManufactureLvUpSkillReq : IStructure
+    public class CSManufactureLvUpSkillReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSManufactureLvUpSkillReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SkillId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SkillId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SkillId = buffer.ReadInt32(Endianness.Big);
         }

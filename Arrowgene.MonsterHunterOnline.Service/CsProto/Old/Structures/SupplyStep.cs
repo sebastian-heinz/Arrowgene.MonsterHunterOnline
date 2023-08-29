@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快捷补给操作
     /// </summary>
-    public class SupplyStep : IStructure
+    public class SupplyStep : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SupplyStep));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int moveCnt;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(srcCol, Endianness.Big);
             buffer.WriteInt32(srcGrid, Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(moveCnt, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             srcCol = buffer.ReadInt16(Endianness.Big);
             srcGrid = buffer.ReadInt32(Endianness.Big);

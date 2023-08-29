@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置陷阱请求
     /// </summary>
-    public class CSSetTrapReq : IStructure
+    public class CSSetTrapReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSetTrapReq));
 
@@ -84,28 +84,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TrapID, Endianness.Big);
             buffer.WriteByte(SpawnType);
-            Pose.Write(buffer);
-            Rotation.Write(buffer);
+            Pose.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
             buffer.WriteInt32(Bone, Endianness.Big);
-            Offset.Write(buffer);
+            Offset.WriteCs(buffer);
             buffer.WriteUInt32(Holder, Endianness.Big);
             buffer.WriteInt32(CEClassName.Length + 1, Endianness.Big);
             buffer.WriteCString(CEClassName);
             buffer.WriteInt32(Param, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TrapID = buffer.ReadInt32(Endianness.Big);
             SpawnType = buffer.ReadByte();
-            Pose.Read(buffer);
-            Rotation.Read(buffer);
+            Pose.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
             Bone = buffer.ReadInt32(Endianness.Big);
-            Offset.Read(buffer);
+            Offset.ReadCs(buffer);
             Holder = buffer.ReadUInt32(Endianness.Big);
             int CEClassNameEntryLen = buffer.ReadInt32(Endianness.Big);
             CEClassName = buffer.ReadString(CEClassNameEntryLen);

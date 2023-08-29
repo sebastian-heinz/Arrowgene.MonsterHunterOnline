@@ -8,7 +8,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Create Server Entities List
     /// </summary>
-    public class SpawnSrvEntList : Structure
+    public class SpawnSrvEntList : Structure, ICsStructure
     {
         public SpawnSrvEntList()
         {
@@ -26,16 +26,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<SpawnSrvEnt> EntList { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteByte(buffer, InitMode);
-            WriteList(buffer, EntList, (uint)CsProtoConstant.CS_MAX_ENT_NUM, WriteUInt32, WriteStructure);
+            WriteList(buffer, EntList, (uint)CsProtoConstant.CS_MAX_ENT_NUM, WriteUInt32, WriteCsStructure);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             InitMode = ReadByte(buffer);
-            ReadList(buffer, EntList, (uint)CsProtoConstant.CS_MAX_ENT_NUM, ReadUInt32, ReadStructure<SpawnSrvEnt>);
+            ReadList(buffer, EntList, (uint)CsProtoConstant.CS_MAX_ENT_NUM, ReadUInt32, ReadCsStructure<SpawnSrvEnt>);
         }
     }
 }

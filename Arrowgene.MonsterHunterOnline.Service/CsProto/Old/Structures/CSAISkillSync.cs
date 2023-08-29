@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// AI技能同步
     /// </summary>
-    public class CSAISkillSync : IStructure
+    public class CSAISkillSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAISkillSync));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint SkillID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteUInt32(SkillID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             SkillID = buffer.ReadUInt32(Endianness.Big);

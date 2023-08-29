@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 添加路人通知
     /// </summary>
-    public class CSFriendPasserbyNtf : IStructure
+    public class CSFriendPasserbyNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendPasserbyNtf));
 
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SvrId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(DBID, Endianness.Big);
             buffer.WriteInt32(RoleID, Endianness.Big);
@@ -103,7 +103,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SvrId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DBID = buffer.ReadUInt64(Endianness.Big);
             RoleID = buffer.ReadInt32(Endianness.Big);

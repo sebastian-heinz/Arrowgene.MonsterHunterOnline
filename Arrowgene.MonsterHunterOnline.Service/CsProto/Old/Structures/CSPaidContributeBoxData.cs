@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 缴纳数据
     /// </summary>
-    public class CSPaidContributeBoxData : IStructure
+    public class CSPaidContributeBoxData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPaidContributeBoxData));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int DataCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(DataID, Endianness.Big);
             buffer.WriteInt32(DataCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DataID = buffer.ReadInt32(Endianness.Big);
             DataCount = buffer.ReadInt32(Endianness.Big);

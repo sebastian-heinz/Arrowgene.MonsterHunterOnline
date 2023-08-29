@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 钓鱼结束回复
     /// </summary>
-    public class CSLootFishFinish2Res : IStructure
+    public class CSLootFishFinish2Res : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLootFishFinish2Res));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RemainingFishCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LogicEntityId, Endianness.Big);
             buffer.WriteInt32(Ret, Endianness.Big);
@@ -88,7 +88,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(RemainingFishCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LogicEntityId = buffer.ReadUInt32(Endianness.Big);
             Ret = buffer.ReadInt32(Endianness.Big);

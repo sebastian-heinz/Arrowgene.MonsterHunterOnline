@@ -51,16 +51,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSAttrValue Value;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt16((ushort)Value.Type, Endianness.Big);
-            Value.Write(buffer);
+            Value.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_PROP_SYNC_TYPE CSAttrValue_Type = (CS_PROP_SYNC_TYPE)buffer.ReadUInt16(Endianness.Big);
-            Value.Read(buffer);
+            Value.ReadCs(buffer);
         }
 
     }

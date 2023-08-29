@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物物理部位信息
     /// </summary>
-    public class CSMonsterPhysPartInfo : IStructure
+    public class CSMonsterPhysPartInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterPhysPartInfo));
 
@@ -60,28 +60,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSQuatT> PartPose;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MonsterID, Endianness.Big);
-            EntityPose.Write(buffer);
+            EntityPose.WriteCs(buffer);
             uint partPoseCount = (uint)PartPose.Count;
             buffer.WriteUInt32(partPoseCount, Endianness.Big);
             for (int i = 0; i < partPoseCount; i++)
             {
-                PartPose[i].Write(buffer);
+                PartPose[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadUInt32(Endianness.Big);
-            EntityPose.Read(buffer);
+            EntityPose.ReadCs(buffer);
             PartPose.Clear();
             uint partPoseCount = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < partPoseCount; i++)
             {
                 CSQuatT PartPoseEntry = new CSQuatT();
-                PartPoseEntry.Read(buffer);
+                PartPoseEntry.ReadCs(buffer);
                 PartPose.Add(PartPoseEntry);
             }
         }

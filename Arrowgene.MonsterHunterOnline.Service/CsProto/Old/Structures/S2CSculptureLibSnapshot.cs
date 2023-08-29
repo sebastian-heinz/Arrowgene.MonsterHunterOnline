@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 雕像库外观集
     /// </summary>
-    public class S2CSculptureLibSnapshot : IStructure
+    public class S2CSculptureLibSnapshot : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CSculptureLibSnapshot));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSSculptureLib lib;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            lib.Write(buffer);
+            lib.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            lib.Read(buffer);
+            lib.ReadCs(buffer);
         }
 
     }

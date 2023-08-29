@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 行为完成次数 与csproto.xml保持一致
     /// </summary>
-    public class GuideActionInfo : IStructure
+    public class GuideActionInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(GuideActionInfo));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ActionStepInfo> ActionStepInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int finishActionBitTagCount = (int)FinishActionBitTag.Count;
             buffer.WriteInt32(finishActionBitTagCount, Endianness.Big);
@@ -66,11 +66,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(actionStepInfosCount, Endianness.Big);
             for (int i = 0; i < actionStepInfosCount; i++)
             {
-                ActionStepInfos[i].Write(buffer);
+                ActionStepInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FinishActionBitTag.Clear();
             int finishActionBitTagCount = buffer.ReadInt32(Endianness.Big);
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < actionStepInfosCount; i++)
             {
                 ActionStepInfo ActionStepInfosEntry = new ActionStepInfo();
-                ActionStepInfosEntry.Read(buffer);
+                ActionStepInfosEntry.ReadCs(buffer);
                 ActionStepInfos.Add(ActionStepInfosEntry);
             }
         }

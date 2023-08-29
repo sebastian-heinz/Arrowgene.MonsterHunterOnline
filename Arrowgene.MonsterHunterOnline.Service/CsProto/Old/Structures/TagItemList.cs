@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 分类素材列表
     /// </summary>
-    public class TagItemList : IStructure
+    public class TagItemList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(TagItemList));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> MaterialCnt;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TagType, Endianness.Big);
             buffer.WriteInt32(CreditCnt, Endianness.Big);
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TagType = buffer.ReadInt32(Endianness.Big);
             CreditCnt = buffer.ReadInt32(Endianness.Big);

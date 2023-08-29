@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 兑换实体卡
     /// </summary>
-    public class SCExchangePhyCardRsp : IStructure
+    public class SCExchangePhyCardRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCExchangePhyCardRsp));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CardType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             buffer.WriteInt32(CardGroupId, Endianness.Big);
             buffer.WriteInt32(CardType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             CardGroupId = buffer.ReadInt32(Endianness.Big);

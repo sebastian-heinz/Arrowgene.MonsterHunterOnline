@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 敏感操作管理页面URL请求
     /// </summary>
-    public class CSGetManageUrlReq : IStructure
+    public class CSGetManageUrlReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGetManageUrlReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Type, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadUInt32(Endianness.Big);
         }

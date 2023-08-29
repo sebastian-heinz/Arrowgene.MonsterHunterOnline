@@ -4,7 +4,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
     // TODO remove
-    public class CsTPacket<T> : CsPacket where T : IStructure
+    public class CsTPacket<T> : CsPacket where T : ICsStructure
     {
         public CsTPacket(CS_CMD_ID cmd, T structure)
         {
@@ -18,7 +18,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public override void Write(IBuffer buffer)
         {
-            Structure.Write(buffer);
+            Structure.WriteCs(buffer);
         }
     }
 }

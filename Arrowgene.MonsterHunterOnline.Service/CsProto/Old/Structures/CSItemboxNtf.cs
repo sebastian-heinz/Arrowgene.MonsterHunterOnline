@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Itembox错误
     /// </summary>
-    public class CSItemboxNtf : IStructure
+    public class CSItemboxNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemboxNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(_Err, Endianness.Big);
             buffer.WriteInt32(Param, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             _Err = buffer.ReadInt32(Endianness.Big);
             Param = buffer.ReadInt32(Endianness.Big);

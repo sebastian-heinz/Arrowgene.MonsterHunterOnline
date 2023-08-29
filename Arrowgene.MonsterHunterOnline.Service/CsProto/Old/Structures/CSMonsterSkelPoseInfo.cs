@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物骨架位置信息
     /// </summary>
-    public class CSMonsterSkelPoseInfo : IStructure
+    public class CSMonsterSkelPoseInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterSkelPoseInfo));
 
@@ -60,28 +60,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSQuatT> BonePose;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MonsterID, Endianness.Big);
-            EntityPose.Write(buffer);
+            EntityPose.WriteCs(buffer);
             uint bonePoseCount = (uint)BonePose.Count;
             buffer.WriteUInt32(bonePoseCount, Endianness.Big);
             for (int i = 0; i < bonePoseCount; i++)
             {
-                BonePose[i].Write(buffer);
+                BonePose[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadUInt32(Endianness.Big);
-            EntityPose.Read(buffer);
+            EntityPose.ReadCs(buffer);
             BonePose.Clear();
             uint bonePoseCount = buffer.ReadUInt32(Endianness.Big);
             for (int i = 0; i < bonePoseCount; i++)
             {
                 CSQuatT BonePoseEntry = new CSQuatT();
-                BonePoseEntry.Read(buffer);
+                BonePoseEntry.ReadCs(buffer);
                 BonePose.Add(BonePoseEntry);
             }
         }

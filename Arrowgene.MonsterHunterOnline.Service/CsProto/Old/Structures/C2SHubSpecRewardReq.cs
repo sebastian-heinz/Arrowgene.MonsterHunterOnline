@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 特殊奖励关卡
     /// </summary>
-    public class C2SHubSpecRewardReq : IStructure
+    public class C2SHubSpecRewardReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SHubSpecRewardReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int HubID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HubID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HubID = buffer.ReadInt32(Endianness.Big);
         }

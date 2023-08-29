@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 查询请求
     /// </summary>
-    public class CSExchangeSearchReq : IStructure
+    public class CSExchangeSearchReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExchangeSearchReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Max;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(SearchID, Endianness.Big);
             buffer.WriteInt32(Min, Endianness.Big);
             buffer.WriteInt32(Max, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SearchID = buffer.ReadUInt32(Endianness.Big);
             Min = buffer.ReadInt32(Endianness.Big);

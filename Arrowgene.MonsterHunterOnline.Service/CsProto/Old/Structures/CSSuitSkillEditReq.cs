@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 套装技能编辑响应
     /// </summary>
-    public class CSSuitSkillEditReq : IStructure
+    public class CSSuitSkillEditReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSuitSkillEditReq));
 
@@ -57,7 +57,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ItemFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(group, Endianness.Big);
             int skillIDCount = (int)skillID.Count;
@@ -69,7 +69,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ItemFlag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             group = buffer.ReadInt32(Endianness.Big);
             skillID.Clear();

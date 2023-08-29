@@ -65,18 +65,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short teleport;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            targetPos.Write(buffer);
-            startPos.Write(buffer);
+            targetPos.WriteCs(buffer);
+            startPos.WriteCs(buffer);
             buffer.WriteFloat(speed, Endianness.Big);
             buffer.WriteInt16(teleport, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            targetPos.Read(buffer);
-            startPos.Read(buffer);
+            targetPos.ReadCs(buffer);
+            startPos.ReadCs(buffer);
             speed = buffer.ReadFloat(Endianness.Big);
             teleport = buffer.ReadInt16(Endianness.Big);
         }

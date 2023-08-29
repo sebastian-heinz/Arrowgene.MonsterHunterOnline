@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置avatar标签
     /// </summary>
-    public class CSAvatarSetReq : IStructure
+    public class CSAvatarSetReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAvatarSetReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte HideHelm;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(HideFashion);
             buffer.WriteByte(HideSuite);
             buffer.WriteByte(HideHelm);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HideFashion = buffer.ReadByte();
             HideSuite = buffer.ReadByte();

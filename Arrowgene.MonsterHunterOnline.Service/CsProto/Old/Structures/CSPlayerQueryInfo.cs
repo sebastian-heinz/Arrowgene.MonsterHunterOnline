@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家查询信息
     /// </summary>
-    public class CSPlayerQueryInfo : IStructure
+    public class CSPlayerQueryInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerQueryInfo));
 
@@ -138,7 +138,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> SoulStone;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
@@ -201,7 +201,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);

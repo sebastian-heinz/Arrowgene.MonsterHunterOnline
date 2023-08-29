@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换弹药响应
     /// </summary>
-    public class CSChangeAmmoRsp : IStructure
+    public class CSChangeAmmoRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChangeAmmoRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int TypeID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(TypeID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadInt32(Endianness.Big);
             TypeID = buffer.ReadInt32(Endianness.Big);

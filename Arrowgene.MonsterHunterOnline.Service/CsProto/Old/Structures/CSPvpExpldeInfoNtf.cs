@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 间接PVP 爆炸
     /// </summary>
-    public class CSPvpExpldeInfoNtf : IStructure
+    public class CSPvpExpldeInfoNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpExpldeInfoNtf));
 
@@ -60,17 +60,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float Radius;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AttackerNetID, Endianness.Big);
-            Pos.Write(buffer);
+            Pos.WriteCs(buffer);
             buffer.WriteFloat(Radius, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttackerNetID = buffer.ReadUInt32(Endianness.Big);
-            Pos.Read(buffer);
+            Pos.ReadCs(buffer);
             Radius = buffer.ReadFloat(Endianness.Big);
         }
 

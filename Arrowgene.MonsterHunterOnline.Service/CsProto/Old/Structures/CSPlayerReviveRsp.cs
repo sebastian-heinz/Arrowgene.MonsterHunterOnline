@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 复活响应
     /// </summary>
-    public class CSPlayerReviveRsp : IStructure
+    public class CSPlayerReviveRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerReviveRsp));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public LevelCatCarInfo CatCarInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlayerID, Endianness.Big);
             buffer.WriteInt32(FactionID, Endianness.Big);
@@ -93,10 +93,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(ReviveType, Endianness.Big);
             buffer.WriteInt32(CatCarType, Endianness.Big);
             buffer.WriteInt32(Param, Endianness.Big);
-            CatCarInfo.Write(buffer);
+            CatCarInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerID = buffer.ReadInt32(Endianness.Big);
             FactionID = buffer.ReadInt32(Endianness.Big);
@@ -105,7 +105,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReviveType = buffer.ReadInt32(Endianness.Big);
             CatCarType = buffer.ReadInt32(Endianness.Big);
             Param = buffer.ReadInt32(Endianness.Big);
-            CatCarInfo.Read(buffer);
+            CatCarInfo.ReadCs(buffer);
         }
 
     }

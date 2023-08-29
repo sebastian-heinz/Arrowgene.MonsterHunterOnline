@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备强化次数数据
     /// </summary>
-    public class CSItemRebuildLimitData : IStructure
+    public class CSItemRebuildLimitData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildLimitData));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort LimitCnt;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(LimitType, Endianness.Big);
             buffer.WriteUInt16(LimitCnt, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LimitType = buffer.ReadInt32(Endianness.Big);
             LimitCnt = buffer.ReadUInt16(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通用玩家扩展通知
     /// </summary>
-    public class CSPlayerExtNotify : IStructure
+    public class CSPlayerExtNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerExtNotify));
 
@@ -52,13 +52,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSPlayerExtNotifyData _Notify;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte((byte)_Notify.ExtType);
-            _Notify.Write(buffer);
+            _Notify.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CS_PLAYER_EXT_TYPE CSPlayerExtNotifyData_ExtType = (CS_PLAYER_EXT_TYPE)buffer.ReadByte();
             switch (CSPlayerExtNotifyData_ExtType)
@@ -71,7 +71,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (_Notify != null) {
-                _Notify.Read(buffer);
+                _Notify.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create '_Notify' instance of type 'CSPlayerExtNotifyData'");

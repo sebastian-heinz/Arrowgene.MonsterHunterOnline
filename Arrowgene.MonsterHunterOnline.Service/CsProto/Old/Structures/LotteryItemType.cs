@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 机密研究院 奖励物品信息
     /// </summary>
-    public class LotteryItemType : IStructure
+    public class LotteryItemType : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(LotteryItemType));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ItemNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Position, Endianness.Big);
             buffer.WriteInt32(ItemId, Endianness.Big);
             buffer.WriteInt32(ItemNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Position = buffer.ReadInt32(Endianness.Big);
             ItemId = buffer.ReadInt32(Endianness.Big);

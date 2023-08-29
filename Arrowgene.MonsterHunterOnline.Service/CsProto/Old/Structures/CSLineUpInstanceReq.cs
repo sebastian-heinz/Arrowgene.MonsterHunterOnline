@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 排副本
     /// </summary>
-    public class CSLineUpInstanceReq : IStructure
+    public class CSLineUpInstanceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineUpInstanceReq));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMatchEnterLevelInfo> MatchInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NpcID, Endianness.Big);
             uint matchInfosCount = (uint)MatchInfos.Count;
             buffer.WriteUInt32(matchInfosCount, Endianness.Big);
             for (int i = 0; i < matchInfosCount; i++)
             {
-                MatchInfos[i].Write(buffer);
+                MatchInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NpcID = buffer.ReadInt32(Endianness.Big);
             MatchInfos.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < matchInfosCount; i++)
             {
                 CSMatchEnterLevelInfo MatchInfosEntry = new CSMatchEnterLevelInfo();
-                MatchInfosEntry.Read(buffer);
+                MatchInfosEntry.ReadCs(buffer);
                 MatchInfos.Add(MatchInfosEntry);
             }
         }

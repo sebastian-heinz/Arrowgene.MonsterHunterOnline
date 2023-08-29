@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队伍属性更新通知
     /// </summary>
-    public class CSTeamUpdateNtf : IStructure
+    public class CSTeamUpdateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamUpdateNtf));
 
@@ -57,14 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte TeamHasPwd;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetID, Endianness.Big);
             buffer.WriteByte(HasTeam);
             buffer.WriteByte(TeamHasPwd);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadUInt32(Endianness.Big);
             HasTeam = buffer.ReadByte();

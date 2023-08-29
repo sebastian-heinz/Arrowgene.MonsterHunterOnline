@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// xrank榜单数据请求
     /// </summary>
-    public class C2SXRankGetRank : IStructure
+    public class C2SXRankGetRank : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SXRankGetRank));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort UpCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Zone, Endianness.Big);
             buffer.WriteInt32(ScoreType, Endianness.Big);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(UpCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Zone = buffer.ReadInt32(Endianness.Big);
             ScoreType = buffer.ReadInt32(Endianness.Big);

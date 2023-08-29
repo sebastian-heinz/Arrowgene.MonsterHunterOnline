@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pvp member
     /// </summary>
-    public class CSSPVPMember : IStructure
+    public class CSSPVPMember : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSPVPMember));
 
@@ -51,14 +51,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int KillingCombo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetID, Endianness.Big);
             buffer.WriteInt32(Score, Endianness.Big);
             buffer.WriteInt32(KillingCombo, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetID = buffer.ReadUInt32(Endianness.Big);
             Score = buffer.ReadInt32(Endianness.Big);

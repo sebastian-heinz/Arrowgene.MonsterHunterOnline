@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 踢客户端服务器通知客户端的弹窗信息
     /// </summary>
-    public class CSDropClientNotifyInfo : IStructure
+    public class CSDropClientNotifyInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDropClientNotifyInfo));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string NotifyInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(IsParentControl, Endianness.Big);
             buffer.WriteInt32(NotifyInfo.Length + 1, Endianness.Big);
             buffer.WriteCString(NotifyInfo);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             IsParentControl = buffer.ReadInt32(Endianness.Big);
             int NotifyInfoEntryLen = buffer.ReadInt32(Endianness.Big);

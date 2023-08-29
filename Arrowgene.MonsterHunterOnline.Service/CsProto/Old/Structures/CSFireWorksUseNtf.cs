@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 节日烟花使用通知
     /// </summary>
-    public class CSFireWorksUseNtf : IStructure
+    public class CSFireWorksUseNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFireWorksUseNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int curGrid;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(FromID, Endianness.Big);
             buffer.WriteInt32(FireWorksType, Endianness.Big);
             buffer.WriteInt32(curGrid, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FromID = buffer.ReadUInt64(Endianness.Big);
             FireWorksType = buffer.ReadInt32(Endianness.Big);

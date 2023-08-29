@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 传输ANTI数据
     /// </summary>
-    public class CSPkgTransAntiData : IStructure
+    public class CSPkgTransAntiData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPkgTransAntiData));
 
@@ -48,7 +48,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<byte> AntiData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int antiDataCount = (int)AntiData.Count;
             buffer.WriteInt32(antiDataCount, Endianness.Big);
@@ -58,7 +58,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AntiData.Clear();
             int antiDataCount = buffer.ReadInt32(Endianness.Big);

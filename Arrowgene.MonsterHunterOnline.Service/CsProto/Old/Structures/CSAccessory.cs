@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 邮件附件信息
     /// </summary>
-    public class CSAccessory : IStructure
+    public class CSAccessory : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAccessory));
 
@@ -58,14 +58,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CsAccessoryDataUnion Accessory;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(isGet);
             buffer.WriteUInt32((uint)Accessory.Type, Endianness.Big);
-            Accessory.Write(buffer);
+            Accessory.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             isGet = buffer.ReadByte();
             EMailAccessoryType CsAccessoryDataUnion_Type = (EMailAccessoryType)buffer.ReadUInt32(Endianness.Big);
@@ -85,7 +85,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Accessory != null) {
-                Accessory.Read(buffer);
+                Accessory.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Accessory' instance of type 'CsAccessoryDataUnion'");

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 离开工会副本请求
     /// </summary>
-    public class CSLeaveGuildLevelReq : IStructure
+    public class CSLeaveGuildLevelReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLeaveGuildLevelReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong GuildID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(GuildID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GuildID = buffer.ReadUInt64(Endianness.Big);
         }

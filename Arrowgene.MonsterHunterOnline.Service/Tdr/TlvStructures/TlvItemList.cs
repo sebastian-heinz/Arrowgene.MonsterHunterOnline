@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Buffers;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvItemList : TlvStructure
+public class TlvItemList : Structure, ITlvStructure
 {
     private const int ItemsMaxSize = 0x9C4;
 
@@ -12,16 +14,15 @@ public class TlvItemList : TlvStructure
     {
         UnknownA = 0;
         UnknownB = 0;
-        Items = new List<TlvItem>();
+        Items = new List<Item>();
     }
 
     public short UnknownA { get; set; }
     public short UnknownB { get; set; }
-    public List<TlvItem> Items { get; }
+    public List<Item> Items { get; }
 
-    public override void Write(IBuffer buffer)
+    public void WriteTlv(IBuffer buffer)
     {
-        WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
@@ -37,7 +38,7 @@ public class TlvItemList : TlvStructure
             WriteInt32(buffer, 0);
             for (int i = 0; i < maxItems; i++)
             {
-                WriteTlvStructure(buffer, Items[i]);
+                WriteTlvSubStructure(buffer, Items[i]);
             }
 
             int subEndPos = buffer.Position;
@@ -57,7 +58,7 @@ public class TlvItemList : TlvStructure
         buffer.Position = endPos;
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadTlv(IBuffer buffer)
     {
         throw new NotImplementedException();
     }

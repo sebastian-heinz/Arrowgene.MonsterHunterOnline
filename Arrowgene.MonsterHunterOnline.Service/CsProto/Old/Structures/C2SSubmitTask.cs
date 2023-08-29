@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 交任务
     /// </summary>
-    public class C2SSubmitTask : IStructure
+    public class C2SSubmitTask : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSubmitTask));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Interact;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Task, Endianness.Big);
             buffer.WriteInt32(Interact, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Task = buffer.ReadInt32(Endianness.Big);
             Interact = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知BUFF列表
     /// </summary>
-    public class CSBuffInitList : IStructure
+    public class CSBuffInitList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBuffInitList));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<BuffNetInfo> Buff;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             short buffCount = (short)Buff.Count;
             buffer.WriteInt16(buffCount, Endianness.Big);
             for (int i = 0; i < buffCount; i++)
             {
-                Buff[i].Write(buffer);
+                Buff[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             Buff.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < buffCount; i++)
             {
                 BuffNetInfo BuffEntry = new BuffNetInfo();
-                BuffEntry.Read(buffer);
+                BuffEntry.ReadCs(buffer);
                 Buff.Add(BuffEntry);
             }
         }

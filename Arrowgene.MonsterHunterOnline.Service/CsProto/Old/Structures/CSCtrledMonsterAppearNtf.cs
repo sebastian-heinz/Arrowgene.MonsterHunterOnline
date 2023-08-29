@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// monster appear notify
     /// </summary>
-    public class CSCtrledMonsterAppearNtf : IStructure
+    public class CSCtrledMonsterAppearNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCtrledMonsterAppearNtf));
 
@@ -66,17 +66,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float Duration;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            BaseInfo.Write(buffer);
+            BaseInfo.WriteCs(buffer);
             buffer.WriteInt32(OwnerId, Endianness.Big);
             buffer.WriteInt32(Type, Endianness.Big);
             buffer.WriteFloat(Duration, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            BaseInfo.Read(buffer);
+            BaseInfo.ReadCs(buffer);
             OwnerId = buffer.ReadInt32(Endianness.Big);
             Type = buffer.ReadInt32(Endianness.Big);
             Duration = buffer.ReadFloat(Endianness.Big);

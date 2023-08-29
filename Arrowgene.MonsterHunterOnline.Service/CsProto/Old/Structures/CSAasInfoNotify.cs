@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 防沉迷信息通知
     /// </summary>
-    public class CSAasInfoNotify : IStructure
+    public class CSAasInfoNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAasInfoNotify));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int OnlineTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AdultType, Endianness.Big);
             buffer.WriteInt32(OnlineTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AdultType = buffer.ReadInt32(Endianness.Big);
             OnlineTime = buffer.ReadInt32(Endianness.Big);

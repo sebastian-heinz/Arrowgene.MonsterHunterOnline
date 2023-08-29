@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Logic Bt Obj 同步
     /// </summary>
-    public class CSLogicBTPropSync : IStructure
+    public class CSLogicBTPropSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLogicBTPropSync));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int OperData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(OperType, Endianness.Big);
             buffer.WriteInt32(OperData, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             OperType = buffer.ReadInt32(Endianness.Big);

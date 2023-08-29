@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// BUFF的网络消息结构
     /// </summary>
-    public class BuffNetInfo : IStructure
+    public class BuffNetInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(BuffNetInfo));
 
@@ -102,7 +102,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<BuffEffectData> EffectData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(UniqueID, Endianness.Big);
             buffer.WriteInt32(TypeID, Endianness.Big);
@@ -122,11 +122,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(effectDataCount, Endianness.Big);
             for (int i = 0; i < effectDataCount; i++)
             {
-                EffectData[i].Write(buffer);
+                EffectData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             UniqueID = buffer.ReadInt32(Endianness.Big);
             TypeID = buffer.ReadInt32(Endianness.Big);
@@ -148,7 +148,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < effectDataCount; i++)
             {
                 BuffEffectData EffectDataEntry = new BuffEffectData();
-                EffectDataEntry.Read(buffer);
+                EffectDataEntry.ReadCs(buffer);
                 EffectData.Add(EffectDataEntry);
             }
         }

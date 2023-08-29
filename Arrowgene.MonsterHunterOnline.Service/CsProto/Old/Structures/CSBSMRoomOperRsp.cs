@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本操作逻辑响应
     /// </summary>
-    public class CSBSMRoomOperRsp : IStructure
+    public class CSBSMRoomOperRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBSMRoomOperRsp));
 
@@ -93,7 +93,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Param5;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Ret, Endianness.Big);
             buffer.WriteInt32(OpNetID, Endianness.Big);
@@ -107,7 +107,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(Param5, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ret = buffer.ReadInt32(Endianness.Big);
             OpNetID = buffer.ReadInt32(Endianness.Big);

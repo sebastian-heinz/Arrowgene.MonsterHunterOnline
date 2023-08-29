@@ -12,7 +12,7 @@ public class CsCmdChangeTownInstanceReqHandler : ICsProtoHandler
     public void Handle(Client client, CsProtoPacket packet)
     {
         CSChangeTownInstanceReq req = new CSChangeTownInstanceReq();
-        req.Read(packet.NewBuffer());
+        req.ReadCs(packet.NewBuffer());
 
       //  client.State.OnChangeTownInstance(req);
     }

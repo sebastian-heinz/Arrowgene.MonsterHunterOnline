@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备方案信息
     /// </summary>
-    public class CSEquipPlan : IStructure
+    public class CSEquipPlan : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipPlan));
 
@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public EquipPlanItem[] EquipList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(PlanId, Endianness.Big);
             buffer.WriteInt32(ReNameFlag, Endianness.Big);
@@ -86,11 +86,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(EquipCnt, Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_EQUIPPLAN_NUM; i++)
             {
-                EquipList[i].Write(buffer);
+                EquipList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlanId = buffer.ReadInt32(Endianness.Big);
             ReNameFlag = buffer.ReadInt32(Endianness.Big);
@@ -99,7 +99,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             EquipCnt = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < CsProtoConstant.CS_MAX_EQUIPPLAN_NUM; i++)
             {
-                EquipList[i].Read(buffer);
+                EquipList[i].ReadCs(buffer);
             }
         }
 

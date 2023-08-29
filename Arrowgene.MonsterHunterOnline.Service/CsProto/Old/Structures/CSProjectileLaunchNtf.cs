@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 飞行道具发射
     /// </summary>
-    public class CSProjectileLaunchNtf : IStructure
+    public class CSProjectileLaunchNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSProjectileLaunchNtf));
 
@@ -174,24 +174,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<float> additiveAccTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteInt32(NetID, Endianness.Big);
             buffer.WriteInt32(LauncherID, Endianness.Big);
             buffer.WriteUInt32(VehicleID, Endianness.Big);
             buffer.WriteInt32(TypeID, Endianness.Big);
-            pos.Write(buffer);
-            dir.Write(buffer);
-            additiveVel.Write(buffer);
+            pos.WriteCs(buffer);
+            dir.WriteCs(buffer);
+            additiveVel.WriteCs(buffer);
             buffer.WriteInt32(skillId, Endianness.Big);
             buffer.WriteInt32(itemId, Endianness.Big);
             buffer.WriteFloat(delay, Endianness.Big);
             buffer.WriteFloat(speedScale, Endianness.Big);
             buffer.WriteFloat(damageScale, Endianness.Big);
             buffer.WriteInt32(overrideTrail, Endianness.Big);
-            acc.Write(buffer);
-            vel.Write(buffer);
+            acc.WriteCs(buffer);
+            vel.WriteCs(buffer);
             buffer.WriteFloat(radius, Endianness.Big);
             buffer.WriteFloat(gravityChangeTime, Endianness.Big);
             buffer.WriteFloat(additiveGravity, Endianness.Big);
@@ -201,7 +201,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(additiveAccXYZCount, Endianness.Big);
             for (int i = 0; i < additiveAccXYZCount; i++)
             {
-                additiveAccXYZ[i].Write(buffer);
+                additiveAccXYZ[i].WriteCs(buffer);
             }
             int additiveAccTimeCount = (int)additiveAccTime.Count;
             buffer.WriteInt32(additiveAccTimeCount, Endianness.Big);
@@ -211,24 +211,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             NetID = buffer.ReadInt32(Endianness.Big);
             LauncherID = buffer.ReadInt32(Endianness.Big);
             VehicleID = buffer.ReadUInt32(Endianness.Big);
             TypeID = buffer.ReadInt32(Endianness.Big);
-            pos.Read(buffer);
-            dir.Read(buffer);
-            additiveVel.Read(buffer);
+            pos.ReadCs(buffer);
+            dir.ReadCs(buffer);
+            additiveVel.ReadCs(buffer);
             skillId = buffer.ReadInt32(Endianness.Big);
             itemId = buffer.ReadInt32(Endianness.Big);
             delay = buffer.ReadFloat(Endianness.Big);
             speedScale = buffer.ReadFloat(Endianness.Big);
             damageScale = buffer.ReadFloat(Endianness.Big);
             overrideTrail = buffer.ReadInt32(Endianness.Big);
-            acc.Read(buffer);
-            vel.Read(buffer);
+            acc.ReadCs(buffer);
+            vel.ReadCs(buffer);
             radius = buffer.ReadFloat(Endianness.Big);
             gravityChangeTime = buffer.ReadFloat(Endianness.Big);
             additiveGravity = buffer.ReadFloat(Endianness.Big);
@@ -239,7 +239,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < additiveAccXYZCount; i++)
             {
                 CSVec3 additiveAccXYZEntry = new CSVec3();
-                additiveAccXYZEntry.Read(buffer);
+                additiveAccXYZEntry.ReadCs(buffer);
                 additiveAccXYZ.Add(additiveAccXYZEntry);
             }
             additiveAccTime.Clear();

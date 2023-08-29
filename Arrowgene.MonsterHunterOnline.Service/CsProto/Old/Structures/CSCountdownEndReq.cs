@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 高等级角色删除倒计时结束请求
     /// </summary>
-    public class CSCountdownEndReq : IStructure
+    public class CSCountdownEndReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCountdownEndReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int RoleIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoleIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleIndex = buffer.ReadInt32(Endianness.Big);
         }

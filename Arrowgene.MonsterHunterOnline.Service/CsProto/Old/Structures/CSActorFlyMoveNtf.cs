@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开始滑翔消息
     /// </summary>
-    public class CSActorFlyMoveNtf : IStructure
+    public class CSActorFlyMoveNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorFlyMoveNtf));
 
@@ -84,26 +84,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 InputWorldDir;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt64(SyncTime, Endianness.Big);
-            Location.Write(buffer);
-            Rotation.Write(buffer);
-            MoveSpeed.Write(buffer);
-            AngleSpeed.Write(buffer);
-            InputWorldDir.Write(buffer);
+            Location.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
+            MoveSpeed.WriteCs(buffer);
+            AngleSpeed.WriteCs(buffer);
+            InputWorldDir.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             SyncTime = buffer.ReadInt64(Endianness.Big);
-            Location.Read(buffer);
-            Rotation.Read(buffer);
-            MoveSpeed.Read(buffer);
-            AngleSpeed.Read(buffer);
-            InputWorldDir.Read(buffer);
+            Location.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
+            MoveSpeed.ReadCs(buffer);
+            AngleSpeed.ReadCs(buffer);
+            InputWorldDir.ReadCs(buffer);
         }
 
     }

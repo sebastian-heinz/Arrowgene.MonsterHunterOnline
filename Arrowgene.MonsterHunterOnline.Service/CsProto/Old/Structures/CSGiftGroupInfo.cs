@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 礼包组状态信息
     /// </summary>
-    public class CSGiftGroupInfo : IStructure
+    public class CSGiftGroupInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftGroupInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte GroupState;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GroupId, Endianness.Big);
             buffer.WriteByte(GroupState);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupId = buffer.ReadInt32(Endianness.Big);
             GroupState = buffer.ReadByte();

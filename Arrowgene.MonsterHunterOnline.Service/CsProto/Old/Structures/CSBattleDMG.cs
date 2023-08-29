@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 战斗伤害消息
     /// </summary>
-    public class CSBattleDMG : IStructure
+    public class CSBattleDMG : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleDMG));
 
@@ -240,7 +240,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float curStamina;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(shooterId, Endianness.Big);
             buffer.WriteUInt32(targetId, Endianness.Big);
@@ -252,17 +252,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(damageMin, Endianness.Big);
             buffer.WriteFloat(pierce, Endianness.Big);
             buffer.WriteInt32(partId, Endianness.Big);
-            pos.Write(buffer);
-            lpos.Write(buffer);
-            dir.Write(buffer);
-            normal.Write(buffer);
-            lnorm.Write(buffer);
-            attackDir.Write(buffer);
-            tScarDir.Write(buffer);
-            tPos.Write(buffer);
-            tUp.Write(buffer);
-            tNormal.Write(buffer);
-            localnormangle.Write(buffer);
+            pos.WriteCs(buffer);
+            lpos.WriteCs(buffer);
+            dir.WriteCs(buffer);
+            normal.WriteCs(buffer);
+            lnorm.WriteCs(buffer);
+            attackDir.WriteCs(buffer);
+            tScarDir.WriteCs(buffer);
+            tPos.WriteCs(buffer);
+            tUp.WriteCs(buffer);
+            tNormal.WriteCs(buffer);
+            localnormangle.WriteCs(buffer);
             buffer.WriteFloat(shakeStrength, Endianness.Big);
             buffer.WriteFloat(shakeDurationTime, Endianness.Big);
             buffer.WriteFloat(shakeStillTime, Endianness.Big);
@@ -288,7 +288,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteFloat(curStamina, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             shooterId = buffer.ReadUInt32(Endianness.Big);
             targetId = buffer.ReadUInt32(Endianness.Big);
@@ -300,17 +300,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             damageMin = buffer.ReadFloat(Endianness.Big);
             pierce = buffer.ReadFloat(Endianness.Big);
             partId = buffer.ReadInt32(Endianness.Big);
-            pos.Read(buffer);
-            lpos.Read(buffer);
-            dir.Read(buffer);
-            normal.Read(buffer);
-            lnorm.Read(buffer);
-            attackDir.Read(buffer);
-            tScarDir.Read(buffer);
-            tPos.Read(buffer);
-            tUp.Read(buffer);
-            tNormal.Read(buffer);
-            localnormangle.Read(buffer);
+            pos.ReadCs(buffer);
+            lpos.ReadCs(buffer);
+            dir.ReadCs(buffer);
+            normal.ReadCs(buffer);
+            lnorm.ReadCs(buffer);
+            attackDir.ReadCs(buffer);
+            tScarDir.ReadCs(buffer);
+            tPos.ReadCs(buffer);
+            tUp.ReadCs(buffer);
+            tNormal.ReadCs(buffer);
+            localnormangle.ReadCs(buffer);
             shakeStrength = buffer.ReadFloat(Endianness.Big);
             shakeDurationTime = buffer.ReadFloat(Endianness.Big);
             shakeStillTime = buffer.ReadFloat(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玫瑰礼花通知
     /// </summary>
-    public class SCRoseFlowerNtf : IStructure
+    public class SCRoseFlowerNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(SCRoseFlowerNtf));
 
@@ -78,7 +78,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int AddValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(FromName.Length + 1, Endianness.Big);
             buffer.WriteCString(FromName);
@@ -90,7 +90,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(AddValue, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int FromNameEntryLen = buffer.ReadInt32(Endianness.Big);
             FromName = buffer.ReadString(FromNameEntryLen);

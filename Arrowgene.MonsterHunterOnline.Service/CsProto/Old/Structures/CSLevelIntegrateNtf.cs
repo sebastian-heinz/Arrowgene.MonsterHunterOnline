@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本通关
     /// </summary>
-    public class CSLevelIntegrateNtf : IStructure
+    public class CSLevelIntegrateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelIntegrateNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int best_final_rank;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(level_id, Endianness.Big);
             buffer.WriteByte(state);
             buffer.WriteInt32(best_final_rank, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             level_id = buffer.ReadInt32(Endianness.Big);
             state = buffer.ReadByte();

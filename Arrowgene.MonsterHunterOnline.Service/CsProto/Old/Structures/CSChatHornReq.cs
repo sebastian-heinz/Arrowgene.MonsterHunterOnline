@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端发送的喇叭聊天请求
     /// </summary>
-    public class CSChatHornReq : IStructure
+    public class CSChatHornReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSChatHornReq));
 
@@ -66,22 +66,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ChatItemsPkg Items;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(BagColumn);
             buffer.WriteInt16(BagGrid, Endianness.Big);
             buffer.WriteInt32(Content.Length + 1, Endianness.Big);
             buffer.WriteCString(Content);
-            Items.Write(buffer);
+            Items.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BagColumn = buffer.ReadByte();
             BagGrid = buffer.ReadInt16(Endianness.Big);
             int ContentEntryLen = buffer.ReadInt32(Endianness.Big);
             Content = buffer.ReadString(ContentEntryLen);
-            Items.Read(buffer);
+            Items.ReadCs(buffer);
         }
 
     }

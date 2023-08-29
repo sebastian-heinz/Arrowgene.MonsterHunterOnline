@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 银币收纳箱数据同步-通知
     /// </summary>
-    public class CSStorageBoxSyncSilverDataNtf : IStructure
+    public class CSStorageBoxSyncSilverDataNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSStorageBoxSyncSilverDataNtf));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public S2CSilverStorageBoxInfo Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Data.Write(buffer);
+            Data.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Data.Read(buffer);
+            Data.ReadCs(buffer);
         }
 
     }

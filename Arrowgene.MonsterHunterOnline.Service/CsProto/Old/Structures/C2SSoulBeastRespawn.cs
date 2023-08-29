@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 狩魂兽重新召唤一下
     /// </summary>
-    public class C2SSoulBeastRespawn : IStructure
+    public class C2SSoulBeastRespawn : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSoulBeastRespawn));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int beast;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(beast, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             beast = buffer.ReadInt32(Endianness.Big);
         }

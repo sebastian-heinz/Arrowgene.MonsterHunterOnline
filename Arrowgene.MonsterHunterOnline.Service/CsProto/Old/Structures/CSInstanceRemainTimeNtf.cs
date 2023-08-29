@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本剩余时间变化通知
     /// </summary>
-    public class CSInstanceRemainTimeNtf : IStructure
+    public class CSInstanceRemainTimeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceRemainTimeNtf));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int UIShowFlag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RemainTimeSeconds, Endianness.Big);
             buffer.WriteInt32(VipExtraRemainSeconds, Endianness.Big);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(UIShowFlag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RemainTimeSeconds = buffer.ReadInt32(Endianness.Big);
             VipExtraRemainSeconds = buffer.ReadInt32(Endianness.Big);

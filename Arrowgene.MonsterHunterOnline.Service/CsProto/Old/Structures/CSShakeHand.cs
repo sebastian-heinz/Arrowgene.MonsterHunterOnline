@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 连接握手消息
     /// </summary>
-    public class CSShakeHand : IStructure
+    public class CSShakeHand : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSShakeHand));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int VerifyCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(VerifyCode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             VerifyCode = buffer.ReadInt32(Endianness.Big);
         }

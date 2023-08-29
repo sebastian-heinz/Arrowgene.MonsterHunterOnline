@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 动画移动控制方式变更事件
     /// </summary>
-    public class CSBattleMcmChange : IStructure
+    public class CSBattleMcmChange : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleMcmChange));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte MCMV;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteByte(MCMH);
             buffer.WriteByte(MCMV);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             MCMH = buffer.ReadByte();

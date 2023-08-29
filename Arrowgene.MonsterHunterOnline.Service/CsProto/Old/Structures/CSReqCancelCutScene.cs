@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求中断过场动画
     /// </summary>
-    public class CSReqCancelCutScene : IStructure
+    public class CSReqCancelCutScene : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqCancelCutScene));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint LogicEntity;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LogicEntity, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LogicEntity = buffer.ReadUInt32(Endianness.Big);
         }

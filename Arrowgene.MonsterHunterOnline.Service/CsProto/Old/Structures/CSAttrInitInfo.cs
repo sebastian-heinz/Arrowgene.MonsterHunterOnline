@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 属性信息
     /// </summary>
-    public class CSAttrInitInfo : IStructure
+    public class CSAttrInitInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAttrInitInfo));
 
@@ -45,7 +45,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<byte> Attr;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort attrCount = (ushort)Attr.Count;
             buffer.WriteUInt16(attrCount, Endianness.Big);
@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Attr.Clear();
             ushort attrCount = buffer.ReadUInt16(Endianness.Big);

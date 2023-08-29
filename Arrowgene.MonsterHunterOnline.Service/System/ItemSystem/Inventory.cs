@@ -1,4 +1,6 @@
-﻿using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+﻿using System.Collections.Generic;
+using Arrowgene.Logging;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
@@ -6,69 +8,185 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 public class Inventory
 {
-    private Item[][] _item;
-    private Item[][] _store;
-    private Item[][] _box;
+    private const int NoFreeSlot = -1;
+    private const int MaxItemSize = 100;
+
+    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(Inventory));
+
+    private Item[] _item;
+    private Item[] _store;
     private Item[] _equipment;
-    private Item[][] _quest;
+    private object _lock;
 
-    public Inventory()
+    public Inventory(List<Item> items)
     {
-    }
+        _item = new Item[MaxItemSize];
+        _store = new Item[MaxItemSize];
+        _equipment = new Item[MaxItemSize];
+        _lock = new object();
 
+        foreach (Item item in items)
+        {
+            if (item.Id == null)
+            {
+                continue;
+            }
+
+            if (item.PosGrid == null)
+            {
+                continue;
+            }
+
+            Item[] collection = GetCollection(item.PosColumn);
+            collection[item.PosGrid.Value] = item;
+        }
+    }
 
     public bool Add(Item item)
     {
-        return true;
+        Item[] collection = GetCollection(item.PosColumn);
+        if (collection == null)
+        {
+            return false;
+        }
+
+        return Add(item, collection);
     }
 
-    public bool Move(ulong reqItemId,
-        ItemColumnType reqItemColumn,
-        ushort reqItemGrid,
-        ItemColumnType reqDstColumn,
-        ushort reqDstGrid)
+    public bool Remove(Item item)
+    {
+        Item[] collection = GetCollection(item.PosColumn);
+        if (collection == null)
+        {
+            return false;
+        }
+
+        return Remove(item, collection);
+    }
+
+    public bool Move(ulong itemId,
+        ItemColumnType srcColumn,
+        ushort srcGrid,
+        ItemColumnType dstColumn,
+        ushort dstGrid)
     {
         return true;
     }
 
     public void PopulateItemListProperties(IItemListProperties properties)
     {
-        properties.NormalSize = 30;
-        properties.MaterialStoreSize = 30;
-        properties.StoreSize = 30;
-        properties.EquipItem.UnknownA = 1;
-        properties.EquipItem.UnknownB = 1;
-        properties.EquipItem.Items.Add(new TlvItem()
+        lock (_lock)
         {
-            ItemId = 1,
-            PosColumn = ItemColumnType.Equipment,
-            PosGridEquipment = ItemEquipmentType.Weapon,
-            ItemType = 120005,
-            Quantity = 1,
-        });
-        properties.EquipItem.Items.Add(new TlvItem()
+            properties.NormalSize = MaxItemSize;
+            properties.MaterialStoreSize = MaxItemSize;
+            properties.StoreSize = MaxItemSize;
+            PopulateItemListProperties(properties.EquipItem, _equipment);
+            // TODO not sure about this
+            PopulateItemListProperties(properties.BagItem, _item);
+            PopulateItemListProperties(properties.StoreItem, _store);
+        }
+    }
+
+    private void PopulateItemListProperties(TlvItemList itemList, Item[] collection)
+    {
+        itemList.UnknownA = 0;
+        itemList.UnknownB = 0;
+        for (int i = 0; i < MaxItemSize; i++)
         {
-            ItemId = 2,
-            PosColumn = ItemColumnType.Equipment,
-            PosGridEquipment = ItemEquipmentType.Helmet,
-            ItemType = 60011,
-            Quantity = 1,
-        });
-        properties.BagItem.Items.Add(new TlvItem()
+            Item item = collection[i];
+            if (item == null)
+            {
+                continue;
+            }
+
+            itemList.Items.Add(item);
+        }
+    }
+
+    private bool Add(Item item, Item[] collection)
+    {
+        if (item.PosGrid != null)
         {
-            ItemId = 3,
-            PosColumn = ItemColumnType.BoxEquip,
-            PosGrid = 0,
-            ItemType = 55784,
-            Quantity = 1,
-        });
-        properties.BagItem.Items.Add(new TlvItem()
+            return false;
+        }
+
+        int freeSlot;
+        lock (_lock)
         {
-            ItemId = 4,
-            PosColumn = ItemColumnType.BoxEquip,
-            PosGrid = 1,
-            ItemType = 120006,
-            Quantity = 1,
-        });
+            freeSlot = GetFreeSlot(collection);
+            if (freeSlot == NoFreeSlot)
+            {
+                Logger.Error("no free slot");
+                return false;
+            }
+
+            collection[freeSlot] = item;
+        }
+
+        item.PosGrid = (ushort)freeSlot;
+        return true;
+    }
+
+    private bool Remove(Item item, Item[] collection)
+    {
+        if (item.PosGrid == null)
+        {
+            return false;
+        }
+
+        ushort grid = item.PosGrid.Value;
+
+        if (item.PosGrid >= collection.Length)
+        {
+            return false;
+        }
+
+        lock (_lock)
+        {
+            if (collection[item.PosGrid.Value] == null)
+            {
+                return false;
+            }
+
+            if (collection[grid] != item)
+            {
+                return false;
+            }
+
+            collection[grid] = null;
+        }
+
+        item.PosGrid = null;
+        return true;
+    }
+
+    private int GetFreeSlot(Item[] collection)
+    {
+        lock (_lock)
+        {
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (collection[i] == null)
+                {
+                    return i;
+                }
+            }
+        }
+
+        return NoFreeSlot;
+    }
+
+    private Item[] GetCollection(ItemColumnType column)
+    {
+        switch (column)
+        {
+            case ItemColumnType.Item: return _item;
+            case ItemColumnType.Store: return _store;
+            case ItemColumnType.BoxEquip: return _equipment;
+            case ItemColumnType.Equipment: return _equipment;
+            case ItemColumnType.Quest: return _item;
+        }
+
+        return null;
     }
 }

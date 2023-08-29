@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// CSLineInfoRsp
     /// </summary>
-    public class CSLineInfoRsp : IStructure
+    public class CSLineInfoRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineInfoRsp));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<LineInfo> LineInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort lineInfoCount = (ushort)LineInfo.Count;
             buffer.WriteUInt16(lineInfoCount, Endianness.Big);
             for (int i = 0; i < lineInfoCount; i++)
             {
-                LineInfo[i].Write(buffer);
+                LineInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LineInfo.Clear();
             ushort lineInfoCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < lineInfoCount; i++)
             {
                 LineInfo LineInfoEntry = new LineInfo();
-                LineInfoEntry.Read(buffer);
+                LineInfoEntry.ReadCs(buffer);
                 LineInfo.Add(LineInfoEntry);
             }
         }

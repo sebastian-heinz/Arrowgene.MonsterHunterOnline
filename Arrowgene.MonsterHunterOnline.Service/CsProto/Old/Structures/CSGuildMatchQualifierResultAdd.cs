@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎团战预选赛排序列表增加
     /// </summary>
-    public class CSGuildMatchQualifierResultAdd : IStructure
+    public class CSGuildMatchQualifierResultAdd : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildMatchQualifierResultAdd));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGuildMatchSignUpTeam MatchSignUp;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            MatchSignUp.Write(buffer);
+            MatchSignUp.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            MatchSignUp.Read(buffer);
+            MatchSignUp.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取艾露挖掘奖励列表
     /// </summary>
-    public class CSExtraRewardListReq : IStructure
+    public class CSExtraRewardListReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExtraRewardListReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int NetId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(NetId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetId = buffer.ReadInt32(Endianness.Big);
         }

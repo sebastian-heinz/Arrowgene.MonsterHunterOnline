@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托关卡列表回复
     /// </summary>
-    public class CSEntrustLevelListRsp : IStructure
+    public class CSEntrustLevelListRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEntrustLevelListRsp));
 
@@ -51,18 +51,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSEnSubGroupInfo> SubGroupInfos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrCode, Endianness.Big);
             short subGroupInfosCount = (short)SubGroupInfos.Count;
             buffer.WriteInt16(subGroupInfosCount, Endianness.Big);
             for (int i = 0; i < subGroupInfosCount; i++)
             {
-                SubGroupInfos[i].Write(buffer);
+                SubGroupInfos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadInt32(Endianness.Big);
             SubGroupInfos.Clear();
@@ -70,7 +70,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < subGroupInfosCount; i++)
             {
                 CSEnSubGroupInfo SubGroupInfosEntry = new CSEnSubGroupInfo();
-                SubGroupInfosEntry.Read(buffer);
+                SubGroupInfosEntry.ReadCs(buffer);
                 SubGroupInfos.Add(SubGroupInfosEntry);
             }
         }

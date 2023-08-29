@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 表情设置默认使用请求
     /// </summary>
-    public class CSExpressionCollectReq : IStructure
+    public class CSExpressionCollectReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSExpressionCollectReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int ExpressionLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ExpressionID, Endianness.Big);
             buffer.WriteInt32(ExpressionLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ExpressionID = buffer.ReadInt32(Endianness.Big);
             ExpressionLevel = buffer.ReadInt32(Endianness.Big);

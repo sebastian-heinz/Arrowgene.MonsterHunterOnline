@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 礼包状态通知
     /// </summary>
-    public class CSGiftBagStateNtf : IStructure
+    public class CSGiftBagStateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGiftBagStateNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSGiftInfo> GiftList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte giftListCount = (byte)GiftList.Count;
             buffer.WriteByte(giftListCount);
             for (int i = 0; i < giftListCount; i++)
             {
-                GiftList[i].Write(buffer);
+                GiftList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GiftList.Clear();
             byte giftListCount = buffer.ReadByte();
             for (int i = 0; i < giftListCount; i++)
             {
                 CSGiftInfo GiftListEntry = new CSGiftInfo();
-                GiftListEntry.Read(buffer);
+                GiftListEntry.ReadCs(buffer);
                 GiftList.Add(GiftListEntry);
             }
         }

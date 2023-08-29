@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 摩托艇位置重置消息
     /// </summary>
-    public class CSBoatReset : IStructure
+    public class CSBoatReset : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBoatReset));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat Rot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
-            Pos.Write(buffer);
-            Rot.Write(buffer);
+            Pos.WriteCs(buffer);
+            Rot.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
-            Pos.Read(buffer);
-            Rot.Read(buffer);
+            Pos.ReadCs(buffer);
+            Rot.ReadCs(buffer);
         }
 
     }

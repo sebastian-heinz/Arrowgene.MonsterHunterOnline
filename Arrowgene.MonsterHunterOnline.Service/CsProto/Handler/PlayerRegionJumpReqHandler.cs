@@ -140,7 +140,7 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                             t = new CSVec3() { x = posX, y = posY, z = posZ }
                         };
 
-                        CsProtoStructurePacket<PlayerRegionJumpRsp> PlayerRegionJump = CsProtoResponse.PlayerRegionJumpRsp;
+                        CsCsProtoStructurePacket<PlayerRegionJumpRsp> PlayerRegionJump = CsProtoResponse.PlayerRegionJumpRsp;
                         PlayerRegionJump.Structure.ErrorCode = 0;
                         PlayerRegionJump.Structure.RegionId = 0;
                         PlayerRegionJump.Structure.Transform = TargetPos;

@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSBsmJoinRoomReq : IStructure
+    public class CSBsmJoinRoomReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBsmJoinRoomReq));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(RoomID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoomID = buffer.ReadInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

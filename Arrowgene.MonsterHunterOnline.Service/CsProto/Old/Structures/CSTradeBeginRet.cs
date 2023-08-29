@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 询问应答
     /// </summary>
-    public class CSTradeBeginRet : IStructure
+    public class CSTradeBeginRet : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTradeBeginRet));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short Ret;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SrcPlayerId, Endianness.Big);
             buffer.WriteUInt64(SrcPlayerDBID, Endianness.Big);
             buffer.WriteInt16(Ret, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcPlayerId = buffer.ReadInt32(Endianness.Big);
             SrcPlayerDBID = buffer.ReadUInt64(Endianness.Big);

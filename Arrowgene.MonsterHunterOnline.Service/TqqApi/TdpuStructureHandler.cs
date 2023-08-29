@@ -2,7 +2,7 @@
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi;
 
-public abstract class TdpuStructureHandler<TStructure> : ITpduHandler where TStructure : class, IStructure, new()
+public abstract class TdpuStructureHandler<TStructure> : ITpduHandler where TStructure : class, ICsStructure, new()
 {
     public abstract TpduCmd Cmd { get; }
 
@@ -11,7 +11,7 @@ public abstract class TdpuStructureHandler<TStructure> : ITpduHandler where TStr
     public void Handle(Client client, TpduPacket packet)
     {
         TStructure structure = new TStructure();
-        structure.Read(packet.NewHeaderExtBuffer());
+        structure.ReadCs(packet.NewHeaderExtBuffer());
         Handle(client, structure);
     }
 }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本动态数据
     /// </summary>
-    public class CSInstanceDynamicInfoNtf : IStructure
+    public class CSInstanceDynamicInfoNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSInstanceDynamicInfoNtf));
 
@@ -160,7 +160,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int IsBigRand;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CreatePlayerMaxLv, Endianness.Big);
             buffer.WriteInt32(StartTime, Endianness.Big);
@@ -176,32 +176,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(regionWeatherCount, Endianness.Big);
             for (int i = 0; i < regionWeatherCount; i++)
             {
-                RegionWeather[i].Write(buffer);
+                RegionWeather[i].WriteCs(buffer);
             }
             buffer.WriteInt32(IsCrossServerInstance, Endianness.Big);
             buffer.WriteInt32(IsWarning, Endianness.Big);
             buffer.WriteInt32(HuntingMode, Endianness.Big);
             buffer.WriteInt32(ActHuntingMode, Endianness.Big);
-            CarCarInfo.Write(buffer);
+            CarCarInfo.WriteCs(buffer);
             buffer.WriteInt32((int)RulesInfo.RulesInfoType, Endianness.Big);
-            RulesInfo.Write(buffer);
-            OtherStatData.Write(buffer);
+            RulesInfo.WriteCs(buffer);
+            OtherStatData.WriteCs(buffer);
             int paidItemsCount = (int)PaidItems.Count;
             buffer.WriteInt32(paidItemsCount, Endianness.Big);
             for (int i = 0; i < paidItemsCount; i++)
             {
-                PaidItems[i].Write(buffer);
+                PaidItems[i].WriteCs(buffer);
             }
             int paidBuffsCount = (int)PaidBuffs.Count;
             buffer.WriteInt32(paidBuffsCount, Endianness.Big);
             for (int i = 0; i < paidBuffsCount; i++)
             {
-                PaidBuffs[i].Write(buffer);
+                PaidBuffs[i].WriteCs(buffer);
             }
             buffer.WriteInt32(IsBigRand, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CreatePlayerMaxLv = buffer.ReadInt32(Endianness.Big);
             StartTime = buffer.ReadInt32(Endianness.Big);
@@ -218,14 +218,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < regionWeatherCount; i++)
             {
                 CSRegionWeatherNtf RegionWeatherEntry = new CSRegionWeatherNtf();
-                RegionWeatherEntry.Read(buffer);
+                RegionWeatherEntry.ReadCs(buffer);
                 RegionWeather.Add(RegionWeatherEntry);
             }
             IsCrossServerInstance = buffer.ReadInt32(Endianness.Big);
             IsWarning = buffer.ReadInt32(Endianness.Big);
             HuntingMode = buffer.ReadInt32(Endianness.Big);
             ActHuntingMode = buffer.ReadInt32(Endianness.Big);
-            CarCarInfo.Read(buffer);
+            CarCarInfo.ReadCs(buffer);
             CS_BATTLE_RULES_TYPE CSRulesInfo_RulesInfoType = (CS_BATTLE_RULES_TYPE)buffer.ReadInt32(Endianness.Big);
             switch (CSRulesInfo_RulesInfoType)
             {
@@ -237,18 +237,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (RulesInfo != null) {
-                RulesInfo.Read(buffer);
+                RulesInfo.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'RulesInfo' instance of type 'CSRulesInfo'");
             }
-            OtherStatData.Read(buffer);
+            OtherStatData.ReadCs(buffer);
             PaidItems.Clear();
             int paidItemsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < paidItemsCount; i++)
             {
                 CSPaidContributeBoxData PaidItemsEntry = new CSPaidContributeBoxData();
-                PaidItemsEntry.Read(buffer);
+                PaidItemsEntry.ReadCs(buffer);
                 PaidItems.Add(PaidItemsEntry);
             }
             PaidBuffs.Clear();
@@ -256,7 +256,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < paidBuffsCount; i++)
             {
                 CSPaidContributeBoxData PaidBuffsEntry = new CSPaidContributeBoxData();
-                PaidBuffsEntry.Read(buffer);
+                PaidBuffsEntry.ReadCs(buffer);
                 PaidBuffs.Add(PaidBuffsEntry);
             }
             IsBigRand = buffer.ReadInt32(Endianness.Big);

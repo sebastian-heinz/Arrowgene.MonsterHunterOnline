@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// pvp mode info
     /// </summary>
-    public class CSPVPInfoNtf : IStructure
+    public class CSPVPInfoNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPVPInfoNtf));
 
@@ -68,32 +68,32 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSSPVPEvent Event;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.CS_MAX_GANG_COUNT; i++)
             {
-                Gang[i].Write(buffer);
+                Gang[i].WriteCs(buffer);
             }
             buffer.WriteInt32(CountDown, Endianness.Big);
             buffer.WriteInt32(Stage, Endianness.Big);
             buffer.WriteInt32(Result, Endianness.Big);
             buffer.WriteInt32(Goal, Endianness.Big);
             buffer.WriteInt32(Faction, Endianness.Big);
-            Event.Write(buffer);
+            Event.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             for (int i = 0; i < CsProtoConstant.CS_MAX_GANG_COUNT; i++)
             {
-                Gang[i].Read(buffer);
+                Gang[i].ReadCs(buffer);
             }
             CountDown = buffer.ReadInt32(Endianness.Big);
             Stage = buffer.ReadInt32(Endianness.Big);
             Result = buffer.ReadInt32(Endianness.Big);
             Goal = buffer.ReadInt32(Endianness.Big);
             Faction = buffer.ReadInt32(Endianness.Big);
-            Event.Read(buffer);
+            Event.ReadCs(buffer);
         }
 
     }

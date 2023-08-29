@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 创建服务器Entity消息
     /// </summary>
-    public class SpawnSrvEnt : Structure
+    public class SpawnSrvEnt : Structure, ICsStructure
     {
         public SpawnSrvEnt()
         {
@@ -42,21 +42,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float Scale { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteString(buffer, Name);
             WriteUInt32(buffer, NetObjId);
-            WriteStructure(buffer, Position);
-            WriteStructure(buffer, Rotation);
+            WriteCsStructure(buffer, Position);
+            WriteCsStructure(buffer, Rotation);
             WriteFloat(buffer, Scale);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Name = ReadString(buffer);
             NetObjId = ReadUInt32(buffer);
-            Position = ReadStructure(buffer, Position);
-            Rotation = ReadStructure(buffer, Rotation);
+            Position = ReadCsStructure(buffer, Position);
+            Rotation = ReadCsStructure(buffer, Rotation);
             Scale = ReadFloat(buffer);
         }
         

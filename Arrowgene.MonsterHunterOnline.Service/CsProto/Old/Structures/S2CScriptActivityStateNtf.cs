@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器通知脚本活动状态变更
     /// </summary>
-    public class S2CScriptActivityStateNtf : IStructure
+    public class S2CScriptActivityStateNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityStateNtf));
 
@@ -51,15 +51,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint WorldSvrID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Simple.Write(buffer);
+            Simple.WriteCs(buffer);
             buffer.WriteUInt32(WorldSvrID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Simple.Read(buffer);
+            Simple.ReadCs(buffer);
             WorldSvrID = buffer.ReadUInt32(Endianness.Big);
         }
 

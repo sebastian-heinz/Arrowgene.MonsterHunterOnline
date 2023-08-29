@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 装备直升请求
     /// </summary>
-    public class CSEquipQuickUpgradeReq : IStructure
+    public class CSEquipQuickUpgradeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSEquipQuickUpgradeReq));
 
@@ -60,28 +60,28 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSEquipUpgradeRoute> Route;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            CostItem.Write(buffer);
-            Equip.Write(buffer);
+            CostItem.WriteCs(buffer);
+            Equip.WriteCs(buffer);
             int routeCount = (int)Route.Count;
             buffer.WriteInt32(routeCount, Endianness.Big);
             for (int i = 0; i < routeCount; i++)
             {
-                Route[i].Write(buffer);
+                Route[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            CostItem.Read(buffer);
-            Equip.Read(buffer);
+            CostItem.ReadCs(buffer);
+            Equip.ReadCs(buffer);
             Route.Clear();
             int routeCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < routeCount; i++)
             {
                 CSEquipUpgradeRoute RouteEntry = new CSEquipUpgradeRoute();
-                RouteEntry.Read(buffer);
+                RouteEntry.ReadCs(buffer);
                 Route.Add(RouteEntry);
             }
         }

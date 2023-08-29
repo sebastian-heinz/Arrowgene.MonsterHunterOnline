@@ -32,7 +32,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
     /// <summary>
     /// 新手引导通知数据
     /// </summary>
-    public interface CSGuideNotifyData : IStructure
+    public interface CSGuideNotifyData : ICsStructure
     {
 
         public GUIDE_NOTIFY_TYPE NotifyType { get; }

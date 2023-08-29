@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 道具拆解REQ
     /// </summary>
-    public class CSItemRebuildItemDecomposeReq : IStructure
+    public class CSItemRebuildItemDecomposeReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSItemRebuildItemDecomposeReq));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSItemArgs> Items;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int itemsCount = (int)Items.Count;
             buffer.WriteInt32(itemsCount, Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
-                Items[i].Write(buffer);
+                Items[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Items.Clear();
             int itemsCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < itemsCount; i++)
             {
                 CSItemArgs ItemsEntry = new CSItemArgs();
-                ItemsEntry.Read(buffer);
+                ItemsEntry.ReadCs(buffer);
                 Items.Add(ItemsEntry);
             }
         }

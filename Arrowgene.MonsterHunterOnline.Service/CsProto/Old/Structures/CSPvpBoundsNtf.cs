@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// PVP分数通知
     /// </summary>
-    public class CSPvpBoundsNtf : IStructure
+    public class CSPvpBoundsNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPvpBoundsNtf));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int BlueBounds;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(TotalBounds, Endianness.Big);
             buffer.WriteInt32(RedBounds, Endianness.Big);
             buffer.WriteInt32(BlueBounds, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TotalBounds = buffer.ReadInt32(Endianness.Big);
             RedBounds = buffer.ReadInt32(Endianness.Big);

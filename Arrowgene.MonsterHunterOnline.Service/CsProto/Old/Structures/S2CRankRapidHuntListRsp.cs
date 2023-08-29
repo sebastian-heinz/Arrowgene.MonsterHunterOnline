@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 获取往届疾风狩猎排行榜列表 from to
     /// </summary>
-    public class S2CRankRapidHuntListRsp : IStructure
+    public class S2CRankRapidHuntListRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRankRapidHuntListRsp));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSRapidHuntHis> hiss;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int hissCount = (int)hiss.Count;
             buffer.WriteInt32(hissCount, Endianness.Big);
             for (int i = 0; i < hissCount; i++)
             {
-                hiss[i].Write(buffer);
+                hiss[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             hiss.Clear();
             int hissCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < hissCount; i++)
             {
                 CSRapidHuntHis hissEntry = new CSRapidHuntHis();
-                hissEntry.Read(buffer);
+                hissEntry.ReadCs(buffer);
                 hiss.Add(hissEntry);
             }
         }

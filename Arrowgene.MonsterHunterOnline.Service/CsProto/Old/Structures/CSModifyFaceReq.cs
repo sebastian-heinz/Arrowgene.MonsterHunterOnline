@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 付费重新捏脸请求
     /// </summary>
-    public class CSModifyFaceReq : IStructure
+    public class CSModifyFaceReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSModifyFaceReq));
 
@@ -133,7 +133,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public short[] FacialInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(Uin, Endianness.Big);
             buffer.WriteUInt64(DBID, Endianness.Big);
@@ -155,7 +155,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Uin = buffer.ReadUInt32(Endianness.Big);
             DBID = buffer.ReadUInt64(Endianness.Big);

@@ -65,21 +65,21 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float scale;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(effectName.Length + 1, Endianness.Big);
             buffer.WriteCString(effectName);
-            offset.Write(buffer);
-            angle.Write(buffer);
+            offset.WriteCs(buffer);
+            angle.WriteCs(buffer);
             buffer.WriteFloat(scale, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int effectNameEntryLen = buffer.ReadInt32(Endianness.Big);
             effectName = buffer.ReadString(effectNameEntryLen);
-            offset.Read(buffer);
-            angle.Read(buffer);
+            offset.ReadCs(buffer);
+            angle.ReadCs(buffer);
             scale = buffer.ReadFloat(Endianness.Big);
         }
 

@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// TownSession建立
     /// </summary>
-    public class TownSessionStart : Structure
+    public class TownSessionStart : Structure, ICsStructure
     {
         public TownSessionStart()
         {
@@ -18,12 +18,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte ErrNo { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteByte(buffer, ErrNo);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = ReadByte(buffer);
         }

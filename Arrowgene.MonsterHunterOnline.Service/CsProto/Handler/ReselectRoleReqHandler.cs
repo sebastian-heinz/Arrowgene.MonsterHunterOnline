@@ -23,10 +23,10 @@ public class ReselectRoleReqHandler : CsProtoStructureHandler<ReselectRoleReq>
 
     public override void Handle(Client client, ReselectRoleReq req)
     {
-        CsProtoStructurePacket<ReselectRoleRsp> reselectRoleRsp = CsProtoResponse.ReselectRoleRsp;
+        CsCsProtoStructurePacket<ReselectRoleRsp> reselectRoleRsp = CsProtoResponse.ReselectRoleRsp;
         client.SendCsProtoStructurePacket(reselectRoleRsp);
 
-        CsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
+        CsCsProtoStructurePacket<ListRoleRsp> listRoleRsp = CsProtoResponse.ListRoleRsp;
         _characterManager.PopulateRoleList(client, listRoleRsp.Structure);
         client.SendCsProtoStructurePacket(listRoleRsp);
     }

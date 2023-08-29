@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 增加打造
     /// </summary>
-    public class CSAddCraft : IStructure
+    public class CSAddCraft : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAddCraft));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint nCraftID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(nCraftID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             nCraftID = buffer.ReadUInt32(Endianness.Big);
         }

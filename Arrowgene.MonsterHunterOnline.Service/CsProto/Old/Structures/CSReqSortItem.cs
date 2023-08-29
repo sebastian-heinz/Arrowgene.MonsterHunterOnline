@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求整理物品
     /// </summary>
-    public class CSReqSortItem : IStructure
+    public class CSReqSortItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqSortItem));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort EndIndex;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(SrcColumn);
             buffer.WriteUInt16(BegIndex, Endianness.Big);
             buffer.WriteUInt16(EndIndex, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcColumn = buffer.ReadByte();
             BegIndex = buffer.ReadUInt16(Endianness.Big);

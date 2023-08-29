@@ -53,25 +53,25 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte huntTasksCount = (byte)HuntTasks.Count;
             buffer.WriteByte(huntTasksCount);
             for (int i = 0; i < huntTasksCount; i++)
             {
-                HuntTasks[i].Write(buffer);
+                HuntTasks[i].WriteCs(buffer);
             }
             buffer.WriteInt32(Param1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HuntTasks.Clear();
             byte huntTasksCount = buffer.ReadByte();
             for (int i = 0; i < huntTasksCount; i++)
             {
                 ScriptActivityHuntTask HuntTasksEntry = new ScriptActivityHuntTask();
-                HuntTasksEntry.Read(buffer);
+                HuntTasksEntry.ReadCs(buffer);
                 HuntTasks.Add(HuntTasksEntry);
             }
             Param1 = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 队长应答
     /// </summary>
-    public class CSTeamJoinRet : IStructure
+    public class CSTeamJoinRet : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamJoinRet));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint VerifyCode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(PlayerId, Endianness.Big);
             buffer.WriteUInt32(TeamId, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(VerifyCode, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadUInt32(Endianness.Big);
             TeamId = buffer.ReadUInt32(Endianness.Big);

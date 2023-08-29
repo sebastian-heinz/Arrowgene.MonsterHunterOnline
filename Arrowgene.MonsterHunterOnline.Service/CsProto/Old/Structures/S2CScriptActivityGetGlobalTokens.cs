@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// global token
     /// </summary>
-    public class S2CScriptActivityGetGlobalTokens : IStructure
+    public class S2CScriptActivityGetGlobalTokens : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityGetGlobalTokens));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSScriptActivityGlobalToken> tokens;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int tokensCount = (int)tokens.Count;
             buffer.WriteInt32(tokensCount, Endianness.Big);
             for (int i = 0; i < tokensCount; i++)
             {
-                tokens[i].Write(buffer);
+                tokens[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             tokens.Clear();
             int tokensCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < tokensCount; i++)
             {
                 CSScriptActivityGlobalToken tokensEntry = new CSScriptActivityGlobalToken();
-                tokensEntry.Read(buffer);
+                tokensEntry.ReadCs(buffer);
                 tokens.Add(tokensEntry);
             }
         }

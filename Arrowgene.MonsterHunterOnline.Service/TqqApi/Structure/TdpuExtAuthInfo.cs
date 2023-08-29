@@ -1,10 +1,9 @@
-﻿using System;
-using Arrowgene.Buffers;
+﻿using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
-public class TqqExtAuthInfo : CsProto.Core.Structure
+public class TqqExtAuthInfo : CsProto.Core.Structure, ICsStructure
 {
     public TqqExtAuthInfo()
     {
@@ -17,17 +16,17 @@ public class TqqExtAuthInfo : CsProto.Core.Structure
     public TConnSecEnc EncMethod { get; set; }
     public int ServiceId { get; set; }
     public TconnSecAuth AuthType { get; set; }
-    public ITpduExtAuthData AuthData { get; set; }
-    
-    public override void Write(IBuffer buffer)
+    public CSICsTpduExtAuthData AuthData { get; set; }
+
+    public void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, (int)EncMethod);
         WriteInt32(buffer, ServiceId);
         WriteInt32(buffer, (int)AuthType);
-        WriteStructure(buffer, AuthData);
+        WriteCsStructure(buffer, AuthData);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         EncMethod = (TConnSecEnc)ReadInt32(buffer);
         ServiceId = ReadInt32(buffer);
@@ -36,10 +35,10 @@ public class TqqExtAuthInfo : CsProto.Core.Structure
         {
             case TconnSecAuth.TCONN_SEC_AUTH_QQV1:
             case TconnSecAuth.TCONN_SEC_AUTH_QQV2:
-                AuthData = ReadStructure<TqqAuthInfo>(buffer);
+                AuthData = ReadCsStructure<TqqAuthInfo>(buffer);
                 break;
             case TconnSecAuth.TCONN_SEC_AUTH_QQUNIFIED:
-                AuthData = ReadStructure<TqqUnifiedAuthInfo>(buffer);
+                AuthData = ReadCsStructure<TqqUnifiedAuthInfo>(buffer);
                 break;
             default:
                 AuthData = null;

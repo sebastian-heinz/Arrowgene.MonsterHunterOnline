@@ -3,7 +3,6 @@ using Arrowgene.Buffers;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System;
-using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
@@ -85,7 +84,7 @@ public class TpduCmdAuthHandler : TdpuStructureHandler<TqqExtAuthInfo>
 
         // TODO temporary elevated all accounts
         account.AccountType = AccountType.Admin;
-        
+
         client.Account = account;
         Logger.Info(client, $"Authentication Success (Uin:{uin})");
 

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 方案装备
     /// </summary>
-    public class EquipPlanItem : IStructure
+    public class EquipPlanItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(EquipPlanItem));
 
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public SkillBeads[] skillBeadsInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(ItemId, Endianness.Big);
             buffer.WriteInt32(ItemType, Endianness.Big);
@@ -91,11 +91,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(curGrid, Endianness.Big);
             for (int i = 0; i < skillBeadsInfo.Length; i++)
             {
-                skillBeadsInfo[i].Write(buffer);
+                skillBeadsInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ItemId = buffer.ReadUInt64(Endianness.Big);
             ItemType = buffer.ReadInt32(Endianness.Big);
@@ -104,7 +104,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             curGrid = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < skillBeadsInfo.Length; i++)
             {
-                skillBeadsInfo[i].Read(buffer);
+                skillBeadsInfo[i].ReadCs(buffer);
             }
         }
 

@@ -32,7 +32,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
     /// <summary>
     /// 副本数据
     /// </summary>
-    public interface CSRulesInfo : IStructure
+    public interface CSRulesInfo : ICsStructure
     {
 
         public CS_BATTLE_RULES_TYPE RulesInfoType { get; }

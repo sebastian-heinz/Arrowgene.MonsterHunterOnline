@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物尺寸记录信息
     /// </summary>
-    public class MonsterSizeChange : IStructure
+    public class MonsterSizeChange : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(MonsterSizeChange));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int OldType;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MonsterID, Endianness.Big);
             buffer.WriteInt32(ChangeType, Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(OldType, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterID = buffer.ReadInt32(Endianness.Big);
             ChangeType = buffer.ReadInt32(Endianness.Big);

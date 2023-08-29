@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器发送到客户端的伤害结果返回
     /// </summary>
-    public class CSDMGResult : IStructure
+    public class CSDMGResult : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDMGResult));
 
@@ -235,7 +235,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int[] StateBuffID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteFloat(DamageResult, Endianness.Big);
             buffer.WriteFloat(WaterDamageResult, Endianness.Big);
@@ -265,16 +265,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SkillResID, Endianness.Big);
             buffer.WriteInt32(ItemType, Endianness.Big);
             buffer.WriteInt32(AttackDataID, Endianness.Big);
-            Dir.Write(buffer);
-            Pos.Write(buffer);
-            Normal.Write(buffer);
+            Dir.WriteCs(buffer);
+            Pos.WriteCs(buffer);
+            Normal.WriteCs(buffer);
             for (int i = 0; i < CsProtoConstant.CS_STATE_BUFF_COUNT; i++)
             {
                 buffer.WriteInt32(StateBuffID[i], Endianness.Big);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DamageResult = buffer.ReadFloat(Endianness.Big);
             WaterDamageResult = buffer.ReadFloat(Endianness.Big);
@@ -304,9 +304,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             SkillResID = buffer.ReadInt32(Endianness.Big);
             ItemType = buffer.ReadInt32(Endianness.Big);
             AttackDataID = buffer.ReadInt32(Endianness.Big);
-            Dir.Read(buffer);
-            Pos.Read(buffer);
-            Normal.Read(buffer);
+            Dir.ReadCs(buffer);
+            Pos.ReadCs(buffer);
+            Normal.ReadCs(buffer);
             for (int i = 0; i < CsProtoConstant.CS_STATE_BUFF_COUNT; i++)
             {
                 StateBuffID[i] = buffer.ReadInt32(Endianness.Big);

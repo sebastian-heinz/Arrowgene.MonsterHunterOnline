@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快速开通VIP请求
     /// </summary>
-    public class CSVIPQuickOpenReq : IStructure
+    public class CSVIPQuickOpenReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPQuickOpenReq));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PayMethod;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(OpenType, Endianness.Big);
             buffer.WriteInt32(OpenPeriod, Endianness.Big);
             buffer.WriteInt32(PayMethod, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             OpenType = buffer.ReadInt32(Endianness.Big);
             OpenPeriod = buffer.ReadInt32(Endianness.Big);

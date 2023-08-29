@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求房间列表
     /// </summary>
-    public class S2CRoomsGetRsp : IStructure
+    public class S2CRoomsGetRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRoomsGetRsp));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSSpectateRoom> Rooms;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Mode, Endianness.Big);
             buffer.WriteUInt32(From, Endianness.Big);
@@ -69,11 +69,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(roomsCount, Endianness.Big);
             for (int i = 0; i < roomsCount; i++)
             {
-                Rooms[i].Write(buffer);
+                Rooms[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Mode = buffer.ReadInt32(Endianness.Big);
             From = buffer.ReadUInt32(Endianness.Big);
@@ -83,7 +83,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < roomsCount; i++)
             {
                 CSSpectateRoom RoomsEntry = new CSSpectateRoom();
-                RoomsEntry.Read(buffer);
+                RoomsEntry.ReadCs(buffer);
                 Rooms.Add(RoomsEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 收集卡片
     /// </summary>
-    public class CSCollectCardReq : IStructure
+    public class CSCollectCardReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCollectCardReq));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TagMaterialItem> MaterialList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(MonsterIndex, Endianness.Big);
             buffer.WriteByte(CardType);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(materialListCount);
             for (int i = 0; i < materialListCount; i++)
             {
-                MaterialList[i].Write(buffer);
+                MaterialList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MonsterIndex = buffer.ReadInt32(Endianness.Big);
             CardType = buffer.ReadByte();
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < materialListCount; i++)
             {
                 TagMaterialItem MaterialListEntry = new TagMaterialItem();
-                MaterialListEntry.Read(buffer);
+                MaterialListEntry.ReadCs(buffer);
                 MaterialList.Add(MaterialListEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 阵营统计结算信息
     /// </summary>
-    public class FactionResultStatInfo : IStructure
+    public class FactionResultStatInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(FactionResultStatInfo));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> FactionDataValue;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(FactionID, Endianness.Big);
             int factionDataTypeCount = (int)FactionDataType.Count;
@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FactionID = buffer.ReadInt32(Endianness.Big);
             FactionDataType.Clear();

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// A邀请B组团
     /// </summary>
-    public class CSTeamRaidInviteReq : IStructure
+    public class CSTeamRaidInviteReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamRaidInviteReq));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CsPlayer Target;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(DstPlayerId, Endianness.Big);
             buffer.WriteInt32(RaidMemberNum, Endianness.Big);
-            Target.Write(buffer);
+            Target.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             DstPlayerId = buffer.ReadUInt32(Endianness.Big);
             RaidMemberNum = buffer.ReadInt32(Endianness.Big);
-            Target.Read(buffer);
+            Target.ReadCs(buffer);
         }
 
     }

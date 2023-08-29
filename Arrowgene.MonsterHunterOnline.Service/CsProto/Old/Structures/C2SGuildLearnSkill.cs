@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 学习技能
     /// </summary>
-    public class C2SGuildLearnSkill : IStructure
+    public class C2SGuildLearnSkill : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SGuildLearnSkill));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Level;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Skill, Endianness.Big);
             buffer.WriteInt32(Level, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Skill = buffer.ReadInt32(Endianness.Big);
             Level = buffer.ReadInt32(Endianness.Big);

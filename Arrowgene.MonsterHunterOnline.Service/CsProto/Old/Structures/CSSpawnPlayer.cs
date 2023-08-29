@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 创建客户端玩家响应
     /// </summary>
-    public class CSSpawnPlayer : IStructure
+    public class CSSpawnPlayer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSpawnPlayer));
 
@@ -108,15 +108,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte AvatarSetID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(PlayerId, Endianness.Big);
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(Name.Length + 1, Endianness.Big);
             buffer.WriteCString(Name);
             buffer.WriteByte(Gender);
-            Position.Write(buffer);
-            Rotation.Write(buffer);
+            Position.WriteCs(buffer);
+            Rotation.WriteCs(buffer);
             buffer.WriteFloat(Scale, Endianness.Big);
             buffer.WriteUInt32(NewConnect, Endianness.Big);
             buffer.WriteUInt32(SendSrvId, Endianness.Big);
@@ -125,15 +125,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(AvatarSetID);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             PlayerId = buffer.ReadUInt32(Endianness.Big);
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             int NameEntryLen = buffer.ReadInt32(Endianness.Big);
             Name = buffer.ReadString(NameEntryLen);
             Gender = buffer.ReadByte();
-            Position.Read(buffer);
-            Rotation.Read(buffer);
+            Position.ReadCs(buffer);
+            Rotation.ReadCs(buffer);
             Scale = buffer.ReadFloat(Endianness.Big);
             NewConnect = buffer.ReadUInt32(Endianness.Big);
             SendSrvId = buffer.ReadUInt32(Endianness.Big);

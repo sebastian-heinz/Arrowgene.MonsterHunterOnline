@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// GM命令结果反馈
     /// </summary>
-    public class CSGmString : IStructure
+    public class CSGmString : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGmString));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte NeedExecute;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GmString.Length + 1, Endianness.Big);
             buffer.WriteCString(GmString);
             buffer.WriteByte(NeedExecute);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int GmStringEntryLen = buffer.ReadInt32(Endianness.Big);
             GmString = buffer.ReadString(GmStringEntryLen);

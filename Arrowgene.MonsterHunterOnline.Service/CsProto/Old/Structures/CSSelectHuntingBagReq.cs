@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 选择狩猎包
     /// </summary>
-    public class CSSelectHuntingBagReq : IStructure
+    public class CSSelectHuntingBagReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSelectHuntingBagReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int HuntingBagID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(HuntingBagID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HuntingBagID = buffer.ReadInt32(Endianness.Big);
         }

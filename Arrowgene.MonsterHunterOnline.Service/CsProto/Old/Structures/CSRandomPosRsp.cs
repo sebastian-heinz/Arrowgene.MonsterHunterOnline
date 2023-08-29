@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 随机位置响应
     /// </summary>
-    public class CSRandomPosRsp : IStructure
+    public class CSRandomPosRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRandomPosRsp));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSVec3 RandomPos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrNo, Endianness.Big);
-            RandomPos.Write(buffer);
+            RandomPos.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadInt32(Endianness.Big);
-            RandomPos.Read(buffer);
+            RandomPos.ReadCs(buffer);
         }
 
     }

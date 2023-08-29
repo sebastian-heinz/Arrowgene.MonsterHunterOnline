@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 场景物体状态改变
     /// </summary>
-    public class CSObjStateChange : IStructure
+    public class CSObjStateChange : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSObjStateChange));
 
@@ -66,22 +66,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSBBVarList VariableList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteInt32(StateName.Length + 1, Endianness.Big);
             buffer.WriteCString(StateName);
             buffer.WriteByte(NeedReset);
-            VariableList.Write(buffer);
+            VariableList.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             int StateNameEntryLen = buffer.ReadInt32(Endianness.Big);
             StateName = buffer.ReadString(StateNameEntryLen);
             NeedReset = buffer.ReadByte();
-            VariableList.Read(buffer);
+            VariableList.ReadCs(buffer);
         }
 
     }

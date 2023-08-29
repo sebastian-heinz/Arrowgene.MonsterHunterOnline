@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// UI加载完查询VIP服务过期响应
     /// </summary>
-    public class CSVIPServiceExpireRsp : IStructure
+    public class CSVIPServiceExpireRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSVIPServiceExpireRsp));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int EndTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ServiceType, Endianness.Big);
             buffer.WriteInt32(EndTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ServiceType = buffer.ReadInt32(Endianness.Big);
             EndTime = buffer.ReadInt32(Endianness.Big);

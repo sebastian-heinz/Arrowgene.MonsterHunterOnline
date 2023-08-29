@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 设置心情请求
     /// </summary>
-    public class CSFriendSetMoodReq : IStructure
+    public class CSFriendSetMoodReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendSetMoodReq));
 
@@ -48,13 +48,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Mood;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Mood.Length + 1, Endianness.Big);
             buffer.WriteCString(Mood);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             int MoodEntryLen = buffer.ReadInt32(Endianness.Big);
             Mood = buffer.ReadString(MoodEntryLen);

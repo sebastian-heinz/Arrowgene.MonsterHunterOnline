@@ -3,36 +3,36 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
-    public class CsProtoStructurePacket : ICsProtoStructurePacket
+    public class CsCsProtoStructurePacket : CSICsCsProtoStructurePacket
     {
-        public CsProtoStructurePacket(CS_CMD_ID cmd, IStructure structure)
+        public CsCsProtoStructurePacket(CS_CMD_ID cmd, ICsStructure csStructure)
         {
             Cmd = cmd;
-            _structure = structure;
+            _structure = csStructure;
         }
 
-        protected readonly IStructure _structure;
+        protected readonly ICsStructure _structure;
 
         public CS_CMD_ID Cmd { get; }
-        public IStructure Structure => _structure;
+        public ICsStructure CsStructure => _structure;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            _structure.Write(buffer);
+            _structure.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            _structure.Read(buffer);
+            _structure.ReadCs(buffer);
         }
     }
 
-    public class CsProtoStructurePacket<TStructure> : CsProtoStructurePacket
-        where TStructure : IStructure, new()
+    public class CsCsProtoStructurePacket<TStructure> : CsCsProtoStructurePacket
+        where TStructure : ICsStructure, new()
     {
         public new TStructure Structure => (TStructure)_structure;
 
-        public CsProtoStructurePacket(CS_CMD_ID cmd) : base(cmd, new TStructure())
+        public CsCsProtoStructurePacket(CS_CMD_ID cmd) : base(cmd, new TStructure())
         {
         }
     }

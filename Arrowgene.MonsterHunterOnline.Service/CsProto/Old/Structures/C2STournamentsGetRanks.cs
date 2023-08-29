@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求列表
     /// </summary>
-    public class C2STournamentsGetRanks : IStructure
+    public class C2STournamentsGetRanks : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2STournamentsGetRanks));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int to;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(From, Endianness.Big);
             buffer.WriteInt32(to, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             From = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 随机位置请求
     /// </summary>
-    public class CSRandomPosReq : IStructure
+    public class CSRandomPosReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRandomPosReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Reserved;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Reserved, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Reserved = buffer.ReadInt32(Endianness.Big);
         }

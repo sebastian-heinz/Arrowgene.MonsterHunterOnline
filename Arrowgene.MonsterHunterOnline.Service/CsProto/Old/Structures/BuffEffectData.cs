@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 效果数据
     /// </summary>
-    public class BuffEffectData : IStructure
+    public class BuffEffectData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(BuffEffectData));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Param1;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(effectType, Endianness.Big);
             buffer.WriteInt32(Param1, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             effectType = buffer.ReadInt32(Endianness.Big);
             Param1 = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Server->Client: 执行Data的操作的结果
     /// </summary>
-    public class S2CScriptActivityDataExecRsp : IStructure
+    public class S2CScriptActivityDataExecRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CScriptActivityDataExecRsp));
 
@@ -60,16 +60,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Result2;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Request.Write(buffer);
+            Request.WriteCs(buffer);
             buffer.WriteInt32(Result1, Endianness.Big);
             buffer.WriteInt32(Result2, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Request.Read(buffer);
+            Request.ReadCs(buffer);
             Result1 = buffer.ReadInt32(Endianness.Big);
             Result2 = buffer.ReadInt32(Endianness.Big);
         }

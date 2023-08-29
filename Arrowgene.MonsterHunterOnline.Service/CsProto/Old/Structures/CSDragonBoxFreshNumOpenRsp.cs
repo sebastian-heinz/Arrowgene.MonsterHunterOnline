@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求打开刷新界面返回
     /// </summary>
-    public class CSDragonBoxFreshNumOpenRsp : IStructure
+    public class CSDragonBoxFreshNumOpenRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxFreshNumOpenRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> BitList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(BoxID, Endianness.Big);
             buffer.WriteInt32(LeftCnt, Endianness.Big);
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BoxID = buffer.ReadInt32(Endianness.Big);
             LeftCnt = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 清理自己
     /// </summary>
-    public class S2CClearGuilderDetail : IStructure
+    public class S2CClearGuilderDetail : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CClearGuilderDetail));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSRole Guilder;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Guilder.Write(buffer);
+            Guilder.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Guilder.Read(buffer);
+            Guilder.ReadCs(buffer);
         }
 
     }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 个人副本奖励结算
     /// </summary>
-    public class CSPlayerResultInfo : IStructure
+    public class CSPlayerResultInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerResultInfo));
 
@@ -60,34 +60,34 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<MonsterSizeChange> SizeChangeInfoList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            BaseInfo.Write(buffer);
-            StatInfo.Write(buffer);
+            BaseInfo.WriteCs(buffer);
+            StatInfo.WriteCs(buffer);
             int rewardInfoListCount = (int)RewardInfoList.Count;
             buffer.WriteInt32(rewardInfoListCount, Endianness.Big);
             for (int i = 0; i < rewardInfoListCount; i++)
             {
-                RewardInfoList[i].Write(buffer);
+                RewardInfoList[i].WriteCs(buffer);
             }
             int sizeChangeInfoListCount = (int)SizeChangeInfoList.Count;
             buffer.WriteInt32(sizeChangeInfoListCount, Endianness.Big);
             for (int i = 0; i < sizeChangeInfoListCount; i++)
             {
-                SizeChangeInfoList[i].Write(buffer);
+                SizeChangeInfoList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            BaseInfo.Read(buffer);
-            StatInfo.Read(buffer);
+            BaseInfo.ReadCs(buffer);
+            StatInfo.ReadCs(buffer);
             RewardInfoList.Clear();
             int rewardInfoListCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < rewardInfoListCount; i++)
             {
                 CSLevelRewardInfo RewardInfoListEntry = new CSLevelRewardInfo();
-                RewardInfoListEntry.Read(buffer);
+                RewardInfoListEntry.ReadCs(buffer);
                 RewardInfoList.Add(RewardInfoListEntry);
             }
             SizeChangeInfoList.Clear();
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < sizeChangeInfoListCount; i++)
             {
                 MonsterSizeChange SizeChangeInfoListEntry = new MonsterSizeChange();
-                SizeChangeInfoListEntry.Read(buffer);
+                SizeChangeInfoListEntry.ReadCs(buffer);
                 SizeChangeInfoList.Add(SizeChangeInfoListEntry);
             }
         }

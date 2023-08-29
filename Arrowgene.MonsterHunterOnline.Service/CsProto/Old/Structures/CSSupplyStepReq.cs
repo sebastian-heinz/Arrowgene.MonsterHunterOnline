@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 快捷补给step1
     /// </summary>
-    public class CSSupplyStepReq : IStructure
+    public class CSSupplyStepReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSupplyStepReq));
 
@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<SupplyStep> StepList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(iPlanID, Endianness.Big);
             buffer.WriteInt32(StepType, Endianness.Big);
@@ -68,11 +68,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(stepListCount, Endianness.Big);
             for (int i = 0; i < stepListCount; i++)
             {
-                StepList[i].Write(buffer);
+                StepList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             iPlanID = buffer.ReadInt32(Endianness.Big);
             StepType = buffer.ReadInt32(Endianness.Big);
@@ -81,7 +81,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < stepListCount; i++)
             {
                 SupplyStep StepListEntry = new SupplyStep();
-                StepListEntry.Read(buffer);
+                StepListEntry.ReadCs(buffer);
                 StepList.Add(StepListEntry);
             }
         }

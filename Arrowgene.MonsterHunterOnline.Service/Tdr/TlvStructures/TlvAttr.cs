@@ -1,11 +1,12 @@
 ﻿using System;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvAttr : TlvStructure
+public class TlvAttr : Structure, ITlvStructure
 {
     public TlvAttr()
     {
@@ -72,9 +73,8 @@ public class TlvAttr : TlvStructure
         SetProp(CharMaxSta, val);
     }
 
-    public override void Write(IBuffer buffer)
+    public void WriteTlv(IBuffer buffer)
     {
-        WriteByte(buffer, (byte)TlvMagic.NoVariant);
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
@@ -125,7 +125,7 @@ public class TlvAttr : TlvStructure
     }
 
 
-    public override void Read(IBuffer buffer)
+    public void ReadTlv(IBuffer buffer)
     {
         throw new NotImplementedException();
     }

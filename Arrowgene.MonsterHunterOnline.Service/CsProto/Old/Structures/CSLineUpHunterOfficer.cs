@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎人教官匹配请求
     /// </summary>
-    public class CSLineUpHunterOfficer : IStructure
+    public class CSLineUpHunterOfficer : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLineUpHunterOfficer));
 
@@ -45,12 +45,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public int Type;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Type, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Type = buffer.ReadInt32(Endianness.Big);
         }

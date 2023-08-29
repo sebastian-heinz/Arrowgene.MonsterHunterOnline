@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 服务器强制状态变化消息
     /// </summary>
-    public class ServerSyncInfoNtf : Structure
+    public class ServerSyncInfoNtf : Structure, ICsStructure
     {
         public ServerSyncInfoNtf()
         {
@@ -24,16 +24,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public FifoSyncInfo SyncInfo { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteUInt32(buffer, EntityId);
-            WriteStructure(buffer, SyncInfo);
+            WriteCsStructure(buffer, SyncInfo);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = ReadUInt32(buffer);
-            SyncInfo = ReadStructure(buffer, SyncInfo);
+            SyncInfo = ReadCsStructure(buffer, SyncInfo);
         }
     }
 }

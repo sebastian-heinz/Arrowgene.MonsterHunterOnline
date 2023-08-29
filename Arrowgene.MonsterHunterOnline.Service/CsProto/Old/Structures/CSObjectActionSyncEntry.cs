@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSObjectActionSyncEntry : IStructure
+    public class CSObjectActionSyncEntry : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSObjectActionSyncEntry));
 
@@ -52,14 +52,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSObjectActionParam Param;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(EntityId, Endianness.Big);
             buffer.WriteUInt16((ushort)Param.Action, Endianness.Big);
-            Param.Write(buffer);
+            Param.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityId = buffer.ReadUInt32(Endianness.Big);
             CS_SCENE_OBJECT_ACTION_TYPE CSObjectActionParam_Action = (CS_SCENE_OBJECT_ACTION_TYPE)buffer.ReadUInt16(Endianness.Big);
@@ -91,7 +91,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
                     break;
             }
             if (Param != null) {
-                Param.Read(buffer);
+                Param.ReadCs(buffer);
             }
             else {
                 Logger.Error("Failed to create 'Param' instance of type 'CSObjectActionParam'");

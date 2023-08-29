@@ -8,7 +8,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// monster appear notify list
     /// </summary>
-    public class MonsterAppearNtfList : Structure
+    public class MonsterAppearNtfList : Structure, ICsStructure
     {
         public MonsterAppearNtfList()
         {
@@ -17,14 +17,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<MonsterAppearNtf> Appear { get; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
-            WriteList(buffer, Appear, CsProtoConstant.CS_MAX_APPEAR_NTF_NUM, WriteInt32, WriteStructure);
+            WriteList(buffer, Appear, CsProtoConstant.CS_MAX_APPEAR_NTF_NUM, WriteInt32, WriteCsStructure);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            ReadList(buffer, Appear, CsProtoConstant.CS_MAX_APPEAR_NTF_NUM, ReadInt32, ReadStructure<MonsterAppearNtf>);
+            ReadList(buffer, Appear, CsProtoConstant.CS_MAX_APPEAR_NTF_NUM, ReadInt32, ReadCsStructure<MonsterAppearNtf>);
         }
     }
 }

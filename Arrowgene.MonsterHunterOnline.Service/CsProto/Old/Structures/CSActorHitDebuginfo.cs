@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// hit信息用于统计
     /// </summary>
-    public class CSActorHitDebuginfo : IStructure
+    public class CSActorHitDebuginfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorHitDebuginfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int StateID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(AttackerNetObjId, Endianness.Big);
             buffer.WriteUInt32(TargetNetObjId, Endianness.Big);
             buffer.WriteInt32(StateID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AttackerNetObjId = buffer.ReadUInt32(Endianness.Big);
             TargetNetObjId = buffer.ReadUInt32(Endianness.Big);

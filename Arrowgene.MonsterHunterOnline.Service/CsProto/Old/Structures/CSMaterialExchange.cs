@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商店兑换
     /// </summary>
-    public class CSMaterialExchange : IStructure
+    public class CSMaterialExchange : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMaterialExchange));
 
@@ -54,18 +54,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMaterialExchangeGrid> MEGridInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MEID, Endianness.Big);
             uint mEGridInfoCount = (uint)MEGridInfo.Count;
             buffer.WriteUInt32(mEGridInfoCount, Endianness.Big);
             for (int i = 0; i < mEGridInfoCount; i++)
             {
-                MEGridInfo[i].Write(buffer);
+                MEGridInfo[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MEID = buffer.ReadUInt32(Endianness.Big);
             MEGridInfo.Clear();
@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < mEGridInfoCount; i++)
             {
                 CSMaterialExchangeGrid MEGridInfoEntry = new CSMaterialExchangeGrid();
-                MEGridInfoEntry.Read(buffer);
+                MEGridInfoEntry.ReadCs(buffer);
                 MEGridInfo.Add(MEGridInfoEntry);
             }
         }

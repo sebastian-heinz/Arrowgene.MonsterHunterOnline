@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 切换TOWN地图回复
     /// </summary>
-    public class ChangeTownInstanceRsp : Structure
+    public class ChangeTownInstanceRsp : Structure, ICsStructure
     {
         public ChangeTownInstanceRsp()
         {
@@ -24,13 +24,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelId { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, ErrCode);
             WriteInt32(buffer, LevelId);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = ReadInt32(buffer);
             LevelId = ReadInt32(buffer);

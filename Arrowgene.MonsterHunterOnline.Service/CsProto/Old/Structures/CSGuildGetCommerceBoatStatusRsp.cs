@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildGetCommerceBoatStatusRsp : IStructure
+    public class CSGuildGetCommerceBoatStatusRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildGetCommerceBoatStatusRsp));
 
@@ -57,17 +57,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public byte Mode;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ErrCode, Endianness.Big);
-            GuildWarBoatStatusInfo.Write(buffer);
+            GuildWarBoatStatusInfo.WriteCs(buffer);
             buffer.WriteByte(Mode);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrCode = buffer.ReadUInt32(Endianness.Big);
-            GuildWarBoatStatusInfo.Read(buffer);
+            GuildWarBoatStatusInfo.ReadCs(buffer);
             Mode = buffer.ReadByte();
         }
 

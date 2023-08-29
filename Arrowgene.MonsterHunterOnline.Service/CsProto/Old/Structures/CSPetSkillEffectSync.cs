@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物技能效果同步
     /// </summary>
-    public class CSPetSkillEffectSync : IStructure
+    public class CSPetSkillEffectSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetSkillEffectSync));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SkillID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(SkillID, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SkillID = buffer.ReadInt32(Endianness.Big);
         }

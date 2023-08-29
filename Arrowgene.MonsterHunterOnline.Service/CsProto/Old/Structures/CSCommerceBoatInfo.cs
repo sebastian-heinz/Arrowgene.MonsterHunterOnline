@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 商船信息
     /// </summary>
-    public class CSCommerceBoatInfo : IStructure
+    public class CSCommerceBoatInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCommerceBoatInfo));
 
@@ -72,22 +72,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSGrabInfo GrabInfo;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(CommerceBoatId, Endianness.Big);
             buffer.WriteInt32(CommerceBoatStartTime, Endianness.Big);
             buffer.WriteInt32(CommerceBoatStatus, Endianness.Big);
             buffer.WriteInt32(LevelId, Endianness.Big);
-            GrabInfo.Write(buffer);
+            GrabInfo.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CommerceBoatId = buffer.ReadUInt32(Endianness.Big);
             CommerceBoatStartTime = buffer.ReadInt32(Endianness.Big);
             CommerceBoatStatus = buffer.ReadInt32(Endianness.Big);
             LevelId = buffer.ReadInt32(Endianness.Big);
-            GrabInfo.Read(buffer);
+            GrabInfo.ReadCs(buffer);
         }
 
     }

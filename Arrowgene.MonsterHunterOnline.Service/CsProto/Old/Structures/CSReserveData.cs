@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Reserved data
     /// </summary>
-    public class CSReserveData : IStructure
+    public class CSReserveData : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReserveData));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int res;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(res, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             res = buffer.ReadInt32(Endianness.Big);
         }

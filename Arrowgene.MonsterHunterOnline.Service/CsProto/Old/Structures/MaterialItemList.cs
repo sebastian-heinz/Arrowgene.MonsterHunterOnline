@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 素材分类列表
     /// </summary>
-    public class MaterialItemList : IStructure
+    public class MaterialItemList : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(MaterialItemList));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<TagMaterialItem> MaterialList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             byte materialListCount = (byte)MaterialList.Count;
             buffer.WriteByte(materialListCount);
             for (int i = 0; i < materialListCount; i++)
             {
-                MaterialList[i].Write(buffer);
+                MaterialList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MaterialList.Clear();
             byte materialListCount = buffer.ReadByte();
             for (int i = 0; i < materialListCount; i++)
             {
                 TagMaterialItem MaterialListEntry = new TagMaterialItem();
-                MaterialListEntry.Read(buffer);
+                MaterialListEntry.ReadCs(buffer);
                 MaterialList.Add(MaterialListEntry);
             }
         }

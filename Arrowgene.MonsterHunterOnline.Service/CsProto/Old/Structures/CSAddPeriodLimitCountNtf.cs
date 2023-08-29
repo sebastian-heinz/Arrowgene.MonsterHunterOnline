@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家委托周期增加的额外次数同步
     /// </summary>
-    public class CSAddPeriodLimitCountNtf : IStructure
+    public class CSAddPeriodLimitCountNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAddPeriodLimitCountNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int CurCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(GroupID, Endianness.Big);
             buffer.WriteInt32(CurCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadInt32(Endianness.Big);
             CurCount = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 客户端请求把摧毁某个物品
     /// </summary>
-    public class CSReqDestroyItem : IStructure
+    public class CSReqDestroyItem : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSReqDestroyItem));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort Count;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(SrcColumn);
             buffer.WriteUInt16(SrcIndex, Endianness.Big);
             buffer.WriteUInt16(Count, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SrcColumn = buffer.ReadByte();
             SrcIndex = buffer.ReadUInt16(Endianness.Big);

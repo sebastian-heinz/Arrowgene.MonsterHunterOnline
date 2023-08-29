@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 引导书完成通知
     /// </summary>
-    public class S2CGuideBookActionFinishNtf : IStructure
+    public class S2CGuideBookActionFinishNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CGuideBookActionFinishNtf));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int FinishCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ActionId, Endianness.Big);
             buffer.WriteInt32(FinishCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ActionId = buffer.ReadInt32(Endianness.Big);
             FinishCount = buffer.ReadInt32(Endianness.Big);

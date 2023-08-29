@@ -44,7 +44,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<byte> Data;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             ushort dataCount = (ushort)Data.Count;
             buffer.WriteUInt16(dataCount, Endianness.Big);
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Data.Clear();
             ushort dataCount = buffer.ReadUInt16(Endianness.Big);

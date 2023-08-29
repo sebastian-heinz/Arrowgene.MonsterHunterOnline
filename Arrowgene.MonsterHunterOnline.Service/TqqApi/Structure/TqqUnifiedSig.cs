@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Model;
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi.Structure;
 
 /// <summary>
 /// 0X82签名协议

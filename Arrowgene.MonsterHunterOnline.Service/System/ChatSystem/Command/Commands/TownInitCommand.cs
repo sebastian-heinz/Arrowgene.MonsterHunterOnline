@@ -16,7 +16,7 @@ public class TownInitCommand : ChatCommand
 
     public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
     {
-        CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
+        CsCsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
         TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
         verifyRsp.ErrNo = 0;
         verifyRsp.LineId = 0;

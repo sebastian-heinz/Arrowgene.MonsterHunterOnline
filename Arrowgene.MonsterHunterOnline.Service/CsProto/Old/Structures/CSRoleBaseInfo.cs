@@ -35,7 +35,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色基本信息
     /// </summary>
-    public class CSRoleBaseInfo : IStructure
+    public class CSRoleBaseInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSRoleBaseInfo));
 
@@ -199,7 +199,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int SoulStoneLv;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt64(RoleID, Endianness.Big);
             buffer.WriteInt32(RoleIndex, Endianness.Big);
@@ -224,7 +224,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt16(equipCount, Endianness.Big);
             for (int i = 0; i < equipCount; i++)
             {
-                Equip[i].Write(buffer);
+                Equip[i].WriteCs(buffer);
             }
             buffer.WriteByte(HideHelm);
             buffer.WriteByte(HideFashion);
@@ -239,7 +239,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(SoulStoneLv, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RoleID = buffer.ReadUInt64(Endianness.Big);
             RoleIndex = buffer.ReadInt32(Endianness.Big);
@@ -265,7 +265,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < equipCount; i++)
             {
                 CSAvatarItem EquipEntry = new CSAvatarItem();
-                EquipEntry.Read(buffer);
+                EquipEntry.ReadCs(buffer);
                 Equip.Add(EquipEntry);
             }
             HideHelm = buffer.ReadByte();

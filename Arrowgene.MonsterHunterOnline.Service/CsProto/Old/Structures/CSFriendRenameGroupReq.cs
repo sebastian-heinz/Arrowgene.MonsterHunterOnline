@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 分组重命名请求
     /// </summary>
-    public class CSFriendRenameGroupReq : IStructure
+    public class CSFriendRenameGroupReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendRenameGroupReq));
 
@@ -54,14 +54,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string GroupName;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(GroupID);
             buffer.WriteInt32(GroupName.Length + 1, Endianness.Big);
             buffer.WriteCString(GroupName);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             GroupID = buffer.ReadByte();
             int GroupNameEntryLen = buffer.ReadInt32(Endianness.Big);

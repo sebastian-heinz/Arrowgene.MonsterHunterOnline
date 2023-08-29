@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 对固定速度、加速度的运动Entity位移做同步的消息
     /// </summary>
-    public class CSBattleEntitySpeed : IStructure
+    public class CSBattleEntitySpeed : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleEntitySpeed));
 
@@ -78,22 +78,22 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public float AngleAccelator;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteByte(IsStart);
-            InitSpeed.Write(buffer);
-            Accelator.Write(buffer);
+            InitSpeed.WriteCs(buffer);
+            Accelator.WriteCs(buffer);
             buffer.WriteFloat(InitAngleSpeed, Endianness.Big);
             buffer.WriteFloat(AngleAccelator, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             IsStart = buffer.ReadByte();
-            InitSpeed.Read(buffer);
-            Accelator.Read(buffer);
+            InitSpeed.ReadCs(buffer);
+            Accelator.ReadCs(buffer);
             InitAngleSpeed = buffer.ReadFloat(Endianness.Big);
             AngleAccelator = buffer.ReadFloat(Endianness.Big);
         }

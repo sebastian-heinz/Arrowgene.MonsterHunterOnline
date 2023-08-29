@@ -30,7 +30,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
         {
             triggerName = req.DstPoint;
         }
-        CsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
+        CsCsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
         TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
         verifyRsp.ErrNo = 0;
         verifyRsp.LineId = 0;
@@ -118,14 +118,14 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
                                 t = new CSVec3() { x = (float)posX, y = (float)posY, z = (float)posZ }
                             };
 
-                            CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
+                            CsCsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
                             ChangeTownInstance.Structure.ErrCode = 0;
                             ChangeTownInstance.Structure.LevelId = level;
 
                             client.SendCsProtoStructurePacket(ChangeTownInstance);
 
 
-                            CsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
+                            CsCsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
                             PlayerTeleport.Structure.SyncTime = 1;
                             //One day netobjid would not be the character id ?
                             PlayerTeleport.Structure.NetObjId = client.Character.Id;
@@ -149,7 +149,7 @@ public class ChangeTownInstanceReqHandler : CsProtoStructureHandler<ChangeTownIn
         else
         {
 
-            CsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
+            CsCsProtoStructurePacket<ChangeTownInstanceRsp> ChangeTownInstance = CsProtoResponse.ChangeTownInstanceRsp;
             ChangeTownInstance.Structure.ErrCode = 0;
             ChangeTownInstance.Structure.LevelId = level;
             client.SendCsProtoStructurePacket(ChangeTownInstance);

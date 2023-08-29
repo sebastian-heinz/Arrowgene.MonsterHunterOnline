@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 发言执行
     /// </summary>
-    public class C2SSpeakExec : IStructure
+    public class C2SSpeakExec : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSpeakExec));
 
@@ -48,14 +48,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSSpeaksExec Exec;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Exec.Write(buffer);
+            Exec.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Exec.Read(buffer);
+            Exec.ReadCs(buffer);
         }
 
     }

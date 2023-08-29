@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 领取奖励上下文集
     /// </summary>
-    public class CSActivityFetchsCtx : IStructure
+    public class CSActivityFetchsCtx : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActivityFetchsCtx));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSActivityFetchCtx> Ctx;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int ctxCount = (int)Ctx.Count;
             buffer.WriteInt32(ctxCount, Endianness.Big);
             for (int i = 0; i < ctxCount; i++)
             {
-                Ctx[i].Write(buffer);
+                Ctx[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Ctx.Clear();
             int ctxCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < ctxCount; i++)
             {
                 CSActivityFetchCtx CtxEntry = new CSActivityFetchCtx();
-                CtxEntry.Read(buffer);
+                CtxEntry.ReadCs(buffer);
                 Ctx.Add(CtxEntry);
             }
         }

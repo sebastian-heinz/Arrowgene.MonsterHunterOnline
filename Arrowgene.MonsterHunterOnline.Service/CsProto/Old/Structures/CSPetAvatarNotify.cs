@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 宠物avatar同步
     /// </summary>
-    public class CSPetAvatarNotify : IStructure
+    public class CSPetAvatarNotify : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPetAvatarNotify));
 
@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> equipID;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(entityID, Endianness.Big);
             int equipIDCount = (int)equipID.Count;
@@ -65,7 +65,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             entityID = buffer.ReadUInt32(Endianness.Big);
             equipID.Clear();

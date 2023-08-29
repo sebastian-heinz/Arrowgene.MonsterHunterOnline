@@ -22,10 +22,10 @@ public class ItemMgrMoveItemHandler : CsProtoStructureHandler<ItemMgrMoveItemReq
             return;
         }
 
-        CsProtoStructurePacket<ItemMgrMoveItemNtf> itemMgrMoveItemNtf = CsProtoResponse.ItemMgrMoveItemNtf;
+        CsCsProtoStructurePacket<ItemMgrMoveItemNtf> itemMgrMoveItemNtf = CsProtoResponse.ItemMgrMoveItemNtf;
 
         if (!inventory.Move(
-                req.ItemId,
+                (ulong)req.ItemId,
                 req.ItemColumn,
                 req.ItemGrid,
                 req.DstColumn,
@@ -35,6 +35,8 @@ public class ItemMgrMoveItemHandler : CsProtoStructureHandler<ItemMgrMoveItemReq
             Logger.Error(client, $"failed to move item {req.ItemId}");
             return;
         }
+        
+        Logger.Info(req.JsonDump());
 
         itemMgrMoveItemNtf.Structure.ItemId = req.ItemId;
         itemMgrMoveItemNtf.Structure.ItemColumn = req.ItemColumn;

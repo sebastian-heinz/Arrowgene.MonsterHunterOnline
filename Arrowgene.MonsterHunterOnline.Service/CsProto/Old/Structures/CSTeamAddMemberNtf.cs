@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 通知增加队友
     /// </summary>
-    public class CSTeamAddMemberNtf : IStructure
+    public class CSTeamAddMemberNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSTeamAddMemberNtf));
 
@@ -54,15 +54,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Slot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            Member.Write(buffer);
+            Member.WriteCs(buffer);
             buffer.WriteInt32(Slot, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            Member.Read(buffer);
+            Member.ReadCs(buffer);
             Slot = buffer.ReadInt32(Endianness.Big);
         }
 

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 接受好友申请
     /// </summary>
-    public class C2SAcceptFriendApply : IStructure
+    public class C2SAcceptFriendApply : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SAcceptFriendApply));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string Name;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Apply, Endianness.Big);
             buffer.WriteUInt64(Dbid, Endianness.Big);
@@ -75,7 +75,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(Name);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Apply = buffer.ReadInt32(Endianness.Big);
             Dbid = buffer.ReadUInt64(Endianness.Big);

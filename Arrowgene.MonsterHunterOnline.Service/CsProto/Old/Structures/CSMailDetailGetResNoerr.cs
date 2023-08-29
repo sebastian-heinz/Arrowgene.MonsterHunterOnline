@@ -42,14 +42,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSMailDetail MailDetail;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            MailDetail.Write(buffer);
+            MailDetail.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            MailDetail.Read(buffer);
+            MailDetail.ReadCs(buffer);
         }
 
     }

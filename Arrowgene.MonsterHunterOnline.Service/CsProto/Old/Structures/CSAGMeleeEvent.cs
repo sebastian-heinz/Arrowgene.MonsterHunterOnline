@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// AGMeleeEvent同步消息
     /// </summary>
-    public class CSAGMeleeEvent : IStructure
+    public class CSAGMeleeEvent : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAGMeleeEvent));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string param_str;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
             buffer.WriteUInt32(Event, Endianness.Big);
@@ -77,7 +77,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteCString(param_str);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
             Event = buffer.ReadUInt32(Endianness.Big);

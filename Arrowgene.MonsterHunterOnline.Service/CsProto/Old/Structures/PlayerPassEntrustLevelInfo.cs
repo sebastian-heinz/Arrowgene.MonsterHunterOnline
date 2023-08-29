@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 委托关卡周期内完成的次数数据
     /// </summary>
-    public class PlayerPassEntrustLevelInfo : IStructure
+    public class PlayerPassEntrustLevelInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(PlayerPassEntrustLevelInfo));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint PassCount;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(MergeGroupID, Endianness.Big);
             buffer.WriteInt32(LevelID, Endianness.Big);
             buffer.WriteUInt32(PassCount, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             MergeGroupID = buffer.ReadUInt32(Endianness.Big);
             LevelID = buffer.ReadInt32(Endianness.Big);

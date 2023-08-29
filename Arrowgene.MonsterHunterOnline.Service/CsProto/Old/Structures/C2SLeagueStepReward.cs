@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 个人阶段奖励请求
     /// </summary>
-    public class C2SLeagueStepReward : IStructure
+    public class C2SLeagueStepReward : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SLeagueStepReward));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Level;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Level, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Level = buffer.ReadInt32(Endianness.Big);
         }

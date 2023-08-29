@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Actor对应Entity位置同步信息
     /// </summary>
-    public class CSBattleLocation : IStructure
+    public class CSBattleLocation : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSBattleLocation));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuatT Location;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(NetObjId, Endianness.Big);
-            Location.Write(buffer);
+            Location.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             NetObjId = buffer.ReadUInt32(Endianness.Big);
-            Location.Read(buffer);
+            Location.ReadCs(buffer);
         }
 
     }

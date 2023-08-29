@@ -3,7 +3,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
-public class RoleDataErrorRsp : Structure
+public class RoleDataErrorRsp : Structure, ICsStructure
 {
     public RoleDataErrorRsp()
     {
@@ -15,12 +15,12 @@ public class RoleDataErrorRsp : Structure
     /// </summary>
     public int ErrNo { get; set; }
 
-    public override void Write(IBuffer buffer)
+    public  void WriteCs(IBuffer buffer)
     {
         WriteInt32(buffer, ErrNo);
     }
 
-    public override void Read(IBuffer buffer)
+    public void ReadCs(IBuffer buffer)
     {
         ErrNo = ReadInt32(buffer);
     }

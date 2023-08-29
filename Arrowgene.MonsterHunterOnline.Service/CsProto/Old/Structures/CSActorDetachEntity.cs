@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// detach消息
     /// </summary>
-    public class CSActorDetachEntity : IStructure
+    public class CSActorDetachEntity : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActorDetachEntity));
 
@@ -66,20 +66,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuat ActorRot;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt64(SyncTime, Endianness.Big);
             buffer.WriteUInt64(ParentGUID, Endianness.Big);
-            Location.Write(buffer);
-            ActorRot.Write(buffer);
+            Location.WriteCs(buffer);
+            ActorRot.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             SyncTime = buffer.ReadInt64(Endianness.Big);
             ParentGUID = buffer.ReadUInt64(Endianness.Big);
-            Location.Read(buffer);
-            ActorRot.Read(buffer);
+            Location.ReadCs(buffer);
+            ActorRot.ReadCs(buffer);
         }
 
     }

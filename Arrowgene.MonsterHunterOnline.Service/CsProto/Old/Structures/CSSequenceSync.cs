@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Trackview状态同步
     /// </summary>
-    public class CSSequenceSync : IStructure
+    public class CSSequenceSync : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSequenceSync));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Flag;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LogicEntity, Endianness.Big);
             buffer.WriteInt32(SeqName.Length + 1, Endianness.Big);
@@ -82,7 +82,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(Flag, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LogicEntity = buffer.ReadUInt32(Endianness.Big);
             int SeqNameEntryLen = buffer.ReadInt32(Endianness.Big);

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 等级信息通知
     /// </summary>
-    public class CSHunterStarLevelInfoNtf : IStructure
+    public class CSHunterStarLevelInfoNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarLevelInfoNtf));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSHunterStarBranch> BranchList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AllScore, Endianness.Big);
             buffer.WriteInt32(StarScore, Endianness.Big);
@@ -74,17 +74,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(starListCount);
             for (int i = 0; i < starListCount; i++)
             {
-                StarList[i].Write(buffer);
+                StarList[i].WriteCs(buffer);
             }
             byte branchListCount = (byte)BranchList.Count;
             buffer.WriteByte(branchListCount);
             for (int i = 0; i < branchListCount; i++)
             {
-                BranchList[i].Write(buffer);
+                BranchList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AllScore = buffer.ReadInt32(Endianness.Big);
             StarScore = buffer.ReadInt32(Endianness.Big);
@@ -93,7 +93,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < starListCount; i++)
             {
                 CSHunterStarStar StarListEntry = new CSHunterStarStar();
-                StarListEntry.Read(buffer);
+                StarListEntry.ReadCs(buffer);
                 StarList.Add(StarListEntry);
             }
             BranchList.Clear();
@@ -101,7 +101,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < branchListCount; i++)
             {
                 CSHunterStarBranch BranchListEntry = new CSHunterStarBranch();
-                BranchListEntry.Read(buffer);
+                BranchListEntry.ReadCs(buffer);
                 BranchList.Add(BranchListEntry);
             }
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家换区状态通知
     /// </summary>
-    public class CSPlayerRegionJumpRsp : IStructure
+    public class CSPlayerRegionJumpRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSPlayerRegionJumpRsp));
 
@@ -60,18 +60,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSQuatT Transform;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ErrorCode, Endianness.Big);
             buffer.WriteInt32(RegionId, Endianness.Big);
-            Transform.Write(buffer);
+            Transform.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrorCode = buffer.ReadInt32(Endianness.Big);
             RegionId = buffer.ReadInt32(Endianness.Big);
-            Transform.Read(buffer);
+            Transform.ReadCs(buffer);
         }
 
     }

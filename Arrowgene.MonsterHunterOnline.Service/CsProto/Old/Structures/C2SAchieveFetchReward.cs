@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 成就奖励领取
     /// </summary>
-    public class C2SAchieveFetchReward : IStructure
+    public class C2SAchieveFetchReward : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SAchieveFetchReward));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int achieve;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(achieve, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             achieve = buffer.ReadInt32(Endianness.Big);
         }

@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 星级分支
     /// </summary>
-    public class CSHunterStarBranch : IStructure
+    public class CSHunterStarBranch : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSHunterStarBranch));
 
@@ -60,14 +60,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ushort BranchLevel;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(BranchType);
             buffer.WriteUInt32(BranchScore, Endianness.Big);
             buffer.WriteUInt16(BranchLevel, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             BranchType = buffer.ReadByte();
             BranchScore = buffer.ReadUInt32(Endianness.Big);

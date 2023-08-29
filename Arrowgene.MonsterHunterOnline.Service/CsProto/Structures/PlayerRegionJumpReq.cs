@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 玩家换区申请
     /// </summary>
-    public class PlayerRegionJumpReq : Structure
+    public class PlayerRegionJumpReq : Structure, ICsStructure
     {
         public PlayerRegionJumpReq()
         {
@@ -24,15 +24,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public string TriggerName { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
-            WriteStructure(buffer, PlayerPos);
+            WriteCsStructure(buffer, PlayerPos);
             WriteString(buffer, TriggerName);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            PlayerPos = ReadStructure(buffer, PlayerPos);
+            PlayerPos = ReadCsStructure(buffer, PlayerPos);
             TriggerName = ReadString(buffer);
         }
     }

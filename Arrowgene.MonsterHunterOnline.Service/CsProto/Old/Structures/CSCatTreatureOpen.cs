@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 开启宝藏
     /// </summary>
-    public class CSCatTreatureOpen : IStructure
+    public class CSCatTreatureOpen : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSCatTreatureOpen));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Index;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Index, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Index = buffer.ReadInt32(Endianness.Big);
         }

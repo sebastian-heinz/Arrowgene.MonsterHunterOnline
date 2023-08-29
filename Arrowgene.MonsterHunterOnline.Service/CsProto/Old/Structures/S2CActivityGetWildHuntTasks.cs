@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 红黄对抗获得任务
     /// </summary>
-    public class S2CActivityGetWildHuntTasks : IStructure
+    public class S2CActivityGetWildHuntTasks : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CActivityGetWildHuntTasks));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<int> CompleteTasks;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(ResetTimes, Endianness.Big);
             int tasksCount = (int)Tasks.Count;
@@ -89,7 +89,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ResetTimes = buffer.ReadInt32(Endianness.Big);
             Tasks.Clear();

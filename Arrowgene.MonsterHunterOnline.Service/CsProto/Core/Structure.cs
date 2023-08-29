@@ -8,18 +8,15 @@ using Arrowgene.MonsterHunterOnline.Service.Tdr;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
-    public abstract class Structure : IStructure
+    public abstract class Structure
     {
         private static readonly ILogger Logger = LogProvider.Logger<Logger>(typeof(Structure));
 
         private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
         {
             WriteIndented = true,
-            IncludeFields = true, // TODO for now cause of old types not using get/set
+            IncludeFields = false,
         };
-
-        public abstract void Write(IBuffer buffer);
-        public abstract void Read(IBuffer buffer);
 
         public string JsonDump()
         {
@@ -245,21 +242,30 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
         }
 
-        protected void WriteStructure(IBuffer buffer, IStructure val)
+        protected void WriteCsStructure(IBuffer buffer, ICsStructure val)
         {
-            val.Write(buffer);
+            val.WriteCs(buffer);
         }
 
-        protected TStructure ReadStructure<TStructure>(IBuffer buffer) where TStructure : IStructure, new()
+        protected TStructure ReadCsStructure<TStructure>(IBuffer buffer) where TStructure : ICsStructure, new()
         {
             TStructure val = new TStructure();
-            val.Read(buffer);
+            val.ReadCs(buffer);
             return val;
         }
 
+        protected TStructure ReadCsStructure<TStructure>(IBuffer buffer, TStructure val) where TStructure : ICsStructure
+        {
+            val.ReadCs(buffer);
+            return val;
+        }
+
+        /// <summary>
+        /// Writes a TLV structures, by prefixing its size and adding the magic byte 0x99 (TlvMagic.NoVariant)
+        /// </summary>
         protected void WriteTlvStructure<TSize>(
             IBuffer buffer,
-            TlvStructure val,
+            ITlvStructure val,
             TSize limit,
             Action<IBuffer, TSize> writeSizeFn
         ) where TSize : IBinaryInteger<TSize>
@@ -270,7 +276,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             // at the moment using a tmp buffer, however it should be able to work with existing
             // buffer by adjusting position and length to delete in case of error.
             StreamBuffer tmp = new StreamBuffer();
-            val.Write(tmp);
+            WriteByte(tmp, (byte)TlvMagic.NoVariant);
+            val.WriteTlv(tmp);
             byte[] tlv = tmp.GetAllBytes();
 
             TSize size = TSize.CreateChecked(tlv.Length);
@@ -282,12 +289,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
 
             writeSizeFn(buffer, size);
-            val.Write(buffer);
+            buffer.WriteBytes(tlv);
         }
 
         protected void ReadTlvStructure<TSize>(
             IBuffer buffer,
-            TlvStructure val,
+            ITlvStructure val,
             TSize limit,
             Func<IBuffer, TSize> readSizeFn) where TSize : IBinaryInteger<TSize>
         {
@@ -300,14 +307,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
                 return;
             }
 
-            val.Read(buffer);
+            val.ReadTlv(buffer);
         }
 
-        protected TStructure ReadStructure<TStructure>(IBuffer buffer, TStructure val) where TStructure : IStructure
-        {
-            val.Read(buffer);
-            return val;
-        }
 
         protected T[] InitArray<T>(int count) where T : new()
         {
@@ -329,6 +331,78 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
 
             return val;
+        }
+
+        /// <summary>
+        /// Writes a TLV sub structure, does not prefix the data with 0x99 (TlvMagic.NoVariant)
+        /// </summary>
+        protected void WriteTlvSubStructure(IBuffer buffer, ITlvStructure val)
+        {
+            val.WriteTlv(buffer);
+        }
+
+        protected void WriteTlvTag(IBuffer buffer, int id, TlvType type)
+        {
+            buffer.WriteTlvTag(id, type);
+        }
+
+        protected void WriteTlvBool(IBuffer buffer, int id, bool val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_1_BYTE);
+            WriteBool(buffer, val);
+        }
+
+        protected void WriteTlvByte(IBuffer buffer, int id, byte val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_1_BYTE);
+            WriteByte(buffer, val);
+        }
+
+        protected void WriteTlvInt16(IBuffer buffer, int id, short val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_2_BYTE);
+            WriteInt16(buffer, val);
+        }
+
+        protected void WriteTlvUInt16(IBuffer buffer, int id, ushort val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_2_BYTE);
+            WriteUInt16(buffer, val);
+        }
+
+        protected void WriteTlvInt32(IBuffer buffer, int id, int val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+            WriteInt32(buffer, val);
+        }
+
+        protected void WriteTlvUInt32(IBuffer buffer, int id, uint val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+            WriteUInt32(buffer, val);
+        }
+
+        protected void WriteTlvInt64(IBuffer buffer, int id, long val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_8_BYTE);
+            WriteInt64(buffer, val);
+        }
+
+        protected void WriteTlvUInt64(IBuffer buffer, int id, ulong val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_8_BYTE);
+            WriteUInt64(buffer, val);
+        }
+
+        protected void WriteTlvInt32Arr(IBuffer buffer, int id, int[] val)
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+            int count = val.Length;
+            WriteInt32(buffer, count * 4);
+            for (int i = 0; i < count; i++)
+            {
+                WriteInt32(buffer, val[i]);
+            }
         }
     }
 }

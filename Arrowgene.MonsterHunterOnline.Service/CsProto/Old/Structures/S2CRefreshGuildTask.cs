@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 刷新猎团任务
     /// </summary>
-    public class S2CRefreshGuildTask : IStructure
+    public class S2CRefreshGuildTask : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(S2CRefreshGuildTask));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint NextRefreshTime;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(lib, Endianness.Big);
             buffer.WriteInt32(group, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteUInt32(NextRefreshTime, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             lib = buffer.ReadInt32(Endianness.Big);
             group = buffer.ReadInt32(Endianness.Big);

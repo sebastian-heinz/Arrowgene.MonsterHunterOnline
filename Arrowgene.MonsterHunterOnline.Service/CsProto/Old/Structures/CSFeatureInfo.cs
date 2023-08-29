@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// Feature数据
     /// </summary>
-    public class CSFeatureInfo : IStructure
+    public class CSFeatureInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFeatureInfo));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public ulong FeatureEnabled;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(FeatureHash, Endianness.Big);
             buffer.WriteUInt64(FeatureEnabled, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             FeatureHash = buffer.ReadUInt32(Endianness.Big);
             FeatureEnabled = buffer.ReadUInt64(Endianness.Big);

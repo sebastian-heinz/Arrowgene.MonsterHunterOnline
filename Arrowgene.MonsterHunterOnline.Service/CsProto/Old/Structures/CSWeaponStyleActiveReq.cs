@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 武器Style激活请求
     /// </summary>
-    public class CSWeaponStyleActiveReq : IStructure
+    public class CSWeaponStyleActiveReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSWeaponStyleActiveReq));
 
@@ -54,13 +54,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Style;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(WeaponType, Endianness.Big);
             buffer.WriteInt32(Style, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             WeaponType = buffer.ReadInt32(Endianness.Big);
             Style = buffer.ReadInt32(Endianness.Big);

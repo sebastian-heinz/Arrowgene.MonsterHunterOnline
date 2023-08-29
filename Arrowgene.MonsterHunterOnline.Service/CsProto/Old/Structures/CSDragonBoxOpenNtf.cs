@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 龙人秘宝开箱通知
     /// </summary>
-    public class CSDragonBoxOpenNtf : IStructure
+    public class CSDragonBoxOpenNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSDragonBoxOpenNtf));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<DragonBoxOpenArgs> Args;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Id, Endianness.Big);
             buffer.WriteInt32(Key, Endianness.Big);
@@ -87,11 +87,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteByte(argsCount);
             for (int i = 0; i < argsCount; i++)
             {
-                Args[i].Write(buffer);
+                Args[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Id = buffer.ReadInt32(Endianness.Big);
             Key = buffer.ReadInt32(Endianness.Big);
@@ -108,7 +108,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < argsCount; i++)
             {
                 DragonBoxOpenArgs ArgsEntry = new DragonBoxOpenArgs();
-                ArgsEntry.Read(buffer);
+                ArgsEntry.ReadCs(buffer);
                 Args.Add(ArgsEntry);
             }
         }

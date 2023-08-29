@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 活动基础奖励
     /// </summary>
-    public class CSActivityBaseReward : IStructure
+    public class CSActivityBaseReward : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSActivityBaseReward));
 
@@ -84,7 +84,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int PetRoyalPoint;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(AddExp, Endianness.Big);
             buffer.WriteInt32(AddBindGold, Endianness.Big);
@@ -95,7 +95,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(PetRoyalPoint, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             AddExp = buffer.ReadInt32(Endianness.Big);
             AddBindGold = buffer.ReadInt32(Endianness.Big);

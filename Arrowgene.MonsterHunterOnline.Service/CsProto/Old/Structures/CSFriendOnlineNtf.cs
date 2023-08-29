@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 好友上线通知
     /// </summary>
-    public class CSFriendOnlineNtf : IStructure
+    public class CSFriendOnlineNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSFriendOnlineNtf));
 
@@ -54,16 +54,16 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public CSFriendInfo Friender;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            FriendOnline.Write(buffer);
-            Friender.Write(buffer);
+            FriendOnline.WriteCs(buffer);
+            Friender.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
-            FriendOnline.Read(buffer);
-            Friender.Read(buffer);
+            FriendOnline.ReadCs(buffer);
+            Friender.ReadCs(buffer);
         }
 
     }

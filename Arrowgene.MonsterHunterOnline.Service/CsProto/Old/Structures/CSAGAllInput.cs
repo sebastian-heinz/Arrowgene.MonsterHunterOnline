@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 当前所有AGInput值，用于中途进入副本或重新同步AG
     /// </summary>
-    public class CSAGAllInput : IStructure
+    public class CSAGAllInput : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSAGAllInput));
 
@@ -72,7 +72,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSAGInput> AGInput;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteByte(EntityID);
             buffer.WriteByte(Layer);
@@ -82,11 +82,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt16(aGInputCount, Endianness.Big);
             for (int i = 0; i < aGInputCount; i++)
             {
-                AGInput[i].Write(buffer);
+                AGInput[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             EntityID = buffer.ReadByte();
             Layer = buffer.ReadByte();
@@ -97,7 +97,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < aGInputCount; i++)
             {
                 CSAGInput AGInputEntry = new CSAGInput();
-                AGInputEntry.Read(buffer);
+                AGInputEntry.ReadCs(buffer);
                 AGInput.Add(AGInputEntry);
             }
         }

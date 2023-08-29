@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 充值返利界面请求打开
     /// </summary>
-    public class CSConsumeActivityOpenReq : IStructure
+    public class CSConsumeActivityOpenReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSConsumeActivityOpenReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int Operate;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Operate, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Operate = buffer.ReadInt32(Endianness.Big);
         }

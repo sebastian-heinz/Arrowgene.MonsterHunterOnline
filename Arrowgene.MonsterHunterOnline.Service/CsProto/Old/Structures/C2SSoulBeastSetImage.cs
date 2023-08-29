@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class C2SSoulBeastSetImage : IStructure
+    public class C2SSoulBeastSetImage : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(C2SSoulBeastSetImage));
 
@@ -51,13 +51,13 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int image;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(beast, Endianness.Big);
             buffer.WriteInt32(image, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             beast = buffer.ReadInt32(Endianness.Big);
             image = buffer.ReadInt32(Endianness.Big);

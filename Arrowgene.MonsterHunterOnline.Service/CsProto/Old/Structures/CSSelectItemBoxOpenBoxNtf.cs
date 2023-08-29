@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 可选礼包开包内容
     /// </summary>
-    public class CSSelectItemBoxOpenBoxNtf : IStructure
+    public class CSSelectItemBoxOpenBoxNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSelectItemBoxOpenBoxNtf));
 
@@ -42,7 +42,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         {
             Box = 0;
             ItemList = new List<CSItemBoxItemEntry>();
-            EquipList = new List<CSItemData>();
+            EquipList = new List<ItemData>();
         }
 
         /// <summary>
@@ -58,26 +58,26 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 装备列表
         /// </summary>
-        public List<CSItemData> EquipList;
+        public List<ItemData> EquipList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(Box, Endianness.Big);
             byte itemListCount = (byte)ItemList.Count;
             buffer.WriteByte(itemListCount);
             for (int i = 0; i < itemListCount; i++)
             {
-                ItemList[i].Write(buffer);
+                ItemList[i].WriteCs(buffer);
             }
             byte equipListCount = (byte)EquipList.Count;
             buffer.WriteByte(equipListCount);
             for (int i = 0; i < equipListCount; i++)
             {
-                EquipList[i].Write(buffer);
+                EquipList[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Box = buffer.ReadInt32(Endianness.Big);
             ItemList.Clear();
@@ -85,15 +85,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < itemListCount; i++)
             {
                 CSItemBoxItemEntry ItemListEntry = new CSItemBoxItemEntry();
-                ItemListEntry.Read(buffer);
+                ItemListEntry.ReadCs(buffer);
                 ItemList.Add(ItemListEntry);
             }
             EquipList.Clear();
             byte equipListCount = buffer.ReadByte();
             for (int i = 0; i < equipListCount; i++)
             {
-                CSItemData EquipListEntry = new CSItemData();
-                EquipListEntry.Read(buffer);
+                ItemData EquipListEntry = new ItemData();
+                EquipListEntry.ReadCs(buffer);
                 EquipList.Add(EquipListEntry);
             }
         }

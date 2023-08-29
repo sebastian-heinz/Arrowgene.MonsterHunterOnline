@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 怪物尺寸信息列表
     /// </summary>
-    public class CSMonsterSizeNtf : IStructure
+    public class CSMonsterSizeNtf : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSMonsterSizeNtf));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<CSMonsterSizeInfo> Infos;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             short infosCount = (short)Infos.Count;
             buffer.WriteInt16(infosCount, Endianness.Big);
             for (int i = 0; i < infosCount; i++)
             {
-                Infos[i].Write(buffer);
+                Infos[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Infos.Clear();
             short infosCount = buffer.ReadInt16(Endianness.Big);
             for (int i = 0; i < infosCount; i++)
             {
                 CSMonsterSizeInfo InfosEntry = new CSMonsterSizeInfo();
-                InfosEntry.Read(buffer);
+                InfosEntry.ReadCs(buffer);
                 Infos.Add(InfosEntry);
             }
         }

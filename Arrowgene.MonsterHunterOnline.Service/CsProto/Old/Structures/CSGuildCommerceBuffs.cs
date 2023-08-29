@@ -31,7 +31,7 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
 
-    public class CSGuildCommerceBuffs : IStructure
+    public class CSGuildCommerceBuffs : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSGuildCommerceBuffs));
 
@@ -57,14 +57,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint Operator;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt32(CommerceId, Endianness.Big);
             buffer.WriteUInt32(TimeoutDate, Endianness.Big);
             buffer.WriteUInt32(Operator, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             CommerceId = buffer.ReadInt32(Endianness.Big);
             TimeoutDate = buffer.ReadUInt32(Endianness.Big);

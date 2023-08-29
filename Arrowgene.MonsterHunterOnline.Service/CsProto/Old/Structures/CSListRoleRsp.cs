@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 角色列表的响应包
     /// </summary>
-    public class CSListRoleRsp : IStructure
+    public class CSListRoleRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSListRoleRsp));
 
@@ -63,20 +63,20 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public CSRoleList RoleList;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(ErrNo, Endianness.Big);
             buffer.WriteUInt32(BanTime, Endianness.Big);
             buffer.WriteUInt32(LastLoinRoleIndex, Endianness.Big);
-            RoleList.Write(buffer);
+            RoleList.WriteCs(buffer);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             ErrNo = buffer.ReadUInt32(Endianness.Big);
             BanTime = buffer.ReadUInt32(Endianness.Big);
             LastLoinRoleIndex = buffer.ReadUInt32(Endianness.Big);
-            RoleList.Read(buffer);
+            RoleList.ReadCs(buffer);
         }
 
     }

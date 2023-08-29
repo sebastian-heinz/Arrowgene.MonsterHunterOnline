@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 追踪集
     /// </summary>
-    public class ItemRebuildTracks : IStructure
+    public class ItemRebuildTracks : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(ItemRebuildTracks));
 
@@ -48,24 +48,24 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ItemRebuildTrackDetail> Tracks;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             int tracksCount = (int)Tracks.Count;
             buffer.WriteInt32(tracksCount, Endianness.Big);
             for (int i = 0; i < tracksCount; i++)
             {
-                Tracks[i].Write(buffer);
+                Tracks[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             Tracks.Clear();
             int tracksCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < tracksCount; i++)
             {
                 ItemRebuildTrackDetail TracksEntry = new ItemRebuildTrackDetail();
-                TracksEntry.Read(buffer);
+                TracksEntry.ReadCs(buffer);
                 Tracks.Add(TracksEntry);
             }
         }

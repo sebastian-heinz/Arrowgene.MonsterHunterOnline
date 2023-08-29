@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 请求采集点
     /// </summary>
-    public class CSSyncLootInfoReq : IStructure
+    public class CSSyncLootInfoReq : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSSyncLootInfoReq));
 
@@ -48,12 +48,12 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public uint LogicEntityId;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(LogicEntityId, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             LogicEntityId = buffer.ReadUInt32(Endianness.Big);
         }

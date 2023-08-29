@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 猎人教官点赞回复
     /// </summary>
-    public class CSLikeHunterOfficerRsp : IStructure
+    public class CSLikeHunterOfficerRsp : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLikeHunterOfficerRsp));
 
@@ -66,7 +66,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LikeNum;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteUInt32(HunterOfficerRoleID, Endianness.Big);
             buffer.WriteUInt32(OptRoleID, Endianness.Big);
@@ -74,7 +74,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(LikeNum, Endianness.Big);
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             HunterOfficerRoleID = buffer.ReadUInt32(Endianness.Big);
             OptRoleID = buffer.ReadUInt32(Endianness.Big);

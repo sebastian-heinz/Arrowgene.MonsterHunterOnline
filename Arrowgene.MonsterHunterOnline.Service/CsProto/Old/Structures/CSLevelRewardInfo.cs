@@ -34,7 +34,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本奖励数据
     /// </summary>
-    public class CSLevelRewardInfo : IStructure
+    public class CSLevelRewardInfo : ICsStructure
     {
         private static readonly ILogger Logger = LogProvider.Logger(typeof(CSLevelRewardInfo));
 
@@ -87,7 +87,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 
         public List<CSRewardInstanceData> InstanceItemData;
 
-        public void Write(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             buffer.WriteInt16(RewardType, Endianness.Big);
             buffer.WriteInt32(ExtId, Endianness.Big);
@@ -107,19 +107,19 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             buffer.WriteInt32(rewardAffectListCount, Endianness.Big);
             for (int i = 0; i < rewardAffectListCount; i++)
             {
-                RewardAffectList[i].Write(buffer);
+                RewardAffectList[i].WriteCs(buffer);
             }
-            ItemLootList.Write(buffer);
-            BoxItemLootList.Write(buffer);
+            ItemLootList.WriteCs(buffer);
+            BoxItemLootList.WriteCs(buffer);
             int instanceItemDataCount = (int)InstanceItemData.Count;
             buffer.WriteInt32(instanceItemDataCount, Endianness.Big);
             for (int i = 0; i < instanceItemDataCount; i++)
             {
-                InstanceItemData[i].Write(buffer);
+                InstanceItemData[i].WriteCs(buffer);
             }
         }
 
-        public void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             RewardType = buffer.ReadInt16(Endianness.Big);
             ExtId = buffer.ReadInt32(Endianness.Big);
@@ -142,17 +142,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             for (int i = 0; i < rewardAffectListCount; i++)
             {
                 CSLevelRewardAffectInfo RewardAffectListEntry = new CSLevelRewardAffectInfo();
-                RewardAffectListEntry.Read(buffer);
+                RewardAffectListEntry.ReadCs(buffer);
                 RewardAffectList.Add(RewardAffectListEntry);
             }
-            ItemLootList.Read(buffer);
-            BoxItemLootList.Read(buffer);
+            ItemLootList.ReadCs(buffer);
+            BoxItemLootList.ReadCs(buffer);
             InstanceItemData.Clear();
             int instanceItemDataCount = buffer.ReadInt32(Endianness.Big);
             for (int i = 0; i < instanceItemDataCount; i++)
             {
                 CSRewardInstanceData InstanceItemDataEntry = new CSRewardInstanceData();
-                InstanceItemDataEntry.Read(buffer);
+                InstanceItemDataEntry.ReadCs(buffer);
                 InstanceItemData.Add(InstanceItemDataEntry);
             }
         }

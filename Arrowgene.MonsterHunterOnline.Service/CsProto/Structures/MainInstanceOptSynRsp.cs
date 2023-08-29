@@ -6,7 +6,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// <summary>
     /// 副本主UI操作同步响应
     /// </summary>
-    public class MainInstanceOptSynRsp : Structure
+    public class MainInstanceOptSynRsp : Structure, ICsStructure
     {
         public MainInstanceOptSynRsp()
         {
@@ -42,7 +42,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public int LevelMode { get; set; }
 
-        public override void Write(IBuffer buffer)
+        public  void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, TriggerId);
             WriteInt32(buffer, InstancePoint);
@@ -51,7 +51,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteInt32(buffer, LevelMode);
         }
 
-        public override void Read(IBuffer buffer)
+        public void ReadCs(IBuffer buffer)
         {
             TriggerId = ReadInt32(buffer);
             InstancePoint = ReadInt32(buffer);
