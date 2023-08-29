@@ -1,4 +1,5 @@
-﻿using Arrowgene.Logging;
+﻿using System.Collections.Generic;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
@@ -21,6 +22,13 @@ public class ItemManager
         _assets = assets;
     }
 
+    public Inventory GetInventory(uint characterId)
+    {
+        List<Item> items = _database.SelectItemsByCharacterId(characterId);
+        Inventory inventory = new Inventory(items);
+        return inventory;
+    }
+
     /// <summary>
     /// Adds specified item to client
     /// </summary>
@@ -39,7 +47,7 @@ public class ItemManager
             Logger.Error(client, "AddItem::character null");
             return false;
         }
-        
+
         Item item = MakeItem(character.Id, itemId, inventory);
         if (item == null)
         {

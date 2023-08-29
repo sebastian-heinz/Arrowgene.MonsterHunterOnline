@@ -31,7 +31,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         // Item
         public bool CreateItem(Item item);
         bool UpdateItem(Item item);
-        bool DeleteItem(ulong itemId);
+        bool DeleteItem(ulong id);
         List<Item> SelectItemsByCharacterId(uint characterId);
     }
 }

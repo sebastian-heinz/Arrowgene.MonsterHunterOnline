@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
-using Arrowgene.MonsterHunterOnline.Service.Tdr;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 

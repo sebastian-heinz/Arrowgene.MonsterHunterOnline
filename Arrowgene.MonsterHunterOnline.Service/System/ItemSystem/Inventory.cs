@@ -1,4 +1,5 @@
-﻿using Arrowgene.Logging;
+﻿using System.Collections.Generic;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
@@ -17,12 +18,28 @@ public class Inventory
     private Item[] _equipment;
     private object _lock;
 
-    public Inventory()
+    public Inventory(List<Item> items)
     {
         _item = new Item[MaxItemSize];
         _store = new Item[MaxItemSize];
         _equipment = new Item[MaxItemSize];
         _lock = new object();
+
+        foreach (Item item in items)
+        {
+            if (item.Id == null)
+            {
+                continue;
+            }
+
+            if (item.PosGrid == null)
+            {
+                continue;
+            }
+
+            Item[] collection = GetCollection(item.PosColumn);
+            collection[item.PosGrid.Value] = item;
+        }
     }
 
     public bool Add(Item item)
@@ -92,7 +109,7 @@ public class Inventory
         {
             return false;
         }
-        
+
         int freeSlot;
         lock (_lock)
         {

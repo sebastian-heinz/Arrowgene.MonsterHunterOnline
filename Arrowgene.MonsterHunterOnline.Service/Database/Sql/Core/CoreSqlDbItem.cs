@@ -54,7 +54,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             List<Item> items = new List<Item>();
             ExecuteReader(
                 SqlSelectItemsByCharacterId,
-                command => { AddParameter(command, "@id", characterId); },
+                command => { AddParameter(command, "@character_id", characterId); },
                 reader =>
                 {
                     while (reader.Read())
@@ -86,10 +86,10 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             return rowsAffected > NoRowsAffected;
         }
 
-        public bool DeleteItem(ulong itemId)
+        public bool DeleteItem(ulong id)
         {
             int rowsAffected = ExecuteNonQuery(SqlDeleteItem,
-                command => { AddParameter(command, "@id", itemId); });
+                command => { AddParameter(command, "@id", id); });
             return rowsAffected > NoRowsAffected;
         }
 
