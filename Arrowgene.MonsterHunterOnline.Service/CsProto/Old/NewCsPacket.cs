@@ -7019,21 +7019,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSItemMgrDelItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_DEL_ITEM_NTF, structure);
         }
         
-        /// <summary>
-        /// 交换物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrSwapItemReq> ItemMgrSwapItemReq(CSItemMgrSwapItemReq structure)
-        {
-            return new CsTPacket<CSItemMgrSwapItemReq>(CS_CMD_ID.CS_CMD_ITEMMGR_SWAP_ITEM_REQ, structure);
-        }
-
-        /// <summary>
-        /// 交换物品
-        /// </summary>
-        public static CsTPacket<CSItemMgrSwapItemNtf> ItemMgrSwapItemNtf(CSItemMgrSwapItemNtf structure)
-        {
-            return new CsTPacket<CSItemMgrSwapItemNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_SWAP_ITEM_NTF, structure);
-        }
 
         /// <summary>
         /// 合并物品
@@ -7106,15 +7091,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSItemMgrExpandGridNtf>(CS_CMD_ID.CS_CMD_ITEMMGR_EXPAND_GRID_NTF, structure);
         }
-
-        /// <summary>
-        /// 快速更换装备
-        /// </summary>
-        public static CsTPacket<CSQuickChangeEquipReq> QuickChangeEquipReq(CSQuickChangeEquipReq structure)
-        {
-            return new CsTPacket<CSQuickChangeEquipReq>(CS_CMD_ID.CS_CMD_ITEM_EQUIP_QUICK_CHANGE_REQ, structure);
-        }
-
+        
         /// <summary>
         /// Itembox错误
         /// </summary>

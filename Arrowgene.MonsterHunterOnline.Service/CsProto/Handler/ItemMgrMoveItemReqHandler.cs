@@ -6,10 +6,10 @@ using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
-public class ItemMgrMoveItemHandler : CsProtoStructureHandler<ItemMgrMoveItemReq>
+public class ItemMgrMoveItemReqHandler : CsProtoStructureHandler<ItemMgrMoveItemReq>
 {
     private static readonly ServiceLogger Logger =
-        LogProvider.Logger<ServiceLogger>(typeof(ItemMgrMoveItemHandler));
+        LogProvider.Logger<ServiceLogger>(typeof(ItemMgrMoveItemReqHandler));
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_ITEMMGR_MOVE_ITEM_REQ;
 
