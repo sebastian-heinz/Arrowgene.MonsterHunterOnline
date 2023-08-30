@@ -12,6 +12,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
         {
             if (!TryParse(properties, 0, out uint itemId, uint.TryParse, 0)) return null;
             string name = properties[1];
+            if (!TryParse(properties, 6, out int keepCopy, int.TryParse, 0)) return null;
             if (!TryParse(properties, 8, out ItemClass mainClass, Enum.TryParse, 0)) return null;
             if (!TryParse(properties, 9, out ItemCategory category, Enum.TryParse, 0)) return null;
             if (!TryParse(properties, 11, out uint bindingType, uint.TryParse, 0)) return null;
@@ -24,6 +25,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ClientAssetSystem
             {
                 ItemId = itemId,
                 Name = name,
+                KeepCopy = keepCopy != 0,
                 MainClass = mainClass,
                 Category = category,
                 SubCategory = 0,

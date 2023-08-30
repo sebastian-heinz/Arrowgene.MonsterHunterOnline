@@ -59,7 +59,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             EyeColor = 0;
             FaceTattooIndex = 0;
             FaceTattooColor = 0;
-            Equip = new List<CSAvatarItem>();
+            Equip = new List<AvatarItem>();
             HideHelm = 0;
             HideFashion = 0;
             HideSuite = 0;
@@ -162,7 +162,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 装备物品
         /// </summary>
-        public List<CSAvatarItem> Equip;
+        public List<AvatarItem> Equip;
 
         /// <summary>
         /// 是否隐藏头盔
@@ -264,7 +264,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ushort equipCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < equipCount; i++)
             {
-                CSAvatarItem EquipEntry = new CSAvatarItem();
+                AvatarItem EquipEntry = new AvatarItem();
                 EquipEntry.ReadCs(buffer);
                 Equip.Add(EquipEntry);
             }

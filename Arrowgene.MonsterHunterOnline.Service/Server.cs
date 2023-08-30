@@ -139,7 +139,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new PlayerRegionJumpEndHandler());
             _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
             _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
-            _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager, ItemManager));
+            _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager, ItemManager, Database));
             _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
             _csProtoPacketHandler.AddHandler(new UpdateRushStateHandler());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());

@@ -2,6 +2,7 @@
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 
@@ -16,11 +17,13 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
 
     private readonly CharacterManager _characterManager;
     private readonly ItemManager _itemManager;
+    private readonly IDatabase _database;
 
-    public SelectRoleHandler(CharacterManager characterManager, ItemManager itemManager)
+    public SelectRoleHandler(CharacterManager characterManager, ItemManager itemManager, IDatabase database)
     {
         _characterManager = characterManager;
         _itemManager = itemManager;
+        _database = database;
     }
 
     public override void Handle(Client client, SelectRoleReq req)
@@ -33,15 +36,7 @@ public class SelectRoleHandler : CsProtoStructureHandler<SelectRoleReq>
         }
 
         client.Character = character;
-
-        Inventory inventory = _itemManager.GetInventory(character.Id);
-        if (inventory == null)
-        {
-            Logger.Error(client, $"inventory for characterId:{character.Id} could not be retrieved");
-            return;
-        }
-
-        client.Inventory = inventory;
+        client.Inventory = new Inventory(character.Id, _database);
 
         CsCsProtoStructurePacket<SelectRoleRsp> selectRoleRsp = CsProtoResponse.SelectRoleRsp;
         selectRoleRsp.Structure.RoleIndex = req.RoleIndex;

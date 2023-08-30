@@ -21,6 +21,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
         private static readonly string SqlSelectItemsByCharacterId =
             $"SELECT `id`, {BuildQueryField(ItemFields)} FROM `item` WHERE `character_id`=@character_id;";
 
+        private static readonly string SqlSelectItemsByCharacterIdAndColumn =
+            $"SELECT `id`, {BuildQueryField(ItemFields)} FROM `item` WHERE `character_id`=@character_id AND `column`=@column;";
+
         private static readonly string SqlUpdateItem =
             $"UPDATE `item` SET {BuildQueryUpdate(ItemFields)} WHERE `id`=@id;";
 
@@ -55,6 +58,27 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             ExecuteReader(
                 SqlSelectItemsByCharacterId,
                 command => { AddParameter(command, "@character_id", characterId); },
+                reader =>
+                {
+                    while (reader.Read())
+                    {
+                        items.Add(ReadItem(reader));
+                    }
+                }
+            );
+            return items;
+        }
+
+        public List<Item> SelectItemsByCharacterIdAndColumn(uint characterId, ushort column)
+        {
+            List<Item> items = new List<Item>();
+            ExecuteReader(
+                SqlSelectItemsByCharacterIdAndColumn,
+                command =>
+                {
+                    AddParameter(command, "@character_id", characterId);
+                    AddParameter(command, "@column", column);
+                },
                 reader =>
                 {
                     while (reader.Read())

@@ -21,4 +21,15 @@ public class ItemInfo
     public float SalePrice { get; init; }
     public uint PortableLimit { get; init; }
     public uint StackLimit { get; init; }
+    
+    /// <summary>
+    /// Items with this flag use ItemColumnType 8(equip) and 9(box)
+    /// and are not kept with normal inventory
+    /// </summary>
+    public bool KeepCopy { get; init; }
+
+    public override string ToString()
+    {
+        return $"{nameof(ItemId)}: {ItemId}, {nameof(Name)}: {Name}";
+    }
 }
