@@ -130,7 +130,9 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
-            _csProtoPacketHandler.AddHandler(new ItemMgrMoveItemHandler());
+            _csProtoPacketHandler.AddHandler(new ItemEquipQuickChangeReqHandler());
+            _csProtoPacketHandler.AddHandler(new ItemMgrMoveItemReqHandler());
+            _csProtoPacketHandler.AddHandler(new ItemMgrSwapItemReqHandler());
             _csProtoPacketHandler.AddHandler(new LineUpBigRandHandler());
             _csProtoPacketHandler.AddHandler(new LoadEntityReqHandler());
             _csProtoPacketHandler.AddHandler(new MainInstanceOptSynReqHandler());

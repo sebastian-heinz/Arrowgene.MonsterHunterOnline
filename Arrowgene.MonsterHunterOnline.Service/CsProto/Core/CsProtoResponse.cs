@@ -104,7 +104,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsCsProtoStructurePacket<ChatNtf> ChatNtf => new(CS_CMD_ID.CS_CMD_CHAT_NTF);
         public static CsCsProtoStructurePacket<SpawnSrvEnt> SpawnSrvEnt => new(CS_CMD_ID.CS_CMD_SPAWN_SRVENT);
-        public static CsCsProtoStructurePacket<SpawnSrvEntList> SpawnSrvEntList => new(CS_CMD_ID.CS_CMD_SPAWN_SRVENTLIST);
+
+        public static CsCsProtoStructurePacket<SpawnSrvEntList> SpawnSrvEntList =>
+            new(CS_CMD_ID.CS_CMD_SPAWN_SRVENTLIST);
 
         /// <summary>
         /// Looks like client ignores this, send CS_CMD_MONSTER_APPEAR_NTF_LIST instead
@@ -141,5 +143,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsCsProtoStructurePacket<ItemMgrAddItemNtf> ItemMgrAddItemNtf =>
             new(CS_CMD_ID.CS_CMD_ITEMMGR_ADD_ITEM_NTF);
+
+        public static CsCsProtoStructurePacket<ItemMgrSwapItemNtf> ItemMgrSwapItemNtf =>
+            new(CS_CMD_ID.CS_CMD_ITEMMGR_SWAP_ITEM_NTF);
     }
 }

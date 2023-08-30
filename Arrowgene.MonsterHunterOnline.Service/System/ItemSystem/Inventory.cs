@@ -72,6 +72,113 @@ public class Inventory
         return Remove(item, collection);
     }
 
+    /// <summary>
+    /// TODO the swap method is a bit clunky in that we use a tmp grid slot.
+    /// the advantage is that in case of error your item is just on a different slot after relog.
+    /// other options:
+    /// 1) delete both items, then insert with swapped slots -> potential of item loss
+    /// 2) remove database constraint -> can lead to double assigned slots, so need to be guarded in server code
+    /// </summary>
+    public bool Swap(ulong srcItemId,
+        ItemColumnType srcColumn,
+        ushort srcGrid,
+        ulong dstItemId,
+        ItemColumnType dstColumn,
+        ushort dstGrid)
+    {
+        lock (_lock)
+        {
+            Item[] srcCollection = GetCollection(srcColumn);
+            if (srcCollection == null)
+            {
+                return false;
+            }
+
+            if (srcGrid >= srcCollection.Length)
+            {
+                return false;
+            }
+
+            Item srcItem = srcCollection[srcGrid];
+            if (srcItem == null)
+            {
+                return false;
+            }
+
+            if (srcItem.Id != srcItemId)
+            {
+                return false;
+            }
+
+            // check if dst is free
+            Item[] dstCollection = GetCollection(dstColumn);
+            if (dstCollection == null)
+            {
+                return false;
+            }
+
+            if (dstGrid >= dstCollection.Length)
+            {
+                return false;
+            }
+
+            Item dstItem = dstCollection[dstGrid];
+            if (dstItem == null)
+            {
+                return false;
+            }
+
+            if (dstItem.Id != dstItemId)
+            {
+                return false;
+            }
+
+            // update item
+            // this is tricky as we have a db constrain to not allow duplicate colum/grid combo
+            // we will move to free slot tmp and then final
+            int srcFreeGrid = GetFreeSlot(srcCollection);
+            if (srcFreeGrid == NoFreeSlot)
+            {
+                return false;
+            }
+
+            // move dst to tmp in src
+            srcCollection[srcFreeGrid] = dstItem;
+            dstItem.PosColumn = srcColumn;
+            dstItem.PosGrid = (ushort)srcFreeGrid;
+            if (!_database.UpdateItem(dstItem))
+            {
+                // roll back
+                srcCollection[srcFreeGrid] = null;
+                dstItem.PosColumn = dstColumn;
+                dstItem.PosGrid = dstGrid;
+                return false;
+            }
+
+            // move src to dst
+            dstCollection[dstGrid] = srcItem;
+            srcItem.PosColumn = dstColumn;
+            srcItem.PosGrid = dstGrid;
+            if (!_database.UpdateItem(srcItem))
+            {
+                // TODO rollback
+                return false;
+            }
+
+            // move dst to src
+            srcCollection[srcGrid] = dstItem;
+            dstItem.PosColumn = srcColumn;
+            dstItem.PosGrid = srcGrid;
+            if (!_database.UpdateItem(dstItem))
+            {
+                // TODO rollback
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public bool Move(ulong id,
         ItemColumnType srcColumn,
         ushort srcGrid,
@@ -97,10 +204,11 @@ public class Inventory
                 return false;
             }
 
-            if (srcItem.Id != id)
-            {
-                return false;
-            }
+            // TODO 'ItemEquipQuickChangeReqHandler' does not send itemId
+            // if (srcItem.Id != id)
+            // {
+            //     return false;
+            // }
 
             // check if dst is free
             Item[] dstCollection = GetCollection(dstColumn);
@@ -120,7 +228,6 @@ public class Inventory
                 return false;
             }
 
-            // update item
             srcCollection[srcGrid] = null;
             dstCollection[dstGrid] = srcItem;
             srcItem.PosColumn = dstColumn;
