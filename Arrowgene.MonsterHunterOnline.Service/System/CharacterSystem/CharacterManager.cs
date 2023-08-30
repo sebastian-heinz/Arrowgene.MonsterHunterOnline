@@ -4,6 +4,8 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
+using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 using Arrowgene.MonsterHunterOnline.Service.System.UnlockSystem;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
@@ -131,7 +133,25 @@ public class CharacterManager
         List<Character> characters = _database.SelectCharactersByAccountId(client.Account.Id);
         foreach (Character character in characters)
         {
+            List<Item> items = _database.SelectItemsByCharacterIdAndColumn(
+                character.Id,
+                (byte)ItemColumnType.Equipment
+            );
+
             RoleBaseInfo role = new RoleBaseInfo();
+            foreach (Item item in items)
+            {
+                if (item.PosGrid == null)
+                {
+                    continue;
+                }
+
+                AvatarItem avatarItem = new AvatarItem();
+                avatarItem.ItemType = (int)item.ItemId;
+                avatarItem.PosIndex = item.PosGrid.Value;
+                role.Equip.Add(avatarItem);
+            }
+
             role.RoleId = character.Id;
             role.RoleIndex = character.Index;
             role.Name = character.Name;
@@ -267,7 +287,7 @@ public class CharacterManager
             State = 0,
             Timeout = 0
         });
-        
+
         // equip
         // TODO null check
         client.Inventory.PopulateItemListProperties(structure);

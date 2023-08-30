@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Arrowgene.Logging;
+﻿using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
@@ -20,13 +19,6 @@ public class ItemManager
     {
         _database = database;
         _assets = assets;
-    }
-
-    public Inventory GetInventory(uint characterId)
-    {
-        List<Item> items = _database.SelectItemsByCharacterId(characterId);
-        Inventory inventory = new Inventory(items);
-        return inventory;
     }
 
     /// <summary>
@@ -77,6 +69,11 @@ public class ItemManager
 
         ItemInfo itemInfo = _assets.Items[itemId];
 
+        if (!itemInfo.KeepCopy)
+        {
+            Logger.Error($"MakeItem:: Items with 'KeepCopy==false' not supported ({itemInfo})");
+            return null;
+        }
 
         Item item = new Item();
         switch (itemInfo.MainClass)
@@ -102,10 +99,8 @@ public class ItemManager
         item.CreatedBy = $"{characterId}";
         item.Quantity = 1;
         item.ItemId = itemId;
-        inventory.Add(item);
-        if (!_database.CreateItem(item))
+        if (!inventory.Add(item))
         {
-            inventory.Remove(item);
             return null;
         }
 

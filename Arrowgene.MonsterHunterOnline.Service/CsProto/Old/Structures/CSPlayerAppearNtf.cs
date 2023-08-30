@@ -55,7 +55,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             HasTeam = 0;
             TeamHasPwd = 0;
             RandSeed = 0;
-            Equip = new List<CSAvatarItem>();
+            Equip = new List<AvatarItem>();
             Attr = new List<byte>();
             Buff = new List<byte>();
             ProjIds = new List<CSAmmoInfo>();
@@ -145,7 +145,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 装备物品
         /// </summary>
-        public List<CSAvatarItem> Equip;
+        public List<AvatarItem> Equip;
 
         /// <summary>
         /// attr数据
@@ -308,7 +308,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ushort equipCount = buffer.ReadUInt16(Endianness.Big);
             for (int i = 0; i < equipCount; i++)
             {
-                CSAvatarItem EquipEntry = new CSAvatarItem();
+                AvatarItem EquipEntry = new AvatarItem();
                 EquipEntry.ReadCs(buffer);
                 Equip.Add(EquipEntry);
             }

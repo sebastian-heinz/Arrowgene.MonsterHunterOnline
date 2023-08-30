@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
+using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
@@ -13,18 +14,25 @@ public class Inventory
 
     private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(Inventory));
 
-    private Item[] _item;
-    private Item[] _store;
-    private Item[] _equipment;
-    private object _lock;
+    private readonly Item[] _item;
+    private readonly Item[] _store;
+    private readonly Item[] _equipment;
+    private readonly Item[] _boxEquipment;
+    private readonly object _lock;
+    private readonly IDatabase _database;
+    private readonly uint _characterId;
 
-    public Inventory(List<Item> items)
+    public Inventory(uint characterId, IDatabase database)
     {
+        _characterId = characterId;
+        _database = database;
         _item = new Item[MaxItemSize];
         _store = new Item[MaxItemSize];
         _equipment = new Item[MaxItemSize];
+        _boxEquipment = new Item[MaxItemSize];
         _lock = new object();
 
+        List<Item> items = _database.SelectItemsByCharacterId(_characterId);
         foreach (Item item in items)
         {
             if (item.Id == null)
@@ -64,12 +72,71 @@ public class Inventory
         return Remove(item, collection);
     }
 
-    public bool Move(ulong itemId,
+    public bool Move(ulong id,
         ItemColumnType srcColumn,
         ushort srcGrid,
         ItemColumnType dstColumn,
         ushort dstGrid)
     {
+        lock (_lock)
+        {
+            Item[] srcCollection = GetCollection(srcColumn);
+            if (srcCollection == null)
+            {
+                return false;
+            }
+
+            if (srcGrid >= srcCollection.Length)
+            {
+                return false;
+            }
+
+            Item srcItem = srcCollection[srcGrid];
+            if (srcItem == null)
+            {
+                return false;
+            }
+
+            if (srcItem.Id != id)
+            {
+                return false;
+            }
+
+            // check if dst is free
+            Item[] dstCollection = GetCollection(dstColumn);
+            if (dstCollection == null)
+            {
+                return false;
+            }
+
+            if (dstGrid >= dstCollection.Length)
+            {
+                return false;
+            }
+
+            if (dstCollection[dstGrid] != null)
+            {
+                // slot occupied
+                return false;
+            }
+
+            // update item
+            srcCollection[srcGrid] = null;
+            dstCollection[dstGrid] = srcItem;
+            srcItem.PosColumn = dstColumn;
+            srcItem.PosGrid = dstGrid;
+
+            if (!_database.UpdateItem(srcItem))
+            {
+                // commit failed, roll back
+                srcCollection[srcGrid] = srcItem;
+                dstCollection[dstGrid] = null;
+                srcItem.PosColumn = srcColumn;
+                srcItem.PosGrid = srcGrid;
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -80,10 +147,12 @@ public class Inventory
             properties.NormalSize = MaxItemSize;
             properties.MaterialStoreSize = MaxItemSize;
             properties.StoreSize = MaxItemSize;
+            PopulateItemListProperties(properties.StoreItem, _store);
             PopulateItemListProperties(properties.EquipItem, _equipment);
             // TODO not sure about this
+            // I think every tab of inventory goes into BagItem
             PopulateItemListProperties(properties.BagItem, _item);
-            PopulateItemListProperties(properties.StoreItem, _store);
+            PopulateItemListProperties(properties.BagItem, _boxEquipment);
         }
     }
 
@@ -105,6 +174,12 @@ public class Inventory
 
     private bool Add(Item item, Item[] collection)
     {
+        if (item.CharacterId != _characterId)
+        {
+            // not our item
+            return false;
+        }
+
         if (item.PosGrid != null)
         {
             return false;
@@ -124,11 +199,30 @@ public class Inventory
         }
 
         item.PosGrid = (ushort)freeSlot;
+
+        if (!_database.CreateItem(item))
+        {
+            Remove(item);
+            return false;
+        }
+
         return true;
     }
 
     private bool Remove(Item item, Item[] collection)
     {
+        if (item.CharacterId != _characterId)
+        {
+            // not our item
+            return false;
+        }
+
+        if (item.Id != null)
+        {
+            // delete from db to ensure it is gone in any case
+            _database.DeleteItem(item.ItemId);
+        }
+
         if (item.PosGrid == null)
         {
             return false;
@@ -136,14 +230,14 @@ public class Inventory
 
         ushort grid = item.PosGrid.Value;
 
-        if (item.PosGrid >= collection.Length)
+        if (grid >= collection.Length)
         {
             return false;
         }
 
         lock (_lock)
         {
-            if (collection[item.PosGrid.Value] == null)
+            if (collection[grid] == null)
             {
                 return false;
             }
@@ -182,7 +276,7 @@ public class Inventory
         {
             case ItemColumnType.Item: return _item;
             case ItemColumnType.Store: return _store;
-            case ItemColumnType.BoxEquip: return _equipment;
+            case ItemColumnType.BoxEquip: return _boxEquipment;
             case ItemColumnType.Equipment: return _equipment;
             case ItemColumnType.Quest: return _item;
         }

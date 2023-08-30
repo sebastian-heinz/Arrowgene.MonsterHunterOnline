@@ -27,7 +27,7 @@ public class RoleBaseInfo : Structure, ICsStructure
         EyeColor = 0;
         FaceTattooIndex = 0;
         FaceTattooColor = 0;
-        Equip = new List<CSAvatarItem>();
+        Equip = new List<AvatarItem>();
         HideHelm = false;
         HideFashion = false;
         HideSuite = false;
@@ -130,7 +130,7 @@ public class RoleBaseInfo : Structure, ICsStructure
     /// <summary>
     /// 装备物品
     /// </summary>
-    public List<CSAvatarItem> Equip { get; }
+    public List<AvatarItem> Equip { get; }
 
     /// <summary>
     /// 是否隐藏头盔
@@ -167,7 +167,7 @@ public class RoleBaseInfo : Structure, ICsStructure
     /// </summary>
     public int SoulStoneLv { get; set; }
 
-    public  void WriteCs(IBuffer buffer)
+    public void WriteCs(IBuffer buffer)
     {
         WriteUInt64(buffer, RoleId);
         WriteInt32(buffer, RoleIndex);
@@ -231,7 +231,7 @@ public class RoleBaseInfo : Structure, ICsStructure
         FaceTattooIndex = ReadInt32(buffer);
         FaceTattooColor = ReadInt32(buffer);
         Equip.Clear();
-        ReadList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, ReadCsStructure<CSAvatarItem>);
+        ReadList(buffer, Equip, equipSize, CsProtoConstant.ROLE_EQUIPED_MAX_NETMESSAGE, ReadCsStructure<AvatarItem>);
         HideHelm = ReadBool(buffer);
         HideFashion = ReadBool(buffer);
         HideSuite = ReadBool(buffer);

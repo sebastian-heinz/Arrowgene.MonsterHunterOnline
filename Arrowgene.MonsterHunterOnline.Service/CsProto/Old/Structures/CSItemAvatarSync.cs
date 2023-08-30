@@ -41,7 +41,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         public CSItemAvatarSync()
         {
             PlayerId = 0;
-            Avatar = new CSAvatarItem();
+            Avatar = new AvatarItem();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 装备信息
         /// </summary>
-        public CSAvatarItem Avatar;
+        public AvatarItem Avatar;
 
         public void WriteCs(IBuffer buffer)
         {

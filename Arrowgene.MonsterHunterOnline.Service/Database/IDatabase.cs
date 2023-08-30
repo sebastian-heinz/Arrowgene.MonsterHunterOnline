@@ -2,7 +2,6 @@
 using Arrowgene.MonsterHunterOnline.Service.System;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
-using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem.Constant;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Database
 {
@@ -33,5 +32,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database
         bool UpdateItem(Item item);
         bool DeleteItem(ulong id);
         List<Item> SelectItemsByCharacterId(uint characterId);
+        List<Item> SelectItemsByCharacterIdAndColumn(uint characterId, ushort column);
     }
 }
