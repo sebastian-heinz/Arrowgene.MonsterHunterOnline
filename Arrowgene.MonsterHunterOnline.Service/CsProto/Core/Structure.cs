@@ -336,9 +336,41 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         /// <summary>
         /// Writes a TLV sub structure, does not prefix the data with 0x99 (TlvMagic.NoVariant)
         /// </summary>
-        protected void WriteTlvSubStructure(IBuffer buffer, ITlvStructure val)
+        protected void WriteTlvSubStructure(IBuffer buffer, int id, ITlvStructure val)
         {
+            WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+            int subStartPos = buffer.Position;
+            WriteInt32(buffer, 0);
+
             val.WriteTlv(buffer);
+
+            int subEndPos = buffer.Position;
+            int subSize = buffer.Position - subStartPos - 4;
+            buffer.Position = subStartPos;
+            buffer.WriteInt32(subSize, Endianness.Big);
+            buffer.Position = subEndPos;
+        }
+
+        protected void WriteTlvSubStructureList<TITlvStructure>(
+            IBuffer buffer,
+            int id,
+            int limit,
+            List<TITlvStructure> val)
+            where TITlvStructure : ITlvStructure
+        {
+            WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
+            int subStartPos = buffer.Position;
+            WriteInt32(buffer, 0);
+            for (int i = 0; i < limit; i++)
+            {
+                val[i].WriteTlv(buffer);
+            }
+
+            int subEndPos = buffer.Position;
+            int subSize = buffer.Position - subStartPos - 4;
+            buffer.Position = subStartPos;
+            buffer.WriteInt32(subSize, Endianness.Big);
+            buffer.Position = subEndPos;
         }
 
         protected void WriteTlvTag(IBuffer buffer, int id, TlvType type)

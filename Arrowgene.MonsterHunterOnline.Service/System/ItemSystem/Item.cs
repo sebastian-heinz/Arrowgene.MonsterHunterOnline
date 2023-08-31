@@ -95,6 +95,10 @@ public class Item : Structure, ITlvStructure
         WriteTlvBool(buffer, 7, Bind);
 
         byte attrCount = (byte)Attributes.Count;
+        if (attrCount > MaxAttrCount)
+        {
+            attrCount = MaxAttrCount;
+        }
 
         if (attrCount > 0)
         {

@@ -1,9 +1,12 @@
-﻿using Arrowgene.Logging;
+﻿using Arrowgene.Buffers;
+using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
+using Arrowgene.MonsterHunterOnline.Service.Tdr;
+using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -32,9 +35,35 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 break;
             case ROMTE_DATA_TYPE.LEVELINFO_DATA_TYPE:
                 remoteData = new PlayerLevelInitInfo();
+                ((PlayerLevelInitInfo)remoteData).UnlockHubStarData.Add(new PlayerUnLockHubStarInfo()
+                {
+                    HubID = 1,
+                    PageIndex = 1,
+                    StarLv = 6,
+                });
+                ((PlayerLevelInitInfo)remoteData).UnlockHubData.Add(new PlayerUnLockHubInfo()
+                {
+                    HubID = 1,
+                    PageIndex = 1,
+                });
+                ((PlayerLevelInitInfo)remoteData).UnLockLevelData.Add(new PlayerUnlockLevelInfo()
+                {
+                    LevelID = 100101,
+                });
+
+
                 break;
             case ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE);
+                TlvHunterStar hs = new TlvHunterStar();
+                //hs.LevelInfo = 1;
+                hs.StarScore = 1000;
+                hs.StatInfo = 1;
+                
+                StreamBuffer b = new StreamBuffer();
+                b.WriteByte((byte)TlvMagic.NoVariant);
+                hs.WriteTlv(b);
+                ((RemoteDataInitInfo)remoteData).DataPacket.AddRange(b.GetAllBytes());
                 break;
             case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
                 remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
