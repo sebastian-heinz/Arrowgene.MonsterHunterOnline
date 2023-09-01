@@ -56,7 +56,7 @@ public class TlvHunterStar : Structure, ITlvStructure
         WriteTlvSubStructure(buffer, 7, CardInfo);
         WriteTlvSubStructure(buffer, 8, StatInfo);
         WriteTlvSubStructure(buffer, 9, TrackCards);
-        
+
         WriteTlvInt32(buffer, 10, WeeklyRefreshTime);
 
         short statsCount = (short)Stats.Count;
@@ -67,17 +67,13 @@ public class TlvHunterStar : Structure, ITlvStructure
 
         if (statsCount > 0)
         {
-            //newStatCount
             WriteTlvInt16(buffer, 11, statsCount);
-
-            //newStatIds
             WriteTlvInt32(buffer, 12, statsCount * 2);
             for (int i = 0; i < statsCount; i++)
             {
                 WriteUInt16(buffer, Stats[i].Id);
             }
 
-            //newStatVals
             WriteTlvInt32(buffer, 13, statsCount * 4);
             for (int i = 0; i < statsCount; i++)
             {

@@ -58,7 +58,6 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
                 TlvHunterStar hs = new TlvHunterStar();
                 //hs.LevelInfo = 1;
                 hs.StarScore = 1000;
-                hs.StatInfo = 1;
                 
                 StreamBuffer b = new StreamBuffer();
                 b.WriteByte((byte)TlvMagic.NoVariant);

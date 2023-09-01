@@ -10,24 +10,35 @@ namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 /// </summary>
 public class TlvTrackCards : Structure, ITlvStructure
 {
+    private const short MaxCardCount = 0xA;
 
     public TlvTrackCards()
     {
-
+        Cards = new List<int>();
     }
 
+    public List<int> Cards { get; }
 
     public void WriteTlv(IBuffer buffer)
     {
         int startPos = buffer.Position;
         WriteInt32(buffer, 0);
 
-        WriteTlvInt32(buffer, 2, 0xABCDE);
-      
+        int count = Cards.Count;
+        if (count > MaxCardCount)
+        {
+            count = MaxCardCount;
+        }
+
         //count
-        //cards
-        
-        
+        WriteTlvInt32(buffer, 1, count);
+        // cards
+        WriteTlvInt32(buffer, 2, count * 4);
+        for (int i = 0; i < count; i++)
+        {
+            WriteInt32(buffer, Cards[i]);
+        }
+
 
         int endPos = buffer.Position;
         int size = endPos - startPos + 1;
