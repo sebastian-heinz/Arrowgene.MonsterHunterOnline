@@ -28,9 +28,6 @@ public class TlvCardInfo : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         int unlockBitCount = UnlockBits.Count;
         if (unlockBitCount > MaxUnlockBitCount)
         {
@@ -41,10 +38,13 @@ public class TlvCardInfo : Structure, ITlvStructure
         WriteTlvInt32(buffer, 1, unlockBitCount);
 
         //unlockBit
-        WriteTlvInt32(buffer, 2, unlockBitCount * 1);
-        for (int i = 0; i < unlockBitCount; i++)
+        if (unlockBitCount > 0)
         {
-            WriteByte(buffer, UnlockBits[i]);
+            WriteTlvInt32(buffer, 2, unlockBitCount * 1);
+            for (int i = 0; i < unlockBitCount; i++)
+            {
+                WriteByte(buffer, UnlockBits[i]);
+            }
         }
 
         int completeBitCount = CompleteBits.Count;
@@ -57,10 +57,13 @@ public class TlvCardInfo : Structure, ITlvStructure
         WriteTlvInt32(buffer, 3, completeBitCount);
 
         //completeBit
-        WriteTlvInt32(buffer, 4, completeBitCount * 1);
-        for (int i = 0; i < completeBitCount; i++)
+        if (completeBitCount > 0)
         {
-            WriteByte(buffer, CompleteBits[i]);
+            WriteTlvInt32(buffer, 4, completeBitCount * 1);
+            for (int i = 0; i < completeBitCount; i++)
+            {
+                WriteByte(buffer, CompleteBits[i]);
+            }
         }
 
         int newFinishCardNum = NewFinishCards.Count;
@@ -73,17 +76,14 @@ public class TlvCardInfo : Structure, ITlvStructure
         WriteTlvInt32(buffer, 5, newFinishCardNum);
 
         //newFinishCardList
-        WriteTlvInt32(buffer, 6, newFinishCardNum * 4);
-        for (int i = 0; i < newFinishCardNum; i++)
+        if (newFinishCardNum > 0)
         {
-            WriteInt32(buffer, NewFinishCards[i]);
+            WriteTlvInt32(buffer, 6, newFinishCardNum * 4);
+            for (int i = 0; i < newFinishCardNum; i++)
+            {
+                WriteInt32(buffer, NewFinishCards[i]);
+            }
         }
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

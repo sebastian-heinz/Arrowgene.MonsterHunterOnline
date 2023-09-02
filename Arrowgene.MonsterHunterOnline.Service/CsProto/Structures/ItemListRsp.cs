@@ -60,7 +60,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// </summary>
         public List<ushort> ItemUseOnceList { get; }
 
-        public  void WriteCs(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             WriteUInt16(buffer, StoreSize);
             WriteUInt16(buffer, NormalSize);

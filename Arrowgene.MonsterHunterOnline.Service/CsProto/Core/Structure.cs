@@ -260,6 +260,18 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             return val;
         }
 
+        public byte[] GetTlvBytes<TSize>(TSize limit,
+            Action<IBuffer, TSize> writeSizeFn)
+            where TSize : IBinaryInteger<TSize>
+        {
+            StreamBuffer b = new StreamBuffer();
+            if (this is ITlvStructure tlv)
+            {
+                WriteTlvStructure(b, tlv, limit, writeSizeFn);
+            }
+            return b.GetAllBytes();
+        }
+
         /// <summary>
         /// Writes a TLV structures, by prefixing its size and adding the magic byte 0x99 (TlvMagic.NoVariant)
         /// </summary>
@@ -277,7 +289,14 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             // buffer by adjusting position and length to delete in case of error.
             StreamBuffer tmp = new StreamBuffer();
             WriteByte(tmp, (byte)TlvMagic.NoVariant);
+            int startPos = tmp.Position;
+            WriteInt32(tmp, 0);
             val.WriteTlv(tmp);
+            int endPos = tmp.Position;
+            int tlvSize = endPos - startPos + 1;
+            tmp.Position = startPos;
+            WriteInt32(tmp, tlvSize);
+            tmp.Position = endPos;
             byte[] tlv = tmp.GetAllBytes();
 
             TSize size = TSize.CreateChecked(tlv.Length);
@@ -354,16 +373,29 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         protected void WriteTlvSubStructureList<TITlvStructure>(
             IBuffer buffer,
             int id,
-            int limit,
+            int limit, // TODO perhaps pass real limit, right now it only works by passing correct size.
             List<TITlvStructure> val)
             where TITlvStructure : ITlvStructure
         {
+            if (limit <= 0)
+            {
+                // Game checks for 0 arrays and treats it as error
+                return;
+            }
+            
             WriteTlvTag(buffer, id, TlvType.ID_4_BYTE);
             int subStartPos = buffer.Position;
             WriteInt32(buffer, 0);
             for (int i = 0; i < limit; i++)
             {
+                int startPos = buffer.Position;
+                WriteInt32(buffer, 0);
                 val[i].WriteTlv(buffer);
+                int endPos = buffer.Position;
+                int tlvSize = endPos - startPos - 4;
+                buffer.Position = startPos;
+                WriteInt32(buffer, tlvSize);
+                buffer.Position = endPos;
             }
 
             int subEndPos = buffer.Position;

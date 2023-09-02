@@ -23,9 +23,6 @@ public class TlvItemList : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         // case 1
         WriteTlvInt16(buffer, 1, UnknownA);
 
@@ -38,12 +35,6 @@ public class TlvItemList : Structure, ITlvStructure
 
         // case 3
         WriteTlvInt16(buffer, 3, UnknownA);
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

@@ -21,9 +21,6 @@ public class TlvTrackCards : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         int count = Cards.Count;
         if (count > MaxCardCount)
         {
@@ -33,18 +30,14 @@ public class TlvTrackCards : Structure, ITlvStructure
         //count
         WriteTlvInt32(buffer, 1, count);
         // cards
-        WriteTlvInt32(buffer, 2, count * 4);
-        for (int i = 0; i < count; i++)
+        if (count > 0)
         {
-            WriteInt32(buffer, Cards[i]);
+            WriteTlvInt32(buffer, 2, count * 4);
+            for (int i = 0; i < count; i++)
+            {
+                WriteInt32(buffer, Cards[i]);
+            }
         }
-
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

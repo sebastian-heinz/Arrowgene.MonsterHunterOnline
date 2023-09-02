@@ -84,9 +84,6 @@ public class Item : Structure, ITlvStructure
             return;
         }
 
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         WriteTlvUInt64(buffer, 2, Id.Value);
         WriteTlvUInt32(buffer, 3, ItemId);
         WriteTlvByte(buffer, 4, (byte)PosColumn);
@@ -116,11 +113,6 @@ public class Item : Structure, ITlvStructure
             }
         }
 
-        int endPos = buffer.Position;
-        int entrySize = endPos - startPos - 4;
-        buffer.Position = startPos;
-        WriteInt32(buffer, entrySize);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

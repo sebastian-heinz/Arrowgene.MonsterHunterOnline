@@ -21,19 +21,10 @@ public class TlvTask : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         WriteTlvInt16(buffer, 1, Id);
         WriteTlvByte(buffer, 2, State);
         WriteTlvInt32(buffer, 3, AcceptTime);
         WriteTlvInt32(buffer, 4, Timeout);
-
-        int endPos = buffer.Position;
-        int entrySize = endPos - startPos - 4;
-        buffer.Position = startPos;
-        WriteInt32(buffer, entrySize);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

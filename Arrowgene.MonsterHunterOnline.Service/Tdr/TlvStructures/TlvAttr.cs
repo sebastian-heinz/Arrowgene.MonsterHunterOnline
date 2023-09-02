@@ -75,9 +75,6 @@ public class TlvAttr : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         WriteTlvInt32Arr(buffer, 2, CharLevel);
         WriteTlvInt32(buffer, 4, CharSex);
         WriteTlvInt32(buffer, 6, CharExp);
@@ -117,11 +114,7 @@ public class TlvAttr : Structure, ITlvStructure
         WriteTlvInt32(buffer, 322, CharHRLevel);
         WriteTlvInt32(buffer, 323, CharHRPoint);
 
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
+
     }
 
 

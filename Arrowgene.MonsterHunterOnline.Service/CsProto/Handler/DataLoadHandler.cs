@@ -1,11 +1,9 @@
-﻿using Arrowgene.Buffers;
-using Arrowgene.Logging;
+﻿using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
-using Arrowgene.MonsterHunterOnline.Service.Tdr;
 using Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
@@ -54,27 +52,26 @@ public class DataLoadHandler : CsProtoStructureHandler<RemoteDataLoadReq>
 
                 break;
             case ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE:
-                remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE);
                 TlvHunterStar hs = new TlvHunterStar();
+                hs.LevelInfo.Branches.Add(new TlvLevelInfo.BranchListEntry()
+                {
+                    BranchType = 0,
+                });
                 //hs.LevelInfo = 1;
                 hs.StarScore = 1000;
-                
-                StreamBuffer b = new StreamBuffer();
-                b.WriteByte((byte)TlvMagic.NoVariant);
-                hs.WriteTlv(b);
-                ((RemoteDataInitInfo)remoteData).DataPacket.AddRange(b.GetAllBytes());
+                remoteData = new RemoteDataInitInfo(hs, ROMTE_DATA_TYPE.HUNTERSTAR_DATA_TYPE);
                 break;
             case ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE:
-                remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
+                remoteData = new RemoteDataInitInfo(new TlvEmpty(), ROMTE_DATA_TYPE.TASKSYS_DATA_TYPE);
                 // TODO unsure when this gets called
                 //TlvTaskSys taskSys = new TlvTaskSys();
                 //((RemoteDataInitInfo)remoteData).DataPacket.AddRange(taskSys.ToByteArray());
                 break;
             case ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE:
-                remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
+                remoteData = new RemoteDataInitInfo(new TlvEmpty(), ROMTE_DATA_TYPE.NORMAL_LIMIT_DATATYPE);
                 break;
             case ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE:
-                remoteData = new RemoteDataInitInfo(ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE);
+                remoteData = new RemoteDataInitInfo(new TlvEmpty(), ROMTE_DATA_TYPE.SUPPLY_PLAN_DATA_TYPE);
                 break;
             default:
                 Logger.Error(client, $"failed to build response for remoteDataType:{req.RemoteDataType}");

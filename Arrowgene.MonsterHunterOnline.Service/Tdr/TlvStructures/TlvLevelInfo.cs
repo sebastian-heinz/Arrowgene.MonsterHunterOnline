@@ -63,6 +63,8 @@ public class TlvLevelInfo : Structure, ITlvStructure
 
     public TlvLevelInfo()
     {
+        Branches = new List<BranchListEntry>();
+        Stars = new List<StarListEntry>();
     }
 
     public List<BranchListEntry> Branches { get; set; }
@@ -70,9 +72,6 @@ public class TlvLevelInfo : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         //starNum
         byte starNum = (byte)Stars.Count;
         if (starNum > MaxStarCount)
@@ -92,22 +91,10 @@ public class TlvLevelInfo : Structure, ITlvStructure
         WriteTlvByte(buffer, 3, branchNum);
 
         //branchList
-        WriteTlvSubStructureList(buffer, 4, MaxBranchCount, Branches);
+        WriteTlvSubStructureList(buffer, 4, branchNum, Branches);
 
         //starList
-        WriteTlvSubStructureList(buffer, 5, MaxStarCount, Stars);
-
-        //quality
-        //finishTime
-
-        //finishTime?
-
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
+        WriteTlvSubStructureList(buffer, 5, starNum, Stars);
     }
 
     public void ReadTlv(IBuffer buffer)

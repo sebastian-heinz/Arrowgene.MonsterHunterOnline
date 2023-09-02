@@ -63,9 +63,6 @@ public class TlvStatInfo : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
         //statNumInt
         short statNumInt = (short)StatListInt.Count;
         if (statNumInt > MaxStatNumInt)
@@ -76,7 +73,7 @@ public class TlvStatInfo : Structure, ITlvStructure
         WriteTlvInt16(buffer, 1, statNumInt);
 
         //statListInt
-        WriteTlvSubStructureList(buffer, 2, MaxStatNumInt, StatListInt);
+        WriteTlvSubStructureList(buffer, 2, statNumInt, StatListInt);
 
         //statNum
         short statNum = (short)StatList.Count;
@@ -88,13 +85,7 @@ public class TlvStatInfo : Structure, ITlvStructure
         WriteTlvInt16(buffer, 3, statNum);
 
         //statList
-        WriteTlvSubStructureList(buffer, 4, MaxStatNum, StatList);
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
+        WriteTlvSubStructureList(buffer, 4, statNum, StatList);
     }
 
     public void ReadTlv(IBuffer buffer)
