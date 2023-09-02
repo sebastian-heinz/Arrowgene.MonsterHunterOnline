@@ -255,7 +255,7 @@ public class CharacterManager
         structure.Attr.SetCharSpeed(100);
         structure.Attr.CharSta = 100;
         structure.Attr.SetCharMaxSta(100);
-        structure.Attr.StarLevel = 1; // character.StarLevel is string;
+        structure.Attr.StarLevel = character.HrLevel; // character.StarLevel is string;
         structure.Attr.CharHP = 100;
         structure.Attr.SetCharMaxHP(100);
         structure.Attr.MaleFace = character.FaceId;
@@ -283,6 +283,13 @@ public class CharacterManager
         structure.Task.Tasks.Add(new TlvTask()
         {
             Id = 3001,
+            AcceptTime = 0,
+            State = 0,
+            Timeout = 0
+        });
+        structure.Task.Tasks.Add(new TlvTask()
+        {
+            Id = 1002,
             AcceptTime = 0,
             State = 0,
             Timeout = 0

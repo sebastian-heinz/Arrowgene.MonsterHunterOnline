@@ -15,7 +15,15 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
 
         public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
         {
-            client.SendCsPacket(NewCsPacket.SelectHuntingBagRsp(new CSSelectHuntingBagRsp()));
+            //client.SendCsPacket(NewCsPacket.SelectHuntingBagRsp(new CSSelectHuntingBagRsp()));
+           
+            client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()
+            {
+                Entry = 0
+            }));
+
+            
+            
         }
     }
 }

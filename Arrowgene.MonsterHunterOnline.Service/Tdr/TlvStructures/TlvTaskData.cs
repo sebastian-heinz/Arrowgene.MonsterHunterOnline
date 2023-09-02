@@ -18,9 +18,6 @@ public class TlvTaskData : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
-        int startPos = buffer.Position;
-        WriteInt32(buffer, 0);
-
 
         // taskCount
         // task
@@ -45,30 +42,11 @@ public class TlvTaskData : Structure, ITlvStructure
         // case 2
         if (maxTasks > 0)
         {
-            WriteTlvTag(buffer, 2, TlvType.ID_4_BYTE);
-            int subStartPos = buffer.Position;
-            WriteInt32(buffer, 0);
-            for (int i = 0; i < maxTasks; i++)
-            {
-                WriteTlvSubStructure(buffer, Tasks[i]);
-            }
-
-            int subEndPos = buffer.Position;
-            int subSize = buffer.Position - subStartPos - 4;
-            buffer.Position = subStartPos;
-            buffer.WriteInt32(subSize, Endianness.Big);
-            buffer.Position = subEndPos;
-
+            WriteTlvSubStructureList(buffer, 2, maxTasks, Tasks);
             // TODO conditional write, seems not to happen under normal circumstances
             // WriteInt32(buffer, 0);
         }
 
-
-        int endPos = buffer.Position;
-        int size = endPos - startPos + 1;
-        buffer.Position = startPos;
-        WriteInt32(buffer, size);
-        buffer.Position = endPos;
     }
 
     public void ReadTlv(IBuffer buffer)

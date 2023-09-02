@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Arrowgene.Buffers;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Constant;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
@@ -6,11 +5,11 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
 {
-    public class RemoteDataInitInfo : Structure, ICsStructure, CSICsRemoteDataInfo
+    public class RemoteDataInitInfo : Structure, CSICsRemoteDataInfo
     {
-        public RemoteDataInitInfo(ROMTE_DATA_TYPE dataType)
+        public RemoteDataInitInfo(ITlvStructure remoteData, ROMTE_DATA_TYPE dataType)
         {
-            DataPacket = new List<byte>();
+            DataPacket = remoteData;
             DataType = dataType;
         }
 
@@ -19,16 +18,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 数据内容
         /// </summary>
-        public List<byte> DataPacket { get; }
+        public ITlvStructure DataPacket { get; }
 
-        public  void WriteCs(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
-            WriteList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, WriteInt32, WriteByte);
+            WriteTlvStructure(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, WriteInt32);
         }
 
         public void ReadCs(IBuffer buffer)
         {
-            ReadList(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, ReadInt32, ReadByte);
+            // todo switch on type and create instance
+            ReadTlvStructure(buffer, DataPacket, CsProtoConstant.CS_MAX_ROMTE_DATA_LEN, ReadInt32);
         }
     }
 }
