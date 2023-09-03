@@ -224,40 +224,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
             return new CsTPacket<CSRoleDataErrorRsp>(CS_CMD_ID.CS_CMD_ROLEDATA_ERR_RSP, structure);
         }
 
-
         
-        /// <summary>
-        /// 副本UI进入请求
-        /// </summary>
-        public static CsTPacket<CSMainInstanceEnterOptReq> MainInstanceEnterOptReq(CSMainInstanceEnterOptReq structure)
-        {
-            return new CsTPacket<CSMainInstanceEnterOptReq>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_ENTER_OPT_REQ, structure);
-        }
-
-        /// <summary>
-        /// 副本UI进入响应
-        /// </summary>
-        public static CsTPacket<CSMainInstanceEnterOptRsp> MainInstanceEnterOptRsp(CSMainInstanceEnterOptRsp structure)
-        {
-            return new CsTPacket<CSMainInstanceEnterOptRsp>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_ENTER_OPT_RSP, structure);
-        }
-
-        /// <summary>
-        /// 副本UI进入同意请求
-        /// </summary>
-        public static CsTPacket<CSMainInstanceAgreeOptReq> MainInstanceAgreeOptReq(CSMainInstanceAgreeOptReq structure)
-        {
-            return new CsTPacket<CSMainInstanceAgreeOptReq>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_REQ, structure);
-        }
-
-        /// <summary>
-        /// 副本UI进入同意响应
-        /// </summary>
-        public static CsTPacket<CSMainInstanceAgreeOptRsp> MainInstanceAgreeOptRsp(CSMainInstanceAgreeOptRsp structure)
-        {
-            return new CsTPacket<CSMainInstanceAgreeOptRsp>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_RSP, structure);
-        }
-
         /// <summary>
         /// 副本结束响应
         /// </summary>
@@ -337,14 +304,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSNormalLimitEventNtf>(CS_CMD_ID.CS_CMD_NORMAL_LIMIT_EVENT_NTF, structure);
         }
-
-        /// <summary>
-        /// 副本狩猎模式选择
-        /// </summary>
-        public static CsTPacket<CSInstanceHuntingModeReq> HuntingModeReq(CSInstanceHuntingModeReq structure)
-        {
-            return new CsTPacket<CSInstanceHuntingModeReq>(CS_CMD_ID.CS_CMD_LEVEL_HUNTINGMODE_UPDATE, structure);
-        }
+        
 
         /// <summary>
         /// 获得PVP副本的信息
