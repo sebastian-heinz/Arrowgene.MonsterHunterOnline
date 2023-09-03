@@ -2855,14 +2855,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         {
             return new CsTPacket<CSTeamNotify>(CS_CMD_ID.CS_CMD_TEAM_NOTIFY, structure);
         }
-
-        /// <summary>
-        /// 队员小地图点击点通知
-        /// </summary>
-        public static CsTPacket<CSTeamPushVecNtf> TeamPushVecNtf(CSTeamPushVecNtf structure)
-        {
-            return new CsTPacket<CSTeamPushVecNtf>(CS_CMD_ID.CS_CMD_TEAM_PUSH_VEC_NTF, structure);
-        }
+        
 
         /// <summary>
         /// 队员入队后，广播该队员身上buff

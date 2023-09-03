@@ -11,40 +11,50 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
     {
         public override AccountType Account => AccountType.User;
         public override string Key => "tp";
-        public override string HelpText => "usage: `/tp` - teleport to position";
+        public override string HelpText => "usage: `/tp x y z` - teleport to position";
 
         public override void Execute(string[] command, Client client, ChatMessage message, List<ChatMessage> responses)
         {
-            client.SendCsPacket(NewCsPacket.PlayerTeleport(new CSPlayerTeleport()
+            if (!float.TryParse(command[0], out float posX))
             {
-                SyncTime = 0,
-                NetObjId = client.Character.Id,
-                Region = client.State.levelId,
-                TargetPos = new CSQuatT()
-                {
-                    q = new CSQuat()
-                    {
-                        v = new CSVec3()
-                        {
-                            x = 10,
-                            y = 10,
-                            z = 10
-                        },
-                        w = 10
-                    },
-                    t = new CSVec3()
-                    {
-                        x = 1621.11597f,
-                        y = 1550.0204f,
-                        z = 123.0f
-                    }
-                },
-                ParentGUID = 1,
-                InitState = 1
+                responses.Add(ChatMessage.CommandError(client,
+                    $"provided parameter '{command[0]}' could not be parsed as float (usage: `/tp x y z`)"));
+                return;
             }
 
+            if (!float.TryParse(command[1], out float posY))
+            {
+                responses.Add(ChatMessage.CommandError(client,
+                    $"provided parameter '{command[1]}' could not be parsed as float (usage: `/tp x y z`)"));
+                return;
+            }
+
+            if (!float.TryParse(command[2], out float posZ))
+            {
+                responses.Add(ChatMessage.CommandError(client,
+                    $"provided parameter '{command[2]}' could not be parsed as float (usage: `/tp x y z`)"));
+                return;
+            }
+
+            client.SendCsPacket(NewCsPacket.PlayerTeleport(new CSPlayerTeleport()
+                {
+                    SyncTime = 0,
+                    NetObjId = client.Character.Id,
+                    Region = client.State.levelId,
+                    TargetPos = new CSQuatT()
+                    {
+                        t = new CSVec3()
+                        {
+                            x = posX,
+                            y = posY,
+                            z = posZ
+                        }
+                    },
+                    ParentGUID = 1,
+                    InitState = 1
+                }
             ));
-            string msg = $"Teleported to :\nX:{client.State.Position.x}\nY:{client.State.Position.y}\nZ:{client.State.Position.z}";
+            string msg = $"Teleported to :\nX:{posX}\nY:{posY}\nZ:{posZ}";
             ChatMessage response = ChatMessage.CommandMessage(client, msg);
 
             responses.Add(response);

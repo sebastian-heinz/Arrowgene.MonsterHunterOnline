@@ -34,7 +34,7 @@ public class MainInstanceEnterOptReqHandler : CsProtoStructureHandler<MainInstan
             RoleName = client.Character.Name,
             StarLevel = client.Character.StarLevel,
             Faction = 0,
-            Officer = 0,
+            Officer = 0, // mentor 1
             HRLevel = client.Character.HrLevel,
             BigRand = 0,
         });

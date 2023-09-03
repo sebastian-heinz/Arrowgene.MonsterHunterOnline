@@ -28,15 +28,28 @@ public class MainInstanceAgreeOptReqHandler : CsProtoStructureHandler<MainInstan
         rsp.Structure.RoleName = client.Character.Name;
         client.SendCsProtoStructurePacket(rsp);
 
-        CsCsProtoStructurePacket<EnterInstanceCountDown>
-            enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
-
-        enterInstanceCountDown.Structure.Second = 20;
-        enterInstanceCountDown.Structure.LevelId = client.State.MainInstanceLevelId;
-        client.SendCsProtoStructurePacket(enterInstanceCountDown);
+     //   CsCsProtoStructurePacket<EnterInstanceCountDown>
+     //       enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
+//
+     //   enterInstanceCountDown.Structure.Second = 20;
+     //   enterInstanceCountDown.Structure.LevelId = client.State.MainInstanceLevelId;
+     //   client.SendCsProtoStructurePacket(enterInstanceCountDown);
 
         // TODO dirty hack
-        Thread.Sleep(1000);
+        Thread.Sleep(5000);
+        
+        
+    //client.SendCsPacket(NewCsPacket.MainInstanceClose(new CSMainInstanceClose()
+    //    {
+    //        LevelID = client.State.levelId,
+    //        RoomID = 0,
+    //        Reason = 0,
+    //        TriggerNetID = client.Character.Id,
+    //        RoleName = client.Character.Name,
+    //    }
+    //));
+      
+        
 
         CsCsProtoStructurePacket<InstanceInitInfo>
             instanceInitInfo = CsProtoResponse.InstanceInitInfo;
@@ -44,7 +57,7 @@ public class MainInstanceAgreeOptReqHandler : CsProtoStructureHandler<MainInstan
         instanceInitInfo.Structure.BattleGroundId = 0;
         instanceInitInfo.Structure.LevelId = client.State.MainInstanceLevelId;
         instanceInitInfo.Structure.CreateMaxPlayerCount = 4;
-        instanceInitInfo.Structure.GameMode = GameMode.Town;
+        instanceInitInfo.Structure.GameMode = GameMode.Story;
         instanceInitInfo.Structure.TimeType = TimeType.Noon;
         instanceInitInfo.Structure.WeatherType = WeatherType.Sunny;
         instanceInitInfo.Structure.Time = 1;
