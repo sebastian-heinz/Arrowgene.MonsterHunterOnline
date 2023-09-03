@@ -73,7 +73,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             Farm = new List<byte>();
             FacialInfo = new short[CsProtoConstant.CS_MAX_FACIALINFO_COUNT];
             Spoor = new List<byte>();
-            RapidHunt = new List<byte>();
+            RapidHunt = new TlvRapidHunt();
             Activity = new List<byte>();
             IsSpectating = 0;
             ItemRebuild = new List<byte>();
@@ -398,7 +398,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
         /// <summary>
         /// 疾风狩猎数据
         /// </summary>
-        public List<byte> RapidHunt { get; }
+        public TlvRapidHunt RapidHunt { get; }
 
         /// <summary>
         /// 活动数据
@@ -594,7 +594,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             WriteList(buffer, Farm, CsProtoConstant.CS_ROLE_FARMER_LEN, WriteInt32, WriteByte);
             WriteArray(buffer, FacialInfo, CsProtoConstant.CS_MAX_FACIALINFO_COUNT, WriteInt16);
             WriteList(buffer, Spoor, CsProtoConstant.CS_MAX_SPOOR_DATA_LEN, WriteInt32, WriteByte);
-            WriteList(buffer, RapidHunt, CsProtoConstant.CS_MAX_RAPIDHUNT_DATA_LEN, WriteInt32, WriteByte);
+            WriteTlvStructure(buffer, RapidHunt, CsProtoConstant.CS_MAX_RAPIDHUNT_DATA_LEN, WriteInt32);
             WriteList(buffer, Activity, CsProtoConstant.CS_MAX_ACTIVITY_DATA_LEN, WriteInt32, WriteByte);
             WriteByte(buffer, IsSpectating);
             WriteList(buffer, ItemRebuild, CsProtoConstant.CS_MAX_ITEMREBUILD_DATA_LEN, WriteInt32, WriteByte);
@@ -699,7 +699,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
             ReadList(buffer, Farm, CsProtoConstant.CS_ROLE_FARMER_LEN, ReadInt32, ReadByte);
             ReadArray(buffer, FacialInfo, CsProtoConstant.CS_MAX_FACIALINFO_COUNT, ReadInt16);
             ReadList(buffer, Spoor, CsProtoConstant.CS_MAX_SPOOR_DATA_LEN, ReadInt32, ReadByte);
-            ReadList(buffer, RapidHunt, CsProtoConstant.CS_MAX_RAPIDHUNT_DATA_LEN, ReadInt32, ReadByte);
+            ReadTlvStructure(buffer, RapidHunt, CsProtoConstant.CS_MAX_RAPIDHUNT_DATA_LEN, ReadInt32);
             ReadList(buffer, Activity, CsProtoConstant.CS_MAX_ACTIVITY_DATA_LEN, ReadInt32, ReadByte);
             IsSpectating = ReadByte(buffer);
             ReadList(buffer, ItemRebuild, CsProtoConstant.CS_MAX_ITEMREBUILD_DATA_LEN, ReadInt32, ReadByte);

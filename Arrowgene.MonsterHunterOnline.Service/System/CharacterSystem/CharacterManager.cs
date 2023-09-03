@@ -280,20 +280,105 @@ public class CharacterManager
         structure.Attr.SystemUnlockExtData1 = systemUnlockData.ToExtFlags();
 
         // task
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 3007,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 3,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 4,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 5,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 10,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 3002,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 3004,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 6,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 7,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 8,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 9,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 3003,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
+     // structure.Task.Tasks.Add(new TlvTaskEntry()
+     // {
+     //     Id = 11,
+     //     AcceptTime = 0,
+     //     State = 0,
+     //     Timeout = 0
+     // });
         structure.Task.Tasks.Add(new TlvTaskEntry()
         {
-            Id = 3001,
+            Id = 12,
             AcceptTime = 0,
             State = 0,
             Timeout = 0
         });
-        structure.Task.Tasks.Add(new TlvTaskEntry()
-        {
-            Id = 1002,
-            AcceptTime = 0,
-            State = 0,
-            Timeout = 0
-        });
+     
 
         // equip
         // TODO null check

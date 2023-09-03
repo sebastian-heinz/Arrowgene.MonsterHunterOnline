@@ -135,6 +135,9 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         public static CsCsProtoStructurePacket<MainInstanceOptSynRsp> MainInstanceOptSynRsp =>
             new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_OPT_SYN_RSP);
 
+        public static CsCsProtoStructurePacket<MainInstanceEnterOptRsp> MainInstanceEnterOptRsp =>
+            new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_ENTER_OPT_RSP);
+
         public static CsCsProtoStructurePacket<EnterInstanceCountDown> EnterInstanceCountDown =>
             new(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_COUNT_DOWN);
 
@@ -146,5 +149,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsCsProtoStructurePacket<ItemMgrSwapItemNtf> ItemMgrSwapItemNtf =>
             new(CS_CMD_ID.CS_CMD_ITEMMGR_SWAP_ITEM_NTF);
+
+        public static CsCsProtoStructurePacket<MainInstanceAgreeOptRsp> MainInstanceAgreeOptRsp =>
+            new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_RSP);
     }
 }
