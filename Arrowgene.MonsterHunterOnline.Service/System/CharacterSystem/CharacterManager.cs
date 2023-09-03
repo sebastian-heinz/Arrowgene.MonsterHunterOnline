@@ -280,14 +280,14 @@ public class CharacterManager
         structure.Attr.SystemUnlockExtData1 = systemUnlockData.ToExtFlags();
 
         // task
-        structure.Task.Tasks.Add(new TlvTask()
+        structure.Task.Tasks.Add(new TlvTaskEntry()
         {
             Id = 3001,
             AcceptTime = 0,
             State = 0,
             Timeout = 0
         });
-        structure.Task.Tasks.Add(new TlvTask()
+        structure.Task.Tasks.Add(new TlvTaskEntry()
         {
             Id = 1002,
             AcceptTime = 0,
