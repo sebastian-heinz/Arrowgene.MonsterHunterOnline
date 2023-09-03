@@ -4,9 +4,12 @@ using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.Tdr.TlvStructures;
 
-public class TlvTask : Structure, ITlvStructure
+/// <summary>
+/// crygame.dll+0x21EDB0
+/// </summary>
+public class TlvTaskEntry : Structure, ITlvStructure
 {
-    public TlvTask()
+    public TlvTaskEntry()
     {
         Id = 0;
         State = 0;
@@ -21,9 +24,13 @@ public class TlvTask : Structure, ITlvStructure
 
     public void WriteTlv(IBuffer buffer)
     {
+        // id %d
         WriteTlvInt16(buffer, 1, Id);
+        // state %d
         WriteTlvByte(buffer, 2, State);
+        // acceptTime %d
         WriteTlvInt32(buffer, 3, AcceptTime);
+        // timeout %d
         WriteTlvInt32(buffer, 4, Timeout);
     }
 
