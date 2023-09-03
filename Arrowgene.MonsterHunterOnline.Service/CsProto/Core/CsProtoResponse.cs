@@ -152,5 +152,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsCsProtoStructurePacket<MainInstanceAgreeOptRsp> MainInstanceAgreeOptRsp =>
             new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_RSP);
+        
+        public static CsCsProtoStructurePacket<InstanceInitInfo> InstanceInitInfo =>
+            new(CS_CMD_ID.CS_CMD_INSTANCE_INIT_NTF);
     }
 }

@@ -18,18 +18,20 @@ public class LineUpBigRandHandler : CsProtoStructureHandler<LineUpBigRand>
 
     public override void Handle(Client client, LineUpBigRand req)
     {
-        CsCsProtoStructurePacket<EnterInstanceCountDown> enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
-        enterInstanceCountDown.Structure.Second = 300;
-        enterInstanceCountDown.Structure.LevelId = 150301;
-       // client.SendCsProtoStructurePacket(enterInstanceCountDown);
+        CsCsProtoStructurePacket<EnterInstanceCountDown>
+            enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
+        
+        enterInstanceCountDown.Structure.Second = 20;
+        enterInstanceCountDown.Structure.LevelId = client.State.MainInstanceLevelId;
+        // client.SendCsProtoStructurePacket(enterInstanceCountDown);
 
-       CSInstanceDynamicInfoNtf init = new CSInstanceDynamicInfoNtf(new RulesInfoNone());
-       init.CreatePlayerMaxLv = 999;
-       init.StartTime = 0;
-       init.RemainSeconds = 600;
-        init.VipRemainSeconds = 900; 
+        CSInstanceDynamicInfoNtf init = new CSInstanceDynamicInfoNtf(new RulesInfoNone());
+        init.CreatePlayerMaxLv = 999;
+        init.StartTime = 0;
+        init.RemainSeconds = 600;
+        init.VipRemainSeconds = 900;
         init.ItemRemainSeconds = 600;
-        init.NormalMaxLimit = 10; 
+        init.NormalMaxLimit = 10;
         init.VipMaxLimit = 10;
         init.ItemMaxLimit = 10;
         init.PlayerNum = 4;
@@ -39,13 +41,13 @@ public class LineUpBigRandHandler : CsProtoStructureHandler<LineUpBigRand>
         init.HuntingMode = 1;
         init.ActHuntingMode = 0;
         init.IsBigRand = 1;
-        
-      // client.SendCsPacket(NewCsPacket.InstanceDynamicInfoNtf(init));
-      CSMainInstanceUIRsp ui = new CSMainInstanceUIRsp();
-      ui.UIInfoList.UIInfos.Add(new CSMainInstanceUIInfo()
-      {
-          LevelID = 150301
-      });
-     // client.SendCsPacket(NewCsPacket.MainInstanceUIRsp(ui));
+
+        // client.SendCsPacket(NewCsPacket.InstanceDynamicInfoNtf(init));
+        CSMainInstanceUIRsp ui = new CSMainInstanceUIRsp();
+        ui.UIInfoList.UIInfos.Add(new CSMainInstanceUIInfo()
+        {
+            LevelID = 150301
+        });
+        // client.SendCsPacket(NewCsPacket.MainInstanceUIRsp(ui));
     }
 }
