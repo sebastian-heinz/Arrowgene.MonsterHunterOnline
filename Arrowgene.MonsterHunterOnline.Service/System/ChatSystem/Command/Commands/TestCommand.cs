@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Arrowgene.MonsterHunterOnline.Service.CsProto;
+using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Structures;
 
 namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Commands
@@ -17,12 +18,17 @@ namespace Arrowgene.MonsterHunterOnline.Service.System.ChatSystem.Command.Comman
         {
             //client.SendCsPacket(NewCsPacket.SelectHuntingBagRsp(new CSSelectHuntingBagRsp()));
            
-            client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()
-            {
-                Entry = 0
-            }));
+        //   client.SendCsPacket(NewCsPacket.HunterStarInitNtf(new CSHunterStarInitNtf()
+        //   {
+        //       Entry = 0
+        //   }));
 
-            
+            CsCsProtoStructurePacket<EnterInstanceCountDown>
+                enterInstanceCountDown = CsProtoResponse.EnterInstanceCountDown;
+
+            enterInstanceCountDown.Structure.Second = 5;
+            enterInstanceCountDown.Structure.LevelId = client.State.MainInstanceLevelId;
+            client.SendCsProtoStructurePacket(enterInstanceCountDown);
             
         }
     }
