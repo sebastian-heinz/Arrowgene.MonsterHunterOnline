@@ -152,8 +152,23 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 
         public static CsCsProtoStructurePacket<MainInstanceAgreeOptRsp> MainInstanceAgreeOptRsp =>
             new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_RSP);
-        
+
         public static CsCsProtoStructurePacket<InstanceInitInfo> InstanceInitInfo =>
             new(CS_CMD_ID.CS_CMD_INSTANCE_INIT_NTF);
+
+        public static CsCsProtoStructurePacket<EnterInstanceRsp> EnterInstanceRsp =>
+            new(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_RSP);
+
+        public static CsCsProtoStructurePacket<LeaveInstanceRsp> LeaveInstanceRsp =>
+            new(CS_CMD_ID.CS_CMD_LEAVE_INSTANCE_RSP);
+
+        public static CsCsProtoStructurePacket<InstanceVerifyRsp> InstanceVerifyRsp =>
+            new(CS_CMD_ID.CS_CMD_INSTANCE_VERIFY_RSP);
+
+        public static CsCsProtoStructurePacket<PlayerLevelInitInfo> PlayerLevelInitNtf =>
+            new(CS_CMD_ID.CS_CMD_PLAYER_LEVEL_INIT_NTF);
+
+        public static CsCsProtoStructurePacket<MainInstanceClose> MainInstanceClose =>
+            new(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_CLOSE);
     }
 }

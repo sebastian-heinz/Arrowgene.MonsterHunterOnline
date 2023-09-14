@@ -33,6 +33,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             account.Uin = uin;
             account.PasswordHash = passwordHash;
             account.Created = DateTime.Now;
+            // TODO
+            account.AccountType = AccountType.User;
             int rowsAffected = ExecuteNonQuery(SqlInsertAccount, command =>
             {
                 AddParameter(command, "@uin", account.Uin);
@@ -101,6 +103,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.Database.Sql.Core
             account.Uin = GetUInt32(reader, "uin");
             account.PasswordHash = GetString(reader, "password_hash");
             account.Created = GetDateTime(reader, "created");
+            // TODO
+            account.AccountType = AccountType.User;
             return account;
         }
     }

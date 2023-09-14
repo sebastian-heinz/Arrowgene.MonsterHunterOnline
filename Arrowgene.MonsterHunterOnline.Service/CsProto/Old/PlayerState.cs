@@ -20,6 +20,7 @@ public class PlayerState
     public int prevLevelId { get; set; }
     public CSVec3 Position { get; set; }
     public int MainInstanceLevelId { get; set; }
+    public bool SelectRoleTrigger { get; set; }
 
     public CSVec3 InitSpawnPos = new CSVec3()
 //  {

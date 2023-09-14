@@ -106,7 +106,6 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new CsCmdFileCheckHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdFriendsOnlineReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdGiftBagGroupStateReqHandler());
-            _csProtoPacketHandler.AddHandler(new CsCmdInstanceVerifyReq());
             _csProtoPacketHandler.AddHandler(new CsCmdItemReBuildLimitDataHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMailUnreadGetReqHandler());
             _csProtoPacketHandler.AddHandler(new CsCmdMartGoodsListReqHandler());
@@ -130,13 +129,15 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new DataLoadHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new DeleteRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new EnterLevelNtfHandler(CharacterManager));
+            _csProtoPacketHandler.AddHandler(new InstanceVerifyReqHandler(CharacterManager, Database));
             _csProtoPacketHandler.AddHandler(new ItemEquipQuickChangeReqHandler());
             _csProtoPacketHandler.AddHandler(new ItemMgrMoveItemReqHandler());
             _csProtoPacketHandler.AddHandler(new ItemMgrSwapItemReqHandler());
+            _csProtoPacketHandler.AddHandler(new LeaveInstanceReqHandler());
             _csProtoPacketHandler.AddHandler(new LevelHuntingModeUpdateHandler());
             _csProtoPacketHandler.AddHandler(new LineUpBigRandHandler());
             _csProtoPacketHandler.AddHandler(new LoadEntityReqHandler());
-            _csProtoPacketHandler.AddHandler(new MainInstanceAgreeOptReqHandler());
+            _csProtoPacketHandler.AddHandler(new MainInstanceAgreeOptReqHandler(Setting));
             _csProtoPacketHandler.AddHandler(new MainInstanceEnterOptReqHandler());
             _csProtoPacketHandler.AddHandler(new MainInstanceOptSynReqHandler());
             _csProtoPacketHandler.AddHandler(new ModifyFaceReqHandler(CharacterManager));
@@ -145,7 +146,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new PlayerRegionJumpReqHandler());
             _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager, ItemManager, Database));
-            _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAck());
+            _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAckHandler());
             _csProtoPacketHandler.AddHandler(new TeamPushVecNtfHandler());
             _csProtoPacketHandler.AddHandler(new UpdateRushStateHandler());
             _csProtoPacketHandler.AddHandler(new WorldAccountReqHandler());

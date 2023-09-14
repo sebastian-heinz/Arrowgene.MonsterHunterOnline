@@ -14,8 +14,11 @@ public class MainInstanceAgreeOptReqHandler : CsProtoStructureHandler<MainInstan
 
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_MAIN_INSTANCE_AGREE_OPT_REQ;
 
-    public MainInstanceAgreeOptReqHandler()
+    private readonly Setting _setting;
+    
+    public MainInstanceAgreeOptReqHandler(Setting setting)
     {
+        _setting = setting;
     }
 
     public override void Handle(Client client, MainInstanceAgreeOptReq req)
@@ -49,8 +52,6 @@ public class MainInstanceAgreeOptReqHandler : CsProtoStructureHandler<MainInstan
         //    }
         //));
 
-   
-        
 
         CsCsProtoStructurePacket<InstanceInitInfo>
             instanceInitInfo = CsProtoResponse.InstanceInitInfo;
@@ -65,31 +66,34 @@ public class MainInstanceAgreeOptReqHandler : CsProtoStructureHandler<MainInstan
         instanceInitInfo.Structure.LevelRandSeed = 1;
         instanceInitInfo.Structure.WarningFlag = 0;
         instanceInitInfo.Structure.CreatePlayerMaxLv = 99;
-        
 
-       // client.SendCsProtoStructurePacket(instanceInitInfo);
-        
-        
+
+        // client.SendCsProtoStructurePacket(instanceInitInfo);
+
+
         CsCsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
         townServerInitNtf.Structure.ErrNo = 0;
         townServerInitNtf.Structure.LineId = 0;
         townServerInitNtf.Structure.LevelEnterType = 0;
         townServerInitNtf.Structure.InstanceInitInfo = instanceInitInfo.Structure;
-        client.SendCsProtoStructurePacket(townServerInitNtf);
+        // client.SendCsProtoStructurePacket(townServerInitNtf);
         client.State.prevLevelId = client.State.levelId;
-        client.State.levelId =  client.State.MainInstanceLevelId;
+        client.State.levelId = client.State.MainInstanceLevelId;
 
-        CsCsProtoStructurePacket<PlayerTeleport> PlayerTeleport = CsProtoResponse.PlayerTeleport;
-        PlayerTeleport.Structure.SyncTime = 1;
-        //One day netobjid would not be the character id ?
-        PlayerTeleport.Structure.NetObjId = client.Character.Id;
-        PlayerTeleport.Structure.Region = client.State.MainInstanceLevelId;
-        PlayerTeleport.Structure.TargetPos.t.x = 1681.2958f;
-        PlayerTeleport.Structure.TargetPos.t.y = 346.80392f;
-        PlayerTeleport.Structure.TargetPos.t.z = 205.375f;
-        PlayerTeleport.Structure.ParentGuid = 1;
-        PlayerTeleport.Structure.InitState = 1;
-        client.SendCsProtoStructurePacket(PlayerTeleport);
-        
+
+        CsCsProtoStructurePacket<EnterInstanceRsp> enterInstanceRsp = CsProtoResponse.EnterInstanceRsp;
+        enterInstanceRsp.Structure.ErrNo = 0;
+        enterInstanceRsp.Structure.RoleId = (int)client.Character.Id;
+        enterInstanceRsp.Structure.InstanceId = 1;
+        enterInstanceRsp.Structure.BattleSvr = $"127.0.0.1:{_setting.BattleServerPort}";
+        enterInstanceRsp.Structure.ServiceId = 1;
+        enterInstanceRsp.Structure.Key = "BtlSvr01";
+        enterInstanceRsp.Structure.InstanceInfo = instanceInitInfo.Structure;
+        enterInstanceRsp.Structure.SameBS = 1;
+        enterInstanceRsp.Structure.CrossRegion = 0;
+        enterInstanceRsp.Structure.MatchRoom = 0;
+        client.SendCsProtoStructurePacket(enterInstanceRsp);
+
+    
     }
 }

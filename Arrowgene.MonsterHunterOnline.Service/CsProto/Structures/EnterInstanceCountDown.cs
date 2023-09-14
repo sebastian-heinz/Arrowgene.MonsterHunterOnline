@@ -9,8 +9,7 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Structures
     /// </summary>
     public class EnterInstanceCountDown : Structure, ICsStructure
     {
-        private static readonly ILogger Logger = LogProvider.Logger(typeof(EnterInstanceCountDown));
-
+        
         public EnterInstanceCountDown()
         {
             Second = 0;

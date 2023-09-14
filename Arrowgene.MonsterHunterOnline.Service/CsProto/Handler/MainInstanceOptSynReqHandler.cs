@@ -19,6 +19,7 @@ public class MainInstanceOptSynReqHandler : CsProtoStructureHandler<MainInstance
 
     public override void Handle(Client client, MainInstanceOptSynReq req)
     {
+        Logger.Trace(client, req.JsonDump());
         CsCsProtoStructurePacket<MainInstanceOptSynRsp> rsp = CsProtoResponse.MainInstanceOptSynRsp;
         rsp.Structure.TriggerId = req.TriggerId;
         rsp.Structure.InstancePoint = req.InstancePoint;

@@ -103,48 +103,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         }
 
         /// <summary>
-        /// 进入副本服务器响应
-        /// </summary>
-        public static CsTPacket<CSEnterInstanceRsp> EnterInstanceRsp(CSEnterInstanceRsp structure)
-        {
-            return new CsTPacket<CSEnterInstanceRsp>(CS_CMD_ID.CS_CMD_ENTER_INSTANCE_RSP, structure);
-        }
-
-        /// <summary>
-        /// 验证进入副本服务器请求
-        /// </summary>
-        public static CsTPacket<CSInstanceVerifyReq> InstanceVerifyReq(CSInstanceVerifyReq structure)
-        {
-            return new CsTPacket<CSInstanceVerifyReq>(CS_CMD_ID.CS_CMD_INSTANCE_VERIFY_REQ, structure);
-        }
-
-        /// <summary>
-        /// 验证进入副本服务器响应
-        /// </summary>
-        public static CsTPacket<CSInstanceVerifyRsp> InstanceVerifyRsp(CSInstanceVerifyRsp structure)
-        {
-            return new CsTPacket<CSInstanceVerifyRsp>(CS_CMD_ID.CS_CMD_INSTANCE_VERIFY_RSP, structure);
-        }
-
-        /// <summary>
-        /// 离开副本服务器请求
-        /// </summary>
-        public static CsTPacket<CSLeaveInstanceReq> LeaveInstanceReq(CSLeaveInstanceReq structure)
-        {
-            return new CsTPacket<CSLeaveInstanceReq>(CS_CMD_ID.CS_CMD_LEAVE_INSTANCE_REQ, structure);
-        }
-
-        /// <summary>
-        /// 离开副本服务器响应
-        /// </summary>
-        public static CsTPacket<CSLeaveInstanceRsp> LeaveInstanceRsp(CSLeaveInstanceRsp structure)
-        {
-            return new CsTPacket<CSLeaveInstanceRsp>(CS_CMD_ID.CS_CMD_LEAVE_INSTANCE_RSP, structure);
-        }
-
-
-
-        /// <summary>
         /// 双线机房运营商顺序通知
         /// </summary>
         public static CsTPacket<CSMultiIspSequenceNtf> MultiIspSequenceNtf(CSMultiIspSequenceNtf structure)
@@ -287,14 +245,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto
         public static CsTPacket<CSRemainExpLimitShowNtf> RemainExpLimitShowNtf(CSRemainExpLimitShowNtf structure)
         {
             return new CsTPacket<CSRemainExpLimitShowNtf>(CS_CMD_ID.CS_CMD_REMAIN_EXP_LIMIT_SHOW_NTF, structure);
-        }
-
-        /// <summary>
-        /// 关闭房间
-        /// </summary>
-        public static CsTPacket<CSMainInstanceClose> MainInstanceClose(CSMainInstanceClose structure)
-        {
-            return new CsTPacket<CSMainInstanceClose>(CS_CMD_ID.CS_CMD_MAIN_INSTANCE_CLOSE, structure);
         }
 
         /// <summary>
