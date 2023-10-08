@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Globalization;
 using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Enums;
@@ -28,6 +28,39 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
         id.Id = req.LogicEntityId[0];
         id.Type = (LogicEntityType)req.LogicEntityType[0];
 
+
+        SceneObjAppearNtf ntf = new SceneObjAppearNtf();
+        ntf.NetId = 39002;
+        ntf.EntityName = "UncleMerchant";
+        ntf.ClassName = "EmCommon";
+        ntf.Pose.t = client.State.Position;
+        ntf.SubTypeId = 1;
+        ntf.Sync2CE = 0;
+        ntf.SpawnType = 0; // Spawn type, 0 absolute position, 1 relative bone position
+        ntf.Bone = 0;
+        ntf.Holder = 0;
+        ntf.Owner = 0;
+        ntf.Faction = 0;
+        ntf.RegionId = 0;
+        //ntf.UsrData = id.Id;
+        //  ntf.EntGuid = ulong.Parse("44454658350C7106", NumberStyles.HexNumber);
+        ntf.PropertityFile = "";
+        ntf.MHSpawnType = 0;
+        ntf.BTState = "";
+        // ntf.BBVars = id.Id;
+        //  ntf.Buff = id.Id;
+        ntf.ParentId = 63;
+        ntf.ParentGuid = ulong.Parse("44454658350C7105", NumberStyles.HexNumber);
+
+
+        CsCsProtoStructurePacket<SceneObjAppearNtfList> sceneObjAppearNtfList = CsProtoResponse.SceneObjAppearNtfList;
+        sceneObjAppearNtfList.Structure.Appear.Add(ntf);
+
+
+        client.SendCsProtoStructurePacket(sceneObjAppearNtfList);
+
+
+        return;
         CsCsProtoStructurePacket<MonsterAppearNtf> monsterAppearNtf = CsProtoResponse.MonsterAppearNtf;
         monsterAppearNtf.Structure.NetId = (int)50080;
         monsterAppearNtf.Structure.SpawnType = (short)2;
