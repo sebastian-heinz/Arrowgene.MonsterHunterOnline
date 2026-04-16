@@ -70,6 +70,7 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
         string csvSpawnPointsPath = Path.Combine(staticFolder, "SpawnPoints.csv");
         //int level = client.State.levelId;
         int level = req.ServiceId;
+        client.State.levelId = level;
         using (TextFieldParser parser = new TextFieldParser(csvSpawnPointsPath))
         {
             string level_comp = level.ToString();

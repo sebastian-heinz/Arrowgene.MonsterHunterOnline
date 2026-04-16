@@ -147,10 +147,24 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                         PlayerRegionJump.Structure.Transform = TargetPos;
 
                         client.SendCsProtoStructurePacket(PlayerRegionJump);
+
+                        // Store spawn position so PlayerRegionJumpEndHandler can spawn the monster after the client finishes loading
+                        if (triggerName.Contains("Cto") && !triggerName.Contains("_drama") && !triggerName.Contains("_Tip"))
+                        {
+                            client.State.PendingMonsterSpawnPos = new CSVec3() { x = posX + 10f, y = posY + 10f, z = posZ };
+                        }
+
                         return;
                     }
                 }
             }
         }
+
+        Logger.Error(client, $"No RegionJump match for trigger '{triggerName}' on level {instanceLevelId}");
+        CsCsProtoStructurePacket<PlayerRegionJumpRsp> errorRsp = CsProtoResponse.PlayerRegionJumpRsp;
+        errorRsp.Structure.ErrorCode = -1;
+        errorRsp.Structure.RegionId = 0;
+        errorRsp.Structure.Transform = new CSQuatT();
+        client.SendCsProtoStructurePacket(errorRsp);
     }
 }

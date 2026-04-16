@@ -50,10 +50,7 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
                 if (levelId.Length > 0)
                     levelId = levelId.Remove(levelId.Length - 1);
 
-                // 150 hubs, 160 farm, 180 city
-                bool isMatch = (client.State.levelId.ToString() == levelId)
-                               && (levelId.StartsWith("150") || levelId.StartsWith("160") || levelId.StartsWith("180"))
-                               && levelId.EndsWith("01");
+                bool isMatch = (client.State.levelId.ToString() == levelId);
                 if (isMatch)
                 {
                     //TODO: HACK because it doesnt seems to work with a full list of the zone
