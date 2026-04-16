@@ -7,6 +7,8 @@ using Microsoft.VisualBasic.FileIO;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using Arrowgene.MonsterHunterOnline.Protocol.Old;
+using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
@@ -91,5 +93,8 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
             //TODO: should work like a full list
             //client.SendCsProtoStructurePacket(monsterAppearNtfList);
         }
+
+        // Send CSEnterLevelRsp to confirm level entry and complete battle ground initialization
+        client.SendCsPacket(NewCsPacket.EnterLevelRsp(new CSEnterLevelRsp()));
     }
 }

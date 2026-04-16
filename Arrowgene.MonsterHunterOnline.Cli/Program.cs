@@ -53,15 +53,20 @@ namespace Arrowgene.MonsterHunterOnline.Cli
         private readonly Dictionary<string, ICommand> _commands;
         private ICommand _lastCommand;
         private readonly object _consoleLock;
-        private readonly DirectoryInfo _logDir;
+        private readonly string _logFilePath;
 
         private Program()
         {
-            _logDir = new DirectoryInfo(Path.Combine(Util.ExecutingDirectory(), "Files/Logs"));
-            if (!_logDir.Exists)
+            Setting setting = new Setting();
+            _logFilePath = setting.LogFilePath;
+
+            // Clear log file on startup
+            string logDir = Path.GetDirectoryName(_logFilePath);
+            if (!string.IsNullOrEmpty(logDir) && !Directory.Exists(logDir))
             {
-                Directory.CreateDirectory(_logDir.FullName);
+                Directory.CreateDirectory(logDir);
             }
+            File.WriteAllText(_logFilePath, string.Empty);
 
             _lastCommand = null;
             _consoleLock = new object();
@@ -300,9 +305,7 @@ namespace Arrowgene.MonsterHunterOnline.Cli
                 Console.WriteLine(text);
                 Console.ResetColor();
 
-                // TODO perhaps some buffering and only flush after X logs
-                string filePath = Path.Combine(_logDir.FullName, $"{log.DateTime:yyyy-MM-dd}.log.txt");
-                using StreamWriter sw = new StreamWriter(filePath, append: true);
+                using StreamWriter sw = new StreamWriter(_logFilePath, append: true);
                 sw.WriteLine(text);
             }
         }

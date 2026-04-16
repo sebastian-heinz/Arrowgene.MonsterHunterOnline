@@ -21,6 +21,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         [DataMember(Order = 6)] public ushort ServerPort { get; set; }
         [DataMember(Order = 7)] public ushort BattleServerPort { get; set; }
         [DataMember(Order = 20)] public int LogLevel { get; set; }
+        [DataMember(Order = 21)] public string LogFilePath { get; set; }
 
         [DataMember(Order = 100)] public AsyncEventSettings SocketSettings { get; set; }
 
@@ -31,6 +32,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             ServerPort = 8142;
             BattleServerPort = 8143;
             LogLevel = 0;
+            LogFilePath = "/Users/shiba/dev/mho_decomp/server.log";
             SocketSettings = new AsyncEventSettings();
             SocketSettings.MaxUnitOfOrder = 1;
         }
@@ -42,6 +44,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             ServerPort = setting.ServerPort;
             BattleServerPort = setting.BattleServerPort;
             LogLevel = setting.LogLevel;
+            LogFilePath = setting.LogFilePath;
             SocketSettings = new AsyncEventSettings(setting.SocketSettings);
         }
     }

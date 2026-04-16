@@ -24,36 +24,25 @@ public class PlayerRegionJumpEndHandler : CsProtoStructureHandler<PlayerRegionJu
             CSVec3 monsterPos = client.State.PendingMonsterSpawnPos;
             client.State.PendingMonsterSpawnPos = null;
 
-            int monsterNetId = 1000;
+            // 3-phase spawn protocol (traced from CMonsterSpawner binary):
+            // Phase 1: CMD 533 → AddToSpawnQueue → adds to spawn queue at +0x849a8
+            // Phase 2: Client sends CMD 534 (LoadEntityReq) back requesting full data
+            // Phase 3: Server responds CMD 662 (single MonsterAppearNtf) → SpawnMonsters (type 1)
+            //
+            // CMD 662 (single) → SpawnMonsters creates PROPER type-1 CMonster_Derived entities
+            // CMD 663 (list) → FUN_112a3ac0 creates BROKEN type-8 entities (always crashes)
+            //
+            // Store spawn info for LoadEntityReqHandler to use in phase 3
+            client.State.PendingMonsterSpawnPos = monsterPos;
 
-            // Use CtrledMonsterAppearNtf — the battle-active monster packet from SpawnCommand "battle" case
-            CsCsProtoStructurePacket<CtrledMonsterAppearNtf> battle = CsProtoResponse.CtrledMonsterAppearNtf;
-            battle.Structure.BaseInfo = new MonsterAppearNtf()
-            {
-                NetId = monsterNetId,
-                SpawnType = 1,
-                MonsterInfoId = 50080,
-                EntGuid = 0,
-                Name = "",
-                Class = "",
-                Pose = new CSQuatT(monsterPos, new CSQuat(1.0f, 0, 0, 0)),
-                Faction = 0,
-                Dead = 0,
-                ParentGuid = 0,
-                LastChildId = 0,
-                LcmState = new CSMonsterLocomotion()
-                {
-                    MonsterID = (uint)monsterNetId,
-                    MonsterPos = monsterPos,
-                    MonsterRot = new CSQuat(1.0f, 0, 0, 0),
-                    TargetSrvID = 1,
-                },
-                BBVars = new CSBBVarList() { Vars = new List<CSBBVar>() { new CSBBVar("ExFlag", new CSBBBool(true)) } },
-            };
-            battle.Structure.OwnerId = (int)client.Character.Id;
-            battle.Structure.Type = 1;
-            battle.Structure.Duration = 0.0f;
-            client.SendCsProtoStructurePacket(battle);
+            uint monsterNetId = 0x10001;
+
+            // Phase 1: Send EntityAppearNtfIdList (CMD 533)
+            CsCsProtoStructurePacket<EntityAppearNtfIdList> entityIds = CsProtoResponse.EntityAppearNtfIdList;
+            entityIds.Structure.InitType = 0;
+            entityIds.Structure.LogicEntityId.Add(monsterNetId);
+            entityIds.Structure.LogicEntityType.Add(1); // 1 = Monster
+            client.SendCsProtoStructurePacket(entityIds);
         }
     }
 }

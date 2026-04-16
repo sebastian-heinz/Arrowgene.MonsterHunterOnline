@@ -2,6 +2,8 @@
 using Arrowgene.MonsterHunterOnline.Protocol.Constant;
 using Arrowgene.MonsterHunterOnline.Protocol.Structures;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Protocol.Old;
+using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Protocol.Structures;
 using Arrowgene.MonsterHunterOnline.Service.Database;
 using Arrowgene.MonsterHunterOnline.Service.System;
@@ -124,5 +126,25 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
 
         CsCsProtoStructurePacket<InstanceVerifyRsp> instanceVerifyRsp = CsProtoResponse.InstanceVerifyRsp;
         client.SendCsProtoStructurePacket(instanceVerifyRsp);
+
+        // Send standalone InstanceInitInfo (CMD 668) on battle server to trigger
+        // CBattleGround initialization callbacks at CGameLogic+0x6F8.
+        CsCsProtoStructurePacket<InstanceInitInfo> instanceInitInfo = CsProtoResponse.InstanceInitInfo;
+        instanceInitInfo.Structure.BattleGroundId = 0;
+        instanceInitInfo.Structure.LevelId = level;
+        instanceInitInfo.Structure.CreateMaxPlayerCount = 4;
+        instanceInitInfo.Structure.GameMode = GameMode.Casual;
+        instanceInitInfo.Structure.TimeType = TimeType.Noon;
+        instanceInitInfo.Structure.WeatherType = WeatherType.Sunny;
+        instanceInitInfo.Structure.Time = 1;
+        instanceInitInfo.Structure.LevelRandSeed = 1;
+        instanceInitInfo.Structure.WarningFlag = 0;
+        instanceInitInfo.Structure.CreatePlayerMaxLv = 99;
+        client.SendCsProtoStructurePacket(instanceInitInfo);
+
+        // NOTE: CSLoadLevelNtf removed — the client auto-loads the level from
+        // InstanceInitInfo.LevelId (received in EnterInstanceRsp from town server).
+        // Sending LoadLevelNtf after causes a second load that may interfere with
+        // CGameRules initialization from the first load.
     }
 }
