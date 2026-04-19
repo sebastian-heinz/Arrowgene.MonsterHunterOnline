@@ -5,6 +5,7 @@ using Arrowgene.MonsterHunterOnline.Protocol.Old.ExtraStructures;
 using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Protocol.Structures;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
+using Arrowgene.MonsterHunterOnline.Service.CsProto;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -18,31 +19,85 @@ public class PlayerRegionJumpEndHandler : CsProtoStructureHandler<PlayerRegionJu
 
     public override void Handle(Client client, PlayerRegionJumpEnd req)
     {
-        // Spawn a pending combat monster now that the client has finished loading the new region
-        if (client.State.PendingMonsterSpawnPos != null)
+        if (client.State.PendingMonsterSpawnPos == null)
         {
-            CSVec3 monsterPos = client.State.PendingMonsterSpawnPos;
-            client.State.PendingMonsterSpawnPos = null;
-
-            // 3-phase spawn protocol (traced from CMonsterSpawner binary):
-            // Phase 1: CMD 533 → AddToSpawnQueue → adds to spawn queue at +0x849a8
-            // Phase 2: Client sends CMD 534 (LoadEntityReq) back requesting full data
-            // Phase 3: Server responds CMD 662 (single MonsterAppearNtf) → SpawnMonsters (type 1)
-            //
-            // CMD 662 (single) → SpawnMonsters creates PROPER type-1 CMonster_Derived entities
-            // CMD 663 (list) → FUN_112a3ac0 creates BROKEN type-8 entities (always crashes)
-            //
-            // Store spawn info for LoadEntityReqHandler to use in phase 3
-            client.State.PendingMonsterSpawnPos = monsterPos;
-
-            uint monsterNetId = 0x10001;
-
-            // Phase 1: Send EntityAppearNtfIdList (CMD 533)
-            CsCsProtoStructurePacket<EntityAppearNtfIdList> entityIds = CsProtoResponse.EntityAppearNtfIdList;
-            entityIds.Structure.InitType = 0;
-            entityIds.Structure.LogicEntityId.Add(monsterNetId);
-            entityIds.Structure.LogicEntityType.Add(1); // 1 = Monster
-            client.SendCsProtoStructurePacket(entityIds);
+            return;
         }
+
+        CSVec3 monsterPos = client.State.PendingMonsterSpawnPos;
+        client.State.PendingMonsterSpawnPos = null;
+        client.State.PendingMonsterNetId = null;
+
+        uint monsterNetId = 1000;
+        CSQuat monsterRot = new(1.0f, 0, 0, 0);
+
+        // CMD 714 renders the monster shell in the current client state.
+        // Follow it immediately with the runtime state packets that normally
+        // drive animation and movement updates.
+        CsCsProtoStructurePacket<CtrledMonsterAppearNtf> battle = CsProtoResponse.CtrledMonsterAppearNtf;
+        battle.Structure.BaseInfo = new MonsterAppearNtf()
+        {
+            NetId = (int)monsterNetId,
+            SpawnType = 1,
+            MonsterInfoId = 60030,
+            EntGuid = 0,
+            Name = "",
+            Class = "",
+            Pose = new CSQuatT(monsterPos, monsterRot),
+            Faction = 0,
+            Dead = 0,
+            ParentGuid = 0,
+            LastChildId = 0,
+            LcmState = new CSMonsterLocomotion()
+            {
+                MonsterID = monsterNetId,
+                AnimSeqName = "Idle",
+                MonsterPos = monsterPos,
+                MonsterRot = monsterRot,
+                SkillSpeed = 1.0f,
+                RestartAnim = 1,
+                SetPos = 1,
+                SetRotate = 1,
+            },
+            BTState = "Em025\\BB_Knowledge.xml",
+            BBVars = new CSBBVarList()
+            {
+                Vars = new List<CSBBVar>() { new CSBBVar("ExFlag", new CSBBBool(true)) }
+            },
+        };
+        battle.Structure.OwnerId = 1;
+        battle.Structure.Type = 1;
+        battle.Structure.Duration = 0.0f;
+        client.SendCsProtoStructurePacket(battle);
+
+        CsCsProtoStructurePacket<MonsterActiveState> activeState = CsProtoResponse.MonsterActiveState;
+        activeState.Structure.SyncTime = 0;
+        activeState.Structure.ActiveState = 1;
+        activeState.Structure.MonsterId = monsterNetId;
+        activeState.Structure.Position = new XYZPosition() { x = monsterPos.x, y = monsterPos.y, z = monsterPos.z };
+        activeState.Structure.Rotation = new Quaternion() { x = 0, y = 0, z = 0, w = 1 };
+        client.SendCsProtoStructurePacket(activeState);
+
+        CsCsProtoStructurePacket<MonsterSequenceState> seq = CsProtoResponse.MonsterSequenceState;
+        seq.Structure.MonsterID = monsterNetId;
+        seq.Structure.AnimSeqName = "Idle";
+        seq.Structure.CurTime = 0.0f;
+        seq.Structure.Location = monsterPos;
+        seq.Structure.Rotation = monsterRot;
+        client.SendCsProtoStructurePacket(seq);
+
+        CSMonsterLocomotion locomotion = new()
+        {
+            SyncTime = 0,
+            MonsterID = monsterNetId,
+            AnimSeqName = "Idle",
+            MonsterPos = monsterPos,
+            MonsterRot = monsterRot,
+            SkillSpeed = 1.0f,
+            RestartAnim = 1,
+            SetPos = 1,
+            SetRotate = 1,
+        };
+        client.SendCsPacket(NewCsPacket.MonsterLCM(locomotion));
     }
 }

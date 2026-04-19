@@ -29,11 +29,36 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
 
     public override void Handle(Client client, EnterLevelNtf req)
     {
-        // _characterManager.SyncAllAttr(client);
-
-        //TODO: packet is a list so the game should handle a list of spawns, but it appears that it doesnt want ?
-        //      maybe because there is other entities ?
-        //CsCsProtoStructurePacket<MonsterAppearNtfList> monsterAppearNtfList = CsProtoResponse.MonsterAppearNtfList;
+        // CMD 516 (SpawnPlayer) — create the player entity in the battle instance.
+        // Must be sent BEFORE NPC/monster spawns. Without this, the game logic
+        // context doesn't fully initialize and CMD 662 callbacks may not register.
+        //
+        // Client handler chain:
+        //   CGameLogic+0x3C0 callback list → CGameRules__Lua_SpawnPlayer (0x1103ED50)
+        //   Validates: player context non-null, calls vtable[0x17C/4] to spawn
+        //   TDR format: all fields Big-Endian (matching CSSpawnPlayer.WriteCs)
+        if (client.Character != null)
+        {
+            CSSpawnPlayer spawnPlayer = new CSSpawnPlayer();
+            spawnPlayer.PlayerId = client.Character.Id;
+            spawnPlayer.NetObjId = client.Character.Id;
+            spawnPlayer.Name = client.Character.Name;
+            spawnPlayer.Gender = (byte)client.Character.Gender;
+            spawnPlayer.Position = new XYZPosition()
+            {
+                x = client.State.Position?.x ?? 0,
+                y = client.State.Position?.y ?? 0,
+                z = client.State.Position?.z ?? 0
+            };
+            spawnPlayer.Rotation = new Quaternion() { x = 0, y = 0, z = 0, w = 1 };
+            spawnPlayer.Scale = 1.0f;
+            spawnPlayer.NewConnect = 1;
+            spawnPlayer.SendSrvId = 0;
+            spawnPlayer.EquipmentPack = "";
+            spawnPlayer.AvatarSetID = 0;
+            client.SendCsPacket(NewCsPacket.SpawnPlayer(spawnPlayer));
+            Logger.Debug($"Sent CMD 516 SpawnPlayer for {client.Character.Name} (ID={client.Character.Id})");
+        }
 
         string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
         string npcFilePath = Path.Combine(staticFolder, "LevelDataNPCs.csv");

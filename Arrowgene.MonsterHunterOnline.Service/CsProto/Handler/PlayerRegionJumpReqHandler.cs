@@ -152,6 +152,7 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                         if (triggerName.Contains("Cto") && !triggerName.Contains("_drama") && !triggerName.Contains("_Tip"))
                         {
                             client.State.PendingMonsterSpawnPos = new CSVec3() { x = posX + 10f, y = posY + 10f, z = posZ };
+                            client.State.PendingMonsterNetId = null;
                         }
 
                         return;

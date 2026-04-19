@@ -122,6 +122,13 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
         }
 
         _characterManager.PopulatePlayerInitInfo(client, client.Character, playerInitInfo.Structure);
+        // Store spawn position for SpawnPlayer (CMD 516) in EnterLevelNtfHandler
+        client.State.Position = new CSVec3()
+        {
+            x = playerInitInfo.Structure.Pose.t.x,
+            y = playerInitInfo.Structure.Pose.t.y,
+            z = playerInitInfo.Structure.Pose.t.z
+        };
         client.SendCsProtoStructurePacket(playerInitInfo);
 
         CsCsProtoStructurePacket<InstanceVerifyRsp> instanceVerifyRsp = CsProtoResponse.InstanceVerifyRsp;
@@ -130,10 +137,10 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
         // Send standalone InstanceInitInfo (CMD 668) on battle server to trigger
         // CBattleGround initialization callbacks at CGameLogic+0x6F8.
         CsCsProtoStructurePacket<InstanceInitInfo> instanceInitInfo = CsProtoResponse.InstanceInitInfo;
-        instanceInitInfo.Structure.BattleGroundId = 0;
+        instanceInitInfo.Structure.BattleGroundId = 1;
         instanceInitInfo.Structure.LevelId = level;
         instanceInitInfo.Structure.CreateMaxPlayerCount = 4;
-        instanceInitInfo.Structure.GameMode = GameMode.Casual;
+        instanceInitInfo.Structure.GameMode = GameMode.Standard;
         instanceInitInfo.Structure.TimeType = TimeType.Noon;
         instanceInitInfo.Structure.WeatherType = WeatherType.Sunny;
         instanceInitInfo.Structure.Time = 1;
@@ -142,9 +149,9 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
         instanceInitInfo.Structure.CreatePlayerMaxLv = 99;
         client.SendCsProtoStructurePacket(instanceInitInfo);
 
-        // NOTE: CSLoadLevelNtf removed — the client auto-loads the level from
-        // InstanceInitInfo.LevelId (received in EnterInstanceRsp from town server).
-        // Sending LoadLevelNtf after causes a second load that may interfere with
-        // CGameRules initialization from the first load.
+        // Send CSLoadLevelNtf to trigger full CryEngine level load.
+        // This populates CMonsterInfo from local .dat files (monsterdata.dat/npcdatanew.dat).
+        // Without it, CMonsterInfo hash table is empty and SpawnMonsters can't load models.
+        client.SendCsPacket(NewCsPacket.LoadLevelNtf(new CSLoadLevelNtf() { Reserve = 0 }));
     }
 }
