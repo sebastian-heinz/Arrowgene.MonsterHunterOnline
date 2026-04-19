@@ -130,9 +130,11 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
             z = playerInitInfo.Structure.Pose.t.z
         };
         client.SendCsProtoStructurePacket(playerInitInfo);
+        Logger.Info(client, $"Sent CMD 667 PlayerInitInfo LevelId={level} Pos=({playerInitInfo.Structure.Pose.t.x:F3}, {playerInitInfo.Structure.Pose.t.y:F3}, {playerInitInfo.Structure.Pose.t.z:F3})");
 
         CsCsProtoStructurePacket<InstanceVerifyRsp> instanceVerifyRsp = CsProtoResponse.InstanceVerifyRsp;
         client.SendCsProtoStructurePacket(instanceVerifyRsp);
+        Logger.Info(client, "Sent CMD 13 InstanceVerifyRsp");
 
         // Send standalone InstanceInitInfo (CMD 668) on battle server to trigger
         // CBattleGround initialization callbacks at CGameLogic+0x6F8.
@@ -148,10 +150,12 @@ public class InstanceVerifyReqHandler : CsProtoStructureHandler<InstanceVerifyRe
         instanceInitInfo.Structure.WarningFlag = 0;
         instanceInitInfo.Structure.CreatePlayerMaxLv = 99;
         client.SendCsProtoStructurePacket(instanceInitInfo);
+        Logger.Info(client, $"Sent CMD 668 InstanceInitInfo BattleGroundId={instanceInitInfo.Structure.BattleGroundId} LevelId={instanceInitInfo.Structure.LevelId} GameMode={instanceInitInfo.Structure.GameMode}");
 
         // Send CSLoadLevelNtf to trigger full CryEngine level load.
         // This populates CMonsterInfo from local .dat files (monsterdata.dat/npcdatanew.dat).
         // Without it, CMonsterInfo hash table is empty and SpawnMonsters can't load models.
         client.SendCsPacket(NewCsPacket.LoadLevelNtf(new CSLoadLevelNtf() { Reserve = 0 }));
+        Logger.Info(client, $"Sent CMD 518 LoadLevelNtf LevelId={level}");
     }
 }

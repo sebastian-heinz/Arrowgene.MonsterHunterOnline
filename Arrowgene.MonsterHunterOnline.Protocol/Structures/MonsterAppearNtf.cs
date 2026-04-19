@@ -111,7 +111,7 @@ namespace Arrowgene.MonsterHunterOnline.Protocol.Structures
         /// </summary>
         public int LastChildId { get; set; }
 
-        public  void WriteCs(IBuffer buffer)
+        public void WriteCs(IBuffer buffer)
         {
             WriteInt32(buffer, NetId);
             WriteInt16(buffer, SpawnType);
@@ -127,7 +127,7 @@ namespace Arrowgene.MonsterHunterOnline.Protocol.Structures
             WriteCsStructure(buffer, LcmState);
             WriteList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, WriteInt16, WriteCsStructure);
             WriteList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, WriteInt32, WriteCsStructure);
-            WriteList(buffer, Buff, (short)CsProtoConstant.CS_ATTR_INIT_MAX, WriteInt16, WriteByte);
+            WriteList(buffer, Buff, (short)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, WriteInt16, WriteByte);
             WriteUInt64(buffer, ParentGuid);
             WriteInt32(buffer, LastChildId);
         }
@@ -148,7 +148,7 @@ namespace Arrowgene.MonsterHunterOnline.Protocol.Structures
             LcmState = ReadCsStructure(buffer, LcmState);
             ReadList(buffer, AttrInit, (short)CsProtoConstant.CS_ATTR_INIT_MAX, ReadInt16, ReadCsStructure<CSAttrData>);
             ReadList(buffer, ProjIds, CsProtoConstant.CS_MAX_AMMO_NUM, ReadInt32, ReadCsStructure<CSAmmoInfo>);
-            ReadList(buffer, Buff, (short)CsProtoConstant.CS_ATTR_INIT_MAX, ReadInt16, ReadByte);
+            ReadList(buffer, Buff, (short)CsProtoConstant.CS_MAX_BUFF_DATA_LEN, ReadInt16, ReadByte);
             ParentGuid = ReadUInt64(buffer);
             LastChildId = ReadInt32(buffer);
         }

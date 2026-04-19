@@ -4,8 +4,12 @@ public struct LogicEntityId
 {
     private uint _raw;
 
-    const int Sz0 = 4, Loc0 = 0, Mask0 = ((1 << Sz0) - 1) << Loc0;
-    const int Sz1 = 28, Loc1 = Loc0 + Sz0, Mask1 = ((1 << Sz1) - 1) << Loc1;
+    private const int UniqueIdBits = 28;
+    private const int TypeBits = 4;
+    private const int UniqueIdShift = 0;
+    private const int TypeShift = UniqueIdBits;
+    private const uint UniqueIdMask = ((1u << UniqueIdBits) - 1u) << UniqueIdShift;
+    private const uint TypeMask = ((1u << TypeBits) - 1u) << TypeShift;
 
     public uint Id
     {
@@ -15,13 +19,13 @@ public struct LogicEntityId
 
     public LogicEntityType Type
     {
-        get { return (LogicEntityType)((uint)(_raw & Mask0) >> Loc0); }
-        set { _raw = (uint)(_raw & ~Mask0 | ((uint)value << Loc0) & Mask0); }
+        get => (LogicEntityType)((_raw & TypeMask) >> TypeShift);
+        set => _raw = (_raw & ~TypeMask) | (((uint)value << TypeShift) & TypeMask);
     }
 
     public uint UniqueId
     {
-        get { return (uint)(_raw & Mask1) >> Loc1; }
-        set { _raw = (uint)(_raw & ~Mask1 | (value << Loc1) & Mask1); }
+        get => (_raw & UniqueIdMask) >> UniqueIdShift;
+        set => _raw = (_raw & ~UniqueIdMask) | ((value << UniqueIdShift) & UniqueIdMask);
     }
 }

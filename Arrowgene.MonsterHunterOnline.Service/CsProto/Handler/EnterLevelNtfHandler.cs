@@ -57,7 +57,7 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
             spawnPlayer.EquipmentPack = "";
             spawnPlayer.AvatarSetID = 0;
             client.SendCsPacket(NewCsPacket.SpawnPlayer(spawnPlayer));
-            Logger.Debug($"Sent CMD 516 SpawnPlayer for {client.Character.Name} (ID={client.Character.Id})");
+            Logger.Info(client, $"Sent CMD 516 SpawnPlayer for {client.Character.Name} (ID={client.Character.Id}) NetObjId={spawnPlayer.NetObjId} Pos=({spawnPlayer.Position.x:F3}, {spawnPlayer.Position.y:F3}, {spawnPlayer.Position.z:F3})");
         }
 
         string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files/Static");
@@ -121,5 +121,6 @@ public class EnterLevelNtfHandler : CsProtoStructureHandler<EnterLevelNtf>
 
         // Send CSEnterLevelRsp to confirm level entry and complete battle ground initialization
         client.SendCsPacket(NewCsPacket.EnterLevelRsp(new CSEnterLevelRsp()));
+        Logger.Info(client, $"Sent CMD 1291 EnterLevelRsp LevelId={client.State.levelId}");
     }
 }

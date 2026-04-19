@@ -150,7 +150,8 @@ namespace Arrowgene.MonsterHunterOnline.Protocol
                 // Err
             }
 
-            for (int i = 0; i < src.Length; i++)
+            int size = Math.Min(src.Length, limit);
+            for (int i = 0; i < size; i++)
             {
                 writeFn(buffer, src[i]);
             }
@@ -213,7 +214,8 @@ namespace Arrowgene.MonsterHunterOnline.Protocol
             }
 
             writeSizeFn(buffer, size);
-            for (int i = 0; i < src.Count; i++)
+            int count = int.CreateChecked(size);
+            for (int i = 0; i < count; i++)
             {
                 TVal val = src[i];
                 writeValFn(buffer, val);
@@ -227,18 +229,13 @@ namespace Arrowgene.MonsterHunterOnline.Protocol
             Action<IBuffer, TVal> writeValFn
         )
         {
-            int size = src.Count;
-            if (count > size)
-            {
-                count = size;
-            }
-
+            count = Math.Min(count, src.Count);
             if (count > limit)
             {
                 count = limit;
             }
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < count; i++)
             {
                 TVal val = src[i];
                 writeValFn(buffer, val);

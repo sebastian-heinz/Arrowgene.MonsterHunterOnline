@@ -1,9 +1,10 @@
 ﻿using Arrowgene.Logging;
 using Arrowgene.MonsterHunterOnline.Protocol.Constant;
+using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Protocol.Structures;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
-using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Service.System;
+using System;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Handler;
 
@@ -12,21 +13,14 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
     private static readonly ServiceLogger Logger =
         LogProvider.Logger<ServiceLogger>(typeof(LoadEntityReqHandler));
 
+    private const int BattleMonsterInfoId = 60030;
+
     public override CS_CMD_ID Cmd => CS_CMD_ID.CS_CMD_LOAD_ENTITY_REQ;
-
-
-    public LoadEntityReqHandler()
-    {
-    }
 
     public override void Handle(Client client, LoadEntityReq req)
     {
         Logger.Debug(req.JsonDump());
 
-        // Phase 3 of the 3-phase spawn protocol:
-        // Client sent CMD 534 (LoadEntityReq) requesting full entity data
-        // after we sent CMD 533 (EntityAppearNtfIdList) in Phase 1.
-        // Respond with CMD 662 (SINGLE MonsterAppearNtf, NOT list CMD 663!).
         if (client.State.PendingMonsterSpawnPos == null || client.State.PendingMonsterNetId == null)
         {
             return;
@@ -34,8 +28,9 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
 
         uint pendingMonsterNetId = client.State.PendingMonsterNetId.Value;
         CSVec3 spawnPos = client.State.PendingMonsterSpawnPos;
+        int count = Math.Min(req.LogicEntityId.Count, req.LogicEntityType.Count);
 
-        for (int i = 0; i < req.LogicEntityId.Count; i++)
+        for (int i = 0; i < count; i++)
         {
             uint netId = req.LogicEntityId[i];
             uint entityType = req.LogicEntityType[i];
@@ -45,42 +40,58 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
                 continue;
             }
 
-            // Send CMD 662 (single MonsterAppearNtf) for CMonsterSpawner type-1 entity.
-            CsCsProtoStructurePacket<MonsterAppearNtf> monsterAppearNtf = CsProtoResponse.MonsterAppearNtf;
-            monsterAppearNtf.Structure.NetId = (int)netId;
-            monsterAppearNtf.Structure.SpawnType = 1;
-            monsterAppearNtf.Structure.MonsterInfoId = 60030; // type=1 (large battle monster), was 50080 (type=3 NPC)
-            monsterAppearNtf.Structure.EntGuid = 12345;
-            monsterAppearNtf.Structure.Name = "em008";
-            monsterAppearNtf.Structure.Class = "em008";
-            monsterAppearNtf.Structure.Pose = new CSQuatT(spawnPos, new CSQuat(1.0f, 0, 0, 0));
-            monsterAppearNtf.Structure.Faction = 2;
-            monsterAppearNtf.Structure.BTState = "Idle";
-            monsterAppearNtf.Structure.Dead = 0;
-            monsterAppearNtf.Structure.ParentGuid = 0;
-            monsterAppearNtf.Structure.LastChildId = -1;
-            monsterAppearNtf.Structure.LcmState.MonsterID = netId;
-            monsterAppearNtf.Structure.LcmState.AnimSeqName = "Idle";
-            monsterAppearNtf.Structure.LcmState.MonsterPos = spawnPos;
-            monsterAppearNtf.Structure.LcmState.MonsterRot = new CSQuat(1.0f, 0, 0, 0);
-            monsterAppearNtf.Structure.LcmState.TargetSrvID = 1;
-            client.SendCsProtoStructurePacket(monsterAppearNtf);
+            Logger.Info(client,
+                $"Receive CMD 534 for battle monster NetId=0x{netId:X8} Type={entityType}; sending runtime-verified CMD 663 count=1");
 
-            // No CMD 663 fallback. If CMD 662 still cannot initialize the entity,
-            // keep the failure non-crashing and debug the missing client state next.
+            CSQuat monsterRot = new(1.0f, 0, 0, 0);
 
-            // Send MonsterActiveState (CMD 528) to activate the type-1 entity.
-            CsCsProtoStructurePacket<MonsterActiveState> activeState = CsProtoResponse.MonsterActiveState;
-            activeState.Structure.SyncTime = 0;
-            activeState.Structure.ActiveState = 1;
-            activeState.Structure.MonsterId = netId;
-            activeState.Structure.Position = new XYZPosition() { x = spawnPos.x, y = spawnPos.y, z = spawnPos.z };
-            activeState.Structure.Rotation = new Quaternion() { x = 0, y = 0, z = 0, w = 1 };
-            client.SendCsProtoStructurePacket(activeState);
+            MonsterAppearNtf monster = new()
+            {
+                NetId = (int)netId,
+                SpawnType = 1,
+                MonsterInfoId = BattleMonsterInfoId,
+                EntGuid = netId,
+                Name = string.Empty,
+                Class = string.Empty,
+                Pose = new CSQuatT(spawnPos, monsterRot),
+                Faction = 2,
+                BTState = "Idle",
+                Dead = 0,
+                ParentGuid = 0,
+                LastChildId = -1,
+                LcmState = new CSMonsterLocomotion
+                {
+                    SyncTime = 0,
+                    MonsterID = netId,
+                    AnimSeqName = "Idle",
+                    MonsterPos = spawnPos,
+                    MonsterRot = monsterRot,
+                    SkillSpeed = 1.0f,
+                    RestartAnim = 1,
+                    SetPos = 1,
+                    SetRotate = 1,
+                },
+            };
+
+            CsCsProtoStructurePacket<MonsterAppearNtfList> monsterAppearList = CsProtoResponse.MonsterAppearNtfList;
+            monsterAppearList.Structure.Appear.Add(monster);
+
+            Logger.Info(client,
+                $"Send CMD 663 MonsterAppearNtfList Count=1 NetId=0x{netId:X8} SpawnType=1 MonsterInfoId={BattleMonsterInfoId} EntGuid=0x{monster.EntGuid:X8} Faction=2 BTState=Idle Pos={FormatVec(spawnPos)}");
+
+            client.SendCsProtoStructurePacket(monsterAppearList);
 
             client.State.PendingMonsterSpawnPos = null;
             client.State.PendingMonsterNetId = null;
             return;
         }
+
+        Logger.Info(client,
+            $"Receive CMD 534 without matching pending battle monster NetId=0x{pendingMonsterNetId:X8}; request IDs did not include the queued monster");
+    }
+
+    private static string FormatVec(CSVec3 vec)
+    {
+        return $"({vec.x:F3}, {vec.y:F3}, {vec.z:F3})";
     }
 }
