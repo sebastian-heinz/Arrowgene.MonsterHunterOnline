@@ -22,9 +22,13 @@ public class LeaveInstanceReqHandler : CsProtoStructureHandler<LeaveInstanceReq>
 
     public override void Handle(Client client, LeaveInstanceReq req)
     {
+        client.State.StopBattleMonsterLoop();
+        client.State.PendingMonsterSpawnPos = null;
+        client.State.PendingMonsterNetId = null;
+
         CsCsProtoStructurePacket<LeaveInstanceRsp> rsp = CsProtoResponse.LeaveInstanceRsp;
         client.SendCsProtoStructurePacket(rsp);
-        
+
         CsCsProtoStructurePacket<MainInstanceClose> mainInstanceClose = CsProtoResponse.MainInstanceClose;
         mainInstanceClose.Structure.LevelId = 1;
         mainInstanceClose.Structure.RoomId = 1;
@@ -32,9 +36,9 @@ public class LeaveInstanceReqHandler : CsProtoStructureHandler<LeaveInstanceReq>
         mainInstanceClose.Structure.TriggerNetId = 1;
         mainInstanceClose.Structure.RoleName = client.Character.Name;
         client.SendCsProtoStructurePacket(mainInstanceClose);
-        
+
         client.State.SelectRoleTrigger = false;
-        
+
         CsCsProtoStructurePacket<TownInstanceVerifyRsp> townServerInitNtf = CsProtoResponse.TownServerInitNtf;
         TownInstanceVerifyRsp verifyRsp = townServerInitNtf.Structure;
         verifyRsp.ErrNo = 0;
@@ -59,7 +63,6 @@ public class LeaveInstanceReqHandler : CsProtoStructureHandler<LeaveInstanceReq>
 
         string staticFolder = Path.Combine(Util.ExecutingDirectory(), "Files", "Static");
         string csvSpawnPointsPath = Path.Combine(staticFolder, "SpawnPoints.csv");
-        //int level = client.State.levelId;
         int level = instanceInitInfo.LevelId;
         using (TextFieldParser parser = new TextFieldParser(csvSpawnPointsPath))
         {
@@ -81,8 +84,6 @@ public class LeaveInstanceReqHandler : CsProtoStructureHandler<LeaveInstanceReq>
                     string pos = fields[3];
                     string rotate = fields[4];
 
-                    //Logger.Info($"warp point match found: ({levelId})({filename})({areaName})({name})");
-                    // Process the position (Pos) and rotation (Rotate) values
                     string[] posValues = pos.Split(',');
                     string[] rotateValues = rotate.Split(',');
 

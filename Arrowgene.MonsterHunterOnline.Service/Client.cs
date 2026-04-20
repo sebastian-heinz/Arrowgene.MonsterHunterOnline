@@ -62,6 +62,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         public void Close()
         {
+            State.StopBattleMonsterLoop();
             _socket.Close();
         }
 

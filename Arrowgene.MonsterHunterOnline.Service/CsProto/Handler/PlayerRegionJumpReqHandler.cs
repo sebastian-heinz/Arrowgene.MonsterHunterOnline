@@ -151,6 +151,7 @@ public class PlayerRegionJumpReqHandler : CsProtoStructureHandler<PlayerRegionJu
                         // Store spawn position so PlayerRegionJumpEndHandler can spawn the monster after the client finishes loading
                         if (triggerName.Contains("Cto") && !triggerName.Contains("_drama") && !triggerName.Contains("_Tip"))
                         {
+                            client.State.StopBattleMonsterLoop();
                             client.State.PendingMonsterSpawnPos = new CSVec3() { x = posX + 10f, y = posY + 10f, z = posZ };
                             client.State.PendingMonsterNetId = null;
                         }

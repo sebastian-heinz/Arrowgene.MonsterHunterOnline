@@ -2,6 +2,7 @@
 using Arrowgene.MonsterHunterOnline.Protocol.Constant;
 using Arrowgene.MonsterHunterOnline.Protocol.Old.Structures;
 using Arrowgene.MonsterHunterOnline.Protocol.Structures;
+using Arrowgene.MonsterHunterOnline.Service.CsProto;
 using Arrowgene.MonsterHunterOnline.Service.CsProto.Core;
 using Arrowgene.MonsterHunterOnline.Service.System;
 using System;
@@ -43,6 +44,7 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
             Logger.Info(client,
                 $"Receive CMD 534 for battle monster NetId=0x{netId:X8} Type={entityType}; sending runtime-verified CMD 663 count=1");
 
+            long syncTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             CSQuat monsterRot = new(1.0f, 0, 0, 0);
 
             MonsterAppearNtf monster = new()
@@ -61,7 +63,7 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
                 LastChildId = -1,
                 LcmState = new CSMonsterLocomotion
                 {
-                    SyncTime = 0,
+                    SyncTime = syncTime,
                     MonsterID = netId,
                     AnimSeqName = "Idle",
                     MonsterPos = spawnPos,
@@ -81,8 +83,22 @@ public class LoadEntityReqHandler : CsProtoStructureHandler<LoadEntityReq>
 
             client.SendCsProtoStructurePacket(monsterAppearList);
 
+            CSBTObjSimpleLocomotion locomotion = new()
+            {
+                EntityId = netId,
+                Position = new CSVec3(spawnPos.x, spawnPos.y, spawnPos.z),
+                Rotation = monsterRot,
+                TargetPos = new CSVec3(spawnPos.x, spawnPos.y, spawnPos.z),
+            };
+
+            Logger.Info(client,
+                $"Send CMD 730 BTObjSimpleLocomotion EntityId=0x{netId:X8} Pos={FormatVec(locomotion.Position)} Target={FormatVec(locomotion.TargetPos)}");
+
+            client.SendCsPacket(NewCsPacket.BTObjSimpleLocomotion(locomotion));
+
             client.State.PendingMonsterSpawnPos = null;
             client.State.PendingMonsterNetId = null;
+            client.State.StartBattleMonsterLoop(netId, spawnPos);
             return;
         }
 
