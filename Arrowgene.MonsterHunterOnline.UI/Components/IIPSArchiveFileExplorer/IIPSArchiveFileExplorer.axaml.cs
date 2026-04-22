@@ -10,6 +10,16 @@ using Arrowgene.MonsterHunterOnline.UI.Infrastructure;
 
 namespace Arrowgene.MonsterHunterOnline.UI.Components;
 
+public sealed class EditFileRequestEventArgs : EventArgs
+{
+    public EditFileRequestEventArgs(EditableFile file)
+    {
+        File = file;
+    }
+
+    public EditableFile File { get; }
+}
+
 public partial class IIPSArchiveFileExplorer : UserControl
 {
     public IIPSArchiveFileExplorer()
@@ -18,6 +28,7 @@ public partial class IIPSArchiveFileExplorer : UserControl
         IIPSArchiveFileExplorerViewModel vm = new IIPSArchiveFileExplorerViewModel();
         DataContext = vm;
         vm.PropertyChanged += OnViewModelPropertyChanged;
+        AddHandler(Avalonia.Input.InputElement.KeyDownEvent, OnSwfKeyDown, Avalonia.Interactivity.RoutingStrategies.Tunnel);
     }
 
     private IIPSArchiveFileExplorerViewModel ViewModel => (IIPSArchiveFileExplorerViewModel)DataContext!;
@@ -122,6 +133,163 @@ public partial class IIPSArchiveFileExplorer : UserControl
     private void SaveArchiveClick(object? sender, RoutedEventArgs e)
     {
         ViewModel.TrySaveArchive();
+    }
+
+    private void NavigateBackClick(object? sender, RoutedEventArgs e)
+    {
+        ViewModel.NavigateBackFromSwf();
+    }
+
+    private void BrowseSwfClick(object? sender, RoutedEventArgs e)
+    {
+        ViewModel.TryNavigateIntoSwf(ViewModel.SelectedNode);
+    }
+
+    private void EditFileClick(object? sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedNode == null)
+        {
+            return;
+        }
+
+        byte[]? data = ViewModel.ReadSelectedNodeBytes();
+        if (data == null)
+        {
+            return;
+        }
+
+        string filePath = ViewModel.SelectedNode.DisplayPath ?? ViewModel.SelectedNode.Name;
+        string ext = System.IO.Path.GetExtension(filePath);
+
+        ClientTools.MhoCryXmlFormat? xmlFormat = null;
+        if (string.Equals(ext, ".xml", System.StringComparison.OrdinalIgnoreCase) &&
+            ClientTools.MhoCryXmlCodec.IsCryXmlCodex(data))
+        {
+            xmlFormat = ClientTools.MhoCryXmlCodec.DetectFormat(data);
+        }
+
+        EditableFile file = new()
+        {
+            FileName = System.IO.Path.GetFileName(filePath),
+            ArchivePath = ViewModel.SelectedNode.SwfArchivePath ?? filePath,
+            Data = data,
+            XmlFormat = xmlFormat,
+            SwfTagIndex = ViewModel.SelectedNode.SwfTagIndex,
+        };
+
+        EditFileRequested?.Invoke(this, new EditFileRequestEventArgs(file));
+    }
+
+    public event EventHandler<EditFileRequestEventArgs>? EditFileRequested;
+
+    private void FileListDoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    {
+        ViewModel.TryNavigateIntoSwf(ViewModel.SelectedNode);
+    }
+
+    private void OnSwfKeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+    {
+        if (e.Key == Avalonia.Input.Key.Escape && ViewModel.IsInsideSwf)
+        {
+            ViewModel.NavigateBackFromSwf();
+            e.Handled = true;
+        }
+    }
+
+    private void HelpClick(object? sender, RoutedEventArgs e)
+    {
+        Window? owner = TopLevel.GetTopLevel(this) as Window;
+        if (owner == null)
+        {
+            return;
+        }
+
+        const string help = """
+            IIPS Archive Explorer
+            =====================
+
+            Opening Archives
+            -----------------
+            Use the toolbar to open a single .ifs archive, an IIPSFileList.lst
+            (merges all referenced archives), or a loose directory.
+
+            Browsing Files
+            ---------------
+            The file list shows all entries sorted by archive path.
+            Use the filter box to search by file name or path.
+            Select a file to view its metadata and preview.
+
+            Preview
+            --------
+            The preview panel shows content based on file type:
+              - Images: PNG, JPG, GIF, BMP, DDS, TIFF
+              - Text: TXT, JSON, XML (including CryXmlB), INI, CFG
+              - Lua: compiled Lua is decompiled automatically
+              - CSV/TSV: shown as a table
+              - DAT: MHO data tables with sheet tabs
+              - Hex: toggle with the hex button for any file
+
+            SWF Files
+            ----------
+            Select a .swf file and click "Browse SWF Contents" to
+            navigate inside. The SWF's assets are listed as files:
+
+              - First item is a rendered preview of the first frame
+              - Image tags (JPEG, lossless bitmaps) preview as images
+              - ABC bytecode, shapes, sprites show as hex
+              - All assets can be extracted and edited
+
+            Navigation:
+              - Click "Files" in the breadcrumb to go back
+              - Press Escape to go back
+              - Double-click a .swf to open it directly
+
+            File Editor
+            ------------
+            Select a text file and click "Edit File" to open it in the
+            File Editor tab. Supported file types:
+              - Text: TXT, JSON, INI, CFG, CSV, AS (ActionScript)
+              - XML: plain, CryXmlB, and encrypted XML are decoded
+                     automatically and re-encrypted on save
+              - Lua: source .lua files
+
+            The editor opens files in tabs. Each tab shows:
+              - The full archive path
+              - A monospace text editor
+              - A Save button (enabled when modified)
+              - Tab header shows * when unsaved changes exist
+
+            Saving edits:
+              1. Edit the file content in the editor
+              2. Click Save on the editor tab
+              3. Changes are written to the archive in memory
+              4. Return to the Archive Explorer and click Save
+                 (toolbar) to write the .ifs file to disk
+
+            Files inside SWF archives are also editable. The save
+            flow automatically rebuilds the SWF container with the
+            modified tag and writes it back to the IIPS archive.
+
+            Encrypted XML files are re-encrypted in the original
+            format when saved. CryXmlB files are saved as plain XML.
+
+            Extracting
+            -----------
+            "Extract" saves the selected file or folder to disk.
+            "Extract All" saves every entry in the archive.
+
+            Editing Archive (single archive mode)
+            --------------------------------------
+            Add:     insert a new file into the archive
+            Modify:  replace the selected file's data
+            Remove:  delete entries from the archive
+            Save:    write changes back to the .ifs file
+
+            Changes are local until you press Save.
+            """;
+
+        HelpDialog dialog = new HelpDialog("Archive Explorer Help", help);
+        dialog.ShowDialog(owner);
     }
 
     private void ClearFilterClick(object? sender, RoutedEventArgs e)

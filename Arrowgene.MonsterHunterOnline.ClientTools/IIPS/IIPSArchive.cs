@@ -42,10 +42,13 @@ public sealed class IIPSArchive : IDisposable
         IIPSArchive archive = new IIPSArchive();
         archive.Metadata.FormatVersion = options.FormatVersion;
         archive.Metadata.SectorSizeShift = options.SectorSizeShift;
+        archive.Metadata.Md5PieceSize = options.Md5PieceSize;
+        archive.Metadata.RawChunkSize = options.RawChunkSize;
         return archive;
     }
 
     public string? SourcePath { get; private set; }
+    public bool HasPendingChanges { get; private set; }
     public IIPSArchiveMetadata Metadata { get; }
     public IReadOnlyList<IIPSArchiveEntry> Entries => _entries;
     public IReadOnlyList<string> ArchivePaths => _entries.Where(entry => !string.IsNullOrEmpty(entry.ArchivePath)).Select(entry => entry.ArchivePath!).ToList();
@@ -178,6 +181,34 @@ public sealed class IIPSArchive : IDisposable
         IIPSArchiveEntryRecord record = CreateMemoryRecord(normalizedPath, content, options);
         AddRecord(record);
         _lookup = null;
+        HasPendingChanges = true;
+        return _entries[record.Index];
+    }
+
+    public IIPSArchiveEntry MarkDeleted(string archivePath)
+    {
+        ThrowIfDisposed();
+        string normalizedPath = NormalizeAndValidatePath(archivePath);
+        if (_entriesByName.TryGetValue(normalizedPath, out IIPSArchiveEntry? existing) && existing != null)
+        {
+            Remove(existing);
+        }
+
+        IIPSArchiveEntryOptions options = new IIPSArchiveEntryOptions
+        {
+            StorageMode = IIPSArchiveStorageMode.SingleUnit,
+            Compress = false,
+            Encrypt = false,
+            UseFixedKey = false,
+        };
+
+        IIPSArchiveEntryRecord record = CreateMemoryRecord(normalizedPath, Array.Empty<byte>(), options);
+        record.Flags = (uint)IIPSArchiveEntryFlags.Exists
+                       | (uint)IIPSArchiveEntryFlags.SingleUnit
+                       | (uint)IIPSArchiveEntryFlags.DeleteMarker;
+        AddRecord(record);
+        _lookup = null;
+        HasPendingChanges = true;
         return _entries[record.Index];
     }
 
@@ -233,6 +264,7 @@ public sealed class IIPSArchive : IDisposable
         entry.Record.Flags = BuildBaseFlags(entry.Record.WriteOptions);
         entry.Record.Md5 = MD5.HashData(content);
         _lookup = null;
+        HasPendingChanges = true;
         return entry;
     }
 
@@ -281,6 +313,7 @@ public sealed class IIPSArchive : IDisposable
         _entries.RemoveAt(entryIndex);
         Reindex();
         _lookup = null;
+        HasPendingChanges = true;
         return true;
     }
 
@@ -288,6 +321,7 @@ public sealed class IIPSArchive : IDisposable
     {
         ThrowIfDisposed();
         IIPSArchiveWriter.Save(this, path, options ?? new IIPSArchiveSaveOptions());
+        HasPendingChanges = false;
     }
 
     public void Dispose()
@@ -320,6 +354,8 @@ public sealed class IIPSArchive : IDisposable
 
         Metadata.FormatVersion = metadata.FormatVersion;
         Metadata.SectorSizeShift = metadata.SectorSizeShift;
+        Metadata.Md5PieceSize = metadata.Md5PieceSize;
+        Metadata.RawChunkSize = metadata.RawChunkSize;
         Metadata.HeaderMd5 = metadata.HeaderMd5;
         Metadata.BetMd5 = metadata.BetMd5;
         Metadata.HetMd5 = metadata.HetMd5;
@@ -349,7 +385,7 @@ public sealed class IIPSArchive : IDisposable
             throw new InvalidOperationException("Archive is not backed by a readable source stream.");
         }
 
-        ulong storedLength = IIPSArchiveFormat.GetStoredLength(record);
+        ulong storedLength = IIPSArchiveFormat.GetPhysicalStoredLength(record, Metadata.SectorSize);
         if (storedLength == 0)
         {
             return Array.Empty<byte>();

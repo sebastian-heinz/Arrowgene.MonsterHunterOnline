@@ -38,6 +38,8 @@ internal static class IIPSArchiveReader
             {
                 FormatVersion = header.FormatVersion,
                 SectorSizeShift = header.SectorSizeShift,
+                Md5PieceSize = header.Md5PieceSize,
+                RawChunkSize = header.RawChunkSize,
                 HeaderMd5 = header.HeaderMd5,
                 BetMd5 = header.BetMd5,
                 HetMd5 = header.HetMd5,

@@ -32,6 +32,9 @@ public sealed class IIPSArchiveTreeNodeViewModel
     public bool IsFile => !IsDirectory;
     public IIPSArchiveEntry? Entry { get; }
     public long? FileSize { get; private init; }
+    public byte[]? InlineData { get; private init; }
+    public int? SwfTagIndex { get; private init; }
+    public string? SwfArchivePath { get; private init; }
     public ObservableCollection<IIPSArchiveTreeNodeViewModel> Children { get; }
     public string KindLabel => IsDirectory ? "DIR" : "FILE";
     public string DisplayPath => ArchivePath ?? OutputRelativePath;
@@ -54,6 +57,16 @@ public sealed class IIPSArchiveTreeNodeViewModel
     public static IIPSArchiveTreeNodeViewModel CreateFile(string name, string? archivePath, string outputRelativePath, long fileSize)
     {
         return new IIPSArchiveTreeNodeViewModel(name, archivePath, outputRelativePath, false, null) { FileSize = fileSize };
+    }
+
+    public static IIPSArchiveTreeNodeViewModel CreateFile(string name, string? archivePath, string outputRelativePath, byte[] inlineData)
+    {
+        return new IIPSArchiveTreeNodeViewModel(name, archivePath, outputRelativePath, false, null) { InlineData = inlineData, FileSize = inlineData.Length };
+    }
+
+    public static IIPSArchiveTreeNodeViewModel CreateSwfChild(string name, string? archivePath, string outputRelativePath, byte[] inlineData, string swfArchivePath, int swfTagIndex)
+    {
+        return new IIPSArchiveTreeNodeViewModel(name, archivePath, outputRelativePath, false, null) { InlineData = inlineData, FileSize = inlineData.Length, SwfArchivePath = swfArchivePath, SwfTagIndex = swfTagIndex };
     }
 
     public IIPSArchiveTreeNodeViewModel CloneSubtree()

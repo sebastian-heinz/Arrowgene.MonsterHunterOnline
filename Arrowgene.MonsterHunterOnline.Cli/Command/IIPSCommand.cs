@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Arrowgene.Logging;
@@ -113,8 +114,99 @@ namespace Arrowgene.MonsterHunterOnline.Cli.Command
                 return CommandResultType.Completed;
             }
 
+            if (parameter.Arguments.Count == 3 && parameter.Arguments[0] == "dump-sections")
+            {
+                string inPath = parameter.Arguments[1];
+                string outPrefix = parameter.Arguments[2];
+                byte[] raw = File.ReadAllBytes(inPath);
+                ulong hetOff = BitConverter.ToUInt64(raw, 0x1c);
+                ulong hetLen = BitConverter.ToUInt64(raw, 0x34);
+                ulong betOff = BitConverter.ToUInt64(raw, 0x14);
+                ulong betLen = BitConverter.ToUInt64(raw, 0x3c);
+                byte[] het = new byte[hetLen - 12];
+                Array.Copy(raw, (long)hetOff + 12, het, 0, het.Length);
+                IIPSArchiveCrypto.IfsSectionDecrypt(het);
+                File.WriteAllBytes(outPrefix + ".het.dec", het);
+                byte[] bet = new byte[betLen - 12];
+                Array.Copy(raw, (long)betOff + 12, bet, 0, bet.Length);
+                IIPSArchiveCrypto.IfsSectionDecrypt(bet);
+                File.WriteAllBytes(outPrefix + ".bet.dec", bet);
+                Logger.Info($"Wrote {outPrefix}.het.dec ({het.Length}B) and {outPrefix}.bet.dec ({bet.Length}B)");
+                return CommandResultType.Completed;
+            }
+
+            if (parameter.Arguments.Count == 2 && parameter.Arguments[0] == "dump")
+            {
+                string inPath = parameter.Arguments[1];
+                using IIPSArchive archive = IIPSArchive.Open(inPath);
+                Logger.Info($"Entries in {inPath}:");
+                foreach (var e in archive.Entries)
+                {
+                    Logger.Info($"  [{e.Index}] pos=0x{e.FileOffset:X6} path={e.ArchivePath ?? "(null)"} size={e.Length} stored={e.StoredLength} flags=0x{(uint)e.Flags:X8} md5={e.Md5}");
+                }
+                return CommandResultType.Completed;
+            }
+
+            if (parameter.Arguments.Count == 3 && parameter.Arguments[0] == "resave")
+            {
+                string inPath = parameter.Arguments[1];
+                string outPath = parameter.Arguments[2];
+                using IIPSArchive archive = IIPSArchive.Open(inPath);
+                archive.Save(outPath, new IIPSArchiveSaveOptions { IncludeListFile = false, PreserveUnchangedEntries = true });
+                Logger.Info($"Resaved {inPath} -> {outPath}");
+                return CommandResultType.Completed;
+            }
+
+            if (parameter.Arguments.Count >= 3 && parameter.Arguments[0] == "patch-del")
+            {
+                string outPath = parameter.Arguments[1];
+                IEnumerable<string> targets = parameter.Arguments.Skip(2);
+
+                using IIPSArchive archive = IIPSArchive.CreateNew();
+                foreach (string target in targets)
+                {
+                    IIPSArchiveEntry entry = archive.MarkDeleted(target);
+                    Logger.Info($"Marked deleted: {entry.ArchivePath} (flags=0x{(uint)entry.Flags:X8})");
+                }
+
+                archive.Save(outPath);
+                Logger.Info($"Wrote patch archive: {outPath}");
+                return CommandResultType.Completed;
+            }
+
+            if (parameter.Arguments.Count >= 4 && (parameter.Arguments.Count - 2) % 2 == 0 && parameter.Arguments[0] == "patch-replace")
+            {
+                string outPath = parameter.Arguments[1];
+                using IIPSArchive archive = IIPSArchive.CreateNew();
+                for (int i = 2; i + 1 < parameter.Arguments.Count; i += 2)
+                {
+                    string archivePath = parameter.Arguments[i];
+                    string sourceFile = parameter.Arguments[i + 1];
+                    if (!File.Exists(sourceFile))
+                    {
+                        Logger.Error($"Source file not found: {sourceFile}");
+                        return CommandResultType.Completed;
+                    }
+
+                    byte[] content = File.ReadAllBytes(sourceFile);
+                    IIPSArchiveEntry entry = archive.Add(archivePath, content, new IIPSArchiveEntryOptions
+                    {
+                        StorageMode = IIPSArchiveStorageMode.SingleUnit,
+                        Compress = false,
+                        Encrypt = false,
+                    });
+                    Logger.Info($"Added: {entry.ArchivePath} ({content.Length} bytes from {sourceFile})");
+                }
+
+                archive.Save(outPath);
+                Logger.Info($"Wrote patch archive: {outPath}");
+                return CommandResultType.Completed;
+            }
+
             Logger.Info("Usage: iips dat <inDir> <outDir>");
             Logger.Info("Usage: iips ifs <inDir> [outDir]");
+            Logger.Info("Usage: iips patch-del <outPath.ifs> <archivePath> [archivePath...]");
+            Logger.Info("Usage: iips patch-replace <outPath.ifs> <archivePath> <sourceFile> [<archivePath> <sourceFile>...]");
 
             return CommandResultType.Completed;
         }

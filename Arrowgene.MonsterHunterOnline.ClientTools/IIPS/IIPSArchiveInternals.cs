@@ -40,6 +40,19 @@ internal static class IIPSArchiveFormat
         return record.CompressedSize == 0 ? record.FileSize : record.CompressedSize;
     }
 
+    public static ulong GetPhysicalStoredLength(IIPSArchiveEntryRecord record, uint sectorSize)
+    {
+        ulong baseLen = record.CompressedSize == 0 ? record.FileSize : record.CompressedSize;
+        bool singleUnit = (record.Flags & (uint)IIPSArchiveEntryFlags.SingleUnit) != 0;
+        if (singleUnit || record.FileSize == 0 || sectorSize == 0)
+        {
+            return baseLen;
+        }
+
+        ulong numSectors = (record.FileSize + sectorSize - 1) / sectorSize;
+        return baseLen + numSectors * 16;
+    }
+
     public static byte[] Decompress(byte[] compressed, int expectedSize, ILogger logger)
     {
         if (compressed.Length == 0)

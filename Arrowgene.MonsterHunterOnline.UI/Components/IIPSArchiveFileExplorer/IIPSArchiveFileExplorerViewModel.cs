@@ -11,6 +11,7 @@ using Arrowgene.Lua.Decompiler.Parse;
 using Arrowgene.MonsterHunterOnline.ClientTools;
 using Arrowgene.MonsterHunterOnline.ClientTools.Dat;
 using Arrowgene.MonsterHunterOnline.ClientTools.FileProvider;
+using Arrowgene.MonsterHunterOnline.ClientTools.Flash;
 using Arrowgene.MonsterHunterOnline.ClientTools.IIPS;
 using Arrowgene.MonsterHunterOnline.UI.Infrastructure;
 using Arrowgene.MonsterHunterOnline.UI.ViewModels;
@@ -36,7 +37,7 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
     };
     private static readonly HashSet<string> PreviewableTextExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
-        ".txt", ".json", ".xml", ".ini", ".cfg", ".lua"
+        ".txt", ".json", ".xml", ".ini", ".cfg", ".lua", ".as"
     };
     private static readonly UTF8Encoding Utf8Strict = new(false, true);
     private static readonly UnicodeEncoding Utf16LeStrict = new(false, false, true);
@@ -102,6 +103,15 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
     private bool _userToggledHex;
     private byte[]? _currentPreviewData;
     private long _currentPreviewLength;
+    private bool _isInsideSwf;
+    private bool _canBrowseSwf;
+    private bool _canEditFile;
+    private string _swfBreadcrumb = string.Empty;
+    private IReadOnlyList<IIPSArchiveTreeNodeViewModel>? _savedAllFileNodes;
+    private ObservableCollection<IIPSArchiveTreeNodeViewModel>? _savedRootNodes;
+    private string? _savedFilterText;
+    private string? _savedFilterSummary;
+    private string? _savedSelectionPath;
 
     public string ArchiveFileName
     {
@@ -231,6 +241,30 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
     {
         get => _canSaveArchive;
         private set => SetProperty(ref _canSaveArchive, value);
+    }
+
+    public bool IsInsideSwf
+    {
+        get => _isInsideSwf;
+        private set => SetProperty(ref _isInsideSwf, value);
+    }
+
+    public string SwfBreadcrumb
+    {
+        get => _swfBreadcrumb;
+        private set => SetProperty(ref _swfBreadcrumb, value);
+    }
+
+    public bool CanBrowseSwf
+    {
+        get => _canBrowseSwf;
+        private set => SetProperty(ref _canBrowseSwf, value);
+    }
+
+    public bool CanEditFile
+    {
+        get => _canEditFile;
+        private set => SetProperty(ref _canEditFile, value);
     }
 
     public ObservableCollection<IIPSArchiveTreeNodeViewModel> RootNodes
@@ -551,7 +585,7 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
 
     public bool TryExtractSelection(string outputDirectory)
     {
-        if (_archive == null)
+        if (!HasArchive)
         {
             StatusText = "Open an archive before extracting.";
             return false;
@@ -568,7 +602,8 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
             int extractedFiles = 0;
             foreach (IIPSArchiveTreeNodeViewModel fileNode in SelectedNode.EnumerateFileNodes())
             {
-                if (fileNode.Entry == null || !fileNode.Entry.Exists || fileNode.Entry.Length == 0)
+                byte[]? data = ReadNodeBytes(fileNode);
+                if (data == null || data.Length == 0)
                 {
                     continue;
                 }
@@ -580,7 +615,7 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
                     Directory.CreateDirectory(directory);
                 }
 
-                File.WriteAllBytes(outputPath, fileNode.Entry.ReadAllBytes());
+                File.WriteAllBytes(outputPath, data);
                 extractedFiles++;
             }
 
@@ -701,26 +736,371 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
 
     public bool TrySaveArchive()
     {
-        if (_archive == null)
+        if (_archive != null)
         {
-            StatusText = "Open an archive before saving.";
+            try
+            {
+                string? selectionPath = SelectedNode?.DisplayPath;
+                _archive.Save(ArchiveFilePath);
+                HasUnsavedChanges = false;
+                RebuildTree(selectionPath);
+                StatusText = $"Saved archive to {ArchiveFilePath}.";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StatusText = $"Failed to save archive: {ex.Message}";
+                return false;
+            }
+        }
+
+        if (_unifiedArchive != null)
+        {
+            try
+            {
+                int saved = 0;
+                foreach (IIPSArchive childArchive in _unifiedArchive.Archives)
+                {
+                    if (!childArchive.HasPendingChanges || childArchive.SourcePath == null)
+                    {
+                        continue;
+                    }
+
+                    childArchive.Save(childArchive.SourcePath);
+                    saved++;
+                }
+
+                if (saved == 0)
+                {
+                    StatusText = "No archives had pending changes.";
+                    return false;
+                }
+
+                HasUnsavedChanges = false;
+                StatusText = $"Saved {saved} modified archive(s).";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                StatusText = $"Failed to save: {ex.Message}";
+                return false;
+            }
+        }
+
+        StatusText = "Open an archive before saving.";
+        return false;
+    }
+
+    public bool TryUpdateFileByPath(string archivePath, byte[] newData)
+    {
+        IIPSArchiveEntry? entry = FindEntryByPath(archivePath);
+        if (entry == null)
+        {
+            StatusText = $"Entry not found: {Path.GetFileName(archivePath)}";
             return false;
         }
 
         try
         {
-            string? selectionPath = SelectedNode?.DisplayPath;
-            _archive.Save(ArchiveFilePath);
-            HasUnsavedChanges = false;
-            RebuildTree(selectionPath);
-            StatusText = $"Saved archive to {ArchiveFilePath}.";
+            entry.Archive.Modify(entry, newData);
+            HasUnsavedChanges = true;
+            CanSaveArchive = true;
+            string archiveName = entry.Archive.SourcePath != null ? Path.GetFileName(entry.Archive.SourcePath) : "archive";
+            StatusText = $"Updated {Path.GetFileName(archivePath)} in {archiveName} (unsaved).";
             return true;
         }
         catch (Exception ex)
         {
-            StatusText = $"Failed to save archive: {ex.Message}";
+            StatusText = $"Failed to update {Path.GetFileName(archivePath)}: {ex.Message}";
             return false;
         }
+    }
+
+    public bool TryUpdateSwfTag(string swfArchivePath, int tagIndex, byte[] newTagData)
+    {
+        IIPSArchiveEntry? swfEntry = FindEntryByPath(swfArchivePath);
+        if (swfEntry == null)
+        {
+            StatusText = $"SWF entry not found: {Path.GetFileName(swfArchivePath)}";
+            return false;
+        }
+
+        try
+        {
+            byte[] swfBytes = swfEntry.ReadAllBytes();
+            SwfFile swf = SwfFile.Open(swfBytes, Path.GetFileName(swfArchivePath));
+            swf.ReplaceTagData(tagIndex, newTagData);
+            byte[] rebuilt = swf.Build(ClientTools.Flash.SwfCompression.Zlib);
+            swfEntry.Archive.Modify(swfEntry, rebuilt);
+            HasUnsavedChanges = true;
+            CanSaveArchive = true;
+            string archiveName = swfEntry.Archive.SourcePath != null ? Path.GetFileName(swfEntry.Archive.SourcePath) : "archive";
+            StatusText = $"Updated tag {tagIndex} in {Path.GetFileName(swfArchivePath)} ({archiveName}, unsaved).";
+            return true;
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Failed to update SWF tag: {ex.Message}";
+            return false;
+        }
+    }
+
+    private IIPSArchiveEntry? FindEntryByPath(string archivePath)
+    {
+        if (_archive != null && _archive.TryGetEntry(archivePath, out IIPSArchiveEntry? entry) && entry != null)
+        {
+            return entry;
+        }
+
+        if (_unifiedArchive != null)
+        {
+            return _unifiedArchive.MergedEntries
+                .FirstOrDefault(e => string.Equals(e.ArchivePath, archivePath, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return null;
+    }
+
+    public byte[]? ReadSelectedNodeBytes()
+    {
+        return SelectedNode == null ? null : ReadNodeBytes(SelectedNode);
+    }
+
+    private static readonly HashSet<string> EditableTextExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".txt", ".xml", ".json", ".ini", ".cfg", ".lua", ".csv", ".as"
+    };
+
+    private static bool IsEditableExtension(string extension)
+    {
+        return EditableTextExtensions.Contains(extension);
+    }
+
+    public bool TryNavigateIntoSwf(IIPSArchiveTreeNodeViewModel? node)
+    {
+        if (node == null || node.IsDirectory)
+        {
+            return false;
+        }
+
+        string extension = Path.GetExtension(node.DisplayPath ?? node.Name);
+        if (!string.Equals(extension, ".swf", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        byte[]? swfBytes = ReadNodeBytes(node);
+        if (swfBytes == null || swfBytes.Length < 8)
+        {
+            return false;
+        }
+
+        try
+        {
+            SwfFile swf = SwfFile.Open(swfBytes, node.Name);
+            List<IIPSArchiveTreeNodeViewModel> tagNodes = BuildSwfTagNodes(swf, node.DisplayPath ?? node.Name);
+
+            _savedAllFileNodes = _allFileNodes;
+            _savedRootNodes = RootNodes;
+            _savedFilterText = FilterText;
+            _savedFilterSummary = FilterSummaryText;
+            _savedSelectionPath = node.DisplayPath;
+
+            _allFileNodes = tagNodes;
+            SetFilterTextSilently(string.Empty);
+            RootNodes = new ObservableCollection<IIPSArchiveTreeNodeViewModel>(tagNodes);
+            HasVisibleNodes = tagNodes.Count > 0;
+            FilterSummaryText = $"{tagNodes.Count} asset(s) in SWF";
+            TreeEmptyStateText = "This SWF has no extractable assets.";
+            IsInsideSwf = true;
+            SwfBreadcrumb = node.Name;
+            SelectedNode = null;
+            StatusText = $"Opened SWF: {node.Name} — {swf.Tags.Count} tags, {tagNodes.Count} assets.";
+            return true;
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Failed to open SWF: {ex.Message}";
+            return false;
+        }
+    }
+
+    public void NavigateBackFromSwf()
+    {
+        if (!IsInsideSwf || _savedRootNodes == null || _savedAllFileNodes == null)
+        {
+            return;
+        }
+
+        _allFileNodes = _savedAllFileNodes;
+        RootNodes = _savedRootNodes;
+        FilterSummaryText = _savedFilterSummary ?? string.Empty;
+        SetFilterTextSilently(_savedFilterText ?? string.Empty);
+        IsInsideSwf = false;
+        SwfBreadcrumb = string.Empty;
+        HasVisibleNodes = RootNodes.Count > 0;
+        StatusText = $"Returned to archive.";
+
+        SelectedNode = string.IsNullOrWhiteSpace(_savedSelectionPath)
+            ? null
+            : FindNodeByDisplayPath(RootNodes, _savedSelectionPath);
+
+        _savedAllFileNodes = null;
+        _savedRootNodes = null;
+        _savedFilterText = null;
+        _savedFilterSummary = null;
+        _savedSelectionPath = null;
+    }
+
+    private static List<IIPSArchiveTreeNodeViewModel> BuildSwfTagNodes(SwfFile swf, string parentPath)
+    {
+        List<IIPSArchiveTreeNodeViewModel> nodes = [];
+
+        byte[]? renderedFrame = SwfSceneRenderer.RenderFirstFrame(swf);
+        if (renderedFrame != null && renderedFrame.Length > 0)
+        {
+            string framePath = $"{parentPath}\\_rendered_frame.png";
+            nodes.Add(IIPSArchiveTreeNodeViewModel.CreateFile("_rendered_frame.png", framePath, framePath, renderedFrame));
+        }
+
+        foreach (SwfTag tag in swf.Tags)
+        {
+            if (tag.Code == 0 || tag.Code == 1 || tag.Length == 0)
+            {
+                continue;
+            }
+
+            // Expand DoABC tags into individual class nodes
+            if (tag.Code == 82)
+            {
+                ExpandDoAbcTag(tag, parentPath, nodes);
+                continue;
+            }
+
+            string stem = $"{tag.Index:D4}_{tag.Name}";
+            if (tag.CharacterId.HasValue)
+            {
+                stem += $"_{tag.CharacterId.Value:D5}";
+            }
+
+            string? assetName = tag.ExportName ?? tag.SymbolClassName;
+            if (!string.IsNullOrWhiteSpace(assetName))
+            {
+                stem += $"_{assetName}";
+            }
+
+            byte[]? assetData = ExtractSwfTagAsset(tag);
+            if (assetData == null)
+            {
+                continue;
+            }
+
+            string ext = DetectSwfAssetExtension(tag, assetData);
+            string fileName = stem + ext;
+            string filePath = $"{parentPath}\\{fileName}";
+            nodes.Add(IIPSArchiveTreeNodeViewModel.CreateSwfChild(fileName, filePath, filePath, assetData, parentPath, tag.Index));
+        }
+
+        return nodes;
+    }
+
+    private static void ExpandDoAbcTag(SwfTag tag, string parentPath, List<IIPSArchiveTreeNodeViewModel> nodes)
+    {
+        byte[] tagData = tag.Data.ToArray();
+        List<string> classNames = ClientTools.Flash.AbcReader.ReadClassNamesFromDoAbcTag(tagData);
+
+        if (classNames.Count == 0)
+        {
+            // Fallback: show the raw ABC tag
+            string fileName = $"{tag.Index:D4}_DoABC.abc";
+            string filePath = $"{parentPath}\\{fileName}";
+            nodes.Add(IIPSArchiveTreeNodeViewModel.CreateSwfChild(fileName, filePath, filePath, tagData, parentPath, tag.Index));
+            return;
+        }
+
+        foreach (string className in classNames)
+        {
+            // Convert package.ClassName to path: package/ClassName.as
+            string asPath = className.Replace('.', '/');
+            string fileName = $"{asPath}.as";
+            string filePath = $"{parentPath}\\scripts\\{fileName}";
+
+            // Each class node references the same DoABC tag (tag.Index)
+            // The data is the full ABC blob — individual class extraction isn't practical
+            nodes.Add(IIPSArchiveTreeNodeViewModel.CreateSwfChild(
+                fileName, filePath, filePath, tagData, parentPath, tag.Index));
+        }
+    }
+
+    private static byte[]? ExtractSwfTagAsset(SwfTag tag)
+    {
+        ReadOnlySpan<byte> data = tag.Data.Span;
+
+        switch (tag.Code)
+        {
+            case 21: // DefineBitsJPEG2
+            {
+                if (data.Length < 4) return null;
+                return data[2..].ToArray();
+            }
+            case 35: // DefineBitsJPEG3
+            {
+                if (data.Length < 6) return null;
+                uint alphaOffset = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(data[2..]);
+                if (alphaOffset == 0 || 6 + alphaOffset > (uint)data.Length) return data[6..].ToArray();
+                return data.Slice(6, (int)alphaOffset).ToArray();
+            }
+            case 90: // DefineBitsJPEG4
+            {
+                if (data.Length < 8) return null;
+                uint alphaOffset = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(data[2..]);
+                int imageStart = 8; // skip characterId(2) + alphaOffset(4) + deblock(2)
+                if (alphaOffset == 0) return data[imageStart..].ToArray();
+                return data.Slice(imageStart, (int)alphaOffset).ToArray();
+            }
+            case 20: // DefineBitsLossless
+            case 36: // DefineBitsLossless2
+            case 82: // DoABC
+            case 87: // DefineBinaryData
+            {
+                return data.ToArray();
+            }
+            default:
+            {
+                if (data.Length > 0)
+                {
+                    return data.ToArray();
+                }
+                return null;
+            }
+        }
+    }
+
+    private static string DetectSwfAssetExtension(SwfTag tag, byte[] data)
+    {
+        return tag.Code switch
+        {
+            21 or 35 or 90 => DetectImageExtension(data),
+            20 or 36 => ".lossless.bin",
+            82 => ".abc",
+            87 => data.Length > 6 ? DetectImageExtension(data.AsSpan(6)) : ".bin",
+            2 or 22 or 32 or 83 => ".shape.bin",
+            39 => ".sprite.bin",
+            10 or 48 or 75 => ".font.bin",
+            14 => ".sound.bin",
+            _ => ".bin",
+        };
+    }
+
+    private static string DetectImageExtension(ReadOnlySpan<byte> data)
+    {
+        if (data.Length >= 8 && data[0] == 0x89 && data[1] == 0x50 && data[2] == 0x4E && data[3] == 0x47)
+            return ".png";
+        if (data.Length >= 3 && data[0] == 0xFF && data[1] == 0xD8 && data[2] == 0xFF)
+            return ".jpg";
+        if (data.Length >= 4 && data[0] == (byte)'G' && data[1] == (byte)'I' && data[2] == (byte)'F')
+            return ".gif";
+        return ".bin";
     }
 
     public void Dispose()
@@ -982,6 +1362,11 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
 
     private byte[]? ReadNodeBytes(IIPSArchiveTreeNodeViewModel node)
     {
+        if (node.InlineData != null)
+        {
+            return node.InlineData;
+        }
+
         if (node.Entry != null)
         {
             return node.Entry.ReadAllBytes();
@@ -1058,6 +1443,11 @@ public sealed class IIPSArchiveFileExplorerViewModel : ViewModelBase, IDisposabl
         CanModifySelection = HasArchive && node?.Entry != null;
         CanRemoveSelection = HasArchive && node != null && node.EnumerateFileNodes().Any(static fileNode => fileNode.Entry != null);
         CanSaveArchive = HasArchive && HasUnsavedChanges;
+        CanBrowseSwf = HasArchive && !IsInsideSwf && node != null && !node.IsDirectory &&
+            string.Equals(Path.GetExtension(node.DisplayPath ?? node.Name), ".swf", StringComparison.OrdinalIgnoreCase);
+
+        string? editExt = node != null && !node.IsDirectory ? Path.GetExtension(node.DisplayPath ?? node.Name) : null;
+        CanEditFile = HasArchive && editExt != null && IsEditableExtension(editExt);
 
         if (node == null)
         {

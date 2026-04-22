@@ -12,21 +12,11 @@
     </Design.DataContext>
 
     <UserControl.Resources>
-        <!-- Core palette -->
-        <SolidColorBrush x:Key="FgPrimary" Color="#0F172A" />
-        <SolidColorBrush x:Key="FgSecondary" Color="#334155" />
-        <SolidColorBrush x:Key="FgMuted" Color="#667085" />
-        <SolidColorBrush x:Key="FgOnDark" Color="#F9FAFB" />
-        <SolidColorBrush x:Key="BgPage" Color="#F2F1EC" />
+        <!-- Local aliases for shared theme keys -->
         <SolidColorBrush x:Key="BgPane" Color="#F8F7F4" />
-        <SolidColorBrush x:Key="BgSurface" Color="#FFFFFF" />
         <SolidColorBrush x:Key="BgSurfaceAlt" Color="#ECE9E2" />
         <SolidColorBrush x:Key="BgBar" Color="#E8E5DE" />
-        <SolidColorBrush x:Key="BgDark" Color="#111827" />
-        <SolidColorBrush x:Key="BgInput" Color="#1F2937" />
-        <SolidColorBrush x:Key="BorderDefault" Color="#D7D3CC" />
         <SolidColorBrush x:Key="BorderSubtle" Color="#E2E8F0" />
-        <SolidColorBrush x:Key="BorderDark" Color="#374151" />
         <SolidColorBrush x:Key="Splitter" Color="#DDD9D1" />
 
         <!-- Tag row palettes – warm-shifted to match the neutral theme -->
@@ -126,21 +116,20 @@
         <Style Selector="Button.toggle-view">
             <Setter Property="Padding" Value="12,5" />
             <Setter Property="MinHeight" Value="0" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="CornerRadius" Value="6" />
-            <Setter Property="Background" Value="{StaticResource BgDark}" />
-            <Setter Property="Foreground" Value="{StaticResource FgOnDark}" />
             <Setter Property="Cursor" Value="Hand" />
         </Style>
         <Style Selector="Button.toggle-view /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{StaticResource BgDark}" />
+            <Setter Property="Background" Value="{DynamicResource BgPill}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}" />
             <Setter Property="CornerRadius" Value="6" />
         </Style>
         <Style Selector="Button.toggle-view:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#1F2937" />
+            <Setter Property="Background" Value="{DynamicResource BorderDefault}" />
         </Style>
         <Style Selector="Button.toggle-view:pressed /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="#374151" />
+            <Setter Property="Background" Value="{DynamicResource BorderSplitter}" />
         </Style>
 
         <!-- ─── Tag row classes (list items) ─── -->
@@ -365,7 +354,7 @@
                                     <TextBlock Text="{Binding IsGraphView, Converter={x:Static local:QuestViewer.ViewToggleLabelConverter}}"
                                                FontSize="11"
                                                FontWeight="SemiBold"
-                                               Foreground="{StaticResource FgOnDark}" />
+                                               Foreground="{StaticResource FgSecondary}" />
                                 </Button>
                             </Grid>
                         </Border>

@@ -46,14 +46,14 @@ namespace Arrowgene.MonsterHunterOnline.Protocol.Old.Structures
         }
 
         /// <summary>
-        /// 处理总时间
+        /// 处理总时间 (TDR ulong = unsigned long = 4 bytes on 32-bit)
         /// </summary>
-        public ulong TotalTime;
+        public uint TotalTime;
 
         /// <summary>
         /// 处理最大花费时间
         /// </summary>
-        public ulong MaxTime;
+        public uint MaxTime;
 
         /// <summary>
         /// 处理包量
@@ -62,15 +62,15 @@ namespace Arrowgene.MonsterHunterOnline.Protocol.Old.Structures
 
         public void WriteCs(IBuffer buffer)
         {
-            buffer.WriteUInt64(TotalTime, Endianness.Big);
-            buffer.WriteUInt64(MaxTime, Endianness.Big);
+            buffer.WriteUInt32(TotalTime, Endianness.Big);
+            buffer.WriteUInt32(MaxTime, Endianness.Big);
             buffer.WriteInt32(PkgCount, Endianness.Big);
         }
 
         public void ReadCs(IBuffer buffer)
         {
-            TotalTime = buffer.ReadUInt64(Endianness.Big);
-            MaxTime = buffer.ReadUInt64(Endianness.Big);
+            TotalTime = buffer.ReadUInt32(Endianness.Big);
+            MaxTime = buffer.ReadUInt32(Endianness.Big);
             PkgCount = buffer.ReadInt32(Endianness.Big);
         }
 

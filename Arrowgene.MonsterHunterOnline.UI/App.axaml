@@ -5,12 +5,57 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <!-- ── Theme palette ── -->
+        <!-- Foreground -->
+        <SolidColorBrush x:Key="FgPrimary" Color="#0F172A" />
+        <SolidColorBrush x:Key="FgSecondary" Color="#334155" />
+        <SolidColorBrush x:Key="FgTertiary" Color="#475569" />
+        <SolidColorBrush x:Key="FgMuted" Color="#64748B" />
+        <SolidColorBrush x:Key="FgSubtle" Color="#94A3B8" />
+        <SolidColorBrush x:Key="FgOnDark" Color="#F9FAFB" />
+        <SolidColorBrush x:Key="FgOnDarkMuted" Color="#9CA3AF" />
+        <!-- Background -->
+        <SolidColorBrush x:Key="BgPage" Color="#F2F1EC" />
+        <SolidColorBrush x:Key="BgSurface" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="BgSurfaceHover" Color="#F8F7F4" />
+        <SolidColorBrush x:Key="BgSubtle" Color="#E8E5DE" />
+        <SolidColorBrush x:Key="BgPill" Color="#ECE9E2" />
+        <SolidColorBrush x:Key="BgDark" Color="#111827" />
+        <SolidColorBrush x:Key="BgDarkBorder" Color="#374151" />
+        <!-- Border -->
+        <SolidColorBrush x:Key="BorderDefault" Color="#D7D3CC" />
+        <SolidColorBrush x:Key="BorderSplitter" Color="#DDD9D1" />
+        <!-- Accent -->
+        <SolidColorBrush x:Key="AccentLink" Color="#6366F1" />
+        <SolidColorBrush x:Key="AccentActionBg" Color="#ECE9E2" />
+        <SolidColorBrush x:Key="AccentActionFg" Color="#334155" />
+        <SolidColorBrush x:Key="AccentActionBorder" Color="#D7D3CC" />
+        <!-- Status -->
+        <SolidColorBrush x:Key="StatusWarningFg" Color="#FBBF24" />
+        <SolidColorBrush x:Key="StatusModifiedBg" Color="#C2410C" />
+        <SolidColorBrush x:Key="StatusModifiedFg" Color="#FFF7ED" />
+    </Application.Resources>
+
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+        <!-- ── Global action button style ── -->
+        <Style Selector="Button.action-btn /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource BgPill}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+        <Style Selector="Button.action-btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource BorderDefault}" />
+        </Style>
+        <Style Selector="Button.action-btn:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource BorderSplitter}" />
+        </Style>
     </Application.Styles>
 </Application>

@@ -155,6 +155,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _csProtoPacketHandler.AddHandler(new ReloadAmmoReqHandler());
             _csProtoPacketHandler.AddHandler(new ReselectRoleReqHandler(CharacterManager));
             _csProtoPacketHandler.AddHandler(new SelectRoleHandler(CharacterManager, ItemManager, Database));
+            _csProtoPacketHandler.AddHandler(new SessionTssTimeNtfHandler());
             _csProtoPacketHandler.AddHandler(new ServerActorFifoSyncAckHandler());
             _csProtoPacketHandler.AddHandler(new SkillEffectSyncHandler());
             _csProtoPacketHandler.AddHandler(new TeamPushVecNtfHandler());

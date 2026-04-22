@@ -25,6 +25,40 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        IIPSExplorer.EditFileRequested += OnEditFileRequested;
+        FileEditorControl.SaveFileRequested += OnSaveFileRequested;
+    }
+
+    private void OnEditFileRequested(object? sender, EditFileRequestEventArgs e)
+    {
+        FileEditorControl.OpenFile(e.File);
+        MainTabs.SelectedIndex = 1; // File Editor tab
+    }
+
+    private void OnSaveFileRequested(object? sender, SaveFileRequestEventArgs e)
+    {
+        if (IIPSExplorer.DataContext is not IIPSArchiveFileExplorerViewModel explorerVm)
+        {
+            return;
+        }
+
+        bool success = e.File.IsInsideSwf
+            ? explorerVm.TryUpdateSwfTag(e.File.ArchivePath, e.File.SwfTagIndex!.Value, e.Data)
+            : explorerVm.TryUpdateFileByPath(e.File.ArchivePath, e.Data);
+
+        if (!success)
+        {
+            return;
+        }
+
+        foreach (EditorTabViewModel tab in FileEditorControl.ViewModel.Tabs)
+        {
+            if (tab.File == e.File)
+            {
+                FileEditorControl.MarkTabSaved(tab);
+                break;
+            }
+        }
     }
 
     private MainWindowViewModel Vm => (MainWindowViewModel)DataContext!;

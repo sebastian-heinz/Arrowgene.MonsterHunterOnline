@@ -19,16 +19,18 @@ public sealed class SwfFile
     private readonly Dictionary<ushort, string> _symbolClassNames;
     private readonly byte[] _uncompressedBytes;
     private readonly List<SwfTag> _tags;
+    private readonly int _tagStartOffset;
 
     private SwfFile(string sourcePath, byte version, uint declaredFileLength, SwfCompression compression,
-        byte[] uncompressedBytes, SwfRect frameSize, float frameRate, ushort frameCount, List<SwfTag> tags,
-        Dictionary<ushort, string> exportNames, Dictionary<ushort, string> symbolClassNames)
+        byte[] uncompressedBytes, int tagStartOffset, SwfRect frameSize, float frameRate, ushort frameCount,
+        List<SwfTag> tags, Dictionary<ushort, string> exportNames, Dictionary<ushort, string> symbolClassNames)
     {
         SourcePath = sourcePath;
         Version = version;
         DeclaredFileLength = declaredFileLength;
         Compression = compression;
         _uncompressedBytes = uncompressedBytes;
+        _tagStartOffset = tagStartOffset;
         FrameSize = frameSize;
         FrameRate = frameRate;
         FrameCount = frameCount;
@@ -96,6 +98,145 @@ public sealed class SwfFile
         }
 
         File.WriteAllBytes(outputPath, _uncompressedBytes);
+    }
+
+    public void ReplaceTagData(int tagIndex, byte[] newData)
+    {
+        if (tagIndex < 0 || tagIndex >= _tags.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(tagIndex));
+        }
+
+        SwfTag tag = _tags[tagIndex];
+        tag.Data = new ReadOnlyMemory<byte>(newData);
+        tag.CharacterId = TryReadCharacterId(tag.Code, newData);
+
+        if (tag.Code == 56)
+        {
+            MergeTagMap(_exportNames, ParseSymbolMap(newData));
+        }
+        else if (tag.Code == 76)
+        {
+            MergeTagMap(_symbolClassNames, ParseSymbolMap(newData));
+        }
+    }
+
+    public void RemoveTag(int tagIndex)
+    {
+        if (tagIndex < 0 || tagIndex >= _tags.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(tagIndex));
+        }
+
+        _tags.RemoveAt(tagIndex);
+        ReindexTags();
+    }
+
+    public SwfTag InsertTag(int tagIndex, ushort code, byte[] data)
+    {
+        if (tagIndex < 0 || tagIndex > _tags.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(tagIndex));
+        }
+
+        SwfTag tag = new(tagIndex, code, -1, 0, TryReadCharacterId(code, data), new ReadOnlyMemory<byte>(data));
+        _tags.Insert(tagIndex, tag);
+        ReindexTags();
+
+        if (code == 56)
+        {
+            MergeTagMap(_exportNames, ParseSymbolMap(data));
+        }
+        else if (code == 76)
+        {
+            MergeTagMap(_symbolClassNames, ParseSymbolMap(data));
+        }
+
+        return tag;
+    }
+
+    public byte[] Build(SwfCompression? compression = null)
+    {
+        SwfCompression targetCompression = compression ?? Compression;
+        byte[] uncompressed = BuildUncompressedBytes();
+
+        if (targetCompression == SwfCompression.Uncompressed)
+        {
+            return uncompressed;
+        }
+
+        using MemoryStream output = new();
+        output.WriteByte((byte)'C');
+        output.WriteByte((byte)'W');
+        output.WriteByte((byte)'S');
+        output.WriteByte(Version);
+        Span<byte> lengthBuf = stackalloc byte[4];
+        BinaryPrimitives.WriteUInt32LittleEndian(lengthBuf, (uint)uncompressed.Length);
+        output.Write(lengthBuf);
+
+        using (ZLibStream zlib = new(output, CompressionLevel.Optimal, leaveOpen: true))
+        {
+            zlib.Write(uncompressed, 8, uncompressed.Length - 8);
+        }
+
+        return output.ToArray();
+    }
+
+    public void Save(string outputPath, SwfCompression? compression = null)
+    {
+        string? directory = Path.GetDirectoryName(outputPath);
+        if (!string.IsNullOrEmpty(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        File.WriteAllBytes(outputPath, Build(compression));
+    }
+
+    private byte[] BuildUncompressedBytes()
+    {
+        using MemoryStream ms = new();
+        ms.Write(_uncompressedBytes, 0, _tagStartOffset);
+
+        foreach (SwfTag tag in _tags)
+        {
+            WriteTagRecord(ms, tag.Code, tag.Data.Span);
+        }
+
+        byte[] result = ms.ToArray();
+        BinaryPrimitives.WriteUInt32LittleEndian(result.AsSpan(4, 4), (uint)result.Length);
+        result[0] = (byte)'F';
+        result[1] = (byte)'W';
+        result[2] = (byte)'S';
+        return result;
+    }
+
+    private static void WriteTagRecord(MemoryStream ms, ushort code, ReadOnlySpan<byte> data)
+    {
+        uint length = (uint)data.Length;
+        Span<byte> header = stackalloc byte[6];
+
+        if (length < 0x3F)
+        {
+            BinaryPrimitives.WriteUInt16LittleEndian(header, (ushort)((code << 6) | length));
+            ms.Write(header[..2]);
+        }
+        else
+        {
+            BinaryPrimitives.WriteUInt16LittleEndian(header, (ushort)((code << 6) | 0x3F));
+            BinaryPrimitives.WriteUInt32LittleEndian(header[2..], length);
+            ms.Write(header);
+        }
+
+        ms.Write(data);
+    }
+
+    private void ReindexTags()
+    {
+        for (int i = 0; i < _tags.Count; i++)
+        {
+            _tags[i].Index = i;
+        }
     }
 
     public void ExtractAll(string outputDirectory, bool includeRawTagData = true, bool includeKnownAssets = true,
@@ -208,7 +349,7 @@ public sealed class SwfFile
             }
 
             ReadOnlyMemory<byte> data = new(uncompressedBytes, tagOffset, checked((int)length));
-            SwfTag tag = new(tagIndex, code, length, tagHeaderOffset, headerLength, TryReadCharacterId(code, data.Span), data);
+            SwfTag tag = new(tagIndex, code, tagHeaderOffset, headerLength, TryReadCharacterId(code, data.Span), data);
             tags.Add(tag);
 
             if (code == 56)
@@ -247,8 +388,8 @@ public sealed class SwfFile
             }
         }
 
-        return new SwfFile(sourcePath, version, declaredFileLength, compression, uncompressedBytes, frameSize, frameRate,
-            frameCount, tags, exportNames, symbolClassNames);
+        return new SwfFile(sourcePath, version, declaredFileLength, compression, uncompressedBytes, tagOffset,
+            frameSize, frameRate, frameCount, tags, exportNames, symbolClassNames);
     }
 
     private void ExtractKnownAsset(string assetDirectory, SwfTag tag)
@@ -750,28 +891,27 @@ public readonly record struct SwfRect(int XMin, int XMax, int YMin, int YMax)
 
 public sealed class SwfTag
 {
-    internal SwfTag(int index, ushort code, uint length, int offset, int headerLength, ushort? characterId,
+    internal SwfTag(int index, ushort code, int offset, int headerLength, ushort? characterId,
         ReadOnlyMemory<byte> data)
     {
         Index = index;
         Code = code;
-        Length = length;
         Offset = offset;
         HeaderLength = headerLength;
         CharacterId = characterId;
         Data = data;
     }
 
-    public int Index { get; }
+    public int Index { get; internal set; }
     public ushort Code { get; }
     public string Name => SwfFileTagName.Get(Code);
-    public uint Length { get; }
+    public uint Length => (uint)Data.Length;
     public int Offset { get; }
     public int HeaderLength { get; }
-    public ushort? CharacterId { get; }
+    public ushort? CharacterId { get; internal set; }
     public string? ExportName { get; internal set; }
     public string? SymbolClassName { get; internal set; }
-    public ReadOnlyMemory<byte> Data { get; }
+    public ReadOnlyMemory<byte> Data { get; internal set; }
 }
 
 internal static class SwfFileTagName

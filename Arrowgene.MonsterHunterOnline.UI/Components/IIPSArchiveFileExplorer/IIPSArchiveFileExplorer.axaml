@@ -12,15 +12,6 @@
     </Design.DataContext>
 
     <UserControl.Resources>
-        <!-- Colors -->
-        <SolidColorBrush x:Key="FgPrimary" Color="#0F172A" />
-        <SolidColorBrush x:Key="FgSecondary" Color="#334155" />
-        <SolidColorBrush x:Key="FgMuted" Color="#667085" />
-        <SolidColorBrush x:Key="FgOnDark" Color="#F9FAFB" />
-        <SolidColorBrush x:Key="BgSurface" Color="#FFFFFF" />
-        <SolidColorBrush x:Key="BgSurfaceHover" Color="#F8F7F4" />
-        <SolidColorBrush x:Key="BorderDefault" Color="#D7D3CC" />
-
         <!-- Icons -->
         <StreamGeometry x:Key="SaveIcon">M3,3 H13 V13 H3 Z M5,3 V6 H11 V3 M5,9 H11 V11 H5 Z</StreamGeometry>
         <StreamGeometry x:Key="AddIcon">M4,2 H10 L13,5 V14 H4 Z M10,2 V5 H13 M8,7 V11 M6,9 H10</StreamGeometry>
@@ -31,19 +22,20 @@
         <StreamGeometry x:Key="FileIcon">M4,1.5 H9.5 L13,5 V14.5 H4 Z M9.5,1.5 V5 H13</StreamGeometry>
         <StreamGeometry x:Key="HashIcon">M5.5,2 L4.5,6 H2 V7.5 H4.2 L3.4,10.5 H2 V12 H3.1 L2.5,14 H4 L4.6,12 H7.1 L6.5,14 H8 L8.6,12 H11 V10.5 H8.9 L9.7,7.5 H11 V6 H10 L11,2 H9.5 L8.5,6 H6 L7,2 Z M5.7,7.5 H8.2 L7.4,10.5 H4.9 Z</StreamGeometry>
         <StreamGeometry x:Key="HexIcon">M2,4 H6 V8 H2 Z M2,9 H6 V13 H2 Z M8,4 H14 V6 H8 Z M8,7 H12 V8 H8 Z M8,9 H14 V11 H8 Z M8,12 H12 V13 H8 Z</StreamGeometry>
+        <StreamGeometry x:Key="HelpIcon">M8,1 A7,7 0 1,0 8,15 A7,7 0 1,0 8,1 Z M8,3 A5,5 0 1,1 8,13 A5,5 0 1,1 8,3 Z M6.5,6.2 A1.5,1.5 0 0,1 8,5 A1.5,1.5 0 0,1 9.5,6.5 Q9.5,7.5 8,8.2 V8.2 M8,10 V11</StreamGeometry>
     </UserControl.Resources>
 
     <UserControl.Styles>
         <Style Selector="Border.pane">
-            <Setter Property="Background" Value="#F8F7F4" />
-            <Setter Property="BorderBrush" Value="#D7D3CC" />
+            <Setter Property="Background" Value="{DynamicResource BgSurfaceHover}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderDefault}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="CornerRadius" Value="12" />
             <Setter Property="Padding" Value="12" />
         </Style>
 
         <Style Selector="Border.pill">
-            <Setter Property="Background" Value="#ECE9E2" />
+            <Setter Property="Background" Value="{DynamicResource BgPill}" />
             <Setter Property="CornerRadius" Value="999" />
             <Setter Property="Padding" Value="10,4" />
         </Style>
@@ -93,13 +85,13 @@
         <Style Selector="PathIcon.toolbar-icon">
             <Setter Property="Width" Value="14" />
             <Setter Property="Height" Value="14" />
-            <Setter Property="Foreground" Value="#F9FAFB" />
+            <Setter Property="Foreground" Value="{DynamicResource FgOnDark}" />
         </Style>
 
         <Style Selector="PathIcon.tree-icon">
             <Setter Property="Width" Value="13" />
             <Setter Property="Height" Value="13" />
-            <Setter Property="Foreground" Value="#64748B" />
+            <Setter Property="Foreground" Value="{DynamicResource FgMuted}" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
@@ -117,7 +109,7 @@
         </Style>
 
         <Style Selector="DataGrid.preview-grid DataGridColumnHeader">
-            <Setter Property="Background" Value="#ECE9E2" />
+            <Setter Property="Background" Value="{DynamicResource BgPill}" />
             <Setter Property="Foreground" Value="{StaticResource FgSecondary}" />
             <Setter Property="FontSize" Value="11" />
             <Setter Property="FontWeight" Value="SemiBold" />
@@ -126,7 +118,7 @@
         </Style>
 
         <Style Selector="DataGrid.preview-grid DataGridColumnHeader:pointerover">
-            <Setter Property="Background" Value="#E2DFD8" />
+            <Setter Property="Background" Value="{DynamicResource BorderDefault}" />
             <Setter Property="Foreground" Value="{StaticResource FgSecondary}" />
         </Style>
 
@@ -183,10 +175,10 @@
         </Style>
     </UserControl.Styles>
 
-    <Border Background="#F2F1EC">
+    <Border Background="{StaticResource BgPage}">
         <DockPanel LastChildFill="True">
             <Border DockPanel.Dock="Top"
-                    Background="#111827"
+                    Background="{StaticResource BgDark}"
                     Padding="16,12">
                 <Grid ColumnDefinitions="*,Auto"
                       ColumnSpacing="16">
@@ -195,22 +187,22 @@
                             <TextBlock Text="{Binding ArchiveFileName}"
                                        FontSize="18"
                                        FontWeight="SemiBold"
-                                       Foreground="#F9FAFB"
+                                       Foreground="{StaticResource FgOnDark}"
                                        TextTrimming="CharacterEllipsis" />
-                            <Border Background="#C2410C"
+                            <Border Background="{StaticResource StatusModifiedBg}"
                                     CornerRadius="999"
                                     Padding="8,2"
                                     IsVisible="{Binding HasUnsavedChanges}">
                                 <TextBlock Text="Modified"
                                            FontSize="11"
                                            FontWeight="Bold"
-                                           Foreground="#FFF7ED" />
+                                           Foreground="{StaticResource StatusModifiedFg}" />
                             </Border>
                         </StackPanel>
                         <TextBlock Text="{Binding ArchiveFilePath}"
                                    MaxLines="1"
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="#9CA3AF"
+                                   Foreground="{StaticResource FgOnDarkMuted}"
                                    ToolTip.Tip="{Binding ArchiveFilePath}" />
                     </StackPanel>
 
@@ -229,7 +221,7 @@
 
                         <Border Width="1"
                                 Height="20"
-                                Background="#374151"
+                                Background="{StaticResource BgDarkBorder}"
                                 VerticalAlignment="Center"
                                 IsVisible="{Binding IsNotUnifiedMode}" />
 
@@ -260,7 +252,7 @@
 
                         <Border Width="1"
                                 Height="20"
-                                Background="#374151"
+                                Background="{StaticResource BgDarkBorder}"
                                 VerticalAlignment="Center" />
 
                         <Button Classes="toolbar-text"
@@ -271,59 +263,71 @@
                                 Content="Extract All"
                                 Click="ExtractAllClick"
                                 IsEnabled="{Binding HasArchive}" />
+
+                        <Border Width="1"
+                                Height="20"
+                                Background="{StaticResource BgDarkBorder}"
+                                VerticalAlignment="Center" />
+
+                        <Button Classes="toolbar-icon"
+                                Click="HelpClick"
+                                ToolTip.Tip="Help">
+                            <PathIcon Classes="toolbar-icon"
+                                      Data="{StaticResource HelpIcon}" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
 
             <Border DockPanel.Dock="Top"
-                    Background="#E8E5DE"
-                    BorderBrush="#D7D3CC"
+                    Background="{StaticResource BgSubtle}"
+                    BorderBrush="{StaticResource BorderDefault}"
                     BorderThickness="0,0,0,1"
                     Padding="16,8">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Border Classes="pill">
                         <TextBlock Text="{Binding FormatVersionText, StringFormat=Version {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                     <Border Classes="pill">
                         <TextBlock Text="{Binding SectorSizeText, StringFormat=Sector {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                     <Border Classes="pill">
                         <TextBlock Text="{Binding EntryCount, StringFormat=Entries {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                     <Border Classes="pill">
                         <TextBlock Text="{Binding DirectoryCount, StringFormat=Folders {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                     <Border Classes="pill">
                         <TextBlock Text="{Binding NamedEntryCount, StringFormat=Named {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                     <Border Classes="pill">
                         <TextBlock Text="{Binding UnnamedEntryCount, StringFormat=Unnamed {0}}"
                                    FontWeight="SemiBold"
-                                   Foreground="#334155" />
+                                   Foreground="{StaticResource FgSecondary}" />
                     </Border>
                 </StackPanel>
             </Border>
 
             <Border DockPanel.Dock="Bottom"
-                    Background="#F8F7F4"
-                    BorderBrush="#D7D3CC"
+                    Background="{StaticResource BgSurfaceHover}"
+                    BorderBrush="{StaticResource BorderDefault}"
                     BorderThickness="0,1,0,0"
                     Padding="12,8">
                 <Grid ColumnDefinitions="*,Auto">
                     <TextBlock Text="{Binding StatusText}"
                                MaxLines="1"
                                TextTrimming="CharacterEllipsis"
-                               Foreground="#334155"
+                               Foreground="{StaticResource FgSecondary}"
                                ToolTip.Tip="{Binding StatusText}" />
                     <Border Grid.Column="1"
                             Cursor="Hand"
@@ -360,12 +364,43 @@
                               ColumnDefinitions="*,Auto"
                               Margin="0,0,0,8">
                             <StackPanel Spacing="2">
-                                <TextBlock Text="Files"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="#0F172A" />
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock Text="Files"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource FgPrimary}"
+                                               IsVisible="{Binding !IsInsideSwf}" />
+                                    <Button Click="NavigateBackClick"
+                                            IsVisible="{Binding IsInsideSwf}"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Padding="0"
+                                            MinHeight="0"
+                                            Cursor="Hand">
+                                        <TextBlock Text="Files"
+                                                   FontSize="14"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource AccentLink}"
+                                                   TextDecorations="Underline" />
+                                    </Button>
+                                    <TextBlock Text="›"
+                                               FontSize="14"
+                                               Foreground="{StaticResource FgSubtle}"
+                                               IsVisible="{Binding IsInsideSwf}"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding SwfBreadcrumb}"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource FgPrimary}"
+                                               IsVisible="{Binding IsInsideSwf}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
                                 <TextBlock Text="All archive files"
-                                           Classes="caption" />
+                                           Classes="caption"
+                                           IsVisible="{Binding !IsInsideSwf}" />
+                                <TextBlock Text="SWF contents"
+                                           Classes="caption"
+                                           IsVisible="{Binding IsInsideSwf}" />
                             </StackPanel>
                             <TextBlock Grid.Column="1"
                                        Text="{Binding FilterSummaryText}"
@@ -389,8 +424,8 @@
                         </Grid>
 
                         <Border Grid.Row="2"
-                                Background="#FFFFFF"
-                                BorderBrush="#D7D3CC"
+                                Background="{StaticResource BgSurface}"
+                                BorderBrush="{StaticResource BorderDefault}"
                                 BorderThickness="1"
                                 CornerRadius="10"
                                 Padding="8"
@@ -422,6 +457,7 @@
                                     <ListBox Classes="archive-file-list"
                                              ItemsSource="{Binding RootNodes}"
                                              SelectedItem="{Binding SelectedNode, Mode=TwoWay}"
+                                             DoubleTapped="FileListDoubleTapped"
                                              MinHeight="0"
                                              IsVisible="{Binding HasVisibleNodes}">
                                         <ListBox.ItemTemplate>
@@ -436,7 +472,7 @@
                                                     <TextBlock Grid.Column="1"
                                                                Text="{Binding Name}"
                                                                FontWeight="SemiBold"
-                                                               Foreground="#0F172A"
+                                                               Foreground="{StaticResource FgPrimary}"
                                                                FontSize="13"
                                                                TextTrimming="CharacterEllipsis"
                                                                VerticalAlignment="Center"
@@ -444,7 +480,7 @@
 
                                                     <TextBlock Grid.Column="2"
                                                                Text="{Binding ParentPath}"
-                                                               Foreground="#475467"
+                                                               Foreground="{StaticResource FgTertiary}"
                                                                FontSize="12"
                                                                TextTrimming="CharacterEllipsis"
                                                                VerticalAlignment="Center"
@@ -467,7 +503,7 @@
                                         <TextBlock Text="No Visible Files"
                                                    FontSize="14"
                                                    FontWeight="SemiBold"
-                                                   Foreground="#0F172A"
+                                                   Foreground="{StaticResource FgPrimary}"
                                                    HorizontalAlignment="Center" />
                                         <TextBlock Text="{Binding TreeEmptyStateText}"
                                                    Classes="caption"
@@ -483,7 +519,7 @@
 
                 <GridSplitter Grid.Column="1"
                               Width="6"
-                              Background="#DDD9D1"
+                              Background="{StaticResource BorderSplitter}"
                               ShowsPreview="True"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch" />
@@ -494,179 +530,204 @@
                         MinHeight="0">
                     <Grid RowDefinitions="Auto,*"
                           MinHeight="0">
-                        <StackPanel Grid.Row="0"
-                                    Spacing="4"
-                                    Margin="0,0,0,10">
-                            <TextBlock Text="{Binding SelectedName}"
-                                       FontSize="16"
-                                       FontWeight="SemiBold"
-                                       Foreground="#0F172A"
-                                       TextTrimming="CharacterEllipsis" />
-                            <TextBlock Text="{Binding SelectedPath}"
-                                       Classes="caption"
-                                       TextWrapping="Wrap"
-                                       ToolTip.Tip="{Binding SelectedPath}" />
-                        </StackPanel>
+                                <StackPanel Grid.Row="0"
+                                            Spacing="4"
+                                            Margin="0,0,0,10">
+                                    <TextBlock Text="{Binding SelectedName}"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource FgPrimary}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding SelectedPath}"
+                                               Classes="caption"
+                                               TextWrapping="Wrap"
+                                               ToolTip.Tip="{Binding SelectedPath}" />
+                                </StackPanel>
 
-                        <Grid Grid.Row="1"
-                              RowDefinitions="Auto,*"
-                              RowSpacing="8"
-                              MinHeight="0">
-
-                            <!-- File info - compact, above preview -->
-                            <Border Background="#FFFFFF"
-                                    BorderBrush="#D7D3CC"
-                                    BorderThickness="1"
-                                    CornerRadius="8"
-                                    Padding="10,6">
-                                <Grid ColumnDefinitions="50,*"
-                                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-                                      ColumnSpacing="8"
-                                      RowSpacing="3">
-                                    <TextBlock Text="Type"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <TextBlock Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                               Text="{Binding SelectedType}" />
-
-                                    <TextBlock Grid.Row="1" Text="Size"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                               Text="{Binding SelectedLength}" />
-
-                                    <TextBlock Grid.Row="2" Text="Stored"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <TextBlock Grid.Row="2" Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                               Text="{Binding SelectedStoredLength}" />
-
-                                    <TextBlock Grid.Row="3" Text="Flags"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <SelectableTextBlock Grid.Row="3" Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                                         Text="{Binding SelectedFlags}"
-                                                         TextTrimming="CharacterEllipsis"
-                                                         ToolTip.Tip="{Binding SelectedFlags}" />
-
-                                    <TextBlock Grid.Row="4" Text="Index"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <TextBlock Grid.Row="4" Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                               Text="{Binding SelectedIndex}" />
-
-                                    <TextBlock Grid.Row="5" Text="MD5"
-                                               FontSize="11" FontWeight="SemiBold" Foreground="#667085" />
-                                    <SelectableTextBlock Grid.Row="5" Grid.Column="1" FontSize="11" Foreground="#0F172A"
-                                                         Text="{Binding SelectedHash}"
-                                                         TextTrimming="CharacterEllipsis"
-                                                         ToolTip.Tip="{Binding SelectedHash}" />
-                                </Grid>
-                            </Border>
-
-                            <!-- Preview -->
-                            <Border Grid.Row="1"
-                                    Background="#FFFFFF"
-                                    BorderBrush="#D7D3CC"
-                                    BorderThickness="1"
-                                    CornerRadius="10"
-                                    Padding="10"
-                                    MinHeight="0">
-                                <Grid RowDefinitions="Auto,*,Auto"
-                                      RowSpacing="6"
+                                <Grid Grid.Row="1"
+                                      RowDefinitions="Auto,Auto,Auto,*"
+                                      RowSpacing="8"
                                       MinHeight="0">
-                                    <Grid ColumnDefinitions="*,Auto,Auto"
-                                          ColumnSpacing="6">
-                                        <TextBlock Text="Preview"
-                                                   FontSize="12"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{StaticResource FgPrimary}" />
-                                        <TextBlock Grid.Column="1"
-                                                   Text="{Binding PreviewDetails}"
-                                                   Classes="caption"
-                                                   VerticalAlignment="Center" />
-                                        <ToggleButton Grid.Column="2"
-                                                      IsChecked="{Binding IsHexMode}"
-                                                      Click="ToggleHexModeClick"
-                                                      IsEnabled="{Binding CanToggleHex}"
-                                                      ToolTip.Tip="Toggle hex view"
-                                                      Padding="4"
-                                                      MinWidth="0"
-                                                      MinHeight="0"
-                                                      Width="24" Height="24"
-                                                      VerticalAlignment="Center">
-                                            <PathIcon Width="12" Height="12"
-                                                      Data="{StaticResource HexIcon}"
-                                                      Foreground="{StaticResource FgMuted}" />
-                                        </ToggleButton>
-                                    </Grid>
 
-                                    <Border Grid.Row="1"
-                                            Background="#FFFFFF"
-                                            BorderBrush="#D7D3CC"
+                                    <!-- File info -->
+                                    <Border Background="{StaticResource BgSurface}"
+                                            BorderBrush="{StaticResource BorderDefault}"
                                             BorderThickness="1"
                                             CornerRadius="8"
-                                            Padding="6"
-                                            MinHeight="0">
-                                        <Grid>
-                                            <Image Source="{Binding PreviewBitmap}"
-                                                   IsVisible="{Binding HasImagePreview}"
-                                                   Stretch="Uniform"
-                                                   HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Stretch" />
+                                            Padding="10,6">
+                                        <Grid ColumnDefinitions="50,*"
+                                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                                              ColumnSpacing="8"
+                                              RowSpacing="3">
+                                            <TextBlock Text="Type"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <TextBlock Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                       Text="{Binding SelectedType}" />
 
-                                            <ScrollViewer IsVisible="{Binding HasTextPreview}"
-                                                          HorizontalScrollBarVisibility="Auto"
-                                                          VerticalScrollBarVisibility="Auto">
-                                                <SelectableTextBlock Text="{Binding TextPreviewContent}"
-                                                                     Foreground="#334155"
-                                                                     TextWrapping="NoWrap"
-                                                                     FontSize="11"
-                                                                     FontFamily="Cascadia Mono, Consolas, Menlo, monospace" />
-                                            </ScrollViewer>
+                                            <TextBlock Grid.Row="1" Text="Size"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                       Text="{Binding SelectedLength}" />
 
-                                            <DataGrid x:Name="CsvPreviewDataGrid"
-                                                      Classes="preview-grid"
-                                                      IsVisible="{Binding HasTablePreview}"
-                                                      IsReadOnly="True"
-                                                      AutoGenerateColumns="False"
-                                                      CanUserReorderColumns="False"
-                                                      CanUserResizeColumns="True"
-                                                      CanUserSortColumns="False"
-                                                      HeadersVisibility="Column"
-                                                      GridLinesVisibility="All" />
+                                            <TextBlock Grid.Row="2" Text="Stored"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                       Text="{Binding SelectedStoredLength}" />
 
-                                            <TabControl x:Name="DatPreviewTabControl"
-                                                        Classes="preview-tabs"
-                                                        IsVisible="{Binding HasDatPreview}"
-                                                        ItemsSource="{Binding DatPreviewSheets}"
-                                                        SelectedIndex="{Binding DatSelectedSheetIndex, Mode=TwoWay}">
-                                                <TabControl.ItemTemplate>
-                                                    <DataTemplate x:DataType="local:DatSheetViewModel">
-                                                        <TextBlock Text="{Binding Name}" />
-                                                    </DataTemplate>
-                                                </TabControl.ItemTemplate>
-                                                <TabControl.ContentTemplate>
-                                                    <DataTemplate x:DataType="local:DatSheetViewModel">
-                                                        <DataGrid x:Name="DatSheetDataGrid"
-                                                                  Classes="preview-grid"
-                                                                  IsReadOnly="True"
-                                                                  AutoGenerateColumns="False"
-                                                                  CanUserReorderColumns="False"
-                                                                  CanUserResizeColumns="True"
-                                                                  CanUserSortColumns="False"
-                                                                  HeadersVisibility="Column"
-                                                                  GridLinesVisibility="All" />
-                                                    </DataTemplate>
-                                                </TabControl.ContentTemplate>
-                                            </TabControl>
+                                            <TextBlock Grid.Row="3" Text="Flags"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <SelectableTextBlock Grid.Row="3" Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                                 Text="{Binding SelectedFlags}"
+                                                                 TextTrimming="CharacterEllipsis"
+                                                                 ToolTip.Tip="{Binding SelectedFlags}" />
+
+                                            <TextBlock Grid.Row="4" Text="Index"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <TextBlock Grid.Row="4" Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                       Text="{Binding SelectedIndex}" />
+
+                                            <TextBlock Grid.Row="5" Text="MD5"
+                                                       FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource FgMuted}" />
+                                            <SelectableTextBlock Grid.Row="5" Grid.Column="1" FontSize="11" Foreground="{StaticResource FgPrimary}"
+                                                                 Text="{Binding SelectedHash}"
+                                                                 TextTrimming="CharacterEllipsis"
+                                                                 ToolTip.Tip="{Binding SelectedHash}" />
                                         </Grid>
                                     </Border>
 
-                                    <TextBlock Grid.Row="2"
-                                               Text="{Binding PreviewStatus}"
-                                               Classes="caption"
-                                               TextWrapping="Wrap" />
+                                    <!-- Action buttons -->
+                                    <StackPanel Grid.Row="1" Spacing="6">
+                                        <Button Classes="action-btn"
+                                                Content="Browse SWF Contents"
+                                                Click="BrowseSwfClick"
+                                                IsVisible="{Binding CanBrowseSwf}"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Center"
+                                                Padding="10,8"
+                                                FontWeight="SemiBold"
+                                                Foreground="{StaticResource FgSecondary}"
+                                                BorderThickness="1" />
+                                        <Button Classes="action-btn"
+                                                Content="Edit File"
+                                                Click="EditFileClick"
+                                                IsVisible="{Binding CanEditFile}"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Center"
+                                                Padding="10,8"
+                                                FontWeight="SemiBold"
+                                                Foreground="{StaticResource FgSecondary}"
+                                                BorderThickness="1" />
+                                    </StackPanel>
+
+                                    <!-- Preview -->
+                                    <Border Grid.Row="3"
+                                            Background="{StaticResource BgSurface}"
+                                            BorderBrush="{StaticResource BorderDefault}"
+                                            BorderThickness="1"
+                                            CornerRadius="10"
+                                            Padding="10"
+                                            MinHeight="0">
+                                        <Grid RowDefinitions="Auto,*,Auto"
+                                              RowSpacing="6"
+                                              MinHeight="0">
+                                            <Grid ColumnDefinitions="*,Auto,Auto"
+                                                  ColumnSpacing="6">
+                                                <TextBlock Text="Preview"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{StaticResource FgPrimary}" />
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding PreviewDetails}"
+                                                           Classes="caption"
+                                                           VerticalAlignment="Center" />
+                                                <ToggleButton Grid.Column="2"
+                                                              IsChecked="{Binding IsHexMode}"
+                                                              Click="ToggleHexModeClick"
+                                                              IsEnabled="{Binding CanToggleHex}"
+                                                              ToolTip.Tip="Toggle hex view"
+                                                              Padding="4"
+                                                              MinWidth="0"
+                                                              MinHeight="0"
+                                                              Width="24" Height="24"
+                                                              VerticalAlignment="Center">
+                                                    <PathIcon Width="12" Height="12"
+                                                              Data="{StaticResource HexIcon}"
+                                                              Foreground="{StaticResource FgMuted}" />
+                                                </ToggleButton>
+                                            </Grid>
+
+                                            <Border Grid.Row="1"
+                                                    Background="{StaticResource BgSurface}"
+                                                    BorderBrush="{StaticResource BorderDefault}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="8"
+                                                    Padding="6"
+                                                    MinHeight="0">
+                                                <Grid>
+                                                    <Image Source="{Binding PreviewBitmap}"
+                                                           IsVisible="{Binding HasImagePreview}"
+                                                           Stretch="Uniform"
+                                                           HorizontalAlignment="Stretch"
+                                                           VerticalAlignment="Stretch" />
+
+                                                    <ScrollViewer IsVisible="{Binding HasTextPreview}"
+                                                                  HorizontalScrollBarVisibility="Auto"
+                                                                  VerticalScrollBarVisibility="Auto">
+                                                        <SelectableTextBlock Text="{Binding TextPreviewContent}"
+                                                                             Foreground="{StaticResource FgSecondary}"
+                                                                             TextWrapping="NoWrap"
+                                                                             FontSize="11"
+                                                                             FontFamily="Cascadia Mono, Consolas, Menlo, monospace" />
+                                                    </ScrollViewer>
+
+                                                    <DataGrid x:Name="CsvPreviewDataGrid"
+                                                              Classes="preview-grid"
+                                                              IsVisible="{Binding HasTablePreview}"
+                                                              IsReadOnly="True"
+                                                              AutoGenerateColumns="False"
+                                                              CanUserReorderColumns="False"
+                                                              CanUserResizeColumns="True"
+                                                              CanUserSortColumns="False"
+                                                              HeadersVisibility="Column"
+                                                              GridLinesVisibility="All" />
+
+                                                    <TabControl x:Name="DatPreviewTabControl"
+                                                                Classes="preview-tabs"
+                                                                IsVisible="{Binding HasDatPreview}"
+                                                                ItemsSource="{Binding DatPreviewSheets}"
+                                                                SelectedIndex="{Binding DatSelectedSheetIndex, Mode=TwoWay}">
+                                                        <TabControl.ItemTemplate>
+                                                            <DataTemplate x:DataType="local:DatSheetViewModel">
+                                                                <TextBlock Text="{Binding Name}" />
+                                                            </DataTemplate>
+                                                        </TabControl.ItemTemplate>
+                                                        <TabControl.ContentTemplate>
+                                                            <DataTemplate x:DataType="local:DatSheetViewModel">
+                                                                <DataGrid x:Name="DatSheetDataGrid"
+                                                                          Classes="preview-grid"
+                                                                          IsReadOnly="True"
+                                                                          AutoGenerateColumns="False"
+                                                                          CanUserReorderColumns="False"
+                                                                          CanUserResizeColumns="True"
+                                                                          CanUserSortColumns="False"
+                                                                          HeadersVisibility="Column"
+                                                                          GridLinesVisibility="All" />
+                                                            </DataTemplate>
+                                                        </TabControl.ContentTemplate>
+                                                    </TabControl>
+                                                </Grid>
+                                            </Border>
+
+                                            <TextBlock Grid.Row="2"
+                                                       Text="{Binding PreviewStatus}"
+                                                       Classes="caption"
+                                                       TextWrapping="Wrap" />
+                                        </Grid>
+                                    </Border>
                                 </Grid>
-                            </Border>
-                        </Grid>
                     </Grid>
                 </Border>
+
             </Grid>
         </DockPanel>
     </Border>

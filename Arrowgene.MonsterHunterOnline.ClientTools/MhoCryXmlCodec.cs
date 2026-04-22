@@ -96,6 +96,17 @@ public static class MhoCryXmlCodec
         return DetectFormat(data) is MhoCryXmlFormat.EncryptedXml or MhoCryXmlFormat.EncryptedCryXmlBinary;
     }
 
+    public static byte[] Encrypt(ReadOnlySpan<byte> plainData)
+    {
+        byte[] payload = plainData.ToArray();
+        EncryptInPlace(payload);
+
+        byte[] result = new byte[EncryptedHeader.Length + payload.Length];
+        EncryptedHeader.CopyTo(result, 0);
+        payload.CopyTo(result, EncryptedHeader.Length);
+        return result;
+    }
+
     public static byte[] Decrypt(ReadOnlySpan<byte> data)
     {
         if (!IsEncrypted(data))
@@ -200,6 +211,58 @@ public static class MhoCryXmlCodec
             for (; i < remaining; j++, i++)
             {
                 scratch[j] = (byte)(data[offset + i] ^ DecryptTable1[j]);
+            }
+        }
+
+        Buffer.BlockCopy(scratch, 0, data, offset, remaining);
+    }
+
+    private static void EncryptInPlace(byte[] data)
+    {
+        byte[] scratch = new byte[129];
+        int offset = 0;
+        int remaining = data.Length;
+
+        while (remaining >= 129)
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                scratch[i] = (byte)(data[offset + i + 65] ^ DecryptTable0[i]);
+            }
+
+            for (int j = 0; j < 65; j++)
+            {
+                scratch[64 + j] = (byte)(data[offset + j] ^ DecryptTable1[j]);
+            }
+
+            Buffer.BlockCopy(scratch, 0, data, offset, 129);
+            offset += 129;
+            remaining -= 129;
+        }
+
+        if (remaining <= 0)
+        {
+            return;
+        }
+
+        if (remaining <= 65)
+        {
+            for (int i = 0; i < remaining; i++)
+            {
+                scratch[i] = (byte)(data[offset + i] ^ DecryptTable1[i]);
+            }
+        }
+        else
+        {
+            int rotatedPrefixLength = remaining - 65;
+            for (int i = 0; i < rotatedPrefixLength; i++)
+            {
+                scratch[i] = (byte)(data[offset + 65 + i] ^ DecryptTable0[i]);
+            }
+
+            for (int j = 0; j < 65; j++)
+            {
+                scratch[rotatedPrefixLength + j] = (byte)(data[offset + j] ^ DecryptTable1[j]);
             }
         }
 

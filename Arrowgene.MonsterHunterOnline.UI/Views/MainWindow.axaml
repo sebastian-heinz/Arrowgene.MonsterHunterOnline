@@ -12,7 +12,7 @@
         Height="900"
         MinWidth="1100"
         MinHeight="720"
-        Background="#EEE8DD"
+        Background="{StaticResource BgSubtle}"
         Title="{Binding Title}">
 
     <Design.DataContext>
@@ -27,19 +27,19 @@
             <Setter Property="FontSize" Value="13" />
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Padding" Value="16,8" />
-            <Setter Property="Foreground" Value="#64748B" />
+            <Setter Property="Foreground" Value="{StaticResource FgMuted}" />
         </Style>
         <Style Selector="TabControl#MainTabs > TabItem:selected">
-            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Foreground" Value="{StaticResource FgPrimary}" />
         </Style>
         <Style Selector="TabControl#MainTabs > TabItem:pointerover">
-            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="Foreground" Value="{StaticResource FgSecondary}" />
         </Style>
         <Style Selector="TabControl#MainTabs > TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Foreground" Value="#0F172A" />
+            <Setter Property="Foreground" Value="{StaticResource FgPrimary}" />
         </Style>
         <Style Selector="TabControl#MainTabs > TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Foreground" Value="#334155" />
+            <Setter Property="Foreground" Value="{StaticResource FgSecondary}" />
         </Style>
         <Style Selector="TabControl#MainTabs > TabItem:disabled">
             <Setter Property="Opacity" Value="0.4" />
@@ -50,7 +50,7 @@
 
         <!-- ═══ Shared toolbar ═══ -->
         <Border DockPanel.Dock="Top"
-                Background="#111827"
+                Background="{StaticResource BgDark}"
                 Padding="16,10">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6">
@@ -83,7 +83,7 @@
 
                 <TextBlock Grid.Column="1"
                            Text="{Binding DataSourceLabel}"
-                           Foreground="#94A3B8"
+                           Foreground="{StaticResource FgSubtle}"
                            FontSize="12"
                            VerticalAlignment="Center"
                            Margin="16,0"
@@ -91,7 +91,7 @@
 
                 <TextBlock Grid.Column="2"
                            Text="Loading..."
-                           Foreground="#FBBF24"
+                           Foreground="{StaticResource StatusWarningFg}"
                            FontSize="12"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
@@ -102,6 +102,9 @@
         <TabControl x:Name="MainTabs">
             <TabItem Header="IIPS Archive Explorer">
                 <controls:IIPSArchiveFileExplorer x:Name="IIPSExplorer" />
+            </TabItem>
+            <TabItem Header="File Editor">
+                <controls:FileEditor x:Name="FileEditorControl" />
             </TabItem>
             <TabItem Header="Level Map Viewer" IsEnabled="{Binding HasDataSource}">
                 <controls:LevelMapViewer x:Name="LevelMapControl" />

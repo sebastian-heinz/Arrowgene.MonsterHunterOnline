@@ -31,19 +31,60 @@ internal static class IIPSArchiveWriter
                 foreach (IIPSArchiveEntryRecord record in records)
                 {
                     ulong sourceFileOffset = record.FileOffset;
-                    record.FileOffset = (ulong)output.Position;
+                    bool isDirectory = (record.Flags & (uint)IIPSArchiveEntryFlags.Directory) != 0;
+                    if (isDirectory || record.FileSize == 0)
+                    {
+                        record.FileOffset = 0;
+                    }
+                    else
+                    {
+                        record.FileOffset = (ulong)output.Position;
+                    }
+                    ulong preservedCompressedSize = record.CompressedSize;
+                    bool preserveCompressedSize = CanPreserveStoredBytes(record, options);
                     byte[] storedData = BuildStoredData(archive, record, options, sourceFileOffset);
                     output.Write(storedData, 0, storedData.Length);
-                    record.CompressedSize = (ulong)storedData.Length;
+                    if (preserveCompressedSize)
+                    {
+                        record.CompressedSize = preservedCompressedSize;
+                    }
+                    else
+                    {
+                        record.CompressedSize = (ulong)storedData.Length;
+                    }
                 }
 
                 byte[] hetSection = IIPSArchiveSerialization.BuildSection(IIPSArchiveFormat.HetSignature, BuildHetData(records));
                 ulong hetOffset = (ulong)output.Position;
                 output.Write(hetSection, 0, hetSection.Length);
+                byte[] hetMd5 = System.Security.Cryptography.MD5.HashData(hetSection);
+                output.Write(hetMd5, 0, hetMd5.Length);
 
                 byte[] betSection = IIPSArchiveSerialization.BuildSection(IIPSArchiveFormat.BetSignature, BuildBetData(records));
                 ulong betOffset = (ulong)output.Position;
                 output.Write(betSection, 0, betSection.Length);
+                byte[] betMd5 = System.Security.Cryptography.MD5.HashData(betSection);
+                output.Write(betMd5, 0, betMd5.Length);
+
+                uint md5PieceSize = archive.Metadata.Md5PieceSize == 0 ? 0x00004000u : archive.Metadata.Md5PieceSize;
+                uint rawChunkSize = archive.Metadata.RawChunkSize == 0 ? 0x00004000u : archive.Metadata.RawChunkSize;
+                uint sectorSize = IIPSArchiveFormat.GetSectorSize(archive.Metadata.SectorSizeShift);
+                ulong dataEnd = (ulong)output.Position;
+                ulong archiveSize = ((dataEnd + sectorSize - 1) / sectorSize) * sectorSize;
+
+                if (archiveSize > dataEnd)
+                {
+                    byte[] padding = new byte[archiveSize - dataEnd];
+                    output.Write(padding, 0, padding.Length);
+                }
+
+                uint pieceCount = (uint)((archiveSize + md5PieceSize - 1) / md5PieceSize);
+                uint chunkCount = (uint)((archiveSize + rawChunkSize - 1) / rawChunkSize);
+                int md5TableLength = ((int)pieceCount + 1) * 16;
+                int bitmapLength = (int)chunkCount;
+
+                ulong md5TableOffset = archiveSize;
+                ulong bitmapOffset = md5TableOffset + (ulong)md5TableLength;
 
                 IIPSArchiveHeaderData header = new IIPSArchiveHeaderData
                 {
@@ -51,17 +92,17 @@ internal static class IIPSArchiveWriter
                     HeaderLength = IIPSArchiveFormat.HeaderLength,
                     FormatVersion = archive.Metadata.FormatVersion,
                     SectorSizeShift = archive.Metadata.SectorSizeShift,
-                    ArchiveSize = (ulong)output.Position,
+                    ArchiveSize = archiveSize,
                     BetOffset = betOffset,
                     HetOffset = hetOffset,
-                    Md5TableOffset = 0,
-                    BitmapOffset = 0,
+                    Md5TableOffset = md5TableOffset,
+                    BitmapOffset = bitmapOffset,
                     HetLength = (ulong)hetSection.Length,
                     BetLength = (ulong)betSection.Length,
-                    Md5TableLength = 0,
-                    BitmapLength = 0,
-                    Md5PieceSize = 0,
-                    RawChunkSize = 0,
+                    Md5TableLength = (ulong)md5TableLength,
+                    BitmapLength = (ulong)bitmapLength,
+                    Md5PieceSize = md5PieceSize,
+                    RawChunkSize = rawChunkSize,
                     Md5PatchBaseTag = new byte[16],
                     Md5PatchedTag = new byte[16],
                     BetMd5 = IIPSArchiveCrypto.Md5(betSection),
@@ -71,6 +112,14 @@ internal static class IIPSArchiveWriter
                 byte[] headerBytes = IIPSArchiveSerialization.BuildHeader(header);
                 output.Position = 0;
                 output.Write(headerBytes, 0, headerBytes.Length);
+
+                byte[] md5Table = BuildMd5Table(output, archiveSize, md5PieceSize);
+                output.Position = (long)md5TableOffset;
+                output.Write(md5Table, 0, md5Table.Length);
+
+                byte[] bitmap = BuildBitmap(archiveSize, rawChunkSize);
+                output.Position = (long)bitmapOffset;
+                output.Write(bitmap, 0, bitmap.Length);
             }
 
             bool overwriteCurrentSource = archive.CurrentSourcePath != null &&
@@ -183,7 +232,8 @@ internal static class IIPSArchiveWriter
 
         if (content.Length == 0)
         {
-            record.Flags = (uint)IIPSArchiveEntryFlags.Exists | (uint)IIPSArchiveEntryFlags.SingleUnit;
+            uint preserved = record.Flags & (uint)IIPSArchiveEntryFlags.DeleteMarker;
+            record.Flags = (uint)IIPSArchiveEntryFlags.Exists | (uint)IIPSArchiveEntryFlags.SingleUnit | preserved;
             record.CompressedSize = 0;
             return Array.Empty<byte>();
         }
@@ -325,14 +375,17 @@ internal static class IIPSArchiveWriter
 
     private static byte[] BuildHetData(List<IIPSArchiveEntryRecord> records)
     {
-        uint entryCount = (uint)records.Count;
-        uint slotCount = NextSlotCount(entryCount);
-        uint indexBits = (uint)IIPSArchiveFormat.BitsRequired(entryCount == 0 ? 0 : entryCount - 1);
+        uint actualEntries = (uint)records.Count;
+        uint capacity = actualEntries + 263;
+        uint entryCount = capacity;
+        uint slotCount = (capacity * 4) / 3;
+        uint indexBits = (uint)IIPSArchiveFormat.BitsRequired(capacity == 0 ? 0 : capacity - 1);
         uint indexStrideBits = indexBits;
         int indexTableBytes = (int)((slotCount * indexStrideBits + 7) / 8);
 
         byte[] nameHashBytes = new byte[slotCount];
         byte[] fileIndexData = new byte[indexTableBytes];
+        for (int i = 0; i < fileIndexData.Length; i++) fileIndexData[i] = 0xFF;
 
         foreach (IIPSArchiveEntryRecord record in records)
         {
@@ -346,7 +399,20 @@ internal static class IIPSArchiveWriter
 
             nameHashBytes[slot] = hashByte;
             record.HetIndex = (int)slot;
-            IIPSArchiveFormat.WriteBits(fileIndexData, (long)slot * indexStrideBits, (int)indexBits, (ulong)record.Index);
+            for (int b = 0; b < indexBits; b++)
+            {
+                long bitPos = (long)slot * indexStrideBits + b;
+                int byteIdx = (int)(bitPos / 8);
+                int bitIdx = (int)(bitPos % 8);
+                if (((record.Index >> b) & 1) != 0)
+                {
+                    fileIndexData[byteIdx] |= (byte)(1 << bitIdx);
+                }
+                else
+                {
+                    fileIndexData[byteIdx] &= (byte)~(1 << bitIdx);
+                }
+            }
         }
 
         using MemoryStream ms = new MemoryStream();
@@ -375,7 +441,7 @@ internal static class IIPSArchiveWriter
         uint compressedSizeBits = (uint)IIPSArchiveFormat.BitsRequired(maxStoredSize);
         const uint flagsBits = 32;
         const uint md5Bits = 128;
-        const uint extraBits = 0;
+        const uint extraBits = 64;
         const uint betHashBits = IIPSArchiveFormat.BetHashBits;
 
         uint bitIndexFilePos = 0;
@@ -383,7 +449,8 @@ internal static class IIPSArchiveWriter
         uint bitIndexCompressedSize = bitIndexFileSize + fileSizeBits;
         uint bitIndexFlags = bitIndexCompressedSize + compressedSizeBits;
         uint bitIndexMd5 = bitIndexFlags + flagsBits;
-        uint totalEntryBits = bitIndexMd5 + md5Bits + extraBits;
+        uint bitIndexExtra = bitIndexMd5 + md5Bits;
+        uint totalEntryBits = bitIndexExtra + extraBits;
 
         byte[] entryData = new byte[(int)((records.Count * (long)totalEntryBits + 7) / 8)];
         byte[] hashData = new byte[(int)((records.Count * (long)betHashBits + 7) / 8)];
@@ -397,6 +464,7 @@ internal static class IIPSArchiveWriter
             IIPSArchiveFormat.WriteBits(entryData, entryBitOffset + bitIndexCompressedSize, (int)compressedSizeBits, record.CompressedSize);
             IIPSArchiveFormat.WriteBits(entryData, entryBitOffset + bitIndexFlags, (int)flagsBits, record.Flags);
             IIPSArchiveFormat.WriteBits(entryData, entryBitOffset + bitIndexMd5, record.Md5 ?? new byte[16]);
+            IIPSArchiveFormat.WriteBits(entryData, entryBitOffset + bitIndexExtra, (int)extraBits, record.Extra);
             IIPSArchiveFormat.WriteBits(hashData, (long)i * betHashBits, (int)betHashBits, record.NameHash & 0x00FFFFFFFFFFFFFFUL);
         }
 
@@ -410,7 +478,7 @@ internal static class IIPSArchiveWriter
         writer.Write(bitIndexCompressedSize);
         writer.Write(bitIndexFlags);
         writer.Write(bitIndexMd5);
-        writer.Write(0u);
+        writer.Write(bitIndexMd5);
         writer.Write(filePosBits);
         writer.Write(fileSizeBits);
         writer.Write(compressedSizeBits);
@@ -420,8 +488,8 @@ internal static class IIPSArchiveWriter
         writer.Write(betHashBits);
         writer.Write(0u);
         writer.Write(betHashBits);
-        writer.Write(0u);
-        writer.Write(0u);
+        writer.Write((uint)records.Count * 7);
+        writer.Write(bitIndexExtra);
         writer.Write(extraBits);
         writer.Write(entryData);
         writer.Write(hashData);
@@ -498,13 +566,59 @@ internal static class IIPSArchiveWriter
 
     private static uint NextSlotCount(uint entryCount)
     {
-        uint minimumSlots = Math.Max(1u, (uint)Math.Ceiling(entryCount / 0.75d));
-        uint slotCount = 1;
-        while (slotCount < minimumSlots)
+        uint capacity = Math.Max(entryCount, 128u);
+        return (uint)Math.Ceiling(capacity / 0.75d);
+    }
+
+    private static byte[] BuildMd5Table(FileStream output, ulong archiveDataSize, uint md5PieceSize)
+    {
+        if (archiveDataSize == 0 || md5PieceSize == 0)
         {
-            slotCount <<= 1;
+            return Array.Empty<byte>();
         }
 
-        return slotCount;
+        uint pieceCount = (uint)((archiveDataSize + md5PieceSize - 1) / md5PieceSize);
+        byte[] result = new byte[(pieceCount + 1) * 16];
+        byte[] pieceBuffer = new byte[md5PieceSize];
+
+        for (uint i = 0; i < pieceCount; i++)
+        {
+            ulong offset = (ulong)i * md5PieceSize;
+            int length = (int)Math.Min(md5PieceSize, archiveDataSize - offset);
+            output.Position = (long)offset;
+            int total = 0;
+            while (total < length)
+            {
+                int read = output.Read(pieceBuffer, total, length - total);
+                if (read <= 0) break;
+                total += read;
+            }
+
+            byte[] md5 = MD5.HashData(pieceBuffer.AsSpan(0, total));
+            md5.CopyTo(result, (int)i * 16);
+        }
+
+        byte[] master = MD5.HashData(result.AsSpan(0, (int)pieceCount * 16));
+        master.CopyTo(result, (int)pieceCount * 16);
+
+        output.Position = output.Length;
+        return result;
+    }
+
+    private static byte[] BuildBitmap(ulong archiveDataSize, uint rawChunkSize)
+    {
+        if (archiveDataSize == 0 || rawChunkSize == 0)
+        {
+            return Array.Empty<byte>();
+        }
+
+        uint chunkCount = (uint)((archiveDataSize + rawChunkSize - 1) / rawChunkSize);
+        byte[] bitmap = new byte[chunkCount];
+        for (uint i = 0; i < chunkCount; i++)
+        {
+            bitmap[i] = 0x01;
+        }
+
+        return bitmap;
     }
 }

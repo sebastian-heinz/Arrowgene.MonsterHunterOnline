@@ -24,6 +24,7 @@ public sealed class IIPSUnifiedArchive : IDisposable
     public IReadOnlyList<string> LoadedArchives => _loadedArchives;
     public IReadOnlyList<string> MissingArchives => _missingArchives;
     public int TotalArchiveCount => _loadedArchives.Count + _missingArchives.Count;
+    public IReadOnlyList<IIPSArchive> Archives => _archives;
 
     public static IIPSUnifiedArchive Open(string fileListPath)
     {
