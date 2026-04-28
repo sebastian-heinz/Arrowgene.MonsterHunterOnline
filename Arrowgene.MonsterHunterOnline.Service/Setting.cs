@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Runtime.Serialization;
-using Arrowgene.Networking.Tcp.Server.AsyncEvent;
+using Arrowgene.Networking.SAEAServer;
 
 namespace Arrowgene.MonsterHunterOnline.Service
 {
@@ -23,7 +23,9 @@ namespace Arrowgene.MonsterHunterOnline.Service
         [DataMember(Order = 20)] public int LogLevel { get; set; }
         [DataMember(Order = 21)] public string LogFilePath { get; set; }
 
-        [DataMember(Order = 100)] public AsyncEventSettings SocketSettings { get; set; }
+        [DataMember(Order = 100)] public TcpServerSettings TcpServerSettings { get; set; }
+        
+        [DataMember(Order = 120)] public int ConsumerQueueCapacityPerLane { get; set; }
 
         public Setting()
         {
@@ -33,8 +35,10 @@ namespace Arrowgene.MonsterHunterOnline.Service
             BattleServerPort = 8143;
             LogLevel = 0;
             LogFilePath = "/Users/shiba/dev/mho_decomp/server.log";
-            SocketSettings = new AsyncEventSettings();
-            SocketSettings.MaxUnitOfOrder = 1;
+            TcpServerSettings = new TcpServerSettings();
+            TcpServerSettings.OrderingLaneCount = 1;
+            TcpServerSettings.MaxQueuedSendBytes = 8388608;
+            ConsumerQueueCapacityPerLane = 100000;
         }
 
         public Setting(Setting setting)
@@ -45,7 +49,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             BattleServerPort = setting.BattleServerPort;
             LogLevel = setting.LogLevel;
             LogFilePath = setting.LogFilePath;
-            SocketSettings = new AsyncEventSettings(setting.SocketSettings);
+            TcpServerSettings = new TcpServerSettings(setting.TcpServerSettings);
+            ConsumerQueueCapacityPerLane = setting.ConsumerQueueCapacityPerLane;
         }
     }
 }

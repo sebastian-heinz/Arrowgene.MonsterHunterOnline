@@ -9,24 +9,19 @@ public class CsProtoPacketHandler
 {
     private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(CsProtoPacketHandler));
 
-    private readonly Setting _setting;
+
     private readonly Dictionary<CS_CMD_ID, ICsProtoHandler> _handlerLookup;
 
-    public CsProtoPacketHandler(Setting setting)
+    public CsProtoPacketHandler()
     {
-        _setting = setting;
         _handlerLookup = new Dictionary<CS_CMD_ID, ICsProtoHandler>();
     }
 
     public void AddHandler(ICsProtoHandler packetHandler)
     {
-        if (_handlerLookup.ContainsKey(packetHandler.Cmd))
+        if (!_handlerLookup.TryAdd(packetHandler.Cmd, packetHandler))
         {
             Logger.Error($"CsProtoHandler: {packetHandler.Cmd} already exists");
-        }
-        else
-        {
-            _handlerLookup.Add(packetHandler.Cmd, packetHandler);
         }
     }
 
@@ -46,13 +41,12 @@ public class CsProtoPacketHandler
 
     private void HandlePacket(Client client, CsProtoPacket packet)
     {
-        if (!_handlerLookup.ContainsKey(packet.Cmd))
+        if (!_handlerLookup.TryGetValue(packet.Cmd, out ICsProtoHandler packetHandler))
         {
             Logger.LogUnhandledPacket(client, packet);
             return;
         }
 
-        ICsProtoHandler packetHandler = _handlerLookup[packet.Cmd];
         try
         {
             packetHandler.Handle(client, packet);

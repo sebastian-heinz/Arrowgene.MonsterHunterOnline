@@ -12,7 +12,7 @@ using Arrowgene.MonsterHunterOnline.Service.System.CharacterSystem;
 using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Crypto;
-using Arrowgene.Networking.Tcp;
+using Arrowgene.Networking.SAEAServer;
 
 namespace Arrowgene.MonsterHunterOnline.Service
 {
@@ -20,7 +20,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
     {
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(Client));
 
-        private readonly ITcpSocket _socket;
+        private readonly ClientHandle _clientHandle;
         private readonly TpduPacketFactory _tpduPacketFactory;
         private readonly CsProtoPacketFactory _csProtoPacketFactory;
 
@@ -28,12 +28,12 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
         public bool SystemEncryptData { get; set; }
 
-        public Client(ITcpSocket socket, Setting setting)
+        public Client(ClientHandle clientHandle)
         {
-            _socket = socket;
-            Identity = socket.Identity;
-            _tpduPacketFactory = new TpduPacketFactory(setting);
-            _csProtoPacketFactory = new CsProtoPacketFactory(setting);
+            _clientHandle = clientHandle;
+            Identity = clientHandle.Identity;
+            _tpduPacketFactory = new TpduPacketFactory();
+            _csProtoPacketFactory = new CsProtoPacketFactory();
             _tdpuCrypto = null;
             State = new PlayerState(this);
         }
@@ -49,6 +49,22 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public Character Character { get; set; }
         public Inventory Inventory { get; set; }
 
+        public bool IsAlive
+        {
+            get
+            {
+                try
+                {
+                    // ensure ClientHandle is still valid
+                    return _clientHandle.IsAlive;
+                }
+                catch (ObjectDisposedException)
+                {
+                    return false;
+                }
+            }
+        }
+
         public TdpuCrypto GetTdpuCrypto()
         {
             return _tdpuCrypto?.GetSafeInstance();
@@ -63,7 +79,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public void Close()
         {
             State.StopBattleMonsterLoop();
-            _socket.Close();
+            _clientHandle.Disconnect();
         }
 
         /// <summary>
@@ -71,7 +87,7 @@ namespace Arrowgene.MonsterHunterOnline.Service
         /// </summary>
         public void SendRaw(byte[] data)
         {
-            _socket.Send(data);
+            _clientHandle.Send(data);
         }
 
         public List<TpduPacket> ReceiveTpdu(byte[] data)

@@ -1,143 +1,114 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.Networking.Tcp;
-using Arrowgene.Networking.Tcp.Consumer.BlockingQueueConsumption;
+using Arrowgene.Networking.SAEAServer;
+using Arrowgene.Networking.SAEAServer.Consumer.BlockingQueueConsumption;
 
-namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
+namespace Arrowgene.MonsterHunterOnline.Service.TqqApi;
+
+public class TpduConsumer : ThreadedBlockingQueue
 {
-    public class TpduConsumer : ThreadedBlockingQueueConsumer
+    private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(TpduConsumer));
+
+    private readonly Dictionary<long, Client> _clients;
+    private readonly object _lock;
+    private readonly Dictionary<TpduCmd, ITpduHandler> _handlerLookup;
+
+
+    public TpduConsumer(
+        int orderingLaneCount,
+        int queueCapacityPerLane,
+        string identity
+    ) : base(orderingLaneCount, queueCapacityPerLane, identity)
     {
-        private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(TpduConsumer));
+        _lock = new object();
+        _clients = new Dictionary<long, Client>();
+        _handlerLookup = new Dictionary<TpduCmd, ITpduHandler>();
+    }
 
-        private readonly Dictionary<ITcpSocket, Client> _clients;
-        private readonly object _lock;
-        private readonly Setting _setting;
-
-        public Action<Client> ClientDisconnected;
-        public Action<Client> ClientConnected;
-        private Dictionary<TpduCmd, ITpduHandler> _handlerLookup;
-
-        public TpduConsumer(Setting setting) : base(setting.SocketSettings, setting.Name)
+    public void AddHandler(ITpduHandler packetHandler)
+    {
+        if (_handlerLookup.ContainsKey(packetHandler.Cmd))
         {
-            _setting = setting;
-            _lock = new object();
-            _clients = new Dictionary<ITcpSocket, Client>();
-            _handlerLookup = new Dictionary<TpduCmd, ITpduHandler>();
+            Logger.Error($"TpduPacketHandlerId: {packetHandler.Cmd} already exists");
+        }
+        else
+        {
+            _handlerLookup.Add(packetHandler.Cmd, packetHandler);
+        }
+    }
+
+    protected override void HandleReceived(ClientHandle clientHandle, byte[] data)
+    {
+        if (!clientHandle.IsAlive)
+        {
+            return;
         }
 
-        public void AddHandler(ITpduHandler packetHandler)
+        Client client;
+        lock (_lock)
         {
-            if (_handlerLookup.ContainsKey(packetHandler.Cmd))
+            if (!_clients.TryGetValue(clientHandle.UniqueId, out client))
             {
-                Logger.Error($"TpduPacketHandlerId: {packetHandler.Cmd} already exists");
-            }
-            else
-            {
-                _handlerLookup.Add(packetHandler.Cmd, packetHandler);
-            }
-        }
-
-        protected override void HandleReceived(ITcpSocket socket, byte[] data)
-        {
-           // Logger.Error(Environment.NewLine + Util.HexDump(data));
-            if (!socket.IsAlive)
-            {
+                Logger.Error(clientHandle, "Client does not exist in lookup");
                 return;
             }
-
-            Client client;
-            lock (_lock)
-            {
-                if (!_clients.ContainsKey(socket))
-                {
-                    Logger.Error(socket, "Client does not exist in lookup");
-                    return;
-                }
-
-                client = _clients[socket];
-            }
-
-            List<TpduPacket> packets = client.ReceiveTpdu(data);
-            foreach (TpduPacket packet in packets)
-            {
-                HandlePacket(client, packet);
-            }
         }
 
-        private void HandlePacket(Client client, TpduPacket packet)
+        List<TpduPacket> packets = client.ReceiveTpdu(data);
+        foreach (TpduPacket packet in packets)
         {
-            if (!_handlerLookup.ContainsKey(packet.Cmd))
+            HandlePacket(client, packet);
+        }
+    }
+
+    private void HandlePacket(Client client, TpduPacket packet)
+    {
+        if (!_handlerLookup.TryGetValue(packet.Cmd, out ITpduHandler packetHandler))
+        {
+            Logger.LogUnhandledPacket(client, packet);
+            return;
+        }
+
+        try
+        {
+            packetHandler.Handle(client, packet);
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(client, ex);
+            Logger.LogPacketError(client, packet);
+        }
+    }
+
+    protected override void HandleDisconnected(ClientSnapshot clientSnapshot)
+    {
+        Client client;
+        lock (_lock)
+        {
+            if (!_clients.Remove(clientSnapshot.UniqueId, out client))
             {
-                Logger.LogUnhandledPacket(client, packet);
+                Logger.Error(clientSnapshot, "Disconnected client does not exist in lookup");
                 return;
             }
-
-            ITpduHandler packetHandler = _handlerLookup[packet.Cmd];
-            try
-            {
-                packetHandler.Handle(client, packet);
-            }
-            catch (Exception ex)
-            {
-                Logger.Exception(client, ex);
-                Logger.LogPacketError(client, packet);
-            }
         }
 
-        protected override void HandleDisconnected(ITcpSocket socket)
+        Logger.Info($"Disconnected: {client.Identity}");
+    }
+
+    protected override void HandleConnected(ClientHandle clientHandle)
+    {
+        Client client = new Client(clientHandle);
+        lock (_lock)
         {
-            Client client;
-            lock (_lock)
-            {
-                if (!_clients.ContainsKey(socket))
-                {
-                    Logger.Error(socket, $"Disconnected client does not exist in lookup");
-                    return;
-                }
-
-                client = _clients[socket];
-                _clients.Remove(socket);
-            }
-
-            Action<Client> onClientDisconnected = ClientDisconnected;
-            if (onClientDisconnected != null)
-            {
-                try
-                {
-                    onClientDisconnected.Invoke(client);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Exception(client, ex);
-                }
-            }
-
-            Logger.Info($"Disconnected: {client.Identity}");
+            _clients.Add(clientHandle.UniqueId, client);
         }
 
-        protected override void HandleConnected(ITcpSocket socket)
-        {
-            Client client = new Client(socket, _setting);
-            lock (_lock)
-            {
-                _clients.Add(socket, client);
-            }
+        Logger.Info($"Connected: {client.Identity}");
+    }
 
-            Logger.Info($"Connected: {client.Identity}");
-
-            Action<Client> onClientConnected = ClientConnected;
-            if (onClientConnected != null)
-            {
-                try
-                {
-                    onClientConnected.Invoke(client);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Exception(client, ex);
-                }
-            }
-        }
+    protected override void HandleError(ClientSnapshot clientSnapshot, Exception exception, string message)
+    {
+        Logger.Exception(clientSnapshot, exception);
     }
 }

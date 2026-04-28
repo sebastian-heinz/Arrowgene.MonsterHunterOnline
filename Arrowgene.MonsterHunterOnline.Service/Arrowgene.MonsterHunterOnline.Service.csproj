@@ -8,7 +8,7 @@
     <ItemGroup>
         <PackageReference Include="Arrowgene.Buffers" Version="1.0.2"/>
         <PackageReference Include="Arrowgene.Logging" Version="1.2.1"/>
-        <PackageReference Include="Arrowgene.Networking" Version="1.0.6"/>
+        <PackageReference Include="Arrowgene.Networking" Version="2.1.7" />
         <PackageReference Include="Arrowgene.WebServer" Version="1.1.8"/>
         <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.5"/>
         <PackageReference Include="System.Data.SQLite" Version="2.0.3"/>

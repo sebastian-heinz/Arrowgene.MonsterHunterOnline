@@ -9,9 +9,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
     {
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(CsProtoPacketFactory));
 
-
-        private readonly Setting _setting;
-
         private IBuffer _buffer;
         private int _position;
         private bool _readHeader;
@@ -19,9 +16,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
         private int _dataSize;
         private uint _seqId;
 
-        public CsProtoPacketFactory(Setting setting)
+        public CsProtoPacketFactory()
         {
-            _setting = setting;
             _seqId = 0;
         }
 

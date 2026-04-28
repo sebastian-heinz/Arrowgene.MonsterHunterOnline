@@ -14,7 +14,7 @@ using Arrowgene.MonsterHunterOnline.Service.System.ItemSystem;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi;
 using Arrowgene.MonsterHunterOnline.Service.TqqApi.Handler;
 using Arrowgene.MonsterHunterOnline.Service.Web;
-using Arrowgene.Networking.Tcp.Server.AsyncEvent;
+using Arrowgene.Networking.SAEAServer;
 
 namespace Arrowgene.MonsterHunterOnline.Service
 {
@@ -25,8 +25,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
         private readonly TpduConsumer _tpduConsumer;
         private readonly CsProtoPacketHandler _csProtoPacketHandler;
         private readonly CsProtoConsumer _battleServerConsumer;
-        private readonly AsyncEventServer _server;
-        private readonly AsyncEventServer _battleServer;
+        private readonly TcpServer _server;
+        private readonly TcpServer _battleServer;
         private readonly MhoWebServer _webServer;
 
         public Server(Setting setting)
@@ -39,21 +39,30 @@ namespace Arrowgene.MonsterHunterOnline.Service
 
             Database = CreateDatabase();
 
-            _tpduConsumer = new TpduConsumer(Setting);
-            _csProtoPacketHandler = new CsProtoPacketHandler(Setting);
-            _battleServerConsumer = new CsProtoConsumer(Setting, _csProtoPacketHandler);
+            _tpduConsumer = new TpduConsumer(
+                Setting.TcpServerSettings.OrderingLaneCount,
+                Setting.ConsumerQueueCapacityPerLane,
+                "TpduConsumer"
+            );
+            _csProtoPacketHandler = new CsProtoPacketHandler();
+            _battleServerConsumer = new CsProtoConsumer(
+                _csProtoPacketHandler,
+                Setting.TcpServerSettings.OrderingLaneCount,
+                Setting.ConsumerQueueCapacityPerLane,
+                "CsProtoConsumer"
+            );
             _webServer = new MhoWebServer();
-            _server = new AsyncEventServer(
+            _server = new TcpServer(
                 Setting.ListenIpAddress,
                 Setting.ServerPort,
                 _tpduConsumer,
-                Setting.SocketSettings
+                Setting.TcpServerSettings
             );
-            _battleServer = new AsyncEventServer(
+            _battleServer = new TcpServer(
                 Setting.ListenIpAddress,
                 Setting.BattleServerPort,
                 _battleServerConsumer,
-                Setting.SocketSettings
+                Setting.TcpServerSettings
             );
 
             ClientManager = new ClientManager();
@@ -176,6 +185,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
         public void Start()
         {
             _webServer.Start();
+            _tpduConsumer.Start();
+            _battleServerConsumer.Start();
             _server.Start();
             _battleServer.Start();
         }
@@ -185,6 +196,8 @@ namespace Arrowgene.MonsterHunterOnline.Service
             _webServer.Stop();
             _server.Stop();
             _battleServer.Stop();
+            _tpduConsumer.Stop();
+            _battleServerConsumer.Stop();
         }
     }
 }

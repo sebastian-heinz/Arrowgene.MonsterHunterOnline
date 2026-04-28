@@ -10,9 +10,6 @@ namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
     {
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(TpduPacketFactory));
 
-
-        private readonly Setting _setting;
-
         private IBuffer _buffer;
         private int _position;
         private bool _readHeader;
@@ -22,9 +19,8 @@ namespace Arrowgene.MonsterHunterOnline.Service.TqqApi
         private TdpuCrypto _tdpuCrypto;
 
 
-        public TpduPacketFactory(Setting setting)
+        public TpduPacketFactory()
         {
-            _setting = setting;
             _tdpuCrypto = null;
         }
 

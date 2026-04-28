@@ -21,10 +21,17 @@ public class PlayerState
 
     private const float BattleMonsterOrbitRadius = 60.0f;
     private const float BattleMonsterAngleStep = 0.14f;
-    private const int BattleMonsterTickMs = 200;
+    // Tick rate for the orbit/attack loop. With smooth steering (SetPos=0) the
+    // client interpolates between waypoints, so we only need to send a packet
+    // when the target waypoint changes — 5 Hz was masking lack of interpolation
+    // by snapping every 200 ms. 1 Hz is plenty for visible smooth motion.
+    private const int BattleMonsterTickMs = 1000;
     private const float BattleMonsterSkillTriggerRange = 20.0f;
     private const uint BattleMonsterSkillId = 5;
-    private const string BattleMonsterMoveSequence = "";
+    // CryAnimation graph state names. Empty AnimSeqName disables walk animation
+    // and falls back to Idle on the client. "Run" is a common default state in
+    // monster anim graphs; tune per-monster if the client never picks it up.
+    private const string BattleMonsterMoveSequence = "Run";
     private const string BattleMonsterAttackSequence = "Attack_HeavyTail";
     private static readonly TimeSpan BattleMonsterSkillCooldown = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan BattleMonsterAttackPause = TimeSpan.FromSeconds(1500.0 / 1000.0);
@@ -192,7 +199,10 @@ public class PlayerState
                         BattleMonsterAttackSequence,
                         BattleMonsterSkillId,
                         restartAnim: true,
-                        needTargetAttackPos: true);
+                        needTargetAttackPos: true,
+                        // Attacks need exact pose: snap pos & rot.
+                        setPos: true,
+                        setRotate: true);
                     SendBattleMonsterMovestate(netId, currentPos, attackRotation, zeroSpeed);
                     SendBattleMonsterSequenceState(netId, BattleMonsterAttackSequence, 0.0f, currentPos, attackRotation);
                     SendMonsterSkill(netId);
@@ -224,14 +234,20 @@ public class PlayerState
 
                 SendBattleMonsterLocomotion(
                     netId,
-                    currentPos,
+                    // MonsterPos = NEXT waypoint (steering goal). The client
+                    // walks the entity from its current visible position toward
+                    // this point at MoveSpeed using the AnimSeqName state.
+                    nextPos,
                     moveRotation,
                     nextPos,
                     moveSpeed,
                     BattleMonsterMoveSequence,
                     0,
                     restartAnim: false,
-                    needTargetAttackPos: false);
+                    needTargetAttackPos: false,
+                    // Smooth walk: don't snap. Client interpolates current → MonsterPos.
+                    setPos: false,
+                    setRotate: false);
                 SendBattleMonsterMovestate(netId, nextPos, moveRotation, moveSpeed);
 
                 lock (_battleMonsterLock)
@@ -268,7 +284,11 @@ public class PlayerState
         _client.SendCsPacket(NewCsPacket.AISkillSync(skill));
     }
 
-    private void SendBattleMonsterLocomotion(uint netId, CSVec3 position, CSQuat rotation, CSVec3 targetPos, CSVec3 moveSpeed, string animSequence, uint skillId, bool restartAnim, bool needTargetAttackPos)
+    // setPos / setRotate: when 1 the client SNAPS the entity to MonsterPos /
+    // MonsterRot (teleport). When 0 the client uses MonsterPos as a steering
+    // target and walks toward it using MoveSpeed + AnimSeqName. Use 1 for
+    // attacks (which need an exact pivot pose) and 0 for normal walking.
+    private void SendBattleMonsterLocomotion(uint netId, CSVec3 position, CSQuat rotation, CSVec3 targetPos, CSVec3 moveSpeed, string animSequence, uint skillId, bool restartAnim, bool needTargetAttackPos, bool setPos, bool setRotate)
     {
         CSMonsterLocomotion locomotion = new()
         {
@@ -285,8 +305,8 @@ public class PlayerState
             NeedTargetAttackPos = needTargetAttackPos ? (byte)1 : (byte)0,
             SkillSpeed = 1.0f,
             RestartAnim = restartAnim ? (byte)1 : (byte)0,
-            SetRotate = 1,
-            SetPos = 1,
+            SetRotate = setRotate ? (byte)1 : (byte)0,
+            SetPos = setPos ? (byte)1 : (byte)0,
         };
 
         _client.SendCsPacket(NewCsPacket.MonsterLCM(locomotion));
@@ -303,7 +323,7 @@ public class PlayerState
             Speed = CloneVec(speed),
         };
 
-        _client.SendCsPacket(NewCsPacket.MonsterMovestate(movestate));
+     //   _client.SendCsPacket(NewCsPacket.MonsterMovestate(movestate));
     }
 
     private void SendBattleMonsterSequenceState(uint netId, string animSequence, float currentTime, CSVec3 position, CSQuat rotation)

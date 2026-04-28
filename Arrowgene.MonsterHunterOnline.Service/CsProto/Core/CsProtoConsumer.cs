@@ -1,35 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using Arrowgene.Logging;
-using Arrowgene.Networking.Tcp;
-using Arrowgene.Networking.Tcp.Consumer.BlockingQueueConsumption;
+using Arrowgene.Networking.SAEAServer;
+using Arrowgene.Networking.SAEAServer.Consumer.BlockingQueueConsumption;
 
 namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
 {
-    public class CsProtoConsumer : ThreadedBlockingQueueConsumer
+    public class CsProtoConsumer : ThreadedBlockingQueue
     {
         private static readonly ServiceLogger Logger = LogProvider.Logger<ServiceLogger>(typeof(CsProtoConsumer));
 
-        private readonly Dictionary<ITcpSocket, Client> _clients;
+        private readonly Dictionary<long, Client> _clients;
         private readonly object _lock;
-        private readonly Setting _setting;
         private readonly CsProtoPacketHandler _packetHandler;
 
-        public Action<Client> ClientDisconnected;
-        public Action<Client> ClientConnected;
 
-        public CsProtoConsumer(Setting setting, CsProtoPacketHandler packetHandler) : base(setting.SocketSettings,
-            setting.Name)
+        public CsProtoConsumer(
+            CsProtoPacketHandler packetHandler,
+            int orderingLaneCount,
+            int queueCapacityPerLane,
+            string identity
+        ) : base(orderingLaneCount, queueCapacityPerLane, identity)
         {
-            _setting = setting;
             _packetHandler = packetHandler;
             _lock = new object();
-            _clients = new Dictionary<ITcpSocket, Client>();
+            _clients = new Dictionary<long, Client>();
         }
 
-        protected override void HandleReceived(ITcpSocket socket, byte[] data)
+        protected override void HandleReceived(ClientHandle clientHandle, byte[] data)
         {
-            if (!socket.IsAlive)
+            if (!clientHandle.IsAlive)
             {
                 return;
             }
@@ -37,13 +37,11 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             Client client;
             lock (_lock)
             {
-                if (!_clients.ContainsKey(socket))
+                if (!_clients.TryGetValue(clientHandle.UniqueId, out client))
                 {
-                    Logger.Error(socket, "Client does not exist in lookup");
+                    Logger.Error(clientHandle, "Client does not exist in lookup");
                     return;
                 }
-
-                client = _clients[socket];
             }
 
             List<CsProtoPacket> packets = client.ReceiveCsProto(data);
@@ -53,60 +51,36 @@ namespace Arrowgene.MonsterHunterOnline.Service.CsProto.Core
             }
         }
 
-        protected override void HandleDisconnected(ITcpSocket socket)
+        protected override void HandleDisconnected(ClientSnapshot clientSnapshot)
         {
             Client client;
             lock (_lock)
             {
-                if (!_clients.ContainsKey(socket))
+                if (!_clients.Remove(clientSnapshot.UniqueId, out client))
                 {
-                    Logger.Error(socket, $"Disconnected client does not exist in lookup");
+                    Logger.Error(clientSnapshot, "Disconnected client does not exist in lookup");
                     return;
-                }
-
-                client = _clients[socket];
-                _clients.Remove(socket);
-            }
-
-            Action<Client> onClientDisconnected = ClientDisconnected;
-            if (onClientDisconnected != null)
-            {
-                try
-                {
-                    onClientDisconnected.Invoke(client);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Exception(client, ex);
                 }
             }
 
             Logger.Info($"Disconnected: {client.Identity}");
         }
 
-        protected override void HandleConnected(ITcpSocket socket)
+        protected override void HandleConnected(ClientHandle clientHandle)
         {
-            Client client = new Client(socket, _setting);
+            Client client = new Client(clientHandle);
             client.SystemEncryptData = true;
             lock (_lock)
             {
-                _clients.Add(socket, client);
+                _clients.Add(clientHandle.UniqueId, client);
             }
 
             Logger.Info($"Connected: {client.Identity}");
+        }
 
-            Action<Client> onClientConnected = ClientConnected;
-            if (onClientConnected != null)
-            {
-                try
-                {
-                    onClientConnected.Invoke(client);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Exception(client, ex);
-                }
-            }
+        protected override void HandleError(ClientSnapshot clientSnapshot, Exception exception, string message)
+        {
+            Logger.Exception(clientSnapshot, exception);
         }
     }
 }
